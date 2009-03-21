@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../ext/2.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/2.2.1/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+       
+        function createMap() {
+            var map = new OpenLayers.Map();
+            var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
+            map.addLayer(layer);
+            return map;
+        }
+
+        function loadMapPanel() {
+            var map = createMap();
+
+            mapPanel = new GeoExt.MapPanel({
+                // panel options
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                // map panel-specific options
+                map: map,
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+
+            return mapPanel;
+        }
+
+        function test_mappanel(t) {
+            t.plan(2)
+            
+            loadMapPanel();
+            t.eq(mapPanel.map.getCenter().toString(), "lon=5,lat=45", "Map center set correctly");
+            t.eq(mapPanel.map.getZoom(), 4, "Zoom set correctly");
+        }
+
+    </script>
+  <body>
+    <div id="mappanel"></div>
+  </body>
+</html>

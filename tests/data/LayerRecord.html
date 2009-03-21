@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../ext/2.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../ext/2.2.1/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+       
+        function test_layerrecord(t) {
+            t.plan(4);
+            
+            var c = GeoExt.data.LayerRecord.create();
+            
+            var layer = new OpenLayers.Layer();
+            var record = new c(layer);
+
+            t.ok(record instanceof GeoExt.data.LayerRecord, "create returns a constructor");
+            t.eq(record.get("layer").id, layer.id, "Layer stored correctly");
+            t.eq(record.id, layer.id, "ID set correctly");
+            
+            var record = new c(layer, {"foo": "bar"});
+            t.eq(record.get("foo"), "bar", "foo data row set correctly");
+        }
+    </script>
+  <body>
+    <div id="mappanel"></div>
+  </body>
+</html>

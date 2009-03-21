@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <script type="text/javascript" src="../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../ext/2.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../ext/2.2.1/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../lib/GeoExt.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../../../ext/2.2.1/resources/css/ext-all.css"></link>
+
+    <script type="text/javascript">
+
+    // this example shows the OpenLayerish way to create a map panel. See
+    // mappanel-window.html for the ExtJSish way to do the same.
+
+    var mapPanel;
+    
+    Ext.onReady(function() {
+        var map = new OpenLayers.Map();
+        var layer = new OpenLayers.Layer.WMS(
+            "bluemarble",
+            "http://sigma.openplans.org/geoserver/wms?",
+            {layers: 'bluemarble'}
+        );
+        map.addLayer(layer);
+
+        mapPanel = new GeoExt.MapPanel({
+            title: "GeoExt MapPanel",
+            renderTo: "mappanel",
+            height: 400,
+            width: 600,
+            map: map,
+            center: new OpenLayers.LonLat(5, 45),
+            zoom: 4
+        });
+    });
+
+    // functions for resizing the map panel
+    function mapSizeUp() {
+        var size = mapPanel.getSize();
+        size.width += 40;
+        size.height += 40;
+        mapPanel.setSize(size);
+    }
+    function mapSizeDown() {
+        var size = mapPanel.getSize();
+        size.width -= 40;
+        size.height -= 40;
+        mapPanel.setSize(size);
+    }
+
+    </script>
+        
+  </head>
+  <body>
+    <div id="mappanel"></div>
+    <input type="button" onclick="mapSizeUp()" value="bigger"></input>
+    <input type="button" onclick="mapSizeDown()" value="smaller"></input>
+  </body>
+</html>
