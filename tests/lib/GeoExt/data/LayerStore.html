@@ -32,6 +32,26 @@
             return mapPanel;
         }
 
+        function test_constructor(t) {
+            t.plan(3);
+
+            var store, reader, map;
+
+            store = new GeoExt.data.LayerStore();
+            t.ok(store.reader instanceof GeoExt.data.LayerReader,
+                 "ctor creates a layer reader if none is provided");
+
+            reader = new Ext.data.ArrayReader();
+            store = new GeoExt.data.LayerStore({reader: reader});
+            t.ok(store.reader == reader,
+                 "ctor sets the passed reader in the instance");
+
+            map = new OpenLayers.Map();
+            store = new GeoExt.data.LayerStore({map: map});
+            t.ok(store.map == map,
+                 "ctor sets the passed map in the instance");
+        }
+
         function test_layerstore(t) {
             t.plan(6);
 
