@@ -14,7 +14,7 @@ Install JSTools.
 
 Change into the core/trunk/build directory.
 
-    $ cd core/trunk/build
+    $ cd core/trunk/geoext/build
 
 Run jsbuild.
 
