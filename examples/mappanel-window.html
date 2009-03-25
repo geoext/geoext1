@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css"></link>
+    <script type="text/javascript" src="../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+
+    // this example shows the Extish way to create a map panel. See
+    // mappanel-div.html for the OpenLayerish way to do the same.
+    
+    var mapPanel;
+    
+    Ext.onReady(function() {
+        new Ext.Window({
+            title: "GeoExt MapPanel Window",
+            height: 400,
+            width: 600,
+            layout: "fit",
+            items: [{
+                xtype: "gx_mappanel",
+                id: "mappanel",
+                layers: [new OpenLayers.Layer.WMS(
+                    "bluemarble",
+                    "http://sigma.openplans.org/geoserver/wms?",
+                    {layers: 'bluemarble'}
+                )],
+                extent: "-5,35,15,55"
+            }]
+        }).show();
+        
+        mapPanel = Ext.getCmp("mappanel");
+    });
+
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

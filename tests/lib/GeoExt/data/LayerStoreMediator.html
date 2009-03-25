@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+        function test_constructor(t) {
+            t.plan(3);
+            // setup
+            var mediator, store, layer;
+            store = new Ext.data.Store({
+                reader: new GeoExt.data.FeatureReader(
+                    {}, [{name: "name", type: "string"}]
+                )
+            });
+            layer = new OpenLayers.Layer.Vector();
+            // 3 tests
+            mediator = new GeoExt.data.LayerStoreMediator({
+                store: store,
+                layer: layer,
+                activate: function() {
+                    t.ok(true, "ctor calls activate");
+                }
+            });
+            t.ok(mediator.layer == layer,
+                 "ctor correctly sets layer");
+            t.ok(mediator.featureStoreMediator instanceof
+                     GeoExt.data.FeatureStoreMediator,
+                 "ctor correctly creates feature store mediator");
+        }
+        function test_events(t) {
+            t.plan(3);
+            // setup
+            var mediator, store, layer, eventType;
+            store = new Ext.data.Store({
+                reader: new GeoExt.data.FeatureReader(
+                    {}, [{name: "name", type: "string"}]
+                )
+            });
+            layer = new OpenLayers.Layer.Vector();
+            mediator = new GeoExt.data.LayerStoreMediator({
+                store: store,
+                layer: layer,
+                update: function() {
+                    t.ok(true, "update called on " + eventType);
+                }
+            });
+            // 1 test
+            eventType = "featuresadded";
+            layer.events.triggerEvent(eventType);
+            // 1 test
+            eventType = "featuresremoved";
+            layer.events.triggerEvent(eventType);
+            // 1 test
+            eventType = "featuremodified";
+            layer.events.triggerEvent(eventType);
+        }
+        function test_update(t) {
+            t.plan(2);
+            // setup
+            var mediator, store, layer;
+            store = new Ext.data.Store({
+                reader: new GeoExt.data.FeatureReader(
+                    {}, [{name: "name", type: "string"}]
+                )
+            });
+            layer = new OpenLayers.Layer.Vector();
+            mediator = new GeoExt.data.LayerStoreMediator({
+                store: store,
+                layer: layer
+            });
+            function createFeatures() {
+                return [
+                    new OpenLayers.Feature.Vector(null, {name: "foo"}),
+                    new OpenLayers.Feature.Vector(null, {name: "bar"})
+                ];
+            }
+            // 1 test
+            layer.features = createFeatures();
+            layer.events.triggerEvent("featuresadded");
+            t.eq(store.getCount(), 2,
+                 "featuresadded event caused insertion of 2 records"); 
+            // 1 test
+            layer.features = createFeatures();
+            layer.events.triggerEvent("featuresadded");
+            t.eq(store.getCount(), 2,
+                 "featuresadded event caused insertion of 2 records"); 
+        }
+    </script>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>
