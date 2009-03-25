@@ -47,7 +47,7 @@ GeoExt.data.LayerStoreMixin = {
     reader: null,
 
     /**
-     * Constructor: GeoExt.LayerStore
+     * Constructor: GeoExt.data.LayerStore
      * 
      * Parameters:
      * config - {Object}
@@ -62,9 +62,10 @@ GeoExt.data.LayerStoreMixin = {
      *     every layer record are {OpenLayers.Layer} layer and {String} title.
      */
     constructor: function(config) {
-        arguments.callee.superclass.constructor.apply(this, arguments);
         config = config || {};
-        this.reader = new GeoExt.data.LayerReader({}, config.recordType);
+        config.reader = config.reader ||
+                        new GeoExt.data.LayerReader({}, config.recordType);
+        arguments.callee.superclass.constructor.call(this, config);
         var map = config.map instanceof GeoExt.MapPanel ?
             config.map.map : config.map;
         if(map) {
