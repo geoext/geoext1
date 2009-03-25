@@ -1,59 +1,21 @@
 <html>
-  <head>
-    <script type="text/javascript" src="../../openlayers/lib/OpenLayers.js"></script>
-    <script type="text/javascript" src="../../ext/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="../../ext/ext-all-debug.js"></script>
-    <script type="text/javascript" src="../lib/GeoExt.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css"></link>
-
-    <script type="text/javascript">
-
-    // this example shows the OpenLayerish way to create a map panel. See
-    // mappanel-window.html for the ExtJSish way to do the same.
-
-    var mapPanel;
-    
-    Ext.onReady(function() {
-        var map = new OpenLayers.Map();
-        var layer = new OpenLayers.Layer.WMS(
-            "bluemarble",
-            "http://sigma.openplans.org/geoserver/wms?",
-            {layers: 'bluemarble'}
-        );
-        map.addLayer(layer);
-
-        mapPanel = new GeoExt.MapPanel({
-            title: "GeoExt MapPanel",
-            renderTo: "mappanel",
-            height: 400,
-            width: 600,
-            map: map,
-            center: new OpenLayers.LonLat(5, 45),
-            zoom: 4
-        });
-    });
-
-    // functions for resizing the map panel
-    function mapSizeUp() {
-        var size = mapPanel.getSize();
-        size.width += 40;
-        size.height += 40;
-        mapPanel.setSize(size);
-    }
-    function mapSizeDown() {
-        var size = mapPanel.getSize();
-        size.width -= 40;
-        size.height -= 40;
-        mapPanel.setSize(size);
-    }
-
-    </script>
-        
-  </head>
-  <body>
-    <div id="mappanel"></div>
-    <input type="button" onclick="mapSizeUp()" value="bigger"></input>
-    <input type="button" onclick="mapSizeDown()" value="smaller"></input>
-  </body>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css"></link>
+        <link rel="stylesheet" type="text/css" href="../../ext/examples/shared/examples.css"></link>
+        <script type="text/javascript" src="../../openlayers/lib/OpenLayers.js"></script>
+        <script type="text/javascript" src="../../ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../ext/ext-all.js"></script>
+        <script type="text/javascript" src="../lib/GeoExt.js"></script>
+        <script type="text/javascript" src="mappanel-div.js"></script>
+    </head>
+    <body>
+        <h1>GeoExt.MapPanel with an Existing OpenLayers.Map</h1>
+        <p>This example shows the how to create a MapPanel with a map that has
+        already been created.  See <a href="mappanel-window.html">mappanel-window.html</a>
+        for an example that creates the MapPanel without creating the map first.<p>
+        <p>The js is not minified so it is readable. See <a href="mappanel-div.js">mappanel-div.js</a>.</p>
+        <div id="mappanel"></div>
+        <input type="button" onclick="mapSizeUp()" value="bigger"></input>
+        <input type="button" onclick="mapSizeDown()" value="smaller"></input>
+    </body>
 </html>
