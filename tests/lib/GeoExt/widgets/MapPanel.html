@@ -42,6 +42,97 @@
             t.eq(mapPanel.map.getZoom(), 4, "Zoom set correctly");
         }
 
+        function test_extent(t) {
+            
+            t.plan(3);
+            var map, panel, log = {};
+            
+            map = createMap();
+            map.zoomToExtent = function(extent) {
+                log.extent = extent;
+            }
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                extent: [1, 2, 3, 4]
+            });            
+            t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with array");
+            delete log.extent;
+            panel.destroy();
+            
+            map = createMap();
+            map.zoomToExtent = function(extent) {
+                log.extent = extent;
+            }
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                extent: "1, 2, 3, 4"
+            });
+            t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with string");
+            panel.destroy();
+            
+            map = createMap();
+            map.zoomToExtent = function(extent) {
+                log.extent = extent;
+            }
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                extent: new OpenLayers.Bounds(1, 2, 3, 4)
+            });
+            t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with Bounds");
+            panel.destroy();            
+            
+        }
+        
+        function test_center(t) {
+
+            t.plan(3);
+            var map, panel, log = {};
+            
+            map = createMap();
+            map.setCenter = function(center) {
+                log.center = center;
+            }
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                center: [1, 2]
+            });            
+            t.eq(log.center.toString(), "lon=1,lat=2", "map center set with array");
+            delete log.center;
+            panel.destroy();
+
+            map = createMap();
+            map.setCenter = function(center) {
+                log.center = center;
+            }
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                center: "1, 2"
+            });            
+            t.eq(log.center.toString(), "lon=1,lat=2", "map center set with string");
+            delete log.center;
+            panel.destroy();
+
+            map = createMap();
+            map.setCenter = function(center) {
+                log.center = center;
+            }
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                map: map,
+                center: new OpenLayers.LonLat(1, 2)
+            });            
+            t.eq(log.center.toString(), "lon=1,lat=2", "map center set with LonLat");
+            delete log.center;
+            panel.destroy();
+
+        }
+
+
     </script>
   <body>
     <div id="mappanel"></div>
