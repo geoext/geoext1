@@ -46,9 +46,12 @@ Ext.namespace('GeoExt', 'GeoExt.data');
  */
 GeoExt.data.FeatureReader = function(meta, recordType) {
     meta = meta || {};
+    if(!(recordType instanceof Function)) {
+        recordType = GeoExt.data.FeatureRecord.create(
+            recordType || meta.fields || {});
+    }
     GeoExt.data.FeatureReader.superclass.constructor.call(
-        this, meta, recordType || meta.fields
-    );
+        this, meta, recordType);
 };
 
 Ext.extend(GeoExt.data.FeatureReader, Ext.data.DataReader, {
