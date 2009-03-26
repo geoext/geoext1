@@ -119,6 +119,16 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
     },
     
     /**
+     * Method: updateMapSize
+     * Tell the map that it needs to recaculate its size and position.
+     */
+    updateMapSize: function() {
+        if(this.map) {
+            this.map.updateSize();
+        }
+    },
+    
+    /**
      * Method: onRender
      *     Private method called after the panel has been
      *     rendered.
@@ -136,6 +146,17 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
             }
         }
     },
+    
+    /**
+     * Method: afterRender
+     * Private method called after the panel has been rendered.
+     */
+    afterRender: function() {
+        GeoExt.MapPanel.superclass.afterRender.apply(this, arguments);
+        if(this.ownerCt) {
+            this.ownerCt.on("move", this.updateMapSize, this);
+        }
+    },    
 
     /**
      * Method: onResize
@@ -144,8 +165,20 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
      */
     onResize: function() {
         GeoExt.MapPanel.superclass.onResize.apply(this, arguments);
-        this.map.updateSize();
+        this.updateMapSize();
+    },
+    
+    /**
+     * Method: onDestroy
+     * Private method called during the destroy sequence.
+     */
+    onDestroy: function() {
+        if(this.ownerCt) {
+            this.ownerCt.un("move", this.updateMapSize, this);
+        }
+        GeoExt.MapPanel.superclass.onDestroy.apply(this, arguments);
     }
+    
 });
 
 Ext.reg('gx_mappanel', GeoExt.MapPanel); 
