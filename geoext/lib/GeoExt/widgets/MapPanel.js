@@ -110,9 +110,13 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
         
         if(typeof this.center == "string") {
             this.center = OpenLayers.LonLat.fromString(this.center);
+        } else if(this.center instanceof Array) {
+            this.center = new OpenLayers.LonLat(this.center[0], this.center[1]);
         }
         if(typeof this.extent == "string") {
             this.extent = OpenLayers.Bounds.fromString(this.extent);
+        } else if(this.extent instanceof Array) {
+            this.extent = OpenLayers.Bounds.fromArray(this.extent);
         }
         
         GeoExt.MapPanel.superclass.initComponent.call(this);       
@@ -137,7 +141,8 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
         GeoExt.MapPanel.superclass.onRender.apply(this, arguments);
         this.map.render(this.body.dom);
         if(this.map.layers.length > 0) {
-            if(this.center && this.zoom) {
+            if(this.center) {
+                // zoom does not have to be defined
                 this.map.setCenter(this.center, this.zoom);
             }  else if(this.extent) {
                 this.map.zoomToExtent(this.extent);
