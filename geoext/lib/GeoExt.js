@@ -66,7 +66,8 @@
             "GeoExt/data/LayerStore.js",
             "GeoExt/data/LayerStoreMediator.js",
             "GeoExt/data/ProtocolProxy.js",
-            "GeoExt/widgets/MapPanel.js"
+            "GeoExt/widgets/MapPanel.js",
+            "GeoExt/widgets/Popup.js"
         );
 
         var agent = navigator.userAgent;
