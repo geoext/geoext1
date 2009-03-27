@@ -43,4 +43,4 @@ GeoExt.data.FeatureRecord.create = function(o) {
         }
     }
     return f;
-}
+};

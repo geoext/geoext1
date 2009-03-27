@@ -44,4 +44,4 @@ GeoExt.data.LayerRecord.create = function(o) {
         }
     }
     return f;
-}
+};
