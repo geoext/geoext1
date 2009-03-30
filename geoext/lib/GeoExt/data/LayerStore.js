@@ -65,9 +65,10 @@ GeoExt.data.LayerStoreMixin = {
         config = config || {};
         config.reader = config.reader ||
                         new GeoExt.data.LayerReader({}, config.recordType);
-        arguments.callee.superclass.constructor.call(this, config);
         var map = config.map instanceof GeoExt.MapPanel ?
-            config.map.map : config.map;
+                  config.map.map : config.map;
+        delete config.map;
+        arguments.callee.superclass.constructor.call(this, config);
         if(map) {
             // create a snapshop of the map's layers
             var layers = map.layers;
@@ -78,31 +79,55 @@ GeoExt.data.LayerStoreMixin = {
                 this.add((this.reader.readRecords([layer])).records);
             }
 
-            this.setMap(map);
+            this.bind(map);
             config.layers && map.addLayers(config.layers);
         }
     },
-    
+
     /**
-     * APIMethod: setMap
+     * APIMethod: bind
+     * Bind this store to a map instance, once bound the store
+     * is synchronized with the map and vice-versa.
      * 
      * Parameters:
-     * map - {OpenLayers.Map}
+     * map - {OpenLayers.Map} The map instance.
      */
-    setMap: function(map) {
-        this.map = map;
-        map.events.on({
-            "addlayer": this.onAddLayer,
-            "removelayer": this.onRemoveLayer,
-            scope: this
-        });
-        this.on({
-            "add": this.onAdd,
-            "remove": this.onRemove,
-            scope: this
-        });
+    bind: function(map) {
+        if(!this.map) {
+            this.map = map;
+            map.events.on({
+                "addlayer": this.onAddLayer,
+                "removelayer": this.onRemoveLayer,
+                scope: this
+            });
+            this.on({
+                "add": this.onAdd,
+                "remove": this.onRemove,
+                scope: this
+            });
+        }
     },
-    
+
+    /**
+     * APIMethod: unbind
+     * Unbind this store from the map it is currently bound.
+     */
+    unbind: function() {
+        if(this.map) {
+            this.map.events.un({
+                "addlayer": this.onAddLayer,
+                "removelayer": this.onRemoveLayer,
+                scope: this
+            });
+            this.un({
+                "add": this.onAdd,
+                "remove": this.onRemove,
+                scope: this
+            });
+            this.map = null;
+        }
+    },
+   
     /**
      * Method: onAddLayer
      * Handler for a map's addlayer event
