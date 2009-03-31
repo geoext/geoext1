@@ -186,4 +186,7 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
     
 });
 
+/**
+ * XType: gx_mappanel
+ */
 Ext.reg('gx_mappanel', GeoExt.MapPanel); 

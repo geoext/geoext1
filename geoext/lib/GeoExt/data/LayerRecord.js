@@ -17,6 +17,13 @@ Ext.namespace("GeoExt.data");
  * Inherits from
  * - {Ext.data.Record}
  */
+/**
+ * Constructor: GeoExt.data.LayerRecord
+ * 
+ * Parameters:
+ * data - {Object} data object for the record
+ * id - {String} id of the record
+ */
 GeoExt.data.LayerRecord = Ext.data.Record.create([
     {name: "layer"},
     {name: "title", type: "string", mapping: "name"}

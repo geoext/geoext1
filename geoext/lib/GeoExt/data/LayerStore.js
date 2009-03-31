@@ -8,7 +8,7 @@
 Ext.namespace("GeoExt.data");
 
 /**
- * Class: LayerStoreMixin
+ * Class: GeoExt.data.LayerStoreMixin
  * A store that synchronizes a layers array of an {OpenLayers.Map} with a
  * layer store holding {<GeoExt.data.LayerRecord>} entries.
  * 
@@ -21,14 +21,14 @@ Ext.namespace("GeoExt.data");
  * });
  * (end)
  * 
- * For convenience, a {GeoExt.data.LayerStore} class is available as a
+ * For convenience, a {<GeoExt.data.LayerStore>} class is available as a
  * shortcut to the Ext.extend sequence in the above code snippet. The above
  * is equivalent to:
  * (start code)
  * var store = new GeoExt.data.LayerStore({
  *     map: myMap,
  *     layers: myLayers
- * })
+ * });
  * (end)
  */
 GeoExt.data.LayerStoreMixin = {
@@ -47,7 +47,7 @@ GeoExt.data.LayerStoreMixin = {
     reader: null,
 
     /**
-     * Constructor: GeoExt.data.LayerStore
+     * Constructor: GeoExt.data.LayerStoreMixin
      * 
      * Parameters:
      * config - {Object}
@@ -191,8 +191,20 @@ GeoExt.data.LayerStoreMixin = {
 
 /**
  * Class: GeoExt.data.LayerStore
- * Default implementation of an {Ext.data.Store} enhanced with
+ * Default implementation of an {Ext.data.Store} extended with
  * {<GeoExt.data.LayerStoreMixin>}
+ * 
+ * Inherits from:
+ * - {Ext.data.Store}
+ * - {<GeoExt.data.LayerStoreMixin>}
+ */
+/**
+ * Constructor: GeoExt.data.LayerStore
+ * 
+ * Parameters:
+ * config - {Object} See {<GeoExt.data.LayerStoreMixin>} and 
+ * http://extjs.com/deploy/dev/docs/?class=Ext.data.Store for valid config
+ *     options. 
  */
 GeoExt.data.LayerStore = Ext.extend(
     Ext.data.Store,
