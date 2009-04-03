@@ -41,6 +41,32 @@
             t.eq(mapPanel.map.getCenter().toString(), "lon=5,lat=45", "Map center set correctly");
             t.eq(mapPanel.map.getZoom(), 4, "Zoom set correctly");
         }
+        
+        function test_allOverlays(t) {
+            t.plan(3);
+            var map, panel;
+            
+            map = new OpenLayers.Map();
+            panel = new GeoExt.MapPanel({
+                map: map
+            });
+            t.eq(panel.map.allOverlays, false, "allOverlays is not set if map is provided to panel");
+            panel.destroy();
+            
+            panel = new GeoExt.MapPanel({
+            });
+            t.eq(panel.map.allOverlays, true, "allOverlays set to true if no map is provided to panel");
+            panel.destroy();
+            
+            panel = new GeoExt.MapPanel({
+                map: {
+                    units: "meters"
+                }
+            });
+            t.eq(panel.map.allOverlays, true, "allOverlays set to true if map config is provided to panel");
+            panel.destroy();
+            
+        }
 
         function test_extent(t) {
             
