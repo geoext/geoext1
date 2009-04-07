@@ -46,6 +46,25 @@
             record = new c({feature: feature, state: feature.name, fid: feature.fid, foo: "bar"}, feature.id);
             t.eq(record.get("foo"), "bar", "foo data row set correctly");
         }
+
+        function test_copy(t) {
+            
+            t.plan(2);
+            
+            var feature = new OpenLayers.Feature.Vector();
+            feature.fid = "foo";
+            var recordType = GeoExt.data.FeatureRecord.create();
+            
+            var record = new recordType({feature: feature, fid: feature.fid});
+            var copy = record.copy();
+            
+            record.set("fid", "bar");
+            t.ok(copy.get("fid") === "foo", "setting a property on original doesn't modify copy");
+            
+            t.ok(copy.get("feature") !== feature, "copy does not have original feature");
+            
+        }
+
     </script>
   <body>
     <div id="mappanel"></div>

@@ -30,6 +30,24 @@ GeoExt.data.LayerRecord = Ext.data.Record.create([
 ]);
 
 /**
+ * APIMethod: copy
+ * Creates a copy of this Record.
+ * 
+ * Paremters:
+ * id - {String} (optional) A new Record id.
+ *
+ * Returns:
+ * {GeoExt.data.LayerRecord} A new layer record.
+ */
+GeoExt.data.LayerRecord.prototype.copy = function(id) {
+    var layer = this.get("layer") && this.get("layer").clone();
+    return new this.constructor(
+        Ext.applyIf({layer: layer}, this.data),
+        id || this.id
+    );
+};
+
+/**
  * APIFunction: GeoExt.data.LayerRecord.create
  * Creates a constructor for a LayerRecord, optionally with additional
  * fields.
