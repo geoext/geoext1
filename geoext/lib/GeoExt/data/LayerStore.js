@@ -100,6 +100,7 @@ GeoExt.data.LayerStoreMixin = {
         if(!this.map) {
             this.map = map;
             map.events.on({
+                "changelayer": this.onChangeLayer,
                 "addlayer": this.onAddLayer,
                 "removelayer": this.onRemoveLayer,
                 scope: this
@@ -119,6 +120,7 @@ GeoExt.data.LayerStoreMixin = {
     unbind: function() {
         if(this.map) {
             this.map.events.un({
+                "changelayer": this.onChangeLayer,
                 "addlayer": this.onAddLayer,
                 "removelayer": this.onRemoveLayer,
                 scope: this
@@ -129,6 +131,37 @@ GeoExt.data.LayerStoreMixin = {
                 scope: this
             });
             this.map = null;
+        }
+    },
+    
+    /**
+     * Method: onChangeLayer
+     * Handler for layer changes.  When layer order changes, this moves the
+     *     appropriate record within the store.
+     *
+     * Parameters:
+     * evt - {Object}
+     */
+    onChangeLayer: function(evt) {
+        var layer = evt.layer;
+        if(evt.property === "order") {
+            if(!this._adding && !this._removing) {
+                var layerIndex = this.map.getLayerIndex(layer);
+                var recordIndex = this.findBy(function(rec, id) {
+                    return rec.get("layer") === layer;
+                });
+                if(recordIndex > -1) {
+                    if(layerIndex !== recordIndex) {
+                        var record = this.getAt(recordIndex);
+                        this._removing = true;
+                        this.remove(record);
+                        delete this._removing;
+                        this._adding = true;
+                        this.insert(layerIndex, [record]);
+                        delete this._adding;
+                    }
+                }
+            }
         }
     },
    
@@ -176,8 +209,13 @@ GeoExt.data.LayerStoreMixin = {
     onAdd: function(store, records, index) {
         if(!this._adding) {
             this._adding = true;
-            for(var i=0; i<records.length; ++i) {
-                this.map.addLayer(records[i].get("layer"));
+            var layer;
+            for(var i=records.length-1; i>=0; --i) {
+                layer = records[i].get("layer");
+                this.map.addLayer(layer);
+                if(index !== this.map.layers.length-1) {
+                    this.map.setLayerIndex(layer, index);
+                }
             }
             delete this._adding;
         }
