@@ -94,8 +94,96 @@
             
         }
         
+        function test_reorder(t) {
+            
+            t.plan(24);
+            
+            var map = new OpenLayers.Map("mappanel");
+            var a = new OpenLayers.Layer.Vector("a");
+            var b = new OpenLayers.Layer.Vector("b");
+            var c = new OpenLayers.Layer.Vector("c");
+
+            var store = new GeoExt.data.LayerStore({
+                map: map
+            });
+            
+            store.add(store.reader.readRecords([a, b, c]).records);
+
+            t.eq(store.getCount(), 3, "[a, b, c] three layers in store");
+            t.eq(store.getAt(0).get("layer").name, "a", "[a, b, c] first layer correct in store");
+            t.eq(store.getAt(1).get("layer").name, "b", "[a, b, c] second layer correct in store");
+            t.eq(store.getAt(2).get("layer").name, "c", "[a, b, c] third layer correct in store");
+            t.eq(map.layers.length, 3, "[a, b, c] three layers on map");
+            t.eq(map.layers[0].name, "a", "[a, b, c] first layer correct on map");
+            t.eq(map.layers[1].name, "b", "[a, b, c] second layer correct on map");
+            t.eq(map.layers[2].name, "c", "[a, b, c] third layer correct on map");
+            
+            // move "a" to second position
+            map.setLayerIndex(a, 1);
+
+            t.eq(store.getCount(), 3, "[b, a, c] three layers in store");
+            t.eq(store.getAt(0).get("layer").name, "b", "[b, c, a] first layer correct in store");
+            t.eq(store.getAt(1).get("layer").name, "a", "[b, c, a] second layer correct in store");
+            t.eq(store.getAt(2).get("layer").name, "c", "[b, c, a] third layer correct in store");
+            t.eq(map.layers.length, 3, "[a, b, c] three layers on map");
+            t.eq(map.layers[0].name, "b", "[b, c, a] first layer correct on map");
+            t.eq(map.layers[1].name, "a", "[b, c, a] second layer correct on map");
+            t.eq(map.layers[2].name, "c", "[b, c, a] third layer correct on map");
+            
+            // move "c" to first position
+            map.setLayerIndex(c, 0);
+
+            t.eq(store.getCount(), 3, "[c, b, a] three layers in store");
+            t.eq(store.getAt(0).get("layer").name, "c", "[c, b, a] first layer correct in store");
+            t.eq(store.getAt(1).get("layer").name, "b", "[c, b, a] second layer correct in store");
+            t.eq(store.getAt(2).get("layer").name, "a", "[c, b, a] third layer correct in store");
+            t.eq(map.layers.length, 3, "[c, b, a] three layers on map");
+            t.eq(map.layers[0].name, "c", "[c, b, a] first layer correct on map");
+            t.eq(map.layers[1].name, "b", "[c, b, a] second layer correct on map");
+            t.eq(map.layers[2].name, "a", "[c, b, a] third layer correct on map");
+            
+            map.destroy();
+            
+        }
+        
+        function test_insert(t) {
+            
+            t.plan(10);
+            
+            var map = new OpenLayers.Map("mappanel");
+            var a = new OpenLayers.Layer.Vector("a");
+            var b = new OpenLayers.Layer.Vector("b");
+            var c = new OpenLayers.Layer.Vector("c");
+            var d = new OpenLayers.Layer.Vector("d");
+
+            var store = new GeoExt.data.LayerStore({
+                map: map
+            });
+            
+            store.add(store.reader.readRecords([a, b, c]).records);
+            
+            // insert d into second position
+            store.insert(1, store.reader.readRecords([d]).records);
+            
+            t.eq(store.getCount(), 4, "[a, d, b, c] four layers in store");
+            t.eq(store.getAt(0).get("layer").name, "a", "[a, d, b, c] first layer correct in store");
+            t.eq(store.getAt(1).get("layer").name, "d", "[a, d, b, c] second layer correct in store");
+            t.eq(store.getAt(2).get("layer").name, "b", "[a, d, b, c] third layer correct in store");
+            t.eq(store.getAt(3).get("layer").name, "c", "[a, d, b, c] fourth layer correct in store");
+            t.eq(map.layers.length, 4, "[a, d, b, c] four layers on map");
+            t.eq(map.layers[0].name, "a", "[a, d, b, c] first layer correct on map");
+            t.eq(map.layers[1].name, "d", "[a, d, b, c] second layer correct on map");
+            t.eq(map.layers[2].name, "b", "[a, d, b, c] third layer correct on map");
+            t.eq(map.layers[3].name, "c", "[a, d, b, c] fourth layer correct on map");
+            
+            map.destroy();
+
+        }
+        
+
     </script>
+  </head>  
   <body>
-    <div id="mappanel"></div>
+    <div id="mappanel" style="width:400px; height:300px"></div>
   </body>
 </html>
