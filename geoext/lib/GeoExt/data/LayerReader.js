@@ -5,6 +5,10 @@
  * 
  * ¹ pending approval */
 
+/**
+ * @include GeoExt/data/LayerRecord.js
+ */
+
 Ext.namespace("GeoExt", "GeoExt.data");
 
 /**
