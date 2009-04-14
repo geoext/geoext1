@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css"></link>
+        <link rel="stylesheet" type="text/css" href="../../ext/examples/shared/examples.css"></link>
+        <script type="text/javascript" src="../../openlayers/lib/OpenLayers.js"></script>
+        <script type="text/javascript" src="../../ext/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="../../ext/ext-all.js"></script>
+        <script type="text/javascript" src="../lib/GeoExt.js"></script>
+        <script type="text/javascript" src="feature-grid.js"></script>
+    </head>
+    <body>
+        <h1>Grid Panel configured with a GeoExt.data.FeatureStore</h1>
+
+        <p>This example shows an Ext grid loaded with features read from a
+        GeoJSON document (data/summits.json). Because the layer and the store
+        are bound to each other, the features loaded into the store are
+        automatically added to the layer. See <a
+        href=feature-grid.js>feature-grid.js</a>.  </p>
+
+        <div id="grid" style="width:350px; height:270px; margin-top:10px;"></div>
+        <div id="map" style="width:600px; height:400px; border:solid;"></div>
+    </body>
+</html>

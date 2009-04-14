@@ -50,10 +50,9 @@ Group: Data  {
 
    File: FeatureReader  (GeoExt/data/FeatureReader.js)
    File: FeatureRecord  (GeoExt/data/FeatureRecord.js)
-   File: FeatureStoreMediator  (GeoExt/data/FeatureStoreMediator.js)
+   File: FeatureStoreMixin   (GeoExt/data/FeatureStore.js)
    File: LayerReader  (GeoExt/data/LayerReader.js)
    File: LayerRecord  (GeoExt/data/LayerRecord.js)
-   File: LayerStoreMediator  (GeoExt/data/LayerStoreMediator.js)
    File: LayerStoreMixin  (GeoExt/data/LayerStore.js)
    File: ProtocolProxy  (GeoExt/data/ProtocolProxy.js)
    }  # Group: Data
