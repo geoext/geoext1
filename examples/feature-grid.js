@@ -1,9 +1,9 @@
 Ext.BLANK_IMAGE_URL = "../../../../ext/resources/images/default/s.gif"
 
-var map, store, grid;
+var mapPanel, store, gridPanel, mainPanel;
 
 Ext.onReady(function() {
-    map = new OpenLayers.Map("map");
+    var map = new OpenLayers.Map();
     var wmsLayer = new OpenLayers.Layer.WMS(
         "vmap0",
         "http://labs.metacarta.com/wms/vmap0",
@@ -11,13 +11,19 @@ Ext.onReady(function() {
     );
     var vecLayer = new OpenLayers.Layer.Vector("vector");
     map.addLayers([wmsLayer, vecLayer]);
-    map.zoomToExtent(
-        OpenLayers.Bounds.fromString(
-            "3.131104,43.445435,9.7229,47.839966"
-        )
-    );
+
+    mapPanel = new GeoExt.MapPanel({
+        title: "Map",
+        region: "center",
+        height: 400,
+        width: 600,
+        map: map,
+        center: new OpenLayers.LonLat(5, 45),
+        zoom: 6
+    });
     
     store = new GeoExt.data.FeatureStore({
+        layer: vecLayer,
         fields: [
             {name: 'name', type: 'string'},
             {name: 'elevation', type: 'float'}
@@ -28,13 +34,13 @@ Ext.onReady(function() {
                 format: new OpenLayers.Format.GeoJSON()
             })
         }),
-        layer: vecLayer,
         autoLoad: true
     });
 
-    grid = new Ext.grid.GridPanel({
+    gridPanel = new Ext.grid.GridPanel({
+        title: "Feature Grid",
+        region: "east",
         store: store,
-        height: 260,
         width: 320,
         columns: [{
             header: "Name",
@@ -44,8 +50,15 @@ Ext.onReady(function() {
             header: "Elevation",
             width: 100,
             dataIndex: "elevation"
-        }],
-        renderTo: "grid"
+        }]
+    });
+
+    mainPanel = new Ext.Panel({
+        renderTo: "mainpanel",
+        layout: "border",
+        height: 400,
+        width: 920,
+        items: [mapPanel, gridPanel]
     });
 });
 
