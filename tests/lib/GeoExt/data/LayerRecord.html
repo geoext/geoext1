@@ -9,7 +9,7 @@
     <script type="text/javascript">
        
         function test_layerrecord(t) {
-            t.plan(12);
+            t.plan(13);
 
             var c, layer, record;
             
@@ -31,6 +31,8 @@
                  "\"create(o)\" returns a func with a \"extra1\" field in its prototype"); 
             t.eq(c.prototype.fields.items[3].name, "extra2",
                  "\"create(o)\" returns a func with a \"extra2\" field in its prototype"); 
+            t.eq(GeoExt.data.LayerRecord.prototype.fields.items.length, 2,
+                 "\create(o)\" method does not modify class prototype's fields");
 
             layer = new OpenLayers.Layer();
             record = new c({layer: layer, title: layer.name}, layer.id);
