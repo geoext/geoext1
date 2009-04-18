@@ -3,15 +3,19 @@ Ext.BLANK_IMAGE_URL = "../../../../ext/resources/images/default/s.gif"
 var mapPanel, store, gridPanel, mainPanel;
 
 Ext.onReady(function() {
+    // create map instance
     var map = new OpenLayers.Map();
     var wmsLayer = new OpenLayers.Layer.WMS(
         "vmap0",
         "http://labs.metacarta.com/wms/vmap0",
         {layers: 'basic'}
     );
+
+    // create vector layer
     var vecLayer = new OpenLayers.Layer.Vector("vector");
     map.addLayers([wmsLayer, vecLayer]);
 
+    // create map panel
     mapPanel = new GeoExt.MapPanel({
         title: "Map",
         region: "center",
@@ -21,7 +25,8 @@ Ext.onReady(function() {
         center: new OpenLayers.LonLat(5, 45),
         zoom: 6
     });
-    
+ 
+    // create feature store, binding it to the vector layer
     store = new GeoExt.data.FeatureStore({
         layer: vecLayer,
         fields: [
@@ -37,6 +42,7 @@ Ext.onReady(function() {
         autoLoad: true
     });
 
+    // create grid panel configured with feature store
     gridPanel = new Ext.grid.GridPanel({
         title: "Feature Grid",
         region: "east",
@@ -53,6 +59,8 @@ Ext.onReady(function() {
         }]
     });
 
+    // create a panel and add the map panel and grid panel
+    // inside it
     mainPanel = new Ext.Panel({
         renderTo: "mainpanel",
         layout: "border",
