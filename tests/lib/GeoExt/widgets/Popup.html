@@ -83,7 +83,7 @@
             t.ok(context.mapPanel.el.child("div." + pop.popupCls),"Map panel contains popup");
         }
 
-        function test_anchor(t) {
+        function test_anchorPopup(t) {
             t.plan(4);
 
             var context = setupContext();
@@ -112,7 +112,7 @@
         }
 
 
-        function test_unanchor(t) {
+        function test_unanchorPopup(t) {
             t.plan(6);
 
             var context = setupContext();
@@ -125,7 +125,7 @@
 
             var origPos = pop.getPosition();
 
-            pop.unanchor();
+            pop.unanchorPopup();
 
             var newPos = pop.getPosition();
 
