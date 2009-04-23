@@ -43,7 +43,7 @@ GeoExt.data.LayerStoreMixin = {
     map: null,
 
     /**
-     * Property: reader
+     * APIProperty: reader
      * {<GeoExt.data.LayerReader>} The reader used to get
      *     <GeoExt.data.LayerRecord> objects from {OpenLayers.Layer}
      *     objects.
@@ -60,10 +60,14 @@ GeoExt.data.LayerStoreMixin = {
      * map - {OpenLayers.Map|<GeoExt.MapPanel>} map to sync the layer store
      *     with.
      * layers - {Array(OpenLayers.Layer)} Layers that will be added to the
-     *     layer store (and the map, because we are already syncing).
-     * recordType - {<GeoExt.data.LayerRecord>} If provided, a custom layer
-     *     record type with additional fields will be used. Default fields for
-     *     every layer record are {OpenLayers.Layer} layer and {String} title.
+     *     store (and the map, depending on the value of the initDir option).
+     * fields - {Array} If provided a custom layer record type with additional
+     *     fields will be used. Default fields for every layer record are
+     *     {OpenLayers.Layer} layer and {String} title. The value of this
+     *     option is either a field definition objects as passed to the
+     *     GeoExt.data.LayerRecord.create function or a
+     *     {<GeoExt.data.LayerRecord>} constructor created using
+     *     GeoExt.data.LayerRecord.create.
      * initDir - {Number} Bitfields specifying the direction to use for the
      *     initial sync between the map and the store, if set to 0 then no
      *     initial sync is done. Defaults to
@@ -72,7 +76,8 @@ GeoExt.data.LayerStoreMixin = {
     constructor: function(config) {
         config = config || {};
         config.reader = config.reader ||
-                        new GeoExt.data.LayerReader({}, config.recordType);
+                        new GeoExt.data.LayerReader({}, config.fields);
+        delete config.fields;
         // "map" option
         var map = config.map instanceof GeoExt.MapPanel ?
                   config.map.map : config.map;
