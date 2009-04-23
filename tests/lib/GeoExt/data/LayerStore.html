@@ -33,9 +33,9 @@
         }
 
         function test_constructor(t) {
-            t.plan(3);
+            t.plan(5);
 
-            var store, reader, map;
+            var store, reader, map, fields;
 
             store = new GeoExt.data.LayerStore();
             t.ok(store.reader instanceof GeoExt.data.LayerReader,
@@ -50,6 +50,16 @@
             store = new GeoExt.data.LayerStore({map: map});
             t.ok(store.map == map,
                  "ctor sets the passed map in the instance");
+
+            fields = [{name: "foo"}];
+            store = new GeoExt.data.LayerStore({fields: fields});
+            t.eq(store.reader.recordType.prototype.fields.items[2].name, "foo",
+                 "ctor creates a reader from array of field definitions with expected field in recordType prototype");
+
+            fields = GeoExt.data.LayerRecord.create([{name: "foo"}]);
+            store = new GeoExt.data.LayerStore({fields: fields});
+            t.eq(store.reader.recordType.prototype.fields.items[2].name, "foo",
+                 "ctor creates a reader from layer record constructor with expected field in recordType prototype");
         }
 
         function test_layerstore(t) {
