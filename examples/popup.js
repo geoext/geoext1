@@ -17,7 +17,7 @@ Ext.onReady(function() {
     var selectCtrl = new OpenLayers.Control.SelectFeature(vectorLayer);
 
     // define "createPopup" function
-    var bogusMarkup = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    var bogusMarkup = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.";
     function createPopup(feature) {
         popup = new GeoExt.Popup({
             title: 'My Popup',

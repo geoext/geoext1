@@ -17,44 +17,43 @@
               }
            )
         }
+       
+        function createMap() {
+            var map = new OpenLayers.Map();
+            var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
+            map.addLayer(layer);
+            return map;
+        }
 
-        function setupContext() {
-            var map = new OpenLayers.Map({
-                projection: new OpenLayers.Projection("EPSG:4326"),                 
-            })
+        function loadMapPanel() {
+            var map = createMap();
 
-            var vector = new OpenLayers.Layer.Vector("Vector Layer",{
-                styleMap: new OpenLayers.StyleMap()
+            mapPanel = new GeoExt.MapPanel({
+                // panel options
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                // map panel-specific options
+                map: map,
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
             });
 
+            return mapPanel;
+        }
+
+        function setupContext() {        
+            var mapPanel = loadMapPanel();
             var feature = makeFeature();
-        
-            vector.addFeatures(feature);
-            map.addLayers([
-               new OpenLayers.Layer.WMS( 
-                   "OpenLayers WMS",
-                   "http://labs.metacarta.com/wms/vmap0",
-                   {layers: 'basic'} ),
-               vector
-            ]);
-
-            var view = new Ext.Viewport({
-                layout : "border",
-                items : [{
-                    xtype: "gx_mappanel",
-                    region: "center",
-                    map : map
-                }]
-            });
+            var map = mapPanel.map;
 
             return {
                feature : feature,
-               vector : vector,
                map : map,
-               mapPanel : view.items.items[0],
-               view : view
-            };
-           
+               mapPanel : mapPanel
+            };      
         }
 
         function popup(feature){
@@ -76,11 +75,13 @@
 
             var context = setupContext();
 
-            var pop = popup(context.feature, context.mapPanel);
+            var pop = popup(context.feature);
 
             pop.addToMapPanel(context.mapPanel);
 
             t.ok(context.mapPanel.el.child("div." + pop.popupCls),"Map panel contains popup");
+
+            context.mapPanel.destroy();
         }
 
         function test_anchorPopup(t) {
@@ -183,6 +184,6 @@
 
     </script>
   <body>
-    <div id="map"></div>
+    <div id="mappanel"></div>
   </body>
 </html>
