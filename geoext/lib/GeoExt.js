@@ -65,7 +65,6 @@
             "GeoExt/data/LayerReader.js",
             "GeoExt/data/LayerStore.js",
             "GeoExt/data/ScaleStore.js",
-            "GeoExt/data/WMSCapabilitiesRecord.js",
             "GeoExt/data/WMSCapabilitiesReader.js",
             "GeoExt/data/WMSCapabilitiesStore.js",
             "GeoExt/data/ProtocolProxy.js",
