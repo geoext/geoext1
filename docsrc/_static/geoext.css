@@ -1,0 +1,16 @@
+
+/* meta-info about a class/module get pulled out */
+.meta {
+    float: right;
+    padding: 0 2em;
+    background-color: white;
+}
+.meta ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* don't display class names for attributes */
+.attribute .descclassname {
+    display: none;
+}

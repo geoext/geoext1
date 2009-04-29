@@ -1,0 +1,100 @@
+{#
+
+    This template is of general use for documenting GeoExt classes.  It produces
+    a doc with the following sections:
+    
+        * Header (full class name)
+        * Base Link and Ineritance (optional link to ext super and parent classes)
+        * Xtype (optional)
+        * Constructor (class def)
+        * Examples (optional)
+        * Config Options (optional)
+        * Public Properties (optional)
+        * Public Methods (optional)
+        * Events (optional)
+
+#}
+.. currentmodule:: {{ module }}
+
+:class:`{{ module }}.{{ class }}`
+=================================
+
+{% if base_link is defined or xtype is defined or _parents is defined%}
+.. cssclass:: meta
+
+{% if base_link is defined or _parents is defined %}
+Extends
+    {% if base_link %}* {{ base_link }}{% endif %}
+    {% if _parents %}{% for parent in _parents %}* :class:`{{ parent.module }}.{{ parent.class }}`{% endfor %}{% endif %}
+{% endif %}
+
+{% if xtype is defined %}
+xtype
+    ``{{ xtype }}``
+{% endif %}
+{% endif %}
+
+{{ constructor }}
+
+{% if example is defined %}
+Example Use
+-----------
+
+{{ example }}
+{% endif %}    
+
+{% if config is defined %}
+Config Options
+--------------
+
+Configuration properties{% if base_link is defined %} in addition to
+those listed for {{ base_link }}{% endif %}.
+
+{% for (name, desc) in config|dictsort %}
+.. describe:: {{ name }}
+
+    {{ desc|indent(4) }}
+{% endfor %}
+{% endif %}
+
+{% if properties is defined %}
+Public Properties
+-----------------
+
+Public properties{% if base_link is defined %} in addition to those
+listed for {{ base_link }}{% endif %}.
+
+{% for (name, desc) in properties|dictsort %}
+.. attribute:: {{ class }}.{{ name }}
+
+    {{ desc|indent(4) }}
+{% endfor %}
+{% endif %}
+
+{% if methods is defined %}
+Public Methods
+--------------
+
+Public methods{% if base_link is defined %} in addition to those
+listed for {{ base_link }}{% endif %}.
+
+{% for (name, desc) in methods|dictsort %}
+.. method:: {{ class }}.{{ name }}
+
+    {{ desc|indent(4) }}
+{% endfor %}
+{% endif %}
+
+{% if events is defined %}
+Events
+------
+
+Events{% if base_link is defined %} in addition to those
+listed for {{ base_link }}{% endif %}.
+
+{% for (name, desc) in events|dictsort %}
+.. describe:: {{ name }}
+
+    {{ desc|indent(4) }}
+{% endfor %}
+{% endif %}
