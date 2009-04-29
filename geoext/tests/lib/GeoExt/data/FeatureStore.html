@@ -28,7 +28,7 @@
         } 
 
         function test_load_clear(t) {
-            t.plan(5);
+            t.plan(7);
             
             var layer = new OpenLayers.Layer.Vector("Foo layer");
             var store = new GeoExt.data.FeatureStore({
@@ -56,6 +56,12 @@
             store.removeAll();
             t.eq(store.getCount(), 0, '"removeAll" on store removes all records from the store'); 
             t.eq(layer.features.length, 0, '"removeAll" on store removes features from layer'); 
+
+            // load no data
+            store.addRecordFilter = null;
+            store.loadData([]);
+            t.eq(store.getCount(), 0, '"loadData([]) does not add records to the store');
+            t.eq(layer.features.length, 0, '"loadData([]) does not add features to the layer');
         }
         
         function test_bind_unbind(t) {

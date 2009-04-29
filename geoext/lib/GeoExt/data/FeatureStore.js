@@ -299,8 +299,8 @@ GeoExt.data.FeatureStoreMixin = {
                 }
             }
         } else {
-            features = new Array(len);
-            for(i=0, len=records.length; i<len; i++) {
+            features = new Array((len=records.length));
+            for(i=0; i<len; i++) {
                 features[i] = records[i].get("feature");
             }
         }
