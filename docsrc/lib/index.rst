@@ -24,6 +24,11 @@ methods and properties provided by these objects, see the
 .. toctree::
     :glob:
     
-    GeoExt
     GeoExt/*
+    
+
+.. toctree::
+    :hidden:
+    
+    GeoExt
 

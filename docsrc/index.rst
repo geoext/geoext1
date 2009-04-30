@@ -1,6 +1,9 @@
-.. The front page is rendered by the front_page.html template.
+GeoExt Documentation
+====================
 
-.. toctree
-    :hidden:
-    
-    docs
+This page will list documentation sections.
+
+.. toctree::
+    :maxdepth: 1
+
+    lib/index
