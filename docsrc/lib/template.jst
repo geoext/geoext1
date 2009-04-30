@@ -17,7 +17,7 @@
 .. currentmodule:: {{ module }}
 
 :class:`{{ module }}.{{ class }}`
-=================================
+================================================================================
 
 {% if base_link is defined or xtype is defined or _parents is defined%}
 .. cssclass:: meta
@@ -57,42 +57,42 @@ those listed for {{ base_link }}{% endif %}.
 {% endfor %}
 {% endif %}
 
-{% if properties is defined %}
+{% if property is defined %}
 Public Properties
 -----------------
 
 Public properties{% if base_link is defined %} in addition to those
 listed for {{ base_link }}{% endif %}.
 
-{% for (name, desc) in properties|dictsort %}
+{% for (name, desc) in property|dictsort %}
 .. attribute:: {{ class }}.{{ name }}
 
     {{ desc|indent(4) }}
 {% endfor %}
 {% endif %}
 
-{% if methods is defined %}
+{% if method is defined %}
 Public Methods
 --------------
 
 Public methods{% if base_link is defined %} in addition to those
 listed for {{ base_link }}{% endif %}.
 
-{% for (name, desc) in methods|dictsort %}
+{% for (name, desc) in method|dictsort %}
 .. method:: {{ class }}.{{ name }}
 
     {{ desc|indent(4) }}
 {% endfor %}
 {% endif %}
 
-{% if events is defined %}
+{% if event is defined %}
 Events
 ------
 
 Events{% if base_link is defined %} in addition to those
 listed for {{ base_link }}{% endif %}.
 
-{% for (name, desc) in events|dictsort %}
+{% for (name, desc) in event|dictsort %}
 .. describe:: {{ name }}
 
     {{ desc|indent(4) }}
