@@ -1,1 +1,9 @@
-.. This is not actually parsed.  The config html_additional_pages determines the source for index.
+.. The content here is not actually used.  The config html_additional_pages
+    determines the source for index.
+
+Contents
+========
+
+.. toctree::
+
+    docs
