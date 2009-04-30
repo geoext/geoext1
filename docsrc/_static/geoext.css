@@ -10,7 +10,10 @@
     padding: 0;
 }
 
-/* don't display class names for attributes */
+/* don't display class names for attributes or methods*/
 .attribute .descclassname {
+    display: none;
+}
+.method .descclassname {
     display: none;
 }
