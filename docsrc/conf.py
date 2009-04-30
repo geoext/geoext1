@@ -135,7 +135,9 @@ html_static_path = ['_static']
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
-#html_additional_pages = {}
+html_additional_pages = {
+    'index': 'front_page.html'
+}
 
 # If false, no module index is generated.
 #html_use_modindex = True
