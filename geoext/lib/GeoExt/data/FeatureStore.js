@@ -9,7 +9,30 @@
  * @include GeoExt/data/FeatureReader.js
  */
 
+/** jst: (define)
+ *  module = GeoExt.data
+ *  class = FeatureStore
+ *  base_link = `Ext.data.DataStore <http://extjs.com/deploy/dev/docs/?class=Ext.data.DataStore>`_
+ */
 Ext.namespace("GeoExt.data");
+
+/** jst: constructor
+ *  .. class:: FeatureStore
+ *
+ *      A store containing :class:`GeoExt.data.FeatureRecord` entries that
+ *      optionally synchronizes with an ``OpenLayers.Layer.Vector``.
+ */
+
+/** jst: example
+ *  Sample code to create a store with features from a vector layer:
+ *  
+ *  .. code-block:: javascript
+ *
+ *      var store = new GeoExt.data.FeatureStore({
+ *          layer: myLayer,
+ *          features: myFeatures
+ *      });
+ */
 
 /**
  * Class: GeoExt.data.FeatureStoreMixin
@@ -36,59 +59,45 @@ Ext.namespace("GeoExt.data");
  * (end)
  */
 GeoExt.data.FeatureStoreMixin = {
-    /**
-     * APIProperty: layer
-     * {OpenLayers.Layer.Vector} Layer that this store will be in sync with.
+    
+    /** jst: config[layer]
+     *  ``OpenLayers.Layer.Vector``  Layer to synchronize the store with.
      */
     layer: null,
+    
+    /** jst: config[features]
+     *  ``Array(OpenLayers.Feature.Vector)``  Features that will be added to the
+     *  store (and the layer if provided).
+     */
 
-    /**
-     * Property: reader
-     * {<GeoExt.data.FeatureReader>} The reader used to get
-     *     <GeoExt.data.FeatureRecord> objects from {OpenLayers.Feature.Vector}
-     *     objects.
+    /** jst: config[reader]
+     *  ``Ext.data.DataReader`` The reader used to produce records from objects
+     *  features.  Default is :class:`GeoExt.data.FeatureReader`.
      */
     reader: null,
 
-    /**
-     * APIProperty: addFeatureFilter
-     * {Function} This function is called before a feature record is added to
-     *     the store, it receives the feature from which a feature record is
-     *     to be created, if it returns false then no record is added.
+    /** jst: config[addFeatureFilter]
+     *  ``Function`` This function is called before a feature record is added to
+     *  the store, it receives the feature from which a feature record is to be
+     *  created, if it returns false then no record is added.
      */
     addFeatureFilter: null,
     
-    /**
-     * APIProperty: addRecordFilter
-     * {Function} This function is called before a feature is added to the
-     *     layer, it receives the feature record associated with the feature
-     *     to be added, if it returns false then no feature is added.
+    /** jst: config[addRecordFilter]
+     *  ``Function`` This function is called before a feature is added to the
+     *  layer, it receives the feature record associated with the feature to be
+     *  added, if it returns false then no feature is added.
      */
     addRecordFilter: null,
-
-    /**
-     * Constructor: GeoExt.data.FeatureStoreMixin
-     * 
-     * Parameters:
-     * config - {Object}
-     * 
-     * Valid config options:
-     * layer - {OpenLayers.Layer.Vector} layer to sync the feature store with.
-     * features - {Array(OpenLayers.Feature.Vector)} Features that will be added to the
-     *     feature store (and the layer, because we are already syncing).
-     * fields - {Array} If provided, a custom feature record type with additional fields
-     *     will be used. Default fields for every feature record are
-     *     {OpenLayers.Feature.Vector} feature, {String} state and
-     *     {Number|String} fid. The value of this option is either an array of
-     *     field definition objects as passed to the
-     *     GeoExt.data.FeatureRecord.create function or a
-     *     {<GeoExt.data.FeatureRecord>} constructor created using
-     *     GeoExt.data.FeatureRecord.create.
-     * initDir - {Number} Bitfields specifying the direction to use for the
-     *     initial sync between the layer and the store, if set to 0 then no
-     *     initial sync is done. Defaults to
-     *     <GeoExt.data.FeatureStore.LAYER_TO_STORE>|<GeoExt.data.FeatureStore.STORE_TO_LAYER>.
+    
+    /** jst: config[initDir]
+     *  ``Number``  Bitfields specifying the direction to use for the
+     *  initial sync between the layer and the store, if set to 0 then no
+     *  initial sync is done. Default is
+     *  ``GeoExt.data.FeatureStore.LAYER_TO_STORE|GeoExt.data.FeatureStore.STORE_TO_LAYER``.
      */
+
+    /** private */
     constructor: function(config) {
         config = config || {};
         config.reader = config.reader ||
@@ -109,21 +118,13 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
 
-    /**
-     * APIMethod: bind
-     * Bind this store to a layer instance, once bound the store
-     * is synchronized with the layer and vice-versa.
-     * 
-     * Parameters:
-     * layer - {OpenLayers.Layer.Vector} The layer instance.
-     * options - {Object}
-     *
-     * Valid config options:
-     * initDir - {Number} Bitfields specifying the direction to use for the
-     *     initial sync between the layer and the store, if set to 0 then no
-     *     initial sync is done. Defaults to
-     *     <GeoExt.data.FeatureStore.LAYER_TO_STORE>|<GeoExt.data.FeatureStore.STORE_TO_LAYER>.
-     */
+    /** jst: method[bind]
+     *  :param layer: ``OpenLayers.Layer`` Layer that the store should be
+     *      synchronized with.
+     *  
+     *  Bind this store to a layer instance, once bound the store
+     *  is synchronized with the layer and vice-versa.
+     */ 
     bind: function(layer, options) {
         if(this.layer) {
             // already bound
@@ -168,9 +169,8 @@ GeoExt.data.FeatureStoreMixin = {
         });
     },
 
-    /**
-     * APIMethod: unbind
-     * Unbind this store from the layer it is currently bound.
+    /** jst: method[unbind]
+     *  Unbind this store from the layer it is currently bound.
      */
     unbind: function() {
         if(this.layer) {
@@ -191,12 +191,8 @@ GeoExt.data.FeatureStoreMixin = {
     },
    
    
-    /**
-     * Method: onFeaturesAdded
-     * Handler for layer featuresadded event
-     * 
-     * Parameters:
-     * evt - {Object}
+    /** private: method[onFeaturesAdded]
+     *  Handler for layer featuresadded event
      */
     onFeaturesAdded: function(evt) {
         if(!this._adding) {
@@ -220,12 +216,8 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
     
-    /**
-     * Method: onFeaturesRemoved
-     * Handler for layer featuresremoved event
-     * 
-     * Parameters:
-     * evt - {Object}
+    /** private: method[onFeaturesRemoved]
+     *  Handler for layer featuresremoved event
      */
     onFeaturesRemoved: function(evt){
         if(!this._removing) {
@@ -242,12 +234,8 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
 
-    /**
-     * Method: onFeatureModified
-     * Handler for layer featuremodified event
-     *
-     * Parameters:
-     * evt - {Object}
+    /** private: method[onFeatureModified]
+     *  Handler for layer featuremodified event
      */
     onFeatureModified: function(evt) {
         if(!this._updating) {
@@ -280,13 +268,9 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
 
-    /**
-     * Method: addFeaturesToLayer
-     * Given an array of records add features to the layer. This
-     * function is used by the onLoad and onAdd handlers.
-     *
-     * Parameters:
-     * records - {Array(Ext.data.Record)}
+    /** private: method[addFeaturesToLayer]
+     *  Given an array of records add features to the layer. This
+     *  function is used by the onLoad and onAdd handlers.
      */
     addFeaturesToLayer: function(records) {
         var i, len, features, record;
@@ -311,14 +295,12 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
    
-    /**
-     * Method: onLoad
-     * Handler for store load event
+    /** private: method[onLoad]
+     *  :param store: ``Ext.data.Store``
+     *  :param records: ``Array(Ext.data.Record)``
+     *  :param options: ``Object``
      * 
-     * Parameters:
-     * store - {Ext.data.Store}
-     * records - {Array(Ext.data.Record)}
-     * options - {Object}
+     *  Handler for store load event
      */
     onLoad: function(store, records, options) {
         // if options.add is true an "add" event was already
@@ -333,12 +315,10 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
     
-    /**
-     * Method: onClear
-     * Handler for store clear event
-     * 
-     * Parameters:
-     * store - {Ext.data.Store}
+    /** private: method[onClear]
+     *  :param store: ``Ext.data.Store``
+     *      
+     *  Handler for store clear event
      */
     onClear: function(store) {
         this._removing = true;
@@ -346,14 +326,12 @@ GeoExt.data.FeatureStoreMixin = {
         delete this._removing;
     },
     
-    /**
-     * Method: onAdd
-     * Handler for store add event
+    /** private: method[onAdd]
+     *  :param store: ``Ext.data.Store``
+     *  :param records: ``Array(Ext.data.Record)``
+     *  :param index: ``Number``
      * 
-     * Parameters:
-     * store - {Ext.data.Store}
-     * records - {Array(Ext.data.Record)}
-     * index - {Number}
+     *  Handler for store add event
      */
     onAdd: function(store, records, index) {
         if(!this._adding) {
@@ -363,14 +341,12 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
     
-    /**
-     * Method: onRemove
-     * Handler for store remove event
-     * 
-     * Parameters:
-     * store - {Ext.data.Store}
-     * records - {Array(Ext.data.Record)}
-     * index - {Number}
+    /** private: method[onRemove]
+     *  :param store: ``Ext.data.Store``
+     *  :param records: ``Array(Ext.data.Record)``
+     *  :param index: ``Number``
+     *      
+     *  Handler for store remove event
      */
     onRemove: function(store, record, index){
         if(!this._removing) {
@@ -383,14 +359,12 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
 
-    /**
-     * Method: onUpdate
-     * Handler for store update event
+    /** private: method[onUpdate]
+     *  :param store: ``Ext.data.Store``
+     *  :param record: ``Ext.data.Record``
+     *  :param operation: ``String``
      *
-     * Parameters:
-     * store - {Ext.data.Store}
-     * record - (Ext.data.Record)}
-     * operation - {String}
+     *  Handler for update.
      */
     onUpdate: function(store, record, operation) {
         if(!this._updating) {
@@ -420,23 +394,6 @@ GeoExt.data.FeatureStoreMixin = {
     }
 };
 
-/**
- * Class: GeoExt.data.FeatureStore
- * Default implementation of an {Ext.data.Store} extended with
- * {<GeoExt.data.FeatureStoreMixin>}
- * 
- * Inherits from:
- * - {Ext.data.Store}
- * - {<GeoExt.data.FeatureStoreMixin>}
- */
-/**
- * Constructor: GeoExt.data.FeatureStore
- * 
- * Parameters:
- * config - {Object} See {<GeoExt.data.FeatureStoreMixin>} and 
- * http://extjs.com/deploy/dev/docs/?class=Ext.data.Store for valid config
- *     options. 
- */
 GeoExt.data.FeatureStore = Ext.extend(
     Ext.data.Store,
     GeoExt.data.FeatureStoreMixin

@@ -8,7 +8,7 @@
 /** jst: (define)
  *  module = GeoExt.data
  *  class = FeatureRecord
- *  base_link = `Ext.data.Record <http://localhost/projects/gx/trunk/ext/docs/?class=Ext.data.Record>`_
+ *  base_link = `Ext.data.Record <http://extjs.com/deploy/dev/docs/?class=Ext.data.Record>`_
  */
 Ext.namespace("GeoExt.data");
 
