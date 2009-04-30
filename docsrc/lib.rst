@@ -17,18 +17,18 @@ methods and properties provided by these objects, see the
 .. _`Ext API Documentation`: http://extjs.com/deploy/dev/docs/
 .. _`OpenLayers API Documentation`: http://dev.openlayers.org/apidocs
 
+.. module:: GeoExt
+    :synopsis: Extending mapping functionality to Ext classes.
 
 :mod:`GeoExt`
 -------------
 
 .. toctree::
+    :maxdepth: 2
     :glob:
     
-    lib/GeoExt/*
+    lib/GeoExt/widgets
+    lib/GeoExt/data
     
 
-.. toctree::
-    :hidden:
-    
-    lib/GeoExt
 
