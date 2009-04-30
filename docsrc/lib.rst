@@ -22,6 +22,6 @@ methods and properties provided by these objects, see the
 -------------
 
 .. toctree::
-   :glob:
-   
-   lib/GeoExt/*
+    :glob:
+    
+    lib/GeoExt/*
