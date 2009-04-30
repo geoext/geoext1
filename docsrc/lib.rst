@@ -25,3 +25,12 @@ methods and properties provided by these objects, see the
     :glob:
     
     lib/GeoExt/*
+
+
+.. the toctree below is intentionally hidden
+
+.. toctree::
+    :glob:
+    :hidden:
+   
+    lib/*
