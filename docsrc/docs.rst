@@ -1,5 +1,5 @@
-GeoExt Documentation
-====================
+Documentation
+=============
 
 This page will list documentation sections.
 
