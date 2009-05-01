@@ -21,14 +21,14 @@
  * @include GeoExt/data/FeatureRecord.js
  */
 
-/** jst: (define)
+/** api: (define)
  *  module = GeoExt.data
  *  class = FeatureReader
  *  base_link = `Ext.data.DataReader <http://extjs.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
  */
 Ext.namespace('GeoExt', 'GeoExt.data');
 
-/** jst: example
+/** api: example
  *  Typical usage in a store:
  * 
  *  .. code-block:: javascript
@@ -42,7 +42,7 @@ Ext.namespace('GeoExt', 'GeoExt.data');
  *      
  */
 
-/** jst: constructor
+/** api: constructor
  *  .. class:: FeatureReader(meta, recordType)
  *   
  *      Data reader class to create an array of
@@ -81,7 +81,7 @@ Ext.extend(GeoExt.data.FeatureReader, Ext.data.DataReader, {
         return this.readRecords(response.features);
     },
 
-    /** jst: method[readReacords]
+    /** api: method[readReacords]
      *  :param features: ``Array(OpenLayers.Feature.Vector)`` List of
      *      features for creating records
      *  :return: ``Object``  An object with ``records`` and ``totalRecords``
