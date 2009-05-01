@@ -19,7 +19,7 @@ Basic (Core Concepts)
    Pointers on getting started w/ Ext with an emphasis on
    important concepts in GeoExt derived from Ext.
 
-   - Basic Layour (put panels in a viewport)
+   - Basic Layout (put panels in a viewport)
    - Trees, Nodes, and Childnodes
    - Grid and Store (records from reader)
    - Events in Ext from a GeoExt perspective
