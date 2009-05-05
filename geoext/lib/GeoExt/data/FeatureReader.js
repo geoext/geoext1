@@ -102,8 +102,16 @@ Ext.extend(GeoExt.data.FeatureReader, Ext.data.DataReader, {
                 if (feature.attributes) {
                     for (j = 0, lenJ = fields.length; j < lenJ; j++){
                         field = fields.items[j];
-                        v = feature.attributes[field.mapping || field.name] ||
-                            field.defaultValue;
+                        if (/[\[\.]/.test(field.mapping)) {
+                            try {
+                                v = new Function("obj", "return obj." + field.mapping)(feature.attributes);
+                            } catch(e){
+                                v = field.defaultValue;
+                            }
+                        }
+                        else {
+                            v = feature.attributes[field.mapping || field.name] || field.defaultValue;
+                        }
                         v = field.convert(v);
                         values[field.name] = v;
                     }
