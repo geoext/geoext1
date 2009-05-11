@@ -1,34 +1,28 @@
 <html>
-  <head>
-    <title>GeoExt Popup Example</title>
+    <head>
+        <title>GeoExt Popup Example</title>
 
-    <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css"></link>
-    <link rel="stylesheet" type="text/css" href="../../ext/examples/shared/examples.css"></link>
-    <link rel="stylesheet" type="text/css" href="../resources/css/geoext-all-debug.css" />
-    <script type="text/javascript" src="../../openlayers/lib/OpenLayers.js"></script>
-    <script type="text/javascript" src="../../ext/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="../../ext/ext-all.js"></script>
-    <script>
-    window.scriptLocation = "../lib/";
-    </script>
-    <script type="text/javascript" src="../lib/GeoExt.js"></script>
-    <script type="text/javascript" src="popup.js"></script>
-
-    <style type="text/css">
+        <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="http://extjs.com/deploy/dev/examples/shared/examples.css"></link>
+        <link rel="stylesheet" type="text/css" href="../resources/css/geoext-all-debug.css" />
+        <script type="text/javascript" src="../lib/GeoExt.js"></script>
+        <script src="http://openlayers.org/api/2.8-rc2/OpenLayers.js"></script>
+        
+        <script type="text/javascript" src="popup.js"></script>
     
-    div#map {
-       width: 650px;
-       height: 400px;
-       position: relative;
-    }
-
-    </style>
-  </head>
-  <body>
-    <h1>Popup Example</h1>
-    <p>Click on the point in the map panel to open a popup.
-    The js is not minified so it is readable. See <a href="popup.js">popup.js</a>.</p>
-    <div id="container"></div>
-
-  </body>
+        <style type="text/css">
+            div#map {
+               width: 650px;
+               height: 400px;
+               position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Popup Example</h1>
+        <p>Click on the point in the map panel to open a popup.
+        The js is not minified so it is readable. See <a href="popup.js">popup.js</a>.</p>
+        <div id="container"></div>
+    </body>
 </html>
