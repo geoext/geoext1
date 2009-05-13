@@ -47,6 +47,45 @@
             t.ok(store.map == map, "ctor sets the passed map in the instance");
         }
 
+        function test_bind_unbind(t) {
+            t.plan(7);
+
+            var map, store;
+
+            map = new OpenLayers.Map({controls: []});
+            store = new GeoExt.data.ScaleStore({});
+
+            // map has no base layer
+            // 4 tests
+
+            store.bind(map);
+            t.ok(map.events.listeners["changebaselayer"][0]["func"] == store.populateFromMap,
+                 "bind registers a changebaselayer listener (map has no base layer)");
+            t.ok(map.events.listeners["addlayer"][0]["func"] == store.populateOnAdd,
+                 "bind registers a addlayer listener (map has no base layer)");
+
+            store.unbind();
+            t.eq(map.events.listeners["changebaselayer"][0], undefined,
+                 "unbind unregisters changebaselayer listener (map has no base layer)");
+            t.eq(map.events.listeners["addlayer"][0], undefined,
+                 "unbind unregisters addlayer listener (map has no base layer)");
+
+            // map has a base layer
+            // 3 tests
+
+            map.addLayer(new OpenLayers.Layer("name", {isBaseLayer: true}));
+
+            store.bind(map);
+            t.ok(map.events.listeners["changebaselayer"][0]["func"] == store.populateFromMap,
+                 "bind registers a changebaselayer listener (map has a base layer)");
+            t.eq(map.events.listeners["addlayer"][0], undefined,
+                 "bind does not register a addlayer listener (map has a base layer)");
+
+            store.unbind();
+            t.eq(map.events.listeners["changebaselayer"][0], undefined,
+                 "unbind unregisters changebaselayer listener (map has a base layer)");
+        }
+
         function test_scalestore(t) {
             t.plan(1);
 
