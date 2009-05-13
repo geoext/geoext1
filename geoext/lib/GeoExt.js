@@ -69,7 +69,10 @@
             "GeoExt/data/WMSCapabilitiesStore.js",
             "GeoExt/data/ProtocolProxy.js",
             "GeoExt/widgets/MapPanel.js",
-            "GeoExt/widgets/Popup.js"
+            "GeoExt/widgets/Popup.js",
+            "GeoExt/widgets/form/SearchAction.js",
+            "GeoExt/widgets/form/BasicForm.js",
+            "GeoExt/widgets/form/FormPanel.js"
         );
 
         var agent = navigator.userAgent;
