@@ -27,8 +27,9 @@ methods and properties provided by these objects, see the
     :maxdepth: 2
     :glob:
     
-    lib/GeoExt/widgets
     lib/GeoExt/data
+    lib/GeoExt/widgets
+    lib/GeoExt/widgets/form
     
 
 
