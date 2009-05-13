@@ -59,7 +59,7 @@ GeoExt.data.ScaleStore = Ext.extend(Ext.data.Store, {
         if (this.map.baseLayer) {
             this.populateFromMap();
         } else {
-            this.map.register('layeradded', this, this.populateOnAdd);
+            this.map.events.register('addlayer', this, this.populateOnAdd);
         }
     },
 
@@ -70,6 +70,7 @@ GeoExt.data.ScaleStore = Ext.extend(Ext.data.Store, {
      */
     unbind: function() {
         if (this.map) {
+            this.map.events.unregister('addlayer', this, this.populateOnAdd);
             this.map.events.unregister('changebaselayer', this, this.populateFromMap);
             delete this.map;
         }
@@ -86,7 +87,7 @@ GeoExt.data.ScaleStore = Ext.extend(Ext.data.Store, {
     populateOnAdd: function(evt) {
         if (evt.layer.isBaseLayer) {
             this.populateFromMap();
-            this.map.events.unregister('layeradded', this, this.populateOnAdd);
+            this.map.events.unregister('addlayer', this, this.populateOnAdd);
         }
     },
 
