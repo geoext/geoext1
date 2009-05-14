@@ -169,7 +169,7 @@
 
         function test_add_remove(t) {
             
-            t.plan(2);
+            t.plan(6);
             
             var map = new OpenLayers.Map("mappanel");
             var store = new GeoExt.data.LayerStore({
@@ -184,6 +184,18 @@
             
             store.remove(record);
             t.eq(store.getCount(), 0, "removing a single record from the store removes one record");
+
+            // add back the original and prepare to add copy
+            store.add([record]);            
+            t.eq(store.getCount(), 1, "store has a single record before adding copy");
+            t.eq(map.layers.length, 1, "map has a single layer before adding copy");
+            
+            // create a copy of the record with the same layer
+            var copy = record.copy(); // record with same id will replace original
+            copy.set("layer", record.get("layer")); // force records to have same layer            
+            store.add(copy);
+            t.eq(store.getCount(), 1, "store has a single record after adding copy");
+            t.eq(map.layers.length, 1, "map has a single layer after adding copy");
             
         }
         

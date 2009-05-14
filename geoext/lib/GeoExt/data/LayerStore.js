@@ -151,6 +151,10 @@ GeoExt.data.LayerStoreMixin = {
             "remove": this.onRemove,
             scope: this
         });
+        this.data.on({
+            "replace" : this.onReplace,
+            scope: this
+        });
     },
 
     /**
@@ -169,6 +173,8 @@ GeoExt.data.LayerStoreMixin = {
             this.un("clear", this.onClear, this);
             this.un("add", this.onAdd, this);
             this.un("remove", this.onRemove, this);
+
+            this.data.un("replace", this.onReplace, this);
 
             this.map = null;
         }
@@ -324,10 +330,34 @@ GeoExt.data.LayerStoreMixin = {
             var layer = record.get("layer");
             if (this.map.getLayer(layer.id) != null) {
                 this._removing = true;
-                this.map.removeLayer(record.get("layer"));
+                this.removeMapLayer(record);
                 delete this._removing;
             }
         }
+    },
+
+    /**
+     * Method: removeMapLayers
+     * Removes a record's layer from the bound map.
+     * 
+     * Parameters:
+     * record - {<Ext.data.Record>}
+     */
+    removeMapLayer: function(record){
+        this.map.removeLayer(record.get("layer"));
+    },
+
+    /**
+     * Method: onReplace
+     * Handler for a store's data collections' replace event
+     * 
+     * Parameters:
+     * key - {String}
+     * oldRecord - {Object} In this case, a record that has been replaced.
+     * newRecord - {Object} In this case, a record that is replacing oldRecord.
+     */
+    onReplace: function(key, oldRecord, newRecord){
+        this.removeMapLayer(oldRecord);
     }
 };
 
