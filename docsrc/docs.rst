@@ -7,8 +7,6 @@ Getting Started
 
 * **Jump in** with :doc:`tutorials/index` to get you up and running
 * **Ramp up** with :doc:`primers/index` to learn the core concepts behind GeoExt
-* **Dig deeper** with :doc:`advanced/index` to leverage the full power of GeoExt
-
 
 
 Examples

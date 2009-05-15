@@ -56,27 +56,6 @@ Vector Feature with Ext Store and Grid
    remote-features-tutorial
 
 
-.. _advanced-concepts:
-
-Application Development
-=======================
 
 
-Web Applications
-----------------
 
-.. link to
-   web-application-tutorial
-
-Deployment
-----------
-
-.. link to
-   production-tutorial
-
-Customization
--------------
-
-.. links to
-   appearance-tutorial
-   extending-the-framework-tutorial
