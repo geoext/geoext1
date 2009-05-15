@@ -1,9 +1,10 @@
 JavaScript Toolkit for Rich Web Mapping Applications
 ====================================================
 
-GeoExt is a set of widgets and utilities for building rich web mapping
-applications. <Insert things that GeoExt can do in a PR-type sentence.>
-Based on the fusion of Ext and OpenLayers. 
+GeoExt brings together the geospatial know how of
+`OpenLayers <http://openlayers.org>`_ with the user interface savvy of `Ext JS
+<http://extjs.com>`_ to help you build powerful desktop style GIS apps on
+the web with JavaScript.
 
 `Documentation <./docs.html>`_ | 
 `Demos <./examples/index.html>`_ | 
