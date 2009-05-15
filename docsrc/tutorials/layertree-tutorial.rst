@@ -11,26 +11,24 @@ Start With a Map
 
 Let's assume you already have a :class:`GeoExt.MapPanel` on your page with some layers.  In the :doc:`mappanel-tutorial`\ , we discussed how you can use the ``layers`` property of the ``MapPanel`` to add, remove, and modify the layers of the map as well as monitor the layer list for changes.  This is more than sufficient to display a 'live' list of layers in an ``Ext.grid.GridPanel``\ .  The :class:`GeoExt.tree.LayerContainer` is another component that can listen to changes to the map's layer list.  However, rather than an independent panel, the ``LayerContainer`` is a node that must be contained in an ``Ext.tree.TreePanel`` to be displayed.  Here's an example rendering a layer tree to a ``div``:
 
-    .. code-block::
-       javascript
-       :linenos:
+.. code-block:: javascript
        
-       var mapPanel = new GeoExt.MapPanel({
-          /* Your configuration here */
-       });
+    var mapPanel = new GeoExt.MapPanel({
+        /* Your configuration here */
+    });
 
-       var layerList = new GeoExt.tree.LayerContainer({
-           text: 'All Layers',
-           layerStore: mapPanel.layers,
-           leaf: false, 
-           expanded: true
-       });
+    var layerList = new GeoExt.tree.LayerContainer({
+        text: 'All Layers',
+        layerStore: mapPanel.layers,
+        leaf: false, 
+        expanded: true
+    });
 
-       var layerTree = new Ext.tree.TreePanel({
-           title: 'Map Layers',
-           renderTo: 'layerTree',
-           root: layerList
-       });
+    var layerTree = new Ext.tree.TreePanel({
+        title: 'Map Layers',
+        renderTo: 'layerTree',
+        root: layerList
+    });
 
 ``LayerContainer``\ s automatically add checkboxes that can be used to toggle the visibility of layers.  You can also enable drag-n-drop layer reordering by simply setting the ``enableDD`` property of the ``TreePanel``. 
 

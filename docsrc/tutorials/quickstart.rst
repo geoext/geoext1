@@ -15,12 +15,12 @@ library and the rich graphical components of ExtJS.  For licensing
 reasons, ExtJS cannot be included in the GeoExt download, so preparing
 GeoExt for use on your own web pages is a multi-step process:
 
-#. Download GeoExt from :doc:`/downloads`.  For the purposes of this
+#. Download GeoExt from the :doc:`downloads page </downloads>`.  For the purposes of this
    quickstart, the development version will be fine.
 
 #. Download OpenLayers from http://openlayers.org/. 
 
-   .. note:: GeoExt 0.1 uses OpenLayers 2.8.  OpenLayers 2.8 has not been released yet. For now, just use the unstable development version (link directly to http://openlayers.org/dev/OpenLayers.js)
+   .. note:: GeoExt 0.1 relies on features from OpenLayers 2.8.  Until OpenLayers 2.8 is released, you can use the latest release candidate (link directly to http://openlayers.org/api/2.8-rc2/OpenLayers.js)
 
 #. Download ExtJS 2.2 from `the ExtJS website <http://extjs.com/products/extjs/download.php>`_.
 
@@ -31,9 +31,9 @@ GeoExt for use on your own web pages is a multi-step process:
 .. note:: For production environments, the GeoExt team recommends that
    you use compressed and minified builds of GeoExt and ExtJS to
    optimize the download size of your page.  A generic minified build
-   containing all of GeoExt is available from
-   :doc:`/downloads`, but advanced users can build their
-   own, further ``optimized_builds``.
+   containing all of GeoExt is available from the
+   :doc:`downloads page </downloads>`, but advanced users can build their
+   own.
 
 
 
