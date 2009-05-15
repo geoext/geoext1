@@ -34,7 +34,12 @@
 {%- endmacro %}
 
 {% block extrahead %}
-    <link rel="stylesheet" href="{{ pathto('_static/geoext.css', 1) }}" type="text/css" />
+    {% if pagename == "index" %}
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <script type="text/javascript" src="http://openlayers.org/api/2.8-rc2/OpenLayers.js"></script>
+    <script src="{{ pathto('_static/GeoExt.js', 1) }}"></script>
+    <script src="{{ pathto('_static/front-page.js', 1) }}"></script>
+    {% endif %}
 {% endblock %}
 
 {% block header %}

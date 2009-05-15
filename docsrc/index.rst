@@ -19,17 +19,20 @@ See GeoExt in action.
 .. code-block:: javascript
 
     new Ext.Window({
-        title: "GeoExt",
-        height: 400, width: 600,
+        title: "GeoExt in Action",
+        height: 280, width: 400, layout: "fit",
         items: [{
             xtype: "gx_mappanel",
             layers: [new OpenLayers.Layer.WMS(
-                "bluemarble", "http://sigma.openplans.org/geoserver/wms",
+                "bluemarble", "http://demo.opengeo.org/geoserver/wms",
                 {layers: 'bluemarble'}
-            )],
-            extent: [-5, 35, 15, 55]
+            )]
         }]
     }).show();
+
+.. cssclass:: execute
+
+    Run it!
 
 Learn more about using GeoExt in your application by reading the
 :doc:`documentation <docs>`.

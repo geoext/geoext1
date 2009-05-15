@@ -1,4 +1,15 @@
-/* override inherited style declarations */
+@import url("http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css");
+
+@import url("sphinxdoc.css");
+
+/* override some of ext-all.css */
+ul {
+    margin: 14px 0;
+    padding-left: 40px;
+    list-style: disc;
+}
+
+/* override some of sphinxdoc.css */
 html {
     margin: 0;
     padding: 0;
@@ -158,3 +169,13 @@ ul.rss_items li.rss_item {
     padding-bottom: 0.5em;
 }
 
+/* element that runs code on click */
+p.execute {
+    color: white;
+    font-weight: bold;
+    background-color: #385F95;
+    cursor: pointer;
+    width: 6em;
+    height: 1.7em;
+    text-align: center;
+}
