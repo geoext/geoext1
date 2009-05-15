@@ -33,7 +33,6 @@ The :abbr:`PSC (Project Steering Committee)` is the group tasked with determinin
     * Andreas Hocevar, ahocevar[at]opengeo.org, OpenGeo
     * Cédric Moullet, cedric.moullet[at]camptocamp.com, Camptocamp 
         
- * `GeoExt Governance Criteria <http://www.geoext.org/trac/geoext/wiki/governance>`_
  * `Past Meetings <http://www.geoext.org/trac/geoext/wiki/CommunityPSCMeetings>`_
 
 
