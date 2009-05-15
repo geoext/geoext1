@@ -1,4 +1,4 @@
-Ext.namespace("GeoExt.popup");
+Ext.namespace("GeoExt");
 /**
  * Class: GeoExt.Popup
  * Popups are a specialized Window that supports anchoring
