@@ -24,6 +24,9 @@ body {
 h1, h2, h3, h4, h5, h6 {
     color: #385F95;
 }
+table td, table th {
+    padding: 0;
+}
 div.related {
     margin: 0 80px;
     width: auto;
@@ -169,13 +172,7 @@ ul.rss_items li.rss_item {
     padding-bottom: 0.5em;
 }
 
-/* element that runs code on click */
-p.execute {
-    color: white;
-    font-weight: bold;
-    background-color: #385F95;
-    cursor: pointer;
-    width: 6em;
-    height: 1.7em;
-    text-align: center;
+/* execute button style */
+.x-btn.execute {
+    margin: 1em;
 }

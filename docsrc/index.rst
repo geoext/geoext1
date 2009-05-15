@@ -16,6 +16,8 @@ Using GeoExt
 
 See GeoExt in action.
 
+.. cssclass:: execute
+
 .. code-block:: javascript
 
     new Ext.Window({
@@ -29,10 +31,6 @@ See GeoExt in action.
             )]
         }]
     }).show();
-
-.. cssclass:: execute
-
-    Run it!
 
 Learn more about using GeoExt in your application by reading the
 :doc:`documentation <docs>`.
