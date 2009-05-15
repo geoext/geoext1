@@ -1,54 +1,42 @@
-Documentation
-=============
+===============
+ Documentation
+===============
 
-This page will list documentation sections.
+Getting Started
+---------------
 
-
-Tutorials
----------
-
-Explore the :doc:`tutorials <tutorials/index>` to learn more about how
-to do you what want with GeoExt.
-
-.. toctree::
-    :hidden:
-
-    tutorials/index
+* **Jump in** with :doc:`tutorials/index` to get you up and running
+* **Ramp up** with :doc:`primers/index` to learn the core concepts behind GeoExt
+* **Dig deeper** with :doc:`advanced/index` to leverage the full power of GeoExt
 
 
-Examples and Explanations
--------------------------
 
-one example page per class (component, widget, etc)
-http://geoext.opengeo.org/geoexplorer/trunk/externals/geoext/examples
-priority: serve, index, parse and integrate
-[use cog for index, interlinking??]
-[how to do the rst?? how to pull in??]
-need lots of flexibility
+Examples
+--------
+
+* Using a `Feature Grid <./examples/feature-grid.html>`_ to display geospatial data in a tabular format
+
+* Using a `Map Panel <./examples/mappanel.html>`_ to embed an interactive map in a web page
+
+* Using `Popups <./examples/popup.html>`_ to provide more detailed information about features on a map
+
+* Using `WMS Capabilities <./examples/wms-capabilities.html>`_ to find the available layers from a web mapping service.
+
+* Using a `Zoom Chooser <./examples/wms-capabilities>`_ to help users navigate the map.
 
 
 Library Reference
 -----------------
 
-Read the :doc:`lib` for details on developing with GeoExt.
-
-.. toctree::
-    :hidden:
-
-    lib
+The :doc:`lib/index` covers details on developing with GeoExt.  Generated
+from the comments in the code.
 
 
-GeoExt Developer Documentation
-------------------------------
+Participating in the GeoExt Community
+-------------------------------------
 
-Standard and practices for developing GeoExt
-     
--GeoExt Developer Docs (wiki->rst)
-- Best Practices
-  * Coding Standards
-  * Getting Involved / Community
-    - PSC/Governance
-  * Infrastructure
+For information about getting involved in the GeoExt community, :doc:`keep reading! <developer/index>`
+
    
 
  
