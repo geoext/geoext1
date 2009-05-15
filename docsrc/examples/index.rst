@@ -2,12 +2,12 @@
  GeoExt Examples
 =================
 
-* `Feature Grid <./examples/feature-grid.html>`_
+* `Feature Grid <http://dev.geoext.org/trunk/geoext/examples/feature-grid.html>`_
 
-* `Map Panel <./examples/mappanel.html>`_
+* `Map Panel <http://dev.geoext.org/trunk/geoext/examples/mappanel-window.html>`_
 
-* `Popups <./examples/popup.html>`_
+* `Popups <http://dev.geoext.org/trunk/geoext/examples/popup.html>`_
 
-* `WMS Capabilities <./examples/wms-capabilities.html>`_
+* `WMS Capabilities <http://dev.geoext.org/trunk/geoext/examples/wms-capabilities.html>`_
 
-* `Zoom Chooser <./examples/wms-capabilities>`_
+* `Zoom Chooser <http://dev.geoext.org/trunk/geoext/examples/zoom-chooser.html>`_

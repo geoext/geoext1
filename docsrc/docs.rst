@@ -12,15 +12,15 @@ Getting Started
 Examples
 --------
 
-* Using a `Feature Grid <./examples/feature-grid.html>`_ to display geospatial data in a tabular format
+* Using a `Feature Grid <http://dev.geoext.org/trunk/geoext/examples/feature-grid.html>`_ to display geospatial data in a tabular format
 
-* Using a `Map Panel <./examples/mappanel.html>`_ to embed an interactive map in a web page
+* Using a `Map Panel <http://dev.geoext.org/trunk/geoext/examples/mappanel-window.html>`_ to embed an interactive map in a web page
 
-* Using `Popups <./examples/popup.html>`_ to provide more detailed information about features on a map
+* Using `Popups <http://dev.geoext.org/trunk/geoext/examples/popup.html>`_ to provide more detailed information about features on a map
 
-* Using `WMS Capabilities <./examples/wms-capabilities.html>`_ to find the available layers from a web mapping service.
+* Using `WMS Capabilities <http://dev.geoext.org/trunk/geoext/examples/wms-capabilities.html>`_ to find the available layers from a web mapping service.
 
-* Using a `Zoom Chooser <./examples/wms-capabilities>`_ to help users navigate the map.
+* Using a `Zoom Chooser <http://dev.geoext.org/trunk/geoext/examples/zoom-chooser.html>`_ to help users navigate the map.
 
 
 Library Reference
