@@ -28,24 +28,6 @@ GeoExt.data.FeatureRecord = Ext.data.Record.create([
 ]);
 
 /**
- * APIMethod: copy
- * Creates a copy of this Record.
- * 
- * Paremters:
- * id - {String} (optional) A new Record id.
- *
- * Returns:
- * {GeoExt.data.LayerRecord} A new layer record.
- */
-GeoExt.data.FeatureRecord.prototype.copy = function(id) {
-    var feature = this.get("feature") && this.get("feature").clone();
-    return new this.constructor(
-        Ext.applyIf({feature: feature}, this.data),
-        id || this.id
-    );
-};
-
-/**
  * APIFunction: GeoExt.data.FeatureRecord.create
  * Creates a constructor for a FeatureRecord, optionally with additional
  * fields.
