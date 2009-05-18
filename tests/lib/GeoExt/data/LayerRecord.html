@@ -44,23 +44,6 @@
             t.eq(record.get("foo"), "bar", "foo data row set correctly");
         }
         
-        function test_copy(t) {
-            
-            t.plan(2);
-            
-            var layer = new OpenLayers.Layer();
-            var recordType = GeoExt.data.LayerRecord.create();
-            
-            var record = new recordType({layer: layer, title: layer.name});
-            var copy = record.copy();
-            
-            record.set("title", "foo");
-            t.ok(copy.get("title") !== "foo", "setting a property on original doesn't modify copy");
-            
-            t.ok(copy.get("layer") !== layer, "copy does not have original layer");
-            
-        }
-        
     </script>
   <body>
     <div id="mappanel"></div>
