@@ -72,7 +72,11 @@
             "GeoExt/widgets/Popup.js",
             "GeoExt/widgets/form/SearchAction.js",
             "GeoExt/widgets/form/BasicForm.js",
-            "GeoExt/widgets/form/FormPanel.js"
+            "GeoExt/widgets/form/FormPanel.js",
+            "GeoExt/widgets/tree/LayerNode.js",
+            "GeoExt/widgets/tree/LayerContainer.js",
+            "GeoExt/widgets/tree/BaseLayerContainer.js",
+            "GeoExt/widgets/tree/OverlayLayerContainer.js"
         );
 
         var agent = navigator.userAgent;
