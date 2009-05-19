@@ -1,6 +1,10 @@
 /**
  * Copyright (c) 2008 The Open Planning Project
  */
+
+/**
+ * @requires GeoExt/widgets/tree/LayerContainer.js
+ */
 Ext.namespace("GeoExt.tree");
 
 /**
