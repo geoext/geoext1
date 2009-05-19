@@ -1,6 +1,10 @@
 /**
  * Copyright (c) 2008 The Open Planning Project
  */
+
+/**
+ * @include GeoExt/widgets/tree/LayerNode.js
+ */
 Ext.namespace("GeoExt.tree");
 
 /**
