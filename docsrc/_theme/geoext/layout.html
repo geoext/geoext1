@@ -37,6 +37,11 @@
     {% if pagename == "index" %}
     <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
     <script type="text/javascript" src="http://openlayers.org/api/2.8-rc2/OpenLayers.js"></script>
+    <script type="text/javascript">
+        // In IE, OpenLayers clobbers the $ from jQuery.
+        // Remove this when http://trac.openlayers.org/ticket/1391 is closed.
+        $ = jQuery;
+    </script>
     <script src="{{ pathto('_static/GeoExt.js', 1) }}"></script>
     <script src="{{ pathto('_static/front-page.js', 1) }}"></script>
     {% endif %}
@@ -61,7 +66,6 @@
                     <input type="hidden" name="area" value="default" />
                 </form>
             </div>
-            <script type="text/javascript">$('#searchbox').show(0);</script>
             {%- endif %}
         </div>
     </div>
