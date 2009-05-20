@@ -22,13 +22,14 @@ See GeoExt in action.
 
     new Ext.Window({
         title: "GeoExt in Action",
-        height: 280, width: 400, layout: "fit",
+        height: 280, width: 450, layout: "fit",
         items: [{
             xtype: "gx_mappanel",
             layers: [new OpenLayers.Layer.WMS(
                 "bluemarble", "http://demo.opengeo.org/geoserver/wms",
                 {layers: 'bluemarble'}
-            )]
+            )],
+            zoom: 1
         }]
     }).show();
 

@@ -7,7 +7,7 @@ Ext.onReady(function() {
             if(!win) {
                 win = new Ext.Window({
                     title: "GeoExt in Action",
-                    height: 280, width: 400,
+                    height: 280, width: 450,
                     layout: "fit",
                     closeAction: "hide",
                     items: [{
@@ -15,7 +15,8 @@ Ext.onReady(function() {
                         layers: [new OpenLayers.Layer.WMS(
                             "bluemarble", "http://demo.opengeo.org/geoserver/wms",
                             {layers: 'bluemarble'}
-                        )]
+                        )],
+                        zoom: 1
                     }]
                 });
             }
