@@ -11,6 +11,10 @@
  *  base_link = `Ext.form.Action <http://extjs.com/deploy/dev/docs/?class=Ext.form.Action>`_
  */
 
+/**
+ * @include GeoExt/widgets/form.js
+ */
+
 Ext.namespace("GeoExt.form");
  
 /** api: example
@@ -46,68 +50,6 @@ Ext.namespace("GeoExt.form");
  *          }
  *      });
  */
-
-/**
- * Function: GeoExt.form.filterFromForm
- * Create an {OpenLayers.Filter} object from a {Ext.form.BasicForm}
- *     instance or a {Ext.form.FormPanel}.
- *
- * Parameters:
- * form - {Ext.form.BasicForm|Ext.form.FormPanel}
- * logicalOp - {String} Either {OpenLayers.Filter.Logical.AND}
- *     or {OpenLayers.Filter.Logical.OR}, set to
- *     {OpenLayers.Filter.Logical.AND} if null or
- *     undefined.
- *
- * Returns:
- * {OpenLayers.Filter}
- */
-GeoExt.form.filterFromForm = function(form, logicalOp) {
-    if(form instanceof Ext.form.FormPanel) {
-        form = form.getForm();
-    }
-    var filters = [], values = form.getValues(false);
-    for(var prop in values) {
-        var s = prop.split("__");
-
-        var value = values[prop], type;
-
-        if(s.length > 1 && 
-           (type = GeoExt.form.filterFromForm.FILTER_MAP[s[1]]) !== undefined) {
-            prop = s[0];
-        } else {
-            type = OpenLayers.Filter.Comparison.EQUAL_TO;
-        }
-
-        filters.push(
-            new OpenLayers.Filter.Comparison({
-                type: type,
-                value: value,
-                property: prop
-            })
-        );
-    }
-
-    return new OpenLayers.Filter.Logical({
-        type: logicalOp || OpenLayers.Filter.Logical.AND,
-        filters: filters
-    });
-};
-
-/**
- * Constant: GeoExt.form.filterFromForm.FILTER_MAP
- * An object mapping operator strings as found in field names to
- *     {OpenLayers.Filter.Comparison} types.
- */
-GeoExt.form.filterFromForm.FILTER_MAP = {
-    "eq": OpenLayers.Filter.Comparison.EQUAL_TO,
-    "ne": OpenLayers.Filter.Comparison.NOT_EQUAL_TO,
-    "lt": OpenLayers.Filter.Comparison.LESS_THAN,
-    "le": OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
-    "gt": OpenLayers.Filter.Comparison.GREATER_THAN,
-    "ge": OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
-    "like": OpenLayers.Filter.Comparison.LIKE
-};
 
 /** api: constructor
  *  .. class:: SearchAction(form, options)
@@ -165,7 +107,7 @@ GeoExt.form.SearchAction = Ext.extend(Ext.form.Action, {
      */
     run: function() {
         var o = this.options;
-        var f = GeoExt.form.filterFromForm(this.form);
+        var f = GeoExt.form.toFilter(this.form);
         if(o.clientValidation === false || this.form.isValid()){
             this.response = o.protocol.read(
                 Ext.applyIf({
