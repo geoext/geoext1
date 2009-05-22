@@ -9,26 +9,13 @@
 
     <script type="text/javascript">
 
-        function makeFeature() {
-           return new OpenLayers.Feature.Vector(
-              new OpenLayers.Geometry.Point(100,50),
-              {
-                  name : "My Feature"
-              }
-           )
-        }
-       
-        function createMap() {
+        function setupContext() {        
+
             var map = new OpenLayers.Map();
             var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
             map.addLayer(layer);
-            return map;
-        }
 
-        function loadMapPanel() {
-            var map = createMap();
-
-            mapPanel = new GeoExt.MapPanel({
+            var mapPanel = new GeoExt.MapPanel({
                 // panel options
                 id: "map-panel",
                 title: "GeoExt MapPanel",
@@ -41,34 +28,33 @@
                 zoom: 4
             });
 
-            return mapPanel;
-        }
-
-        function setupContext() {        
-            var mapPanel = loadMapPanel();
-            var feature = makeFeature();
-            var map = mapPanel.map;
+            var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Point(100,50),
+                {name: "My Feature"}
+            );
 
             return {
-               feature : feature,
-               map : map,
-               mapPanel : mapPanel
+                feature: feature,
+                map: map,
+                mapPanel: mapPanel
             };      
         }
-
-        function popup(feature){
-          pop = new GeoExt.Popup({
-            title: 'My Popup',
-            feature: feature,
-            width:200,
-            html: bogusMarkup,
-            collapsible: true
-          });
-
-          return pop;
+        
+        function tearDown(context) {
+            context.feature.destroy();
+            context.map.destroy();
+            context.mapPanel.destroy();
         }
 
-        var bogusMarkup = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+        function popup(feature) {
+            return new GeoExt.Popup({
+                title: 'My Popup',
+                feature: feature,
+                width: 200,
+                html: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+                collapsible: true
+            });
+        }
 
         function test_addtomappanel(t) {
             t.plan(1);
@@ -80,8 +66,8 @@
             pop.addToMapPanel(context.mapPanel);
 
             t.ok(context.mapPanel.el.child("div." + pop.popupCls),"Map panel contains popup");
-
-            context.mapPanel.destroy();
+            
+            //tearDown(context);
         }
 
         function test_anchorPopup(t) {
@@ -89,7 +75,7 @@
 
             var context = setupContext();
 
-            var pop = popup(context.feature, context.mapPanel);
+            var pop = popup(context.feature);
 
             pop.addToMapPanel(context.mapPanel);
 
@@ -110,6 +96,8 @@
 
             action = "popup expand"
             pop.expand();
+            
+            //tearDown(context);
         }
 
 
@@ -152,6 +140,8 @@
             
             action = "popup collapse";
             pop.collapse();
+            
+            //tearDown(context);
 
         }
 
@@ -160,7 +150,7 @@
             t.plan(0);
 
             var context = setupContext();
-            var pop = popup(context.feature, context.mapPanel);
+            var pop = popup(context.feature);
             pop.addToMapPanel(context.mapPanel);
 
             pop.on({
@@ -180,6 +170,8 @@
             
             action = "popup collapse";
             pop.collapse();
+            
+            //tearDown(context);
         }
 
     </script>
