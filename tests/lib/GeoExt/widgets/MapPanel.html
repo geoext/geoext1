@@ -35,6 +35,10 @@
             t.eq(mapPanel.map.getCenter().toString(), "lon=5,lat=45", "Map center set correctly");
             t.eq(mapPanel.map.getZoom(), 4, "Zoom set correctly");
             t.eq(GeoExt.MapPanel.guess().id, mapPanel.id, "MapPanel guessed correctly");
+            
+            // since we created the map, we destroy it
+            map.destroy();
+            
             mapPanel.destroy();
         }
         
@@ -47,11 +51,15 @@
                 map: map
             });
             t.eq(panel.map.allOverlays, false, "allOverlays is not set if map is provided to panel");
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();
             
             panel = new GeoExt.MapPanel({
             });
             t.eq(panel.map.allOverlays, true, "allOverlays set to true if no map is provided to panel");
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();
             
             panel = new GeoExt.MapPanel({
@@ -60,6 +68,8 @@
                 }
             });
             t.eq(panel.map.allOverlays, true, "allOverlays set to true if map config is provided to panel");
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();
             
         }
@@ -80,6 +90,8 @@
             });            
             t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with array");
             delete log.extent;
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();
             
             map = createMap();
@@ -92,6 +104,8 @@
                 extent: "1, 2, 3, 4"
             });
             t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with string");
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();
             
             map = createMap();
@@ -104,6 +118,8 @@
                 extent: new OpenLayers.Bounds(1, 2, 3, 4)
             });
             t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with Bounds");
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();            
             
         }
@@ -124,6 +140,8 @@
             });            
             t.eq(log.center.toString(), "lon=1,lat=2", "map center set with array");
             delete log.center;
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();
 
             map = createMap();
@@ -137,6 +155,8 @@
             });            
             t.eq(log.center.toString(), "lon=1,lat=2", "map center set with string");
             delete log.center;
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();
 
             map = createMap();
@@ -150,6 +170,8 @@
             });            
             t.eq(log.center.toString(), "lon=1,lat=2", "map center set with LonLat");
             delete log.center;
+            // since we created the map, we destroy it
+            map.destroy();
             panel.destroy();
 
         }
