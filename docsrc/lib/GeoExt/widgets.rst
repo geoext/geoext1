@@ -9,3 +9,4 @@ GeoExt widgets are a collection of specialized map related components.
     
     widgets/*
     widgets/form/*
+    widgets/tree/*
