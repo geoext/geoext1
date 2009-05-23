@@ -175,6 +175,43 @@
             panel.destroy();
 
         }
+        
+        function test_destroy(t) {
+            
+            /**
+             * If the panel is passed an instance of OpenLayers.Map, we don't
+             * touch it in the destroy sequence, we only remove our reference
+             * to it.  If the panel is passed a map config object, the panel
+             * creates the OpenLayers.Map instance, and the panel destroys the
+             * map in its destroy sequence.
+             */
+            
+            t.plan(3);
+            
+            var panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                layers: [
+                    new OpenLayers.Layer("test")
+                ],
+                zoom: 1
+            });
+            
+            t.ok(panel.map instanceof OpenLayers.Map, "panel creates a map");
+            
+            var called = false;
+            panel.map.destroy = function() {
+                called = true;
+                OpenLayers.Map.prototype.destroy.apply(panel.map, arguments);
+            }
+            try {
+                panel.destroy();
+                t.ok(called, "panel.destroy calls map.destroy");
+            } catch(err) {
+                t.fail("panel.destroy causes problems: " + err);
+            }
+            t.ok(!panel.map, "panel has no reference to a map");
+            
+        }
 
 
     </script>

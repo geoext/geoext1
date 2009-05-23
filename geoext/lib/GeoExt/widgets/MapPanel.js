@@ -170,14 +170,26 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
         this.updateMapSize();
     },
     
-    /** private: method[onDestroy]
+    /** private: method[beforeDestroy]
      *  Private method called during the destroy sequence.
      */
-    onDestroy: function() {
+    beforeDestroy: function() {
         if(this.ownerCt) {
             this.ownerCt.un("move", this.updateMapSize, this);
         }
-        GeoExt.MapPanel.superclass.onDestroy.apply(this, arguments);
+        /**
+         * If this container was passed a map instance, it is the
+         * responsibility of the creator to destroy it.
+         */
+        if(!this.initialConfig.map ||
+           !(this.initialConfig.map instanceof OpenLayers.Map)) {
+            // we created the map, we destroy it
+            if(this.map && this.map.destroy) {
+                this.map.destroy();
+            }
+        }
+        delete this.map;
+        GeoExt.MapPanel.superclass.beforeDestroy.apply(this, arguments);
     }
     
 });
