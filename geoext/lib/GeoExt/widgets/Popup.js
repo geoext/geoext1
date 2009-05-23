@@ -288,11 +288,13 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
      *  Utility method for unbinding events that call for popup repositioning.
      */
     unbindFromMapPanel: function() {
-        //stop position with feature
-        this.map.events.un({
-            "move" : this.position,
-            scope : this
-        });
+        if(this.map && this.map.events) {
+            //stop position with feature
+            this.map.events.un({
+                "move" : this.position,
+                scope : this
+            });
+        }
 
         this.un("resize", this.position);
         this.un("collapse", this.position);
