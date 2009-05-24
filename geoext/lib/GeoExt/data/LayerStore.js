@@ -190,15 +190,15 @@ GeoExt.data.LayerStoreMixin = {
      */
     onChangeLayer: function(evt) {
         var layer = evt.layer;
-        if(evt.property === "order") {
-            if(!this._adding && !this._removing) {
-                var layerIndex = this.map.getLayerIndex(layer);
-                var recordIndex = this.findBy(function(rec, id) {
-                    return rec.get("layer") === layer;
-                });
-                if(recordIndex > -1) {
+        var recordIndex = this.findBy(function(rec, id) {
+            return rec.get("layer") === layer;
+        });
+        if(recordIndex > -1) {
+            var record = this.getAt(recordIndex);
+            if(evt.property === "order") {
+                if(!this._adding && !this._removing) {
+                    var layerIndex = this.map.getLayerIndex(layer);
                     if(layerIndex !== recordIndex) {
-                        var record = this.getAt(recordIndex);
                         this._removing = true;
                         this.remove(record);
                         delete this._removing;
@@ -207,6 +207,8 @@ GeoExt.data.LayerStoreMixin = {
                         delete this._adding;
                     }
                 }
+            } else {
+                this.fireEvent("update", this, record, Ext.data.Record.EDIT);
             }
         }
     },

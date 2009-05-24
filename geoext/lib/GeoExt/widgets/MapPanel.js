@@ -170,6 +170,26 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
         this.updateMapSize();
     },
     
+    /** private: method[onBeforeAdd]
+     *  Private method called before a component is added to the panel.
+     */
+    onBeforeAdd: function(item) {
+        if(typeof item.addToMapPanel === "function") {
+            item.addToMapPanel(this);
+        }
+        GeoExt.MapPanel.superclass.onBeforeAdd.apply(this, arguments);
+    },
+    
+    /** private: method[remove]
+     *  Private method called when a component is removed from the panel.
+     */
+    remove: function(item, autoDestroy) {
+        if(typeof item.removeFromMapPanel === "function") {
+            item.removeFromMapPanel(this);
+        }
+        GeoExt.MapPanel.superclass.remove.apply(this, arguments);
+    },
+
     /** private: method[beforeDestroy]
      *  Private method called during the destroy sequence.
      */
