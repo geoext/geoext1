@@ -63,7 +63,7 @@
 
             var pop = popup(context.feature);
 
-            pop.addToMapPanel(context.mapPanel);
+            context.mapPanel.add(pop);
 
             t.ok(context.mapPanel.el.child("div." + pop.popupCls),"Map panel contains popup");
             
@@ -77,7 +77,7 @@
 
             var pop = popup(context.feature);
 
-            pop.addToMapPanel(context.mapPanel);
+            context.mapPanel.add(pop);
 
             pop.on({
                 'move' : function(c,x,y){
@@ -108,7 +108,7 @@
 
             var pop = popup(context.feature, context.mapPanel);
 
-            pop.addToMapPanel(context.mapPanel);
+            context.mapPanel.add(pop);
         
             pop.collapse();
 
@@ -145,31 +145,25 @@
 
         }
 
-        function test_Popup_beforeDestroy(t){
+        function test_Popup_destroy(t){
 
-            t.plan(0);
+            t.plan(1);
 
             var context = setupContext();
             var pop = popup(context.feature);
-            pop.addToMapPanel(context.mapPanel);
-
-            pop.on({
-                'move' : function(c,x,y){
-                    t.ok(false,"Move event fired improperly on " + action); //should happen twice, on call to position()
-                },
-                scope : this
-            });
-
-            pop.beforeDestroy();
-
-            var action = "map move";
-            context.map.events.triggerEvent("move");
-
-            action = "popup expand"
-            pop.expand();
+            context.mapPanel.add(pop);
             
-            action = "popup collapse";
-            pop.collapse();
+            var called = false;
+            pop.on({
+                move: function() {
+                    called = true;
+                }
+            });
+            pop.destroy();
+
+            context.map.events.triggerEvent("move");
+            
+            t.ok(!called, "pop is not moved after it is destroyed");
             
             tearDown(context);
         }
