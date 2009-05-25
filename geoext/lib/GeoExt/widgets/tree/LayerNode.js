@@ -36,7 +36,7 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     render: function(bulkRender) {
         GeoExt.tree.LayerNodeUI.superclass.render.call(this, bulkRender);
         var a = this.node.attributes;
-        if (a.radioGroup && this.radio !== undefined) {
+        if (a.radioGroup && this.radio === null) {
             this.radio = Ext.DomHelper.insertAfter(this.checkbox,
                 ['<input type="radio" class="x-tree-node-radio" name="',
                 a.radioGroup, '_radio"></input>'].join(""));
