@@ -77,7 +77,10 @@
             "GeoExt/widgets/tree/LayerNode.js",
             "GeoExt/widgets/tree/LayerContainer.js",
             "GeoExt/widgets/tree/BaseLayerContainer.js",
-            "GeoExt/widgets/tree/OverlayLayerContainer.js"
+            "GeoExt/widgets/tree/OverlayLayerContainer.js",
+            "GeoExt/widgets/LegendImage.js",
+            "GeoExt/widgets/LegendWMS.js",
+            "GeoExt/widgets/LegendPanel.js"
         );
 
         var agent = navigator.userAgent;
