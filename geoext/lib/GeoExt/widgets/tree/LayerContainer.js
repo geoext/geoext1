@@ -7,40 +7,39 @@
  */
 Ext.namespace("GeoExt.tree");
 
-/**
- * Class: GeoExt.tree.LayerContainer
+/** api: (define)
+ *  module = GeoExt.tree
+ *  class = LayerContainer
+ *  base_link = `Ext.tree.TreeNode <http://extjs.com/deploy/dev/docs/?class=Ext.tree.TreeNode>`_
+ */
+
+/** api: constructor
+ *  .. class:: LayerContainer
  * 
- * A subclass of {Ext.tree.TreeNode} that will collect all layers of an
- * OpenLayers map. Only layers that have displayInLayerSwitcher set to true
- * will be included. The childrens' iconCls will be set to "baselayer-icon"
- * for base layers, and to "layer-icon" for overlay layers.
+ *      A subclass of ``Ext.tree.TreeNode`` that will collect all layers of an
+ *      OpenLayers map. Only layers that have displayInLayerSwitcher set to true
+ *      will be included. The childrens' iconCls will be set to "baselayer-icon"
+ *      for base layers, and to "layer-icon" for overlay layers.
  * 
- * To use this node type in JSON config, set nodeType to "olLayerContainer".
- * 
- * Inherits from:
- * - <Ext.tree.TreeNode>
+ *      To use this node type in ``TreePanel`` config, set nodeType to
+ *      "olLayerContainer".
  */
 GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
     
-    /**
-     * APIProperty: layerStore
-     * {<GeoExt.data.LayerStore>} The layer store containing layers to be
-     *     displayed in the container.
+    /** api: config[layerStore]
+     *  :class:`GeoExt.data.LayerStore`
+     *  The layer store containing layers to be displayed in the container.
      */
     layerStore: null,
     
-    /**
-     * APIProperty: defaults
-     * {Object} a configuration object passed to all nodes that this
-     *     LayerContainer creates.
+    /** api: config[defaults]
+     *  ``Object``
+     *  A configuration object passed to all nodes that this container creates.
      */
     defaults: null,
 
-    /**
-     * Constructor: GeoExt.tree.LayerContainer
-     * 
-     * Parameters:
-     * config - {Object}
+    /** private: method[constructor]
+     *  Private constructor override.
      */
     constructor: function(config) {
         this.layerStore = config.layerStore;
@@ -48,11 +47,8 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         GeoExt.tree.LayerContainer.superclass.constructor.apply(this, arguments);
     },
 
-    /**
-     * Method: render
-     * 
-     * Parameters:
-     * bulkRender - {Boolean}
+    /** private: method[render]
+     *  :param bulkRender: ``Boolean``
      */
     render: function(bulkRender) {
         if (!this.rendered) {
@@ -71,14 +67,12 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         GeoExt.tree.LayerContainer.superclass.render.call(this, bulkRender);
     },
     
-    /**
-     * Method: onStoreAdd
-     * Listener for the store's add event.
-     *
-     * Parameters:
-     * store - {Ext.data.Store}
-     * records - {Array(Ext.data.Record)}
-     * index - {Number}
+    /** private: method[onStoreAdd]
+     *  :param store: ``Ext.data.Store``
+     *  :param records: ``Array(Ext.data.Record)``
+     *  :param index: ``Number``
+     *  
+     *  Listener for the store's add event.
      */
     onStoreAdd: function(store, records, index) {
         if(!this._reordering) {
@@ -89,14 +83,12 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         }
     },
     
-    /**
-     * Method: onStoreRemove
-     * Listener for the store's remove event.
-     *
-     * Parameters:
-     * store - {Ext.data.Store}
-     * record - {Ext.data.Record}
-     * index - {Number}
+    /** private: method[onStoreRemove]
+     *  :param store: ``Ext.data.Store``
+     *  :param record: ``Ext.data.Record``
+     *  :param index: ``Number``
+     *  
+     *  Listener for the store's remove event.
      */
     onStoreRemove: function(store, record, index) {
         if(!this._reordering) {
@@ -104,8 +96,7 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         }
     },
 
-    /**
-     * Method: onDestroy
+    /** private: method[onDestroy]
      */
     onDestroy: function() {
         if(this.layerStore) {
@@ -115,15 +106,9 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         GeoExt.tree.LayerContainer.superclass.onDestroy.apply(this, arguments);
     },
     
-    /**
-     * Method: recordIndexToNodeIndex
-     * Convert a record index into a child node index.
-     *
-     * Parameters:
-     * index - {Number} The record index in the layer store.
-     *
-     * Returns:
-     * {Number} The appropriate child node index for the record.
+    /** private: method[recordIndexToNodeIndex]
+     *  :param index: ``Number`` The record index in the layer store.
+     *  :return: ``Number`` The appropriate child node index for the record.
      */
     recordIndexToNodeIndex: function(index) {
         var store = this.layerStore;
@@ -140,15 +125,11 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         return nodeIndex;
     },
     
-    /**
-     * Method: nodeIndexToRecordIndex
-     * Convert a child node index to a record index.
-     *
-     * Parameters:
-     * index - {Number} The child node index.
-     *
-     * Returns:
-     * {Number} The appropriate record index for the node.
+    /** private: method[nodeIndexToRecordIndex]
+     *  :param index: ``Number`` The child node index.
+     *  :return: ``Number`` The appropriate record index for the node.
+     *  
+     *  Convert a child node index to a record index.
      */
     nodeIndexToRecordIndex: function(index) {
         var store = this.layerStore;
@@ -165,13 +146,12 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         return i;
     },
     
-    /**
-     * Method: addLayerNode
-     * Adds a child node representing a layer of the map
-     * 
-     * Parameters:
-     * layerRecord - {Ext.data.Record} the layer record to add the layer for
-     * index - {Number} Optional index for the new layer.  Default is 0.
+    /** private: method[addLayerNode]
+     *  :param layerRecord: ``Ext.data.Record`` The layer record containing the
+     *      layer to be added.
+     *  :param index: ``Number`` Optional index for the new layer.  Default is 0.
+     *  
+     *  Adds a child node representing a layer of the map
      */
     addLayerNode: function(layerRecord, index) {
         index = index || 0;
@@ -192,12 +172,11 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         }
     },
     
-    /**
-     * Method: removeLayerNode
-     * Removes a child node representing a layer of the map
+    /** private: method[removeLayerNode]
+     *  :param layerRecord: ``Ext.data.Record`` The layer record containing the
+     *      layer to be removed.
      * 
-     * Parameters:
-     * layerRecord - {Ext.data.Record} the layer record to remove the node for
+     *  Removes a child node representing a layer of the map
      */
     removeLayerNode: function(layerRecord) {
         var layer = layerRecord.get("layer");
@@ -212,18 +191,16 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
     	}
     },
     
-    /**
-     * Method: onChildMove
-     * Listener for child node "move" events.  This updates the order of
-     *     records in the store based on new node order if the node has not
-     *     changed parents.
-     *
-     * Parameters:
-     * tree - {Ext.data.Tree}
-     * node - {Ext.tree.TreeNode}
-     * oldParent - {Ext.tree.TreeNode}
-     * newParent - {Ext.tree.TreeNode}
-     * index {Number}
+    /** private: method[onChildMove]
+     *  :param tree: ``Ext.data.Tree``
+     *  :param node: ``Ext.tree.TreeNode``
+     *  :param oldParent: ``Ext.tree.TreeNode``
+     *  :param newParent: ``Ext.tree.TreeNode``
+     *  :param index: ``Number``
+     *  
+     *  Listener for child node "move" events.  This updates the order of
+     *  records in the store based on new node order if the node has not
+     *  changed parents.
      */
     onChildMove: function(tree, node, oldParent, newParent, index) {
         if(oldParent === newParent) {
