@@ -25,9 +25,12 @@ methods and properties provided by these objects, see the
 
 .. toctree::
     :maxdepth: 2
-    :glob:
     
     GeoExt/widgets
+
+.. toctree::
+    :maxdepth: 2
+
     GeoExt/data
     
 
