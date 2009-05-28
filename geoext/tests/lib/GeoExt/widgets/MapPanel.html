@@ -12,14 +12,24 @@
             var map = new OpenLayers.Map();
             var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
             map.addLayer(layer);
+            // add a vector layer, which would fail onmapresize if we render
+            // the map before the panel has a layout.
+            map.addLayer(new OpenLayers.Layer.Vector("vector layer"));
             return map;
         }
 
         function test_mappanel(t) {
-            t.plan(3)
+            t.plan(4)
+
+            var moveToCnt;
 
             var map = createMap();
-            
+            map.moveTo = function() {
+                moveToCnt++;
+                OpenLayers.Map.prototype.moveTo.apply(this, arguments);
+            };
+
+            moveToCnt = 0;
             var mapPanel = new GeoExt.MapPanel({
                 // panel options
                 id: "map-panel",
@@ -32,6 +42,7 @@
                 center: new OpenLayers.LonLat(5, 45),
                 zoom: 4
             });
+            t.eq(moveToCnt, 1, "map.moveTo called exactly once");
             t.eq(mapPanel.map.getCenter().toString(), "lon=5,lat=45", "Map center set correctly");
             t.eq(mapPanel.map.getZoom(), 4, "Zoom set correctly");
             t.eq(GeoExt.MapPanel.guess().id, mapPanel.id, "MapPanel guessed correctly");
@@ -82,10 +93,12 @@
             map = createMap();
             map.zoomToExtent = function(extent) {
                 log.extent = extent;
-            }
+            };
             panel = new GeoExt.MapPanel({
                 renderTo: "mappanel",
                 map: map,
+                height: 400,
+                width: 600,
                 extent: [1, 2, 3, 4]
             });            
             t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with array");
@@ -97,10 +110,12 @@
             map = createMap();
             map.zoomToExtent = function(extent) {
                 log.extent = extent;
-            }
+            };
             panel = new GeoExt.MapPanel({
                 renderTo: "mappanel",
                 map: map,
+                height: 400,
+                width: 600,
                 extent: "1, 2, 3, 4"
             });
             t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with string");
@@ -111,10 +126,12 @@
             map = createMap();
             map.zoomToExtent = function(extent) {
                 log.extent = extent;
-            }
+            };
             panel = new GeoExt.MapPanel({
                 renderTo: "mappanel",
                 map: map,
+                height: 400,
+                width: 600,
                 extent: new OpenLayers.Bounds(1, 2, 3, 4)
             });
             t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with Bounds");
@@ -132,10 +149,12 @@
             map = createMap();
             map.setCenter = function(center) {
                 log.center = center;
-            }
+            };
             panel = new GeoExt.MapPanel({
                 renderTo: "mappanel",
                 map: map,
+                height: 400,
+                width: 600,
                 center: [1, 2]
             });            
             t.eq(log.center.toString(), "lon=1,lat=2", "map center set with array");
@@ -147,10 +166,12 @@
             map = createMap();
             map.setCenter = function(center) {
                 log.center = center;
-            }
+            };
             panel = new GeoExt.MapPanel({
                 renderTo: "mappanel",
                 map: map,
+                height: 400,
+                width: 600,
                 center: "1, 2"
             });            
             t.eq(log.center.toString(), "lon=1,lat=2", "map center set with string");
@@ -162,10 +183,12 @@
             map = createMap();
             map.setCenter = function(center) {
                 log.center = center;
-            }
+            };
             panel = new GeoExt.MapPanel({
                 renderTo: "mappanel",
                 map: map,
+                height: 400,
+                width: 600,
                 center: new OpenLayers.LonLat(1, 2)
             });            
             t.eq(log.center.toString(), "lon=1,lat=2", "map center set with LonLat");
@@ -211,6 +234,42 @@
             }
             t.ok(!panel.map, "panel has no reference to a map");
             
+        }
+
+        function test_layout(t) {
+            t.plan(1);
+
+            var map, panel, layout = 0;
+
+            map = new OpenLayers.Map({
+                render: function() {
+                    OpenLayers.Map.prototype.render.apply(this, arguments);
+                    t.ok(layout, 1,
+                         "the OpenLayers map is rendered once the container " +
+                         "has its final dimensions");
+                },
+                allOverlays: true
+            });
+            
+            panel = new Ext.Panel({
+                layout: "border",
+                renderTo: "mappanel",
+                listeners: {
+                    afterlayout: function() {
+                        layout++;
+                    }
+                },
+                items: [{
+                    region: "center",
+                    xtype: "gx_mappanel",
+                    map: map,
+                    layers: [
+                        new OpenLayers.Layer("")
+                    ]
+                }]
+            });
+
+            panel.destroy();
         }
 
 
