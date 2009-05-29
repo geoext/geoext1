@@ -30,11 +30,11 @@ GeoExt.data.FeatureRecord = Ext.data.Record.create([
 /** api: classmethod[create]
  *  :param o: ``Array`` Field definition as in ``Ext.data.Record.create``. Can
  *      be omitted if no additional fields are required.
- *  :return: ``Function`` A specialized :class:GeoExt.data.LayerRecord`
+ *  :return: ``Function`` A specialized :class:`GeoExt.data.FeatureRecord`
  *      constructor.
  *  
- * Creates a constructor for a :class:`GeoExt.data.FeatureRecord`, optionally
- * with additional fields.
+ *  Creates a constructor for a :class:`GeoExt.data.FeatureRecord`, optionally
+ *  with additional fields.
  */
 GeoExt.data.FeatureRecord.create = function(o) {
     var f = Ext.extend(GeoExt.data.FeatureRecord, {});

@@ -5,42 +5,35 @@
  * 
  * pending approval */
 
+/** api: (define)
+ *  module = GeoExt.data
+ *  class = LayerRecord
+ *  base_link = `Ext.data.Record <http://extjs.com/deploy/dev/docs/?class=Ext.data.Record>`_
+ */
 Ext.namespace("GeoExt.data");
 
-/**
- * Class: GeoExt.data.LayerRecord
- * A subclass of {Ext.data.Record} which provides a special record that
- * represents an {OpenLayers.Layer}. This record will always have at least a
- * layer and a title field in its data. The id of this record will be the same
- * as the id of the layer it represents.
- * 
- * Inherits from
- * - {Ext.data.Record}
- */
-/**
- * Constructor: GeoExt.data.LayerRecord
- * 
- * Parameters:
- * data - {Object} data object for the record
- * id - {String} id of the record
+/** api: constructor
+ *  .. class:: LayerRecord
+ *  
+ *      A record that represents an ``OpenLayers.Layer``. This record
+ *      will always have at least the following fields:
+ *
+ *      * layer ``OpenLayers.Layer``
+ *      * title ``String``
  */
 GeoExt.data.LayerRecord = Ext.data.Record.create([
     {name: "layer"},
     {name: "title", type: "string", mapping: "name"}
 ]);
 
-/**
- * APIFunction: GeoExt.data.LayerRecord.create
- * Creates a constructor for a LayerRecord, optionally with additional
- * fields.
- * 
- * Parameters:
- * o - {Array} Field definition as in {Ext.data.Record.create}. Can be omitted
- *     if no additional fields are required (records will always have a
- *     {OpenLayers.Layer} layer and a {String} title field).
- *
- * Returns:
- * {Function} A specialized {<GeoExt.data.LayerRecord>} constructor.
+/** api: classmethod[create]
+ *  :param o: ``Array`` Field definition as in ``Ext.data.Record.create``. Can
+ *      be omitted if no additional fields are required.
+ *  :return: ``Function`` A specialized :class:`GeoExt.data.LayerRecord`
+ *      constructor.
+ *  
+ *  Creates a constructor for a :class:`GeoExt.data.LayerRecord`, optionally
+ *  with additional fields.
  */
 GeoExt.data.LayerRecord.create = function(o) {
     var f = Ext.extend(GeoExt.data.LayerRecord, {});
