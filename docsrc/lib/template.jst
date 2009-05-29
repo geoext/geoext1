@@ -12,6 +12,7 @@
         * Public Properties (optional)
         * Public Methods (optional)
         * Events (optional)
+        * Class Methods (optional)
 
 #}
 .. currentmodule:: {{ module }}
@@ -94,6 +95,20 @@ listed for {{ base_link }}{% endif %}.
 
 {% for (name, desc) in event|dictsort %}
 .. describe:: {{ name }}
+
+    {{ desc|indent(4) }}
+{% endfor %}
+{% endif %}
+
+{% if classmethod is defined %}
+Class Methods
+-------------
+
+Class methods{% if base_link is defined %} in addition to static methods
+listed for {{ base_link }}{% endif %}.
+
+{% for (name, desc) in classmethod|dictsort %}
+.. classmethod:: {{ class }}.{{ name }}
 
     {{ desc|indent(4) }}
 {% endfor %}

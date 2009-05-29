@@ -156,6 +156,9 @@ dl.class {
 .method .descclassname {
     display: none;
 }
+.classmethod .descclassname, .classmethod .property {
+    display: none;
+}
 
 /* headers with bottom border get some padding */
 h2, h3, h4 {
