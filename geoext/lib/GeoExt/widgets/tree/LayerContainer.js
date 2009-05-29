@@ -1,6 +1,9 @@
-/**
- * Copyright (c) 2008 The Open Planning Project
- */
+/* Copyright (C) 2008-2009 The Open Source Geospatial Foundation ¹
+ * Published under the BSD license.
+ * See http://geoext.org/svn/geoext/core/trunk/license.txt for the full text
+ * of the license.
+ * 
+ * ¹ pending approval */
 
 /**
  * @include GeoExt/widgets/tree/LayerNode.js
@@ -22,7 +25,7 @@ Ext.namespace("GeoExt.tree");
  *      for base layers, and to "layer-icon" for overlay layers.
  * 
  *      To use this node type in ``TreePanel`` config, set nodeType to
- *      "olLayerContainer".
+ *      "gx_layercontainer".
  */
 GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
     
