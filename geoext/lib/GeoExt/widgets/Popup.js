@@ -146,36 +146,34 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
         GeoExt.Popup.superclass.initTools.call(this);
     },
 
-    /** private: method[addToMapPanel]
+    /** api: method[addToMapPanel]
      *  :param mapPanel: :class:`MapPanel` The panel to which this popup should
      *      be added.
      *  
      *  Adds this popup to a :class:`MapPanel`.  Assumes that the
      *  MapPanel's map is already initialized and that the
-     *  Popup's feature is on the map.  This method is called by the MapPanel's
-     *  add method.
+     *  Popup's feature is on the map.
      */
     addToMapPanel: function(mapPanel) {
         this.mapPanel = mapPanel;
         this.map = this.mapPanel.map;
-        
-        mapPanel.on({
-            "add": {
-                fn: function() {
-                    mapPanel.doLayout();
-                    this.position();
-                    if(this.anchored) {
-                        this.anchorPopup();
-                    }
-                    this.show();
-                    if(this.panIn) {
-                        this.panIntoView();
-                    }
-                },
-                single: true,
-                scope: this
-            }
-        });
+
+        mapPanel.add(this);
+        mapPanel.doLayout();
+
+        this.position();
+
+        /* Anchoring */
+        if(this.anchored) {
+            this.anchorPopup();
+        }
+
+        this.show();
+
+        /* Panning */
+        if(this.panIn) {
+            this.panIntoView();
+        }
     },
 
     /** api: method[setSize]
@@ -251,6 +249,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
      *  MapPanel and adds it to the page body.
      */
     unanchorPopup: function() {
+        this.unbindFromMapPanel();
 
         //make the window draggable
         this.draggable = true;
@@ -285,11 +284,10 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
         }
     },
 
-    /** private: method[removeFromMapPanel]
+    /** private: method[unbindFromMapPanel]
      *  Utility method for unbinding events that call for popup repositioning.
-     *  Called from the panel during panel.remove(popup).
      */
-    removeFromMapPanel: function() {
+    unbindFromMapPanel: function() {
         if(this.map && this.map.events) {
             //stop position with feature
             this.map.events.un({
@@ -298,12 +296,9 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
             });
         }
 
-        this.un("resize", this.position, this);
-        this.un("collapse", this.position, this);
-        this.un("expand", this.position, this);
-
-        delete this.mapPanel;
-        delete this.map;
+        this.un("resize", this.position);
+        this.un("collapse", this.position);
+        this.un("expand", this.position);
     },
 
     /** private: method[panIntoView]
@@ -359,7 +354,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
      *  Cleanup events before destroying the popup.
      */
     beforeDestroy: function() {
-        this.removeFromMapPanel();
+        this.unbindFromMapPanel();
         GeoExt.Popup.superclass.beforeDestroy.call(this);
     }
 });
