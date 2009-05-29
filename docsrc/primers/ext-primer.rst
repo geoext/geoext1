@@ -18,19 +18,20 @@ To start using Ext, you will first have to `download
 For more complete instructions about how configure a web page to use
 Ext, you can check the :doc:`../tutorials/quickstart` tutorial.
 
-When you download Ext, you also get their excellent `Examples <http://www.extjs.com/deploy/dev/examples/>'_ and 'API
-Documentation <http://www.extjs.com/deploy/dev/docs/>`_, which you can also look at on-line for education and reference.
+When you download Ext, you also get their excellent
+`Examples <http://www.extjs.com/deploy/dev/examples/>`_ and
+`API Documentation <http://www.extjs.com/deploy/dev/docs/>`_, which you can also
+look at on-line for education and reference.
 
 In order to get Ext running on a page you will need to have something
 like the following in the ``<head>`` of an HTML page in a directory
 that is published by your web server.
 
-    .. code-block::
-       xml
+    .. code-block:: html
 
-       <script src="ext-2.2/adapter/ext/ext-base.js" type="text/javascript"></script>
-       <script src="ext-2.2/ext-all.js"  type="text/javascript"></script>
-       <link rel="stylesheet" type="text/css" href="ext-2.2/resources/css/ext-all.css"></link>
+        <script src="ext-2.2/adapter/ext/ext-base.js" type="text/javascript"></script>
+        <script src="ext-2.2/ext-all.js"  type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="ext-2.2/resources/css/ext-all.css"></link>
 
 This will load the code and styles for Ext.  Change the paths
 according to where you have put the Ext files.
@@ -40,10 +41,9 @@ classes with constructors that takes a single object--its
 configuration object--as an argument.  This snippet demonstrates this
 coding pattern:
 
-    .. code-block::
-       html
+    .. code-block:: javascript
 
-       Ext.onReady(function(){
+        Ext.onReady(function(){
             var myPanel = new Ext.Panel({
                 title: 'Hello World!',
                 html: '<i>Hello World!</i> Please enjoy this primer on Ext!',
@@ -51,7 +51,7 @@ coding pattern:
                 width:300,
                 renderTo: 'panelDiv'
             });        
-       });
+        });
 
 There are a few things to note about this example:
 
@@ -87,29 +87,28 @@ Most often you will be using one or more nested *Containers*.  The
 ``Ext.Panel`` built above is the most common kind of container.  You
 can nest panels using the ``items`` property.  For example:
 
-    .. code-block::
-       html
+    .. code-block:: javascript
 
-       Ext.onReady(function(){
+        Ext.onReady(function(){
             var myPanel = new Ext.Panel({
                 title: 'Top level',
                 layout: 'border',
                 items: [{
-                        xtype:'panel',
-                        title:'Sub1',
-                        html:'Contents of sub panel 1',
-                        region: 'east'
-                    },{
-                        xtype:'panel',
-                        title: 'Sub2',
-                        html:'Contents of sub panel 2',
-                        region: 'center'
+                    xtype:'panel',
+                    title:'Sub1',
+                    html:'Contents of sub panel 1',
+                    region: 'east'
+                },{
+                    xtype:'panel',
+                    title: 'Sub2',
+                    html:'Contents of sub panel 2',
+                    region: 'center'
                 }],
                 width:300,
                 height:200,
                 renderTo:'panelDiv'
             });        
-       });
+        });
 
 This code introduces some new concepts:
 
@@ -131,26 +130,4 @@ Wizard layout.  The best way to explore these layouts is using the `Ext
 Layout Browser
 <http://extjs.com/deploy/dev/examples/layout-browser/layout-browser.html>`_
 , which demonstrates each layout and provides sample code.
-  
 
-.. _ext-trees:
-
-Trees, Nodes, and Childnodes
-============================
-
-[tba]
-
-.. _ext-grid-store:
-
-Grid and Store
-==============
-
-[working with records from a reader]
-
-
-.. _ext-events:
-
-Events
-======
-
-[from a geoxt perspective]
