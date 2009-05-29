@@ -26,7 +26,7 @@ See GeoExt in action.
         items: [{
             xtype: "gx_mappanel",
             layers: [new OpenLayers.Layer.WMS(
-                "bluemarble", "http://demo.opengeo.org/geoserver/wms",
+                "Global Imagery", "http://demo.opengeo.org/geoserver/wms",
                 {layers: 'bluemarble'}
             )],
             zoom: 1
