@@ -49,6 +49,9 @@ div.sphinxsidebar h3 a {
 div.document {
     margin: 0 80px;
 }
+div.documentwrapper {
+    width: auto;
+}
 div.footer {
     background: #4E7AB2 url(img/footer-bg.png) repeat-x;
     color: #d9d9d9;
