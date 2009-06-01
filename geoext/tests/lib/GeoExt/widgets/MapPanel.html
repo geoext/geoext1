@@ -85,6 +85,24 @@
             
         }
 
+        function test_zoom(t) {
+            
+            t.plan(1);
+            
+            var panel = new GeoExt.MapPanel({
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                layers: [new OpenLayers.Layer()],
+                zoom: 4
+            });
+            
+            t.eq(panel.map.zoom, 4, "zoom correctly set");
+            
+            panel.destroy();
+        }
+
         function test_extent(t) {
             
             t.plan(3);
