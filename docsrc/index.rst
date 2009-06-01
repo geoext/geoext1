@@ -1,3 +1,7 @@
+.. Sphinx 0.6.2 will support the 'title' directive.  See
+    http://bitbucket.org/birkenfeld/sphinx/changeset/036f2d008240/
+
+
 JavaScript Toolkit for Rich Web Mapping Applications
 ====================================================
 

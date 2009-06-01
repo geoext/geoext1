@@ -1,6 +1,6 @@
-=================
- GeoExt Examples
-=================
+========
+Examples
+========
 
 * `Feature Grid <http://dev.geoext.org/trunk/geoext/examples/feature-grid.html>`_
 
@@ -11,3 +11,5 @@
 * `WMS Capabilities <http://dev.geoext.org/trunk/geoext/examples/wms-capabilities.html>`_
 
 * `Zoom Chooser <http://dev.geoext.org/trunk/geoext/examples/zoom-chooser.html>`_
+
+To view the complete set of examples, see the `examples list <http://dev.geoext.org/trunk/geoext/examples/>`_.
