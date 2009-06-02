@@ -67,6 +67,7 @@
             "GeoExt/data/ScaleStore.js",
             "GeoExt/data/WMSCapabilitiesReader.js",
             "GeoExt/data/WMSCapabilitiesStore.js",
+            "GeoExt/widgets/Action.js",
             "GeoExt/data/ProtocolProxy.js",
             "GeoExt/widgets/MapPanel.js",
             "GeoExt/widgets/Popup.js",
