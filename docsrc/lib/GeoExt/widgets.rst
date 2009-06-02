@@ -8,6 +8,7 @@ GeoExt widgets are a collection of specialized map related components.
     :glob:
     
     widgets/*
+    widgets/tips/*
 
 
 .. module:: GeoExt.form
