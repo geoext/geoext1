@@ -111,9 +111,8 @@ GeoExt.SliderTip = Ext.extend(Ext.Tip, {
     },
 
     /** api: config[getText]
-     *  :return: ``String``
-     *  
-     *  Function that generates the value to be displayed in the tip.  By
+     *  ``Function``
+     *  Function that generates the string value to be displayed in the tip.  By
      *  default, the return from slider.getValue() is displayed.
      */
     getText : function(slider) {
