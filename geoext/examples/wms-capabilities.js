@@ -36,6 +36,7 @@ Ext.onReady(function() {
             title: "Preview: " + record.get("title"),
             width: 512,
             height: 256,
+            layout: "fit",
             items: [{
                 xtype: "gx_mappanel",
                 layers: [layer],
