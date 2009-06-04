@@ -30,7 +30,6 @@ Ext.onReady(function() {
     function mapPreview(grid, index) {
         var record = grid.getStore().getAt(index);
         var layer = record.get("layer").clone();
-        layer.isBaseLayer = true; // default is false
         
         var win = new Ext.Window({
             title: "Preview: " + record.get("title"),
