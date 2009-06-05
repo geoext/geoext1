@@ -29,9 +29,13 @@
             });
 
             var feature = new OpenLayers.Feature.Vector(
-                new OpenLayers.Geometry.Point(100,50),
+                new OpenLayers.Geometry.Point(5,45),
                 {name: "My Feature"}
             );
+            feature.layer = {
+                map: map,
+                removeFeatures: function() {}
+            };
 
             return {
                 feature: feature,
@@ -63,9 +67,9 @@
 
             var pop = popup(context.feature);
 
-            context.mapPanel.add(pop);
+            pop.show();
 
-            t.ok(context.mapPanel.el.child("div." + pop.popupCls),"Map panel contains popup");
+            t.ok(Ext.getBody().child("div." + pop.popupCls),"viewport contains popup");
             
             tearDown(context);
         }
@@ -77,7 +81,7 @@
 
             var pop = popup(context.feature);
 
-            context.mapPanel.add(pop);
+            pop.show();
 
             pop.on({
                 'move' : function(c,x,y){
@@ -102,13 +106,13 @@
 
 
         function test_unanchorPopup(t) {
-            t.plan(6);
+            t.plan(4);
 
             var context = setupContext();
 
             var pop = popup(context.feature, context.mapPanel);
 
-            context.mapPanel.add(pop);
+            pop.show();
         
             pop.collapse();
 
@@ -120,8 +124,6 @@
 
             t.ok(!pop.getAnchorElement(),"Anchor element removed");
             t.ok(!this.collapsed, "Preserved collapsed state");
-            t.ok(!context.mapPanel.el.child("div." + pop.popupCls),"Map panel does not contain popup");
-            t.ok(Ext.getBody().child("div." + pop.popupCls),"Document body contains popup element");
             t.eq(origPos[0],newPos[0],"Popup remains in same position (X)");
             t.eq(origPos[1],newPos[1],"Popup remains in same position (Y)");
 
@@ -151,7 +153,7 @@
 
             var context = setupContext();
             var pop = popup(context.feature);
-            context.mapPanel.add(pop);
+            pop.show();
             
             var called = false;
             pop.on({
