@@ -36,7 +36,7 @@ Ext.onReady(function() {
                 }
             }
         });
-        mapPanel.add(popup);
+        popup.show();
     }
 
     // create popup on "featureselected"
