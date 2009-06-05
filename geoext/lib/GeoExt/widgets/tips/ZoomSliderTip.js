@@ -3,7 +3,7 @@
  */
 
 /**
- * @include GeoExt/widgets/tips/SliderTip.js
+ * @require GeoExt/widgets/tips/SliderTip.js
  */
 
 /** api: (extends)
@@ -69,7 +69,7 @@ GeoExt.ZoomSliderTip = Ext.extend(GeoExt.SliderTip, {
     /** private: method[getText]
      *  :param slider: ``Ext.Slider`` The slider this tip is attached to.
      */
-    getText : function(slider) {
+    getText: function(slider) {
         var data = {
             zoom: slider.getZoom(),
             resolution: slider.getResolution(),
