@@ -3,7 +3,7 @@
  */
 
 /**
- * @require GeoExt/widgets/tips/SliderTip.js
+ * @requires GeoExt/widgets/tips/SliderTip.js
  */
 
 /** api: (extends)
