@@ -1,9 +1,10 @@
-/* Copyright (C) 2008-2009 The Open Source Geospatial Foundation
- * Published under the BSD license.
- * See http://geoext.org/svn/geoext/core/trunk/license.txt for the full text
- * of the license.
+/**
+ * Copyright (c) 2008-2009 The Open Source Geospatial Foundation
  * 
- * pending approval */
+ * Published under the BSD license.
+ * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
+ * of the license.
+ */
 
 /** api: (define)
  *  module = GeoExt
