@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2008-2009 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license.
+ * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
+ * of the license.
+ */
+
 var mapPanel;
 Ext.onReady(function() {
     // using OpenLayers.Format.JSON to create a nice formatted string of the
