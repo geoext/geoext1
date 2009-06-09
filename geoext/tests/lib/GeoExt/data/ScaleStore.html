@@ -45,6 +45,8 @@
             map = createMap();
             store = new GeoExt.data.ScaleStore({map: map});
             t.ok(store.map == map, "ctor sets the passed map in the instance");
+            
+            map.destroy();
         }
 
         function test_bind_unbind(t) {
@@ -84,15 +86,31 @@
             store.unbind();
             t.eq(map.events.listeners["changebaselayer"][0], undefined,
                  "unbind unregisters changebaselayer listener (map has a base layer)");
+            
+            map.destroy();
         }
 
         function test_scalestore(t) {
-            t.plan(1);
+            t.plan(3);
 
             var mapPanel = loadMapPanel();
             var map = mapPanel.map;
             var store = new GeoExt.data.ScaleStore({map: map});
-            t.eq(store.data.length, 15, 'Found expected number of zoomlevels');
+            var levels = map.baseLayer.resolutions.length;
+            t.eq(store.getCount(), levels,
+                 'Found expected number of zoomlevels: ' + levels);
+            
+            var low = store.getAt(0).get("resolution");
+            t.eq(low, map.baseLayer.resolutions[levels-1],
+                 'First record has lowest res value: ' + low);
+
+            var high = store.getAt(levels-1).get("resolution");
+            t.eq(high, map.baseLayer.resolutions[0],
+                 'Last record has highest res value: ' + high);
+            
+            map.destroy();
+            mapPanel.destroy();
+            
         }
         
     </script>

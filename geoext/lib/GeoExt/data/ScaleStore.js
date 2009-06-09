@@ -49,7 +49,9 @@ GeoExt.data.ScaleStore = Ext.extend(Ext.data.Store, {
 
         GeoExt.data.ScaleStore.superclass.constructor.call(this, config);
 
-        if (map) this.bind(map);
+        if (map) {
+            this.bind(map);
+        }
     },
 
     /** api: method[bind]
@@ -104,13 +106,16 @@ GeoExt.data.ScaleStore = Ext.extend(Ext.data.Store, {
      */
     populateFromMap: function() {
         var zooms = [];
+        var resolutions = this.map.baseLayer.resolutions;
+        var units = this.map.baseLayer.units;
 
-        for (var i = this.map.numZoomLevels-1; i > 0; i--) { 
-            var res = this.map.getResolutionForZoom(i);
-            var units = this.map.baseLayer.units;
-            var scale = OpenLayers.Util.getScaleFromResolution(res, units);
-
-            zooms.push({level: i, resolution: res, scale: scale});
+        for (var i=resolutions.length-1; i >= 0; i--) {
+            var res = resolutions[i];
+            zooms.push({
+                level: i,
+                resolution: res,
+                scale: OpenLayers.Util.getScaleFromResolution(res, units)
+            });
         }
 
         this.loadData(zooms);
