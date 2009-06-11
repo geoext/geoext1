@@ -163,7 +163,7 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         var layer = layerRecord.get("layer");
         if (layer.displayInLayerSwitcher === true) {
             var node = new GeoExt.tree.LayerNode(Ext.applyIf({
-                iconCls: layer.isBayeLayer ? 'baselayer-icon' : 'layer-icon',
+                iconCls: layer.isBaseLayer ? 'baselayer-icon' : 'layer-icon',
                 layer: layer,
                 layerStore: this.layerStore
             }, this.defaults));
