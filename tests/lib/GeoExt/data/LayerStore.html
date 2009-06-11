@@ -285,6 +285,26 @@
 
         }
         
+        function test_update(t) {
+            t.plan(2);
+            
+            var map = new OpenLayers.Map("mappanel");
+            var layer = new OpenLayers.Layer("foo");
+            map.addLayer(layer);
+
+            var store = new GeoExt.data.LayerStore({
+                map: map
+            });
+
+            layer.setName("newName");
+            t.eq(store.getAt(0).get("title"), "newName", "record title synced from layer name");
+            
+            store.getAt(0).set("title", "newTitle");
+            t.eq(layer.name, "newTitle", "layer name synced from record title");
+                                    
+            map.destroy();
+        }
+        
         function test_events(t) {
             t.plan(21);
             
