@@ -18,8 +18,8 @@ Ext.onReady(function() {
             xtype: "gx_mappanel",
             id: "mappanel",
             layers: [new OpenLayers.Layer.WMS(
-                "bluemarble",
-                "http://sigma.openplans.org/geoserver/wms?",
+                "Global Imagery",
+                "http://demo.opengeo.org/geoserver/wms",
                 {layers: 'bluemarble'}
             )],
             extent: "-5,35,15,55"

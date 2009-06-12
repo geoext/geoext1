@@ -39,8 +39,8 @@ Ext.onReady(function() {
 
     } else {
         layer = new OpenLayers.Layer.WMS(
-            "bluemarble",
-            "http://sigma.openplans.org/geoserver/wms?",
+            "Global Imagery",
+            "http://demo.opengeo.org/geoserver/wms",
             {layers: 'bluemarble'},
             {isBaseLayer: true}
         );

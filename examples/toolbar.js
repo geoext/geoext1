@@ -9,8 +9,8 @@
 Ext.onReady(function() {
     var map = new OpenLayers.Map();
     var wms = new OpenLayers.Layer.WMS(
-        "bluemarble",
-        "http://sigma.openplans.org/geoserver/wms?",
+        "Global Imagery",
+        "http://demo.opengeo.org/geoserver/wms",
         {layers: 'bluemarble'}
     );
     var vector = new OpenLayers.Layer.Vector("vector");

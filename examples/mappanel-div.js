@@ -11,8 +11,8 @@ var mapPanel;
 Ext.onReady(function() {
     var map = new OpenLayers.Map();
     var layer = new OpenLayers.Layer.WMS(
-        "bluemarble",
-        "http://sigma.openplans.org/geoserver/wms?",
+        "Global Imagery",
+        "http://demo.opengeo.org/geoserver/wms",
         {layers: 'bluemarble'}
     );
     map.addLayer(layer);

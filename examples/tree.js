@@ -32,8 +32,8 @@ Ext.onReady(function() {
         center: [146.1569825, -41.6109735],
         zoom: 6,
         layers: [
-            new OpenLayers.Layer.WMS("Blue Marble",
-                "http://sigma.openplans.org/geoserver/wms", {
+            new OpenLayers.Layer.WMS("Global Imagery",
+                "http://demo.opengeo.org/geoserver/wms", {
                     layers: "bluemarble"
                 }, {
                     buffer: 0,

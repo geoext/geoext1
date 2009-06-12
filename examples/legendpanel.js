@@ -13,12 +13,12 @@ Ext.onReady(function() {
     map.addLayers([
         new OpenLayers.Layer.WMS(
             "Tasmania",
-            "http://publicus.opengeo.org/geoserver/wms?",
+            "http://demo.opengeo.org/geoserver/wms?",
             {layers: 'topp:tasmania_state_boundaries', format: 'image/png', transparent: true},
             {singleTile: true}),
         new OpenLayers.Layer.WMS(
             "Cities and Roads",
-            "http://publicus.opengeo.org/geoserver/wms?",
+            "http://demo.opengeo.org/geoserver/wms?",
             {layers: 'topp:tasmania_cities,topp:tasmania_roads', format: 'image/png', transparent: true},
             {singleTile: true}),
         new OpenLayers.Layer.Vector('Polygons', {styleMap: new OpenLayers.StyleMap({
@@ -33,7 +33,7 @@ Ext.onReady(function() {
 
     var addLayer = function() {
         var wmslayer = new OpenLayers.Layer.WMS("Bodies of Water",
-            "http://publicus.opengeo.org/geoserver/wms?",
+            "http://demo.opengeo.org/geoserver/wms?",
             {layers: 'topp:tasmania_water_bodies', format: 'image/png', transparent: true},
             {singleTile: true});
         mapPanel.map.addLayer(wmslayer);
