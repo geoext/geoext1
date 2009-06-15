@@ -38,6 +38,7 @@ Ext.onReady(function() {
     // create a separate slider bound to the map but displayed elsewhere
     slider = new GeoExt.ZoomSlider({
         map: panel.map,
+        aggressive: true,                                                                                                                                                   
         width: 200,
         plugins: new GeoExt.ZoomSliderTip({
             template: "<div>Zoom Level: {zoom}</div>"
