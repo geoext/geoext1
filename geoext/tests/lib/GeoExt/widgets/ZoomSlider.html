@@ -57,8 +57,36 @@
             map.destroy();
 
         }
+        
+        function test_zoomslider_aggressive(t) {
+            t.plan(2);
+            var slider1 = new GeoExt.ZoomSlider({
+                renderTo: document.body
+            });
+            slider1.on({
+                "changecomplete": function() {
+                    t.ok(true, "changecomplete triggered in non-aggressive mode");
+                }
+            });
+            var slider2 = new GeoExt.ZoomSlider({
+                renderTo: document.body,
+                aggressive: true
+            });
+            slider2.on({
+                "change": function() {
+                    t.ok(true, "change triggered in aggressive mode");
+                }
+            });
+            
+            slider1.setValue(slider1.maxValue, undefined, true);
+            slider2.setValue(slider2.maxValue, undefined, true);
+            
+            slider1.destroy();
+            slider2.destroy();
+        }
 
     </script>
+  </head>
   <body>
     <div id="map" style="width: 512px; height: 256px;"></div>
   </body>
