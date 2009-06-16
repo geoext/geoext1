@@ -64,11 +64,11 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         node.visibilityChanging = false;
     },
     
-    /** private: method[onDestroy]
+    /** private: method[destroy]
      */
-    onDestroy: function() {
+    destroy: function() {
         delete this.radio;
-        GeoExt.tree.LayerNodeUI.superclass.onDestroy.call(this);
+        GeoExt.tree.LayerNodeUI.superclass.destroy.call(this);
     }
 });
 
@@ -225,21 +225,36 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
      *  state
      */
     addVisibilityEventHandlers: function() {
-        this.layer.events.register("visibilitychanged", this, function() {
-            if(!this.visibilityChanging &&
-                    this.attributes.checked != this.layer.getVisibility()) {
-                this.getUI().toggleCheck(this.layer.getVisibility());
-            }
-        });
+        this.layer.events.on({
+            "visibilitychanged": this.onLayerVisibilityChanged,
+            scope: this
+        }); 
         this.on({
-            "checkchange": function(node, checked) {
-                if (checked && this.layer.isBaseLayer && this.layer.map) {
-                    this.layer.map.setBaseLayer(this.layer);
-                }
-                this.layer.setVisibility(checked);
-            },
+            "checkchange": this.onCheckChange,
             scope: this
         });
+    },
+    
+    /** private: method[onLayerVisiilityChanged
+     *  handler for visibilitychanged events on the layer
+     */
+    onLayerVisibilityChanged: function() {
+        if(!this.visibilityChanging &&
+                this.attributes.checked != this.layer.getVisibility()) {
+            this.getUI().toggleCheck(this.layer.getVisibility());
+        }
+    },
+    
+    /** private: method[onCheckChange]
+     *  :param node: ``GeoExt.tree.LayerNode``
+     *  :param checked: ``Boolean``
+     *  handler for checkchange events 
+     */
+    onCheckChange: function(node, checked) {
+        if (checked && this.layer.isBaseLayer && this.layer.map) {
+            this.layer.map.setBaseLayer(this.layer);
+        }
+        this.layer.setVisibility(checked);
     },
     
     /** private: method[addStoreEventHandlers]
@@ -248,28 +263,44 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
      */
     addStoreEventHandlers: function() {
         this.layerStore.on({
-            "add": function(store, records, index) {
-                var l;
-                for(var i=0; i<records.length; ++i) {
-                    l = records[i].get("layer");
-                    if(this.layer == l) {
-                        this.getUI().show();
-                    } else if (this.layer == l.name) {
-                        // layer is a string, which means the node has not yet
-                        // been rendered because the layer was not found. But
-                        // now we have the layer and can render.
-                        this.render(bulkRender);
-                        return;
-                    }
-                }
-            },
-            "remove": function(store, record, index) {
-                if(this.layer == record.get("layer")) {
-                    this.getUI().hide();
-                }
-            },
+            "add": this.onStoreAdd,
+            "remove": this.onStoreRemove,
             scope: this
         });
+    },
+    
+    /** private: method[onStoreAdd]
+     *  :param store: ``Ext.data.Store``
+     *  :param records: ``Array(Ext.data.Record)``
+     *  :param index: ``Nmber``
+     *  handler for add events on the store 
+     */
+    onStoreAdd: function(store, records, index) {
+        var l;
+        for(var i=0; i<records.length; ++i) {
+            l = records[i].get("layer");
+            if(this.layer == l) {
+                this.getUI().show();
+            } else if (this.layer == l.name) {
+                // layer is a string, which means the node has not yet
+                // been rendered because the layer was not found. But
+                // now we have the layer and can render.
+                this.render(bulkRender);
+                return;
+            }
+        }
+    },
+    
+    /** private: method[onStoreRemove]
+     *  :param store: ``Ext.data.Store``
+     *  :param record: ``Ext.data.Record``
+     *  :param index: ``Nmber``
+     *  handler for remove events on the store 
+     */
+    onStoreRemove: function(store, record, index) {
+        if(this.layer == record.get("layer")) {
+            this.getUI().hide();
+        }
     },
     
     /** private: method[addChildNodes]
@@ -282,6 +313,22 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
         } else if(typeof this.childNodeType.add === "function") {
             this.childNodeType.add(this);
         }
+    },
+    
+    /** private: method[destroy]
+     */
+    destroy: function() {
+        this.layer.events.un({
+            "visibilitychanged": this.onLayerVisibilityChanged,
+            scope: this
+        });
+        delete this.layer;
+        this.layerStore.un("add", this.onStoreAdd, this);
+        this.layerStore.un("remove", this.onStoreRemove, this);
+        delete this.layerStore;
+        this.un("checkchange", this.onCheckChange, this);
+
+        GeoExt.tree.LayerNode.superclass.destroy.call(this);
     }
 });
 
