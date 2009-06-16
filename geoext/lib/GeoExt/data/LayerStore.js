@@ -239,11 +239,18 @@ GeoExt.data.LayerStoreMixin = {
      *  Handler for a map's removelayer event
      */
     onRemoveLayer: function(evt){
-        if(!this._removing) {
-            var layer = evt.layer;
-            this._removing = true;
-            this.remove(this.getById(layer.id));
-            delete this._removing;
+        //TODO replace the check for undloadDestroy with a listener for the
+        // map's beforedestroy event, doing unbind(). This can be done as soon
+        // as http://trac.openlayers.org/ticket/2136 is fixed.
+        if(this.map.unloadDestroy) {
+            if(!this._removing) {
+                var layer = evt.layer;
+                this._removing = true;
+                this.remove(this.getById(layer.id));
+                delete this._removing;
+            }
+        } else {
+            this.unbind();
         }
     },
     
@@ -369,6 +376,13 @@ GeoExt.data.LayerStoreMixin = {
      */
     onReplace: function(key, oldRecord, newRecord){
         this.removeMapLayer(oldRecord);
+    },
+    
+    /** private: method[destroy]
+     */
+    destroy: function() {
+        this.unbind();
+        GeoExt.data.LayerStore.superclass.destroy.call(this);
     }
 };
 
