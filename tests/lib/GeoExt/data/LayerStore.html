@@ -390,6 +390,36 @@
             
         }
         
+        function test_map_destroy(t) {
+            t.plan(1);
+            
+            var map = new OpenLayers.Map({div: "mappanel", allOverlays: true});
+            var a = new OpenLayers.Layer("a");
+            var b = new OpenLayers.Layer("b");
+            map.addLayers([a, b]);
+
+            var store = new GeoExt.data.LayerStore({
+                map: map
+            });
+            
+            var count = 0;
+            // destroying and adding this.control to the map in the remove
+            // handler will cause exceptions when done while the map is being
+            // destroyed. This is the pattern that helped investigating #88.
+            this.control = new OpenLayers.Control();
+            store.on("remove", function() {
+                count++;
+                this.control.destroy();
+                this.control = new OpenLayers.Control();
+                map.addControl(this.control);
+            }, this);
+            
+            map.removeLayer(a);
+            map.destroy();
+            
+            t.eq(count, 1, "store's remove handler called once");
+        }
+        
 
     </script>
   </head>  
