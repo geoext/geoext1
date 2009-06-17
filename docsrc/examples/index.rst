@@ -12,4 +12,6 @@ Examples
 
 * `Zoom Chooser <http://dev.geoext.org/trunk/geoext/examples/zoom-chooser.html>`_
 
+* `Zoom Slider <http://dev.geoext.org/trunk/geoext/examples/zoomslider.html>`_
+
 To view the complete set of examples, see the `examples list <http://dev.geoext.org/trunk/geoext/examples/>`_.
