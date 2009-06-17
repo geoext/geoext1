@@ -19,7 +19,7 @@ Ext.namespace("GeoExt");
  *  .. code-block:: javascript
  *  
  *      var ctrl = new OpenLayers.Control.ZoomToMaxExtent();
- *      var action = new GeoExt.Action(ctrl, {
+ *      var action = new GeoExt.Action({
  *          text: "max extent"
  *          control: ctrl,
  *          map: map
