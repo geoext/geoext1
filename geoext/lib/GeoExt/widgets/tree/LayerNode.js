@@ -248,6 +248,7 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
     /** private: method[onCheckChange]
      *  :param node: ``GeoExt.tree.LayerNode``
      *  :param checked: ``Boolean``
+     *
      *  handler for checkchange events 
      */
     onCheckChange: function(node, checked) {
@@ -272,7 +273,8 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
     /** private: method[onStoreAdd]
      *  :param store: ``Ext.data.Store``
      *  :param records: ``Array(Ext.data.Record)``
-     *  :param index: ``Nmber``
+     *  :param index: ``Number``
+     *
      *  handler for add events on the store 
      */
     onStoreAdd: function(store, records, index) {
@@ -294,7 +296,8 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
     /** private: method[onStoreRemove]
      *  :param store: ``Ext.data.Store``
      *  :param record: ``Ext.data.Record``
-     *  :param index: ``Nmber``
+     *  :param index: ``Number``
+     *
      *  handler for remove events on the store 
      */
     onStoreRemove: function(store, record, index) {
