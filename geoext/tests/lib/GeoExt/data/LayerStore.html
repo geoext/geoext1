@@ -403,16 +403,9 @@
             });
             
             var count = 0;
-            // destroying and adding this.control to the map in the remove
-            // handler will cause exceptions when done while the map is being
-            // destroyed. This is the pattern that helped investigating #88.
-            this.control = new OpenLayers.Control();
             store.on("remove", function() {
                 count++;
-                this.control.destroy();
-                this.control = new OpenLayers.Control();
-                map.addControl(this.control);
-            }, this);
+            });
             
             map.removeLayer(a);
             map.destroy();
