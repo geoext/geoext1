@@ -18,10 +18,9 @@ Ext.namespace("GeoExt");
  * 
  *  .. code-block:: javascript
  *  
- *      var ctrl = new OpenLayers.Control.ZoomToMaxExtent();
  *      var action = new GeoExt.Action({
- *          text: "max extent"
- *          control: ctrl,
+ *          text: "max extent",
+ *          control: new OpenLayers.Control.ZoomToMaxExtent(),
  *          map: map
  *      });
  *      var toolbar = new Ext.Toolbar([action]);
