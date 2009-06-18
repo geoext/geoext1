@@ -42,6 +42,12 @@ GeoExt.Action = Ext.extend(Ext.Action, {
      */
     control: null,
 
+    /** api: config[map]
+     *  ``OpenLayers.Map`` The OpenLayers map that the control should be added
+     *  to.  For controls that don't need to be added to a map or have already
+     *  been added to one, this config property may be omitted.
+     */
+
     /** private: property[uScope]
      *  ``Object`` The user-provided scope, used when calling uHandler,
      *  uToggleHandler, and uCheckHandler.
