@@ -47,6 +47,7 @@ GeoExt.Action = Ext.extend(Ext.Action, {
      *  to.  For controls that don't need to be added to a map or have already
      *  been added to one, this config property may be omitted.
      */
+    map: null,
 
     /** private: property[uScope]
      *  ``Object`` The user-provided scope, used when calling uHandler,
@@ -97,6 +98,7 @@ GeoExt.Action = Ext.extend(Ext.Action, {
             // If map is provided in config, add control to map.
             if(config.map) {
                 config.map.addControl(ctrl);
+                delete config.map;
             }
             ctrl.events.on({
                 activate: this.onCtrlActivate,

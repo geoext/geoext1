@@ -8,7 +8,7 @@
 
     <script type="text/javascript">
         function test_constructor(t) {
-            t.plan(11)
+            t.plan(12)
 
             var ctrl, scope, handler, toggleHandler, checkHandler, cfg, action;
 
@@ -34,6 +34,8 @@
                  "constructor sets control in the instance");
             t.ok(action.control.map === map,
                  "constructor adds control to map if provided");
+            t.ok(!action.initialConfig.map,
+                 "action does not have a reference to the map");
             t.ok(action.uScope == scope,
                  "constructor sets this.uScope to user-provided scope");
             t.ok(action.uHandler == handler,
