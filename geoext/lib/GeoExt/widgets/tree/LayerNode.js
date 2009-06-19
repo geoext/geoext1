@@ -266,6 +266,7 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
         this.layerStore.on({
             "add": this.onStoreAdd,
             "remove": this.onStoreRemove,
+            "update": this.onStoreUpdate,
             scope: this
         });
     },
@@ -305,7 +306,21 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
             this.getUI().hide();
         }
     },
-    
+
+    /** private: method[onStoreUpdate]
+     *  :param store: ``Ext.data.Store``
+     *  :param record: ``Ext.data.Record``
+     *  :param operation: ``String``
+     *  
+     *  Listener for the store's update event.
+     */
+    onStoreUpdate: function(store, record, operation) {
+    	var layer = record.get("layer");
+        if(this.layer == layer && this.text !== layer.name) {
+            this.setText(layer.name);
+        }
+    },
+
     /** private: method[addChildNodes]
      *  Calls the add method of a node type configured as ``childNodeType``
      *  to add children.
@@ -321,13 +336,20 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
     /** private: method[destroy]
      */
     destroy: function() {
-        this.layer.events.un({
-            "visibilitychanged": this.onLayerVisibilityChanged,
-            scope: this
-        });
+        var layer = this.layer;
+        if (layer instanceof OpenLayers.Layer) {
+            layer.events.un({
+                "visibilitychanged": this.onLayerVisibilityChanged,
+                scope: this
+            });
+        }
         delete this.layer;
-        this.layerStore.un("add", this.onStoreAdd, this);
-        this.layerStore.un("remove", this.onStoreRemove, this);
+        var layerStore = this.layerStore;
+        if(layerStore) {
+            this.layerStore.un("add", this.onStoreAdd, this);
+            this.layerStore.un("remove", this.onStoreRemove, this);
+            this.layerStore.un("update", this.onStoreUpdate, this);
+        }
         delete this.layerStore;
         this.un("checkchange", this.onCheckChange, this);
 

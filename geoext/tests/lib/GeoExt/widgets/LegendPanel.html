@@ -45,7 +45,7 @@
             mapPanel.layers.getAt(0).set("legendURL", newUrl);
 
             var item = lp.getComponent(mapPanel.map.layers[0].id);
-            var url = item.items.items[1].items.items[0].getEl().dom.src;
+            var url = item.items.get(1).items.get(0).getEl().dom.src;
             t.eq(url, newUrl, "Update the image with the provided legendURL");
 
             lp.destroy();
@@ -111,7 +111,7 @@
             lp.render();
 
             var item = lp.getComponent(mapPanel.map.layers[0].id);
-            var url = item.items.items[1].items.items[0].url;
+            var url = item.items.get(1).items.get(0).url;
             var expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&LAYER=a";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
 
@@ -144,6 +144,37 @@
             t.eq(lp.items.length, 2, "Removing the WMS layer really removes the legend from the panel");
 
             lp.destroy();
+            mapPanel.destroy();
+        }
+
+        function test_changelayername(t) {
+            t.plan(3);
+            var mapPanel = loadMapPanel();
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            var layer = mapPanel.map.layers[0];
+            var cmp = lp.getComponent(layer.id);
+            t.eq(cmp.items.get(0).text, 'test', "Layer name is test before change");
+
+            layer.setName("My new name");
+
+            t.eq(cmp.items.get(0).text, "My new name", "Layer name was changed correctly to 'My new name'");
+
+            lp.destroy();
+
+            var lp  = new GeoExt.LegendPanel({
+                showTitle: false,
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            layer.setName("My new new name");
+            var cmp = lp.getComponent(layer.id);
+            t.eq(cmp.items.get(0).text, "", "When showTitle is false, there is no label for a layer and it is not changed");
+
+            lp.destroy();
+
             mapPanel.destroy();
         }
 
