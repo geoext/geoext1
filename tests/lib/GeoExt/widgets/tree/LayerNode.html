@@ -68,6 +68,33 @@
             mapPanel.render("map");
             
         }
+
+        function test_changelayername(t) {
+            t.plan(1);
+
+            var layer = new OpenLayers.Layer("test");
+
+            var mapPanel = new GeoExt.MapPanel({
+                layers: [layer],
+                allOverlays: true
+            });
+
+            var node = new GeoExt.tree.LayerNode({
+                layer: "test",
+                layerStore: mapPanel.layers
+            });
+
+            var panel = new Ext.tree.TreePanel({
+                 root: node
+            });
+            panel.render(document.body);
+
+            layer.setName("My new name");
+            t.eq(node.text, "My new name", "Node is named 'My new name' after layer setName is called");
+
+            node.destroy();
+            mapPanel.destroy();
+        }
         
         </script>
     </head>
