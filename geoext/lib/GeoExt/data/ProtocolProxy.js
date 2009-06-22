@@ -21,7 +21,7 @@ GeoExt.data.ProtocolProxy = function(config) {
 /** api: constructor
  *  .. class:: ProtocolProxy
  *   
- *      A data proxy for use with ``OpenLayers.Proxy`` objects.
+ *      A data proxy for use with ``OpenLayers.Protocol`` objects.
  */
 Ext.extend(GeoExt.data.ProtocolProxy, Ext.data.DataProxy, {
 
