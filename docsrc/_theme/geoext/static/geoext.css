@@ -9,6 +9,10 @@ ul {
     list-style: disc;
 }
 
+strong {
+    font-weight: bolder;
+}
+
 /* override some of sphinxdoc.css */
 html {
     margin: 0;
