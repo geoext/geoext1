@@ -3,12 +3,16 @@
 @import url("sphinxdoc.css");
 
 /* override some of ext-all.css */
-ul {
+ul, ol {
     margin: 14px 0;
     padding-left: 40px;
+}
+ul {
     list-style: disc;
 }
-
+ol {
+    list-style-type:decimal;
+}
 strong {
     font-weight: bolder;
 }
