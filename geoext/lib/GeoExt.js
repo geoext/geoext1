@@ -34,7 +34,7 @@
     var getScriptLocation = function() {
         var scriptLocation = "";
         // If we load other scripts right before GeoExt using the same
-        // mechanism to add script resources dynamically (e.g.OpenLayers), 
+        // mechanism to add script resources dynamically (e.g. OpenLayers), 
         // document.getElementsByTagName will not find the GeoExt script tag
         // in FF2. Using document.documentElement.getElementsByTagName instead
         // works around this issue.
