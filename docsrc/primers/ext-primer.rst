@@ -27,11 +27,11 @@ In order to get Ext running on a page you will need to have something
 like the following in the ``<head>`` of an HTML page in a directory
 that is published by your web server.
 
-    .. code-block:: html
+.. code-block:: html
 
-        <script src="ext-2.2/adapter/ext/ext-base.js" type="text/javascript"></script>
-        <script src="ext-2.2/ext-all.js"  type="text/javascript"></script>
-        <link rel="stylesheet" type="text/css" href="ext-2.2/resources/css/ext-all.css"></link>
+    <script src="ext-2.2/adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="ext-2.2/ext-all.js"  type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="ext-2.2/resources/css/ext-all.css"></link>
 
 This will load the code and styles for Ext.  Change the paths
 according to where you have put the Ext files.
@@ -41,24 +41,24 @@ classes with constructors that takes a single object--its
 configuration object--as an argument.  This snippet demonstrates this
 coding pattern:
 
-    .. code-block:: javascript
+.. code-block:: javascript
 
-        Ext.onReady(function(){
-            var myPanel = new Ext.Panel({
-                title: 'Hello World!',
-                html: '<i>Hello World!</i> Please enjoy this primer on Ext!',
-                collapsible: true,
-                width:300,
-                renderTo: 'panelDiv'
-            });        
-        });
+    Ext.onReady(function(){
+        var myPanel = new Ext.Panel({
+            title: 'Hello World!',
+            html: '<i>Hello World!</i> Please enjoy this primer on Ext!',
+            collapsible: true,
+            width:300,
+            renderTo: 'panelDiv'
+        });        
+    });
 
 There are a few things to note about this example:
 
 * This code uses Ext's ``onReady`` method to trigger the method when the
-  document's body is ready.  (This is cleaner than using body's
-  ``onready`` event, and with ``Ext.onReady`` several functions can be
-  queued for execution before the page loads.)
+  document's body is ready. (This is cleaner than using body's ``onready``
+  event, and with ``Ext.onReady`` several functions can be queued for execution
+  before the page loads.)
 
 * When the page is ready, the ``Ext.Panel`` constructor is called with a
   single configuration object as argument.  The Panel's structure should
@@ -75,7 +75,8 @@ There are a few things to note about this example:
 * Lastly, this code assumes that somewhere in the DOM of the page is a
   ``div`` with the id ``panelDiv``.  When the Panel is constructed, it
   will be automatically rendered in this div because of the ``renderTo``
-  option.  (This option can be left out and panels rendered manually, if desired.)
+  option. (This option can be left out and panels rendered manually, if
+  desired.)
 
 .. _ext-basic-layout:
 
@@ -87,28 +88,28 @@ Most often you will be using one or more nested *Containers*.  The
 ``Ext.Panel`` built above is the most common kind of container.  You
 can nest panels using the ``items`` property.  For example:
 
-    .. code-block:: javascript
+.. code-block:: javascript
 
-        Ext.onReady(function(){
-            var myPanel = new Ext.Panel({
-                title: 'Top level',
-                layout: 'border',
-                items: [{
-                    xtype:'panel',
-                    title:'Sub1',
-                    html:'Contents of sub panel 1',
-                    region: 'east'
-                },{
-                    xtype:'panel',
-                    title: 'Sub2',
-                    html:'Contents of sub panel 2',
-                    region: 'center'
-                }],
-                width:300,
-                height:200,
-                renderTo:'panelDiv'
-            });        
-        });
+    Ext.onReady(function(){
+        var myPanel = new Ext.Panel({
+            title: 'Top level',
+            layout: 'border',
+            items: [{
+                xtype:'panel',
+                title:'Sub1',
+                html:'Contents of sub panel 1',
+                region: 'east'
+            },{
+                xtype:'panel',
+                title: 'Sub2',
+                html:'Contents of sub panel 2',
+                region: 'center'
+            }],
+            width:300,
+            height:200,
+            renderTo:'panelDiv'
+        });        
+    });
 
 This code introduces some new concepts:
 

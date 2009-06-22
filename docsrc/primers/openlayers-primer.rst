@@ -158,17 +158,19 @@ continue on through the example:
         panel.addControls([nav.next, nav.previous]);
         map.addControl(panel);
        
-To expose this interface, we first create a ``Panel`` control, and then add the ``next`` and ``previous`` buttons to the panel giving the user 
-something to click on. We finally add the panel to the map.
+To expose this interface, we first create a ``Panel`` control, and then add the
+``next`` and ``previous`` buttons to the panel giving the user something to
+click on. We finally add the panel to the map.
 
 Now try the example again in your browser. *Beautiful ain't it?*
 
 Initialization w/ Controls
 --------------------------
 
-In the above examples, we only added controls to the map using the ``map.addControl()`` method. Often, controls are added when the map
-is initialized bypassing the ``map.addControl()`` method. This is done simply by using the ``controls`` key and passing an array 
-of controls, as seen below.
+In the above examples, we only added controls to the map using the
+``map.addControl()`` method. Often, controls are added when the map is
+initialized bypassing the ``map.addControl()`` method. This is done simply by
+using the ``controls`` key and passing an array of controls, as seen below.
 
     .. code-block:: javascript
        
@@ -179,173 +181,197 @@ of controls, as seen below.
             ]
         });
        
-.. note:: If you use the ``controls`` key, **you will not be given the default controls**  when initializing the map.
-   You will have to add those controls yourself instead. `Find out more. <http://docs.openlayers.org/library/controls.html>`_
+.. note:: If you use the ``controls`` key, **you will not be given the default
+    controls** when initializing the map. You will have to add those controls
+    yourself instead. `Find out more.
+    <http://docs.openlayers.org/library/controls.html>`_
 
 More Controls
 --------------
 
 You can find more controls by 
-`browsing the OpenLayers source code <http://trac.openlayers.org/browser/trunk/openlayers/lib/OpenLayers/Control>`_ or by reading
-`OpenLayers' Control documentation <http://docs.openlayers.org/library/controls.html>`_.
+`browsing the OpenLayers source code
+<http://trac.openlayers.org/browser/trunk/openlayers/lib/OpenLayers/Control>`_
+or by reading `OpenLayers' Control documentation
+<http://docs.openlayers.org/library/controls.html>`_.
 
 
 
 Events
 ======
 
-Events are the main mechanism for notifying multiple objects that something has happened. For instance, the ``NavigationHistory``
-control listens to the map's ``zoomend`` event to save the user's zoom history for a later date; similarly, other objects may
-listen to the same event without interfering or knowing about the ``NavigationHistory`` control. This makes events very powerful, 
-allowing objects to perform their desired function while decreasing coupling within OpenLayers and Ext applications.
+Events are the main mechanism for notifying multiple objects that something has
+happened. For instance, the ``NavigationHistory`` control listens to the map's
+``zoomend`` event to save the user's zoom history for a later date; similarly,
+other objects may listen to the same event without interfering or knowing about
+the ``NavigationHistory`` control. This makes events very powerful, allowing
+objects to perform their desired function while decreasing coupling within
+OpenLayers and Ext applications.
 
-Both GeoExt and OpenLayers make extensive use of events. However, the OpenLayers events are slightly different from those in
-GeoExt, though they provide the same functionality. Let's explore those differences.
+Both GeoExt and OpenLayers make extensive use of events. However, the OpenLayers
+events are slightly different from those in GeoExt, though they provide the same
+functionality. Let's explore those differences.
 
 GeoExt Events
 -------------
 
-GeoExt uses the event library that comes standard with Ext. GeoExt events are synonymous with Ext events.
+GeoExt uses the event library that comes standard with Ext. GeoExt events are
+synonymous with Ext events.
 
-Ext events can be used in any Ext or GeoExt components that extend the ``Ext.util.Observable`` class.
-`More here. <http://www.slideshare.net/sdhjl2000/ext-j-s-observable>`_
+Ext events can be used in any Ext or GeoExt components that extend the
+``Ext.util.Observable`` class. `More here.
+<http://www.slideshare.net/sdhjl2000/ext-j-s-observable>`_
 
-To throw an event in any component that extends ``Ext.util.Observable``, you must first tell the component that the event may be thrown.
-For instance, in a custom ``Ext.Panel`` class, this is done using the ``addEvents()`` method below.
+To throw an event in any component that extends ``Ext.util.Observable``, you
+must first tell the component that the event may be thrown. For instance, in a
+custom ``Ext.Panel`` class, this is done using the ``addEvents()`` method below.
 
-    .. code-block:: javascript
-       
-        var MyPanel = Ext.Extend(Ext.Panel, {
-            initComponent: function() {
-                // ...
-                this.addEvents("event1" /*, "event2", ... etc.*/ ); 
-                
-                MyPanel.superclass.initComponent.call(this);
-            }
-        });
+.. code-block:: javascript
+   
+    var MyPanel = Ext.Extend(Ext.Panel, {
+        initComponent: function() {
+            // ...
+            this.addEvents("event1" /*, "event2", ... etc.*/ ); 
+            
+            MyPanel.superclass.initComponent.call(this);
+        }
+    });
 
 Finally triggering the event is easy: 
 
-    .. code-block:: javascript
-       
-        var MyPanel = Ext.Extend(Ext.Panel, {
-             
-            // ...
-             
-            myFunction: function() {
-                var arg1 = "somevalue";
-                this.fireEvent("event1", arg1 /*, arg2, ... etc. */);
-            }
-        });
+.. code-block:: javascript
+   
+    var MyPanel = Ext.Extend(Ext.Panel, {
+         
+        // ...
+         
+        myFunction: function() {
+            var arg1 = "somevalue";
+            this.fireEvent("event1", arg1 /*, arg2, ... etc. */);
+        }
+    });
 
-Great! Now in order for the event to be useful, we have to listen to it. Below is an example of adding two listeners to an instance
-of ``MyPanel`` using the ``on()`` function, and then finally triggering the event by calling ``myFunction()``. 
+Great! Now in order for the event to be useful, we have to listen to it. Below
+is an example of adding two listeners to an instance of ``MyPanel`` using the
+``on()`` function, and then finally triggering the event by calling
+``myFunction()``. 
 
-    .. code-block:: javascript
-       
-        var panel = new MyPanel(/* ... */);
-        
-        // First listener.
-        panel.on("event1", function(arg1) {
-            alert("First listener responded. Got " + arg1 + "!");
-        });
-        
-        // Second listener.
-        panel.on("event1", function(arg1) {
-            alert("Second listener responded. Got " + arg1 + "!");
-        });
+.. code-block:: javascript
+   
+    var panel = new MyPanel(/* ... */);
     
-        panel.myFunction();
+    // First listener.
+    panel.on("event1", function(arg1) {
+        alert("First listener responded. Got " + arg1 + "!");
+    });
+    
+    // Second listener.
+    panel.on("event1", function(arg1) {
+        alert("Second listener responded. Got " + arg1 + "!");
+    });
+
+    panel.myFunction();
        
-.. note:: The ``on()`` function takes an optional third parameter that specifies the scope of the listening function. If given, the ``this``
-   identifier within the listening function will refer to the object passed.
+.. note:: The ``on()`` function takes an optional third parameter that specifies
+    the scope of the listening function. If given, the ``this`` identifier
+    within the listening function will refer to the object passed.
    
 And that's it! Now let's see how to do the same thing in OpenLayers.
 
 OpenLayers Events
 -----------------
 
-OpenLayers provides similar functionality as the ``Ext.util.Observable`` class, but it does so using the ``OpenLayers.Events`` class.
-Unlike ``Ext.util.Observable``, OpenLayers classes do not extend ``OpenLayers.Events``.
+OpenLayers provides similar functionality as the ``Ext.util.Observable`` class,
+but it does so using the ``OpenLayers.Events`` class. Unlike
+``Ext.util.Observable``, OpenLayers classes do not extend ``OpenLayers.Events``.
 
-Instead, it is customary for OpenLayers classes to create an attribute called ``events`` that is an instance of ``OpenLayers.Events``, 
-as per the code below.
+Instead, it is customary for OpenLayers classes to create an attribute called
+``events`` that is an instance of ``OpenLayers.Events``, as per the code below.
 
-    .. code-block:: javascript
-       
-        var MyControl = new OpenLayers.Class(OpenLayers.Control, {
-    
-            events: null,
+.. code-block:: javascript
+   
+    var MyControl = new OpenLayers.Class(OpenLayers.Control, {
+
+        events: null,
+        
+        initialize: function() {
+            this.events = new OpenLayers.Events(
+                this,
+                null,
+                ["event1" /*, "event2", ... etc. */]
+                false
+            );
             
-            initialize: function() {
-                this.events = new OpenLayers.Events(
-                    this,
-                    null,
-                    ["event1" /*, "event2", ... etc. */]
-                    false
-                );
-                
-                OpenLayers.Control.prototype.initialize.call(this);
+            OpenLayers.Control.prototype.initialize.call(this);
+        }
+    });
+       
+The first parameter to the ``OpenLayers.Events`` constructor is the object that
+will 'own' these events -- in other words, the caller that triggers the event.
+In situations like the example above, it is usually ``this``.
+
+The second parameter specifies a ``div`` that will listen to events thrown by
+the browser. Here, this functionality is ignored; see the note below.
+
+The third parameter is an array specifying the events that this
+``OpenLayers.Events`` object can throw. This is analogous to
+``Ext.util.Observable``'s ``addEvents()`` method, and can accept any number of
+events.
+
+The fourth parameter is the ``fallthrough``, a boolean that is related to the
+second parameter above. For our purposes, we'll leave it as ``false``.
+
+.. note:: The ``OpenLayers.Events`` class handles both browser events like when
+    the window resizes, as well as handling developer-created events like
+    ``event1`` above. This makes initializing an ``OpenLayers.Events`` object
+    fairly mucky, though using it like we did above is nearly the same. See more
+    below. 
+
+Triggering an event is just as easy as Ext's ``fireEvent()``, except here we use
+``triggerEvent()``:
+
+.. code-block:: javascript
+   
+    var MyControl = new OpenLayers.Class(OpenLayers.Control, {
+
+        // ...
+        
+        myFunction: function() {
+            var evt = {
+                arg1: "somevalue" /*, arg2: ..., ... etc.*/
             }
-        });
+            this.events.triggerEvent("event1", evt);
+        }
+    });
        
-The first parameter to the ``OpenLayers.Events`` constructor is the object that will 'own' these events -- in other words, the caller
-that triggers the event. In situations like the example above, it is usually ``this``.
-
-The second parameter specifies a ``div`` that will listen to events thrown by the browser. Here, this functionality is ignored; see the note
-below.
-
-The third parameter is an array specifying the events that this ``OpenLayers.Events`` object can throw. This is analogous to 
-``Ext.util.Observable``'s ``addEvents()`` method, and can accept any number of events.
-
-The fourth parameter is the ``fallthrough``, a boolean that is related to the second parameter above. For our purposes, we'll leave
-it as ``false``.
-
-.. note:: The ``OpenLayers.Events`` class handles both browser events like when the window resizes, as well
-   as handling developer-created events like ``event1`` above. This makes initializing an ``OpenLayers.Events`` object fairly mucky,
-   though using it like we did above is nearly the same. See more below. 
-
-Triggering an event is just as easy as Ext's ``fireEvent()``, except here we use ``triggerEvent()``:
-
-    .. code-block:: javascript
-       
-        var MyControl = new OpenLayers.Class(OpenLayers.Control, {
-
-            // ...
-            
-            myFunction: function() {
-                var evt = {
-                    arg1: "somevalue" /*, arg2: ..., ... etc.*/
-                }
-                this.events.triggerEvent("event1", evt);
-            }
-        });
-       
-.. note:: ``OpenLayers.Events`` passes data to listeners using a single object with parameters -- otherwise called
-   'the event object' -- instead of passing function arguments like Ext. All listener functions, then, should only expect 
-   one named argument. See example below.
+.. note:: ``OpenLayers.Events`` passes data to listeners using a single object
+    with properties -- otherwise called 'the event object' -- instead of passing
+    function arguments like Ext. All listener functions, then, should only
+    expect one named argument. See example below.
 
 Finally, let's add two listeners and call ``myFunction()``:
 
-    .. code-block:: javascript
-       
-        var control = new MyControl(/* ... */);
-        
-        // First listener.
-        control.events.register("event1", null, function(evt) {
-            alert("First listener responded. Got " + evt.arg1 + "!");
-        });
-       
-        // Second listener.
-        control.events.register("event1", null, function(evt) {
-            alert("Second listener responded. Got " + evt.arg1 + "!");
-        });
+.. code-block:: javascript
+   
+    var control = new MyControl(/* ... */);
+    
+    // First listener.
+    control.events.register("event1", null, function(evt) {
+        alert("First listener responded. Got " + evt.arg1 + "!");
+    });
+   
+    // Second listener.
+    control.events.register("event1", null, function(evt) {
+        alert("Second listener responded. Got " + evt.arg1 + "!");
+    });
 
-        control.myFunction();
+    control.myFunction();
        
-.. note:: Like Ext's ``on()`` function, OpenLayer's ``register()`` function also takes an optional ``scope`` value in order to specify
-   the scope of the listening function, but it expects this value as the second parameter passed to the function. 
-   We don't have a scope for our listeners in this example, hence the ``null`` parameters.
+.. note:: Like Ext's ``on()`` function, OpenLayer's ``register()`` function also
+    takes an optional ``scope`` value in order to specify the scope of the
+    listening function, but it expects this value as the second parameter passed
+    to the function. We don't have a scope for our listeners in this example,
+    hence the ``null`` parameters.
    
 And that's it! Events in GeoExt should now be old hat. Fire away!
 
