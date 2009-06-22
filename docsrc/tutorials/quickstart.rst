@@ -18,9 +18,7 @@ GeoExt for use on your own web pages is a multi-step process:
 #. Download GeoExt from the :doc:`downloads page </downloads>`.  For the purposes of this
    quickstart, the development version will be fine.
 
-#. Download OpenLayers from http://openlayers.org/. 
-
-   .. note:: GeoExt 0.1 relies on features from OpenLayers 2.8.  Until OpenLayers 2.8 is released, you can use the latest release candidate (link directly to http://openlayers.org/api/2.8-rc2/OpenLayers.js)
+#. Download OpenLayers 2.8 or later from http://openlayers.org/. 
 
 #. Download ExtJS 2.2 from `the ExtJS website <http://extjs.com/products/extjs/download.php>`_.
 
