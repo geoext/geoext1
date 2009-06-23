@@ -8,20 +8,16 @@
 
 Ext.namespace("GeoExt.form");
 
-/**
- * Function: GeoExt.form.toFilter
- * Create an {OpenLayers.Filter} object from a {Ext.form.BasicForm}
- *     or a {Ext.form.FormPanel} instance.
- *
- * Parameters:
- * form - {Ext.form.BasicForm|Ext.form.FormPanel}
- * logicalOp - {String} Either {OpenLayers.Filter.Logical.AND}
- *     or {OpenLayers.Filter.Logical.OR}, set to
- *     {OpenLayers.Filter.Logical.AND} if null or
- *     undefined.
- *
- * Returns:
- * {OpenLayers.Filter}
+/** private: function[toFilter]
+ *  :param form: ``Ext.form.BasicForm|Ext.form.FormPanel``
+ *  :param logicalOp: ``String`` Either ``OpenLayers.Filter.Logical.AND`` or
+ *      ``OpenLayers.Filter.Logical.OR``, set to
+ *      ``OpenLayers.Filter.Logical.AND`` if null or undefined
+ *      
+ *  :return: ``OpenLayers.Filter``
+ *  
+ *  Create an {OpenLayers.Filter} object from a {Ext.form.BasicForm}
+ *      or a {Ext.form.FormPanel} instance.
  */
 GeoExt.form.toFilter = function(form, logicalOp) {
     if(form instanceof Ext.form.FormPanel) {
@@ -55,10 +51,9 @@ GeoExt.form.toFilter = function(form, logicalOp) {
     });
 };
 
-/**
- * Constant: GeoExt.form.omForm.FILTER_MAP
- * An object mapping operator strings as found in field names to
- *     {OpenLayers.Filter.Comparison} types.
+/** private: constant[FILTER_MAP]
+ *  An object mapping operator strings as found in field names to
+ *      ``OpenLayers.Filter.Comparison`` types.
  */
 GeoExt.form.toFilter.FILTER_MAP = {
     "eq": OpenLayers.Filter.Comparison.EQUAL_TO,
