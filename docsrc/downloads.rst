@@ -2,7 +2,4 @@
  Download GeoExt
 =================
 
-Since GeoExt is still in a pre-release state, no minified build is available.  You can still get the development version using svn::
-
-    svn export http://svn.geoext.org/core/trunk/geoext/ GeoExt/
-
+`GeoExt 0.5 RC1 <http://geoext.org/trac/geoext/attachment/wiki/Download/GeoExt-release-0.5-rc1.zip>`
