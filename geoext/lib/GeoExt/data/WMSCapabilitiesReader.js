@@ -45,7 +45,10 @@ GeoExt.data.WMSCapabilitiesReader = function(meta, recordType) {
                 {name: "llbbox"},
                 {name: "minScale"},
                 {name: "maxScale"},
-                {name: "prefix"}
+                {name: "prefix"},
+                {name: "attribution"},
+                {name: "keywords"},
+                {name: "metadataURLs"}
             ]
         );
     }
