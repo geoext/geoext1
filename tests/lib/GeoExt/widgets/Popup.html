@@ -11,7 +11,7 @@
 
         function setupContext() {        
 
-            var map = new OpenLayers.Map();
+            var map = new OpenLayers.Map({panMethod: null}); // avoid tween panning for tests
             var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
             map.addLayer(layer);
 
@@ -70,37 +70,54 @@
             pop.show();
 
             t.ok(Ext.getBody().child("div." + pop.popupCls),"viewport contains popup");
-            
+
             tearDown(context);
         }
 
         function test_anchorPopup(t) {
-            t.plan(4);
+            t.plan(5);
 
             var context = setupContext();
 
             var pop = popup(context.feature);
 
+            // show the popup and move the map to ensure popup is actually visible
             pop.show();
-
+            context.map.setCenter(new OpenLayers.LonLat(5, 45));
+            
+            var moves = 0;
             pop.on({
-                'move' : function(c,x,y){
-                    t.ok(true,"Move event fired on " + action); //should happen twice, on call to position()
+                move: function() {
+                    ++moves;
                 },
                 scope : this
             });
 
             t.ok(pop.getAnchorElement(), "Popup has anchor element");
 
-            var action = "map move";
-            context.map.events.triggerEvent("move");
-            
-            action = "popup collapse";
-            pop.collapse();
+            // move the map and confirm that popup moves
+            context.map.setCenter(new OpenLayers.LonLat(6, 45));
+            t.eq(moves, 1, "anchored popup moves once on map.setCenter");
+            moves = 0;
 
-            action = "popup expand"
+            // anchored popup needs to reposition on collapse, resize and
+            // expand to keep the anchor point on the feature
+
+            // collapse popup and and confirm that it moves
+            pop.collapse();
+            t.eq(moves, 1, "anchored popup moves once on collapse");
+            moves = 0;
+
+            // expand popup and confirm that it moves
             pop.expand();
+            t.eq(moves, 1, "anchored popup moves once on expand");
+            moves = 0;
             
+            // resize popup and confirm that it moves
+            pop.setSize(100, 100);
+            t.eq(moves, 1, "anchored popup moves once on resize");
+            moves = 0;
+
             tearDown(context);
         }
 
@@ -113,7 +130,7 @@
             var pop = popup(context.feature, context.mapPanel);
 
             pop.show();
-        
+
             pop.collapse();
 
             var origPos = pop.getPosition();
