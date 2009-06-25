@@ -84,6 +84,35 @@
             t.eq(mapPanel.layers.getCount(),1,"Adding layers to MapPanel's LayerStore does not create duplicate layers"); 
         }
 
+        function test_store_to_map(t) {
+
+            t.plan(8);
+            
+            var map = new OpenLayers.Map("mappanel");
+            var layers = [new OpenLayers.Layer.Vector("a"),
+                          new OpenLayers.Layer.Vector("b"),
+                          new OpenLayers.Layer.Vector("c")];
+
+            var store = new GeoExt.data.LayerStore({
+                map: map,
+                layers: layers
+            });
+
+            t.eq(store.getCount(), 3, "three layers in store");
+            t.eq(map.layers.length, 3, "three layers on map");
+
+            t.eq(store.getAt(0).get("layer").name, "a", "first layer correct in store");
+            t.eq(map.layers[0].name, "a", "first layer correct on map");
+
+            t.eq(store.getAt(1).get("layer").name, "b", "second layer correct in store");
+            t.eq(map.layers[1].name, "b", "second layer correct on map");
+
+            t.eq(store.getAt(2).get("layer").name, "c", "third layer correct in store");
+            t.eq(map.layers[2].name, "c", "third layer correct on map");
+
+            map.destroy();
+        }
+
         function test_load_clear(t) {
             t.plan(2);
             
