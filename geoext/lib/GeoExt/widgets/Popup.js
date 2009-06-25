@@ -170,7 +170,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
         GeoExt.Popup.superclass.show.apply(this, arguments);
         if(this.anchored) {
             this.position();
-            if(this.panIn && !this._mapmove) {
+            if(this.panIn && !this._mapMove) {
                 this.panIntoView();
             }
         }
