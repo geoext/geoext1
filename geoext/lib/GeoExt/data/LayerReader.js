@@ -59,7 +59,7 @@ Ext.extend(GeoExt.data.LayerReader, Ext.data.DataReader, {
      *  :return: ``Object``  An object with ``records`` and ``totalRecords``
      *      properties.
      *  
-     *  From an array of {OpenLayers.Layer} objects create a data block
+     *  From an array of ``OpenLayers.Layer`` objects create a data block
      *  containing :class:`GeoExt.data.LayerRecord` objects.
      */
     readRecords : function(layers) {

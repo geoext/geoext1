@@ -9,7 +9,7 @@ Brief instructions
 ------------------
 
 This build dir contains a Makefile, which can be used to build GeoExt. The
-build process requires a bash-like shell, make, sed, find and svn. All this
+build process requires a bash-like shell, make, sed, find and rsync. All this
 should be available on well equipped development *nix and OS X boxes. In
 addition, JSTools and csstidy are required. The latter is available as csstidy
 package on debian-style linux systems.

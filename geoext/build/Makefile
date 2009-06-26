@@ -1,7 +1,8 @@
-# Makefile for GeoExplorer apps
+# Makefile for GeoExt
 
+VERSION = r$(shell echo '$$Revision$$' | tr -d "[:alpha:]$$ :")
 LIB_NAME = GeoExt
-ZIP_NAME = $(LIB_NAME).zip
+ZIP_NAME = $(LIB_NAME)-$(VERSION).zip
 
 CSS_DIR = $(LIB_NAME)/resources/css
 CSS_IMPORTS = $(shell cat ../resources/css/geoext-all-debug.css | grep '@import' | sed 's/^@import "\(.*\)";/\1/')
@@ -23,6 +24,7 @@ help:
 	@echo "  make lib LIB_NAME=MyLib"
 	@echo "  make zip"
 	@echo "  make zip ZIP_NAME=MyZip.zip"
+	@echo "  make dist VERSION=0.5-rc1"
 
 clean:
 	-rm -rf $(LIB_NAME)
@@ -35,7 +37,7 @@ ext:
 
 examples:
 	mkdir -p $(LIB_NAME)/examples 
-	svn export --force ../examples $(LIB_NAME)/examples
+	rsync -au --exclude=.svn `pwd`/../examples `pwd`/$(LIB_NAME)
 	for file in `find $(LIB_NAME)/examples/ -name "*.html"`; do \
 	    sed -i "s/\.\.\/lib\/GeoExt\.js/\.\.\/script\/GeoExt\.js/g" $${file} ; \
 	    sed -i "s/geoext-all-debug\.css/geoext-all\.css/g" $${file} ; \
@@ -46,8 +48,9 @@ lib:
 	mkdir -p $(LIB_NAME)/script $(LIB_NAME)/resources/css
 	
 	jsbuild full.cfg -v -o $(LIB_NAME)/script/ -s GeoExt.js
+	echo "GeoExt.VERSION_NUMBER='$(VERSION)';" >> $(LIB_NAME)/script/GeoExt.js 
 	
-	svn export --force ../resources $(LIB_NAME)/resources
+	rsync -au --exclude=.svn `pwd`/../resources `pwd`/$(LIB_NAME)
 	
 	for file in `find $(CSS_DIR) -name "*.css"`; do \
 	    csstidy $${file} --template=highest $${file} ; \
