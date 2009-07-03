@@ -28,7 +28,7 @@
         
         function test_render(t) {
             
-            t.plan(2);
+            t.plan(3);
             
             var map = new OpenLayers.Map({
                 div: "map",
@@ -52,6 +52,7 @@
             
             t.eq(node.childNodes && node.childNodes.length, 1, "container has one child");
             t.ok(node.firstChild.layer === layer, "child layer is correct");
+            t.eq(node.firstChild.attributes.iconCls, "gx-tree-layer-icon", "iconClass for child set correctly");
 
             node.destroy();
             map.destroy();

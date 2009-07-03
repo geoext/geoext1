@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <script src="../../../../../../openlayers/lib/OpenLayers.js"></script>
+        <script src="../../../../../../ext/adapter/ext/ext-base.js"></script>
+        <script src="../../../../../../ext/ext-all-debug.js"></script>
+        <script src="../../../../../lib/GeoExt.js"></script>
+    
+        <script>
+        
+        function test_render(t) {
+            
+            t.plan(2);
+            
+            var map = new OpenLayers.Map({
+                div: "map"
+            });
+            // add a base layer
+            var layer = new OpenLayers.Layer("foo", {isBaseLayer: true});
+            map.addLayer(layer);
+            // add an overlay
+            map.addLayer(new OpenLayers.Layer());
+            
+            var store = new GeoExt.data.LayerStore({
+                map: map
+            });
+            
+            var node = new GeoExt.tree.BaseLayerContainer({
+                layerStore: store
+            });
+            
+            var panel = new Ext.tree.TreePanel({
+                renderTo: document.body,
+                root: node
+            });
+            
+            t.eq(node.childNodes.length, 1, "only base layers get added to the container");
+            t.eq(node.firstChild.attributes.iconCls, "gx-tree-baselayer-icon", "iconClass for child set correctly");
+
+            node.destroy();
+            map.destroy();
+            
+        }
+        
+        </script>
+    </head>
+    <body>
+        <div id="map" style="width: 100px; height: 100px;"></div>
+    </body>
+</html>
