@@ -22,8 +22,8 @@ Ext.namespace("GeoExt.tree");
  * 
  *      A subclass of ``Ext.tree.TreeNode`` that will collect all layers of an
  *      OpenLayers map. Only layers that have displayInLayerSwitcher set to true
- *      will be included. The childrens' iconCls will be set to "baselayer-icon"
- *      for base layers, and to "layer-icon" for overlay layers.
+ *      will be included. The childrens' iconCls defaults to
+ *      "gx-tree-layer-icon".
  * 
  *      To use this node type in ``TreePanel`` config, set nodeType to
  *      "gx_layercontainer".
@@ -152,8 +152,8 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         index = index || 0;
         var layer = layerRecord.get("layer");
         if (layer.displayInLayerSwitcher === true) {
-            var node = new GeoExt.tree.LayerNode(Ext.applyIf({
-                iconCls: layer.isBaseLayer ? 'baselayer-icon' : 'layer-icon',
+            var node = new GeoExt.tree.LayerNode(Ext.apply({
+                iconCls: 'gx-tree-layer-icon',
                 layer: layer,
                 layerStore: this.layerStore
             }, this.defaults));

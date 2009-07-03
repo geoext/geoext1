@@ -26,7 +26,7 @@
         
         function test_render(t) {
             
-            t.plan(5);
+            t.plan(7);
             
             var layer = new OpenLayers.Layer("foo");
             
@@ -38,6 +38,7 @@
             var node = new GeoExt.tree.LayerNode({
                 layer: "foo",
                 radioGroup: "group",
+                checkedGroup: "check",
                 childNodeType: {
                     add: function() {
                         t.ok(true, "add function of childNodeType called");
@@ -60,6 +61,9 @@
                 t.ok(node.ui.radio, "node has a radio button");
                 // simulate a click event for testing the radiochange event
                 node.ui.onClick({getTarget: function() {return true}});
+                
+                t.eq(node.ui.checkbox.type, "radio", "checkbox rendered as radio button when checkedGroup is configured");
+                t.eq(node.ui.checkbox.name, "check_checkbox", "option group name set correclty according to checkedGroup");
                 
                 node.ui.toggleCheck();
                 t.eq(layer.visibility, false, "unchecking node hides layer");

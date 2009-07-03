@@ -25,7 +25,10 @@ Ext.namespace("GeoExt.tree");
  * 
  *     A layer container that will collect all base layers of an OpenLayers
  *     map. Only layers that have displayInLayerSwitcher set to true will be
- *     included.
+ *     included. The childrens' iconCls defaults to "gx-tree-baselayer-icon".
+ *     
+ *     Children will be rendered with a radio button instead of a checkbox,
+ *     showing the user that only one base layer can be active at a time.
  * 
  *     To use this node type in ``TreePanel`` config, set nodeType to
  *     "gx_baselayercontainer".
@@ -37,6 +40,10 @@ GeoExt.tree.BaseLayerContainer = Ext.extend(GeoExt.tree.LayerContainer, {
      */
     constructor: function(config) {
         config.text = config.text || "Base Layer";
+        config.defaults = Ext.apply({
+            iconCls: 'gx-tree-baselayer-icon',
+            checkedGroup: 'baselayer'
+        }, config.defaults);
         GeoExt.tree.BaseLayerContainer.superclass.constructor.apply(this, arguments);
     },
 
