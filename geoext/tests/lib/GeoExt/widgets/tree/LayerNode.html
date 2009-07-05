@@ -74,7 +74,7 @@
         }
 
         function test_changelayername(t) {
-            t.plan(1);
+            t.plan(2);
 
             var layer = new OpenLayers.Layer("test");
 
@@ -95,6 +95,15 @@
 
             layer.setName("My new name");
             t.eq(node.text, "My new name", "Node is named 'My new name' after layer setName is called");
+            
+            node = new GeoExt.tree.LayerNode({
+                layer: "My new name",
+                layerStore: mapPanel.layers,
+                text: "My custom text"
+            });
+            
+            layer.setName("test");
+            t.eq(node.text, "My custom text", "Node text does not change with layer name if custom text was provided");
 
             node.destroy();
             mapPanel.destroy();

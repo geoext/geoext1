@@ -334,8 +334,9 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
      */
     onStoreUpdate: function(store, record, operation) {
     	var layer = record.get("layer");
-        if(this.layer == layer && this.text !== layer.name) {
-            this.setText(layer.name);
+        if(this.layer == layer && record.isModified("title") &&
+                                    record.modified["title"] == this.text) {
+            this.setText(record.get("title"));
         }
     },
 
