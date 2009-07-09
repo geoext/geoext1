@@ -152,7 +152,7 @@ GeoExt.tree.LayerContainer = Ext.extend(Ext.tree.TreeNode, {
         index = index || 0;
         var layer = layerRecord.get("layer");
         if (layer.displayInLayerSwitcher === true) {
-            var Node = this.defaults.nodeType ?
+            var Node = (this.defaults && this.defaults.nodeType) ?
                 Ext.tree.TreePanel.nodeTypes[this.defaults.nodeType] :
                 GeoExt.tree.LayerNode;
             var node = new Node(Ext.apply({
