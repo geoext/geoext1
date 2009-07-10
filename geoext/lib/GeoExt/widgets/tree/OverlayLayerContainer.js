@@ -42,16 +42,18 @@ GeoExt.tree.OverlayLayerContainer = Ext.extend(GeoExt.tree.LayerContainer, {
     },
 
     /** private: method[addLayerNode]
-     *  :param layerRecord:  ``Ext.data.Record`` the layer record to add a node
-     *      for
+     *  :param layerRecord: ``Ext.data.Record`` The layer record containing the
+     *      layer to be added.
+     *  :param index: ``Number`` Optional index for the new layer.  Default is 0.
      *  
      *  Adds a child node representing a overlay layer of the map.
      */
-    addLayerNode: function(layerRecord) {
+    addLayerNode: function(layerRecord, index) {
         var layer = layerRecord.get("layer");
         if (layer.isBaseLayer == false) {
-            GeoExt.tree.OverlayLayerContainer.superclass.addLayerNode.call(this,
-                layerRecord);
+            GeoExt.tree.OverlayLayerContainer.superclass.addLayerNode.apply(
+                this, arguments
+            );
         }
     },
     
@@ -64,8 +66,9 @@ GeoExt.tree.OverlayLayerContainer = Ext.extend(GeoExt.tree.LayerContainer, {
     removeLayerNode: function(layerRecord) {
         var layer = layerRecord.get("layer");
         if (layer.isBaseLayer == false) {
-            GeoExt.tree.OverlayLayerContainer.superclass.removeLayerNode.call(
-                this, layerRecord);
+            GeoExt.tree.OverlayLayerContainer.superclass.removeLayerNode.apply(
+                this, arguments
+            );
     	}
     }
 });
