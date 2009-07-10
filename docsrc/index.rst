@@ -13,7 +13,7 @@ the web with JavaScript.
 `Documentation <./docs.html>`_ | 
 `Examples <./examples/index.html>`_ | 
 `Download <./downloads.html>`_ | 
-`Development <http://www.geoext.org/trac/geoext/>`_
+`Development <http://trac.geoext.org/>`_
 
 Using GeoExt
 ------------
