@@ -26,16 +26,35 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
 
     /** api: config[imageFormat]
      *  ``String``  
-     *  The image format to request the legend image in.
-     *  Defaults to image/png.
+     *  The image format to request the legend image in if the url cannot be
+     *  determined from the styles field of the layer record. Defaults to
+     *  image/gif.
      */
     imageFormat: "image/gif",
+    
+    /** api: config[defaultStyleIsFirst]
+     *  ``String``
+     *  The WMS spec does not say if the first style advertised for a layer in
+     *  a Capabilities document is the default style that the layer is
+     *  rendered with. We make this assumption by default. To be strictly WMS
+     *  compliant, set this to false, but make sure to configure a STYLES
+     *  param with your WMS layers, otherwise LegendURLs advertised in the
+     *  GetCapabilities document cannot be used.
+     */
+    defaultStyleIsFirst: true,
 
     /** api: config[layer]
      *  ``OpenLayers.Layer.WMS``
-     *  The WMS layer to request the legend for.
+     *  The WMS layer to request the legend for. Not required if record is
+     *  provided.
      */
     layer: null,
+    
+    /** api: config[record]
+     *  ``Ext.data.Record``
+     *  optional record containing the layer 
+     */
+    record: null,
 
     /** api: config[bodyBorder]
      *  ``Boolean``
@@ -49,6 +68,9 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
      */
     initComponent: function() {
         GeoExt.LegendWMS.superclass.initComponent.call(this);
+        if(!this.layer) {
+            this.layer = this.record.get("layer");
+        }
         this.createLegend();
     },
 
@@ -78,10 +100,25 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
      */
     createLegend: function() {
         var layers = this.layer.params.LAYERS.split(",");
+        var styleNames = this.layer.params.STYLES &&
+            this.layer.params.STYLES.split(",");
+        var styles = this.record && this.record.get("styles");
+        var url, layerName, styleName;
         for (var i = 0, len = layers.length; i < len; i++){
-            var layerName = layers[i];
+            layerName = layers[i];
+            if(styles) {
+                styleName = styleNames && styleNames[i];
+                if(styleName) {
+                    Ext.each(styles, function(s) {
+                        url = (s.name == styleName && s.legend) && s.legend.href;
+                        return !url;
+                    })
+                } else if(this.defaultStyleIsFirst === true){
+                    url = styles[0].legend && styles[0].legend.href;
+                }
+            }
             var legend = new GeoExt.LegendImage({url:
-                this.getLegendUrl(layerName)});
+                url || this.getLegendUrl(layerName)});
             this.add(legend);
         }
     }

@@ -8,16 +8,7 @@
 
     <script type="text/javascript">
 
-        function createMap() {
-            var map = new OpenLayers.Map({allOverlays: true});
-            var layer = new OpenLayers.Layer.WMS("test", '/ows', {layers: 'a'});
-            map.addLayer(layer);
-            return map;
-        }
-
         function loadMapPanel() {
-            var map = createMap();
-
             mapPanel = new GeoExt.MapPanel({
                 // panel options
                 id: "map-panel",
@@ -26,7 +17,9 @@
                 height: 400,
                 width: 600,
                 // map panel-specific options
-                map: map,
+                layers: [
+                    new OpenLayers.Layer.WMS("test", '/ows', {layers: 'a'})
+                ],
                 center: new OpenLayers.LonLat(5, 45),
                 zoom: 4
             });
@@ -41,7 +34,7 @@
                 renderTo: 'legendpanel'});
             lp.render();
 
-            var newUrl = "http://www.geoext.org//trac/geoext/chrome/site/img/GeoExt.png";
+            var newUrl = "http://trac.geoext.org/chrome/site/img/GeoExt.png";
             mapPanel.layers.getAt(0).set("legendURL", newUrl);
 
             var item = lp.getComponent(mapPanel.map.layers[0].id);
@@ -104,19 +97,24 @@
         }
 
         function test_wms(t) {
-            t.plan(1);
+            t.plan(3);
             var mapPanel = loadMapPanel();
+            var LegendWMS = GeoExt.LegendWMS;
+            GeoExt.LegendWMS = function(config) {
+                t.ok(config.record == mapPanel.layers.getAt(0), "layer record passed correctly");
+                t.ok(config.layer == mapPanel.map.layers[0], "layer passed correctly");
+                t.eq(config.foo, "bar", "legendOptions passed correctly");
+                return new Ext.Panel();
+            }
             var lp  = new GeoExt.LegendPanel({
-                renderTo: 'legendpanel'});
+                renderTo: 'legendpanel',
+                legendOptions: {foo: "bar"}
+            });
             lp.render();
-
-            var item = lp.getComponent(mapPanel.map.layers[0].id);
-            var url = item.items.get(1).items.get(0).url;
-            var expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&LAYER=a";
-            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
 
             lp.destroy();
             mapPanel.destroy();
+            GeoExt.LegendWMS = LegendWMS;
         }
 
         function test_addremove(t) {
