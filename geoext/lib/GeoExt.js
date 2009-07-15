@@ -92,7 +92,8 @@
             "GeoExt/widgets/LegendImage.js",
             "GeoExt/widgets/LegendWMS.js",
             "GeoExt/widgets/LegendPanel.js",
-            "GeoExt/widgets/ZoomSlider.js"
+            "GeoExt/widgets/ZoomSlider.js",
+            "GeoExt/widgets/grid/FeatureSelectionModel.js"
         );
 
         var agent = navigator.userAgent;
