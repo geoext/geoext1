@@ -28,7 +28,7 @@
         }
 
         function test_legendurl(t) {
-            t.plan(1);
+            t.plan(2);
             var mapPanel = loadMapPanel();
             var lp  = new GeoExt.LegendPanel({
                 renderTo: 'legendpanel'});
@@ -40,6 +40,13 @@
             var item = lp.getComponent(mapPanel.map.layers[0].id);
             var url = item.items.get(1).items.get(0).getEl().dom.src;
             t.eq(url, newUrl, "Update the image with the provided legendURL");
+
+            var vectorLayer = new OpenLayers.Layer.Vector("vector layer");
+            mapPanel.map.addLayer(vectorLayer);
+
+            vectorLayer.setVisibility(false);
+
+            t.eq(lp.items.length, 1, "Currently there are no legends for non WMS layers");
 
             lp.destroy();
             mapPanel.destroy();

@@ -136,7 +136,7 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
         var layer = record.get('layer');
         var legend = this.getComponent(layer.id);
         if ((this.showTitle && !record.get('hideTitle')) && 
-            (legend.items.get(0).text !== record.get('title'))) {
+            (legend && legend.items.get(0).text !== record.get('title'))) {
                 // we need to update the title
                 legend.items.get(0).setText(record.get('title'));
         }
