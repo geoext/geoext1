@@ -99,7 +99,8 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
      *  Add one BoxComponent per sublayer to this panel.
      */
     createLegend: function() {
-        var layers = this.layer.params.LAYERS.split(",");
+        var layers = (this.layer.params.LAYERS instanceof Array) ? 
+            this.layer.params.LAYERS : this.layer.params.LAYERS.split(",");
         var styleNames = this.layer.params.STYLES &&
             this.layer.params.STYLES.split(",");
         var styles = this.record && this.record.get("styles");

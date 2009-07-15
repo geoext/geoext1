@@ -28,7 +28,7 @@
         }
 
         function test_legendurl(t) {
-            t.plan(2);
+            t.plan(3);
             var mapPanel = loadMapPanel();
             var lp  = new GeoExt.LegendPanel({
                 renderTo: 'legendpanel'});
@@ -47,6 +47,11 @@
             vectorLayer.setVisibility(false);
 
             t.eq(lp.items.length, 1, "Currently there are no legends for non WMS layers");
+
+            var wms = new OpenLayers.Layer.WMS("testArray", '/ows', {layers: ['a', 'b', 'c']});
+            mapPanel.map.addLayer(wms);
+
+            t.eq(lp.items.length, 2, "The legend panel can deal with WMS layers which have a LAYERS params which is an array");
 
             lp.destroy();
             mapPanel.destroy();
