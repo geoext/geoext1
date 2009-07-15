@@ -64,7 +64,8 @@ Ext.onReady(function() {
             header: "Elevation",
             width: 100,
             dataIndex: "elevation"
-        }]
+        }],
+        sm: new GeoExt.grid.FeatureSelectionModel() 
     });
 
     // create a panel and add the map panel and grid panel
