@@ -72,10 +72,10 @@ GeoExt.grid.FeatureSelectionModelMixin = {
      */
 
     /** private: property[selectControl] 
- 	 *  ``OpenLayers.Control.SelectFeature`` The select feature control 
- 	 *  instance. 
- 	 */ 
- 	selectControl: null, 
+     *  ``OpenLayers.Control.SelectFeature`` The select feature control 
+     *  instance. 
+     */ 
+    selectControl: null, 
     
     /** api: config[layer]
      *  ``OpenLayers.Layer.Vector`` The vector layer used for the creation of
