@@ -6,8 +6,6 @@
  * of the license.
  */
 
-Ext.BLANK_IMAGE_URL = "../../../../ext/resources/images/default/s.gif"
-
 var mapPanel, store, gridPanel, mainPanel;
 
 Ext.onReady(function() {
