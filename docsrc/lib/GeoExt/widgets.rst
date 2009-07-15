@@ -27,6 +27,21 @@ functionality to ``Ext.form`` classes.
     widgets/form/*
 
 
+.. module:: GeoExt.grid
+    :synopsis: A collection of grid related classes.
+
+:mod:`GeoExt.grid`
+==================
+
+The :mod:`GeoExt.grid` module contains classes that extend map related
+functionality to ``Ext.grid`` classes.
+
+.. toctree::
+    :maxdepth: 1
+    :glob:
+    
+    widgets/grid/*
+
 
 .. module:: GeoExt.tree
     :synopsis: A collection of tree related classes.
