@@ -4132,6 +4132,14 @@ var doc = (new OpenLayers.Format.XML).read(
       'AUTHORITY["EPSG","4326"]]-->' +
             '<LatLonBoundingBox minx="-74.08769307536667" miny="40.660618924633326" maxx="-73.84653192463333" maxy="40.90178007536667"/>' +
             '<BoundingBox SRS="EPSG:4326" minx="-74.02722" miny="40.684221" maxx="-73.907005" maxy="40.878178"/>' +
+            '<Attribution>' +
+              '<Title>Foo Authority</Title>' +
+              '<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://foo/about/" />' +
+              '<LogoURL width="24" height="24">' +
+                '<Format>image/png</Format>' +
+                '<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://foo/logo.png" />' +
+              '</LogoURL>' +
+            '</Attribution>' +
             '<Style>' +
               '<Name>tiger_roads</Name>' +
               '<Title>Default Styler</Title>' +
