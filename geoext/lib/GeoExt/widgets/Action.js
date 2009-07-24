@@ -100,6 +100,9 @@ GeoExt.Action = Ext.extend(Ext.Action, {
                 config.map.addControl(ctrl);
                 delete config.map;
             }
+            if((config.pressed || config.checked) && ctrl.map) {
+                ctrl.activate();
+            }
             ctrl.events.on({
                 activate: this.onCtrlActivate,
                 deactivate: this.onCtrlDeactivate,
