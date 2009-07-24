@@ -368,6 +368,71 @@
             t.eq(deactivateCtrl1Cnt, 1, "click on item2 deactivates ctrl1 once");
             t.eq(activateCtrl2Cnt, 1, "click on item2 activates ctrl2 once");
         }
+        
+        function test_pressed(t) {
+            
+            t.plan(2);
+            
+            var map = new OpenLayers.Map();
+            var ctrl1 = new OpenLayers.Control();
+            var ctrl2 = new OpenLayers.Control();
+            
+            // confirm that control is activated with pressed true
+            var act1 = new GeoExt.Action({
+                control: ctrl1,
+                map: map,
+                pressed: true,
+                enableToggle: true,
+                toggleGroup: "group"
+            });
+            t.eq(ctrl1.active, true, "ctrl1 activated with pressed true");
+            
+            // confirm that a control is not activated with pressed false
+            var act2 = new GeoExt.Action({
+                control: ctrl2,
+                map: map,
+                pressed: false,
+                enableToggle: true,
+                toggleGroup: "group"
+            });
+            t.ok(!ctrl2.active, "ctrl2 not activated with pressed false");
+            
+            map.destroy();
+            
+        }
+        
+        function test_checked(t) {
+            
+            t.plan(2);
+            
+            var map = new OpenLayers.Map();
+            var ctrl1 = new OpenLayers.Control();
+            var ctrl2 = new OpenLayers.Control();
+            
+            // confirm that control is activated with checked true
+            var act1 = new GeoExt.Action({
+                control: ctrl1,
+                map: map,
+                checked: true,
+                enableToggle: true,
+                toggleGroup: "group"
+            });
+            t.eq(ctrl1.active, true, "ctrl1 activated with checked true");
+            
+            // confirm that a control is not activated with checked false
+            var act2 = new GeoExt.Action({
+                control: ctrl2,
+                map: map,
+                checked: false,
+                enableToggle: true,
+                toggleGroup: "group"
+            });
+            t.ok(!ctrl2.active, "ctrl2 not activated with checked false");
+            
+            map.destroy();
+            
+        }
+        
     </script>
   <body>
     <div id="toolbar"></div>
