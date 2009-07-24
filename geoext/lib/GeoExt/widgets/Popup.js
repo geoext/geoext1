@@ -145,7 +145,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
         this.ancCls = this.popupCls + "-anc";
 
         //create anchor dom element.
-        this.createElement("anc", this.el);
+        this.createElement("anc", this.el.dom);
     },
 
     /** private: method[initTools]
@@ -184,7 +184,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
      */
     setSize: function(w, h) {
         if(this.anc) {
-            var ancSize = this.getAnchorElement().getSize();
+            var ancSize = this.anc.getSize();
             if(typeof w == 'object') {
                 h = w.height - ancSize.height;
                 w = w.width;
@@ -214,27 +214,14 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
     
             //This works for positioning with the anchor on the bottom.
             
-            //Will have to functionalize this out later and allow
-            //for other positions relative to the feature.
-            var anchorSelector = "div." + this.ancCls;
-    
-            var dx = this.anc.down(anchorSelector).getLeft(true) +
-                                this.anc.down(anchorSelector).getWidth() / 2;
+            var anc = this.anc;
+            var dx = anc.getLeft(true) + anc.getWidth() / 2;
             var dy = this.el.getHeight();
     
             //Assuming for now that the map viewport takes up
             //the entire area of the MapPanel
             this.setPosition(centerPx.x + mapBox.x - dx, centerPx.y + mapBox.y - dy);
         }
-    },
-
-    /** private: method[getAnchorElement]
-     *  :returns: ``Ext.Element``  The anchor element of the popup.
-     */
-    getAnchorElement: function() {
-        var anchorSelector = "div." + this.ancCls;
-        var anc = Ext.get(this.el.child(anchorSelector));
-        return anc;
     },
 
     /** private: method[unanchorPopup]
@@ -250,7 +237,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
         this.dd = new Ext.Window.DD(this);
 
         //remove anchor
-        this.getAnchorElement().remove();
+        this.anc.remove();
         this.anc = null;
 
         //hide unpin tool

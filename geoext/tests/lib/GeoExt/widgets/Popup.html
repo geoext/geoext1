@@ -93,7 +93,7 @@
                 scope : this
             });
 
-            t.ok(pop.getAnchorElement(), "Popup has anchor element");
+            t.ok(pop.anc, "Popup has anchor element");
 
             // move the map and confirm that popup moves
             context.map.setCenter(new OpenLayers.LonLat(6, 45));
@@ -139,7 +139,7 @@
 
             var newPos = pop.getPosition();
 
-            t.ok(!pop.getAnchorElement(),"Anchor element removed");
+            t.ok(!pop.anc,"Anchor element removed");
             t.ok(!this.collapsed, "Preserved collapsed state");
             t.eq(origPos[0],newPos[0],"Popup remains in same position (X)");
             t.eq(origPos[1],newPos[1],"Popup remains in same position (Y)");
