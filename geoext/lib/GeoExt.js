@@ -87,6 +87,7 @@
             "GeoExt/widgets/tips/LayerOpacitySliderTip.js",
             "GeoExt/widgets/tips/ZoomSliderTip.js",
             "GeoExt/widgets/tree/LayerNode.js",
+            "GeoExt/widgets/tree/LayerLoader.js",
             "GeoExt/widgets/tree/LayerContainer.js",
             "GeoExt/widgets/tree/BaseLayerContainer.js",
             "GeoExt/widgets/tree/OverlayLayerContainer.js",

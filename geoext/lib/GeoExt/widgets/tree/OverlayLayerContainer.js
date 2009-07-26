@@ -36,40 +36,19 @@ GeoExt.tree.OverlayLayerContainer = Ext.extend(GeoExt.tree.LayerContainer, {
      *  Private constructor override.
      */
     constructor: function(config) {
-        config.text = config.text || "Overlays";
-        GeoExt.tree.OverlayLayerContainer.superclass.constructor.apply(this,
-            arguments);
-    },
-
-    /** private: method[addLayerNode]
-     *  :param layerRecord: ``Ext.data.Record`` The layer record containing the
-     *      layer to be added.
-     *  :param index: ``Number`` Optional index for the new layer.  Default is 0.
-     *  
-     *  Adds a child node representing a overlay layer of the map.
-     */
-    addLayerNode: function(layerRecord, index) {
-        var layer = layerRecord.get("layer");
-        if (layer.isBaseLayer == false) {
-            GeoExt.tree.OverlayLayerContainer.superclass.addLayerNode.apply(
-                this, arguments
-            );
-        }
-    },
-    
-    /** private: method[removeLayerNode]
-     *  :param layerRecord: ``Ext.data.Record`` the layer record to remove the
-     *      node for
-     *      
-     * Removes a child node representing an overlay layer of the map.
-     */
-    removeLayerNode: function(layerRecord) {
-        var layer = layerRecord.get("layer");
-        if (layer.isBaseLayer == false) {
-            GeoExt.tree.OverlayLayerContainer.superclass.removeLayerNode.apply(
-                this, arguments
-            );
-    	}
+        config = Ext.applyIf(config || {}, {
+            text: "Overlays"
+        });
+        config.loader = Ext.applyIf(config.loader || {}, {
+            filter: function(record){
+                var layer = record.get("layer");
+                return layer.displayInLayerSwitcher === true &&
+                layer.isBaseLayer === false;
+            }
+        });
+        
+        GeoExt.tree.OverlayLayerContainer.superclass.constructor.call(this,
+            config);
     }
 });
 

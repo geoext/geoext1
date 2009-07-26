@@ -39,43 +39,24 @@ GeoExt.tree.BaseLayerContainer = Ext.extend(GeoExt.tree.LayerContainer, {
      *  Private constructor override.
      */
     constructor: function(config) {
-        config.text = config.text || "Base Layer";
-        config.defaults = Ext.apply({
-            iconCls: 'gx-tree-baselayer-icon',
-            checkedGroup: 'baselayer'
-        }, config.defaults);
-        GeoExt.tree.BaseLayerContainer.superclass.constructor.apply(this, arguments);
-    },
+        config = Ext.applyIf(config || {}, {
+            text: "Base Layer",
+            loader: {}
+        });
+        config.loader = Ext.applyIf(config.loader, {
+            baseAttrs: Ext.applyIf(config.loader.baseAttrs || {}, {
+                iconCls: 'gx-tree-baselayer-icon',
+                checkedGroup: 'baselayer'
+            }),
+            filter: function(record) {
+                var layer = record.get("layer");
+                return layer.displayInLayerSwitcher === true &&
+                    layer.isBaseLayer === true;
+            }
+        });
 
-    /** private: method[addLayerNode]
-     *  :param layerRecord: ``Ext.data.Record`` The layer record containing the
-     *      layer to be added.
-     *  :param index: ``Number`` Optional index for the new layer.  Default is 0.
-     *  
-     *  Adds a child node representing a base layer of the map
-     */
-    addLayerNode: function(layerRecord, index) {
-        var layer = layerRecord.get("layer");
-        if (layer.isBaseLayer == true) {
-            GeoExt.tree.BaseLayerContainer.superclass.addLayerNode.apply(
-                this, arguments
-            );
-        }
-    },
-    
-    /** private: method[removeLayerNode]
-     *  :param layerRecord: ``Ext.data.Record`` the layer record to remove the
-     *      node for
-     *
-     *  Removes a child node representing a base layer of the map.
-     */
-    removeLayerNode: function(layerRecord) {
-        var layer = layerRecord.get("layer");
-        if (layer.isBaseLayer == true) {
-            GeoExt.tree.BaseLayerContainer.superclass.removeLayerNode.apply(
-                this, arguments
-            );
-    	}
+        GeoExt.tree.BaseLayerContainer.superclass.constructor.call(this,
+            config);
     }
 });
 

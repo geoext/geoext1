@@ -16,8 +16,8 @@ Ext.onReady(function() {
         nodeType: "gx_overlaylayercontainer",
         // render the nodes inside this container with a radio button,
         // and assign them the group "foo"
-        defaults: {
-            radioGroup: "foo"
+        loader: {
+            baseAttrs: {radioGroup: "foo"}
         }
     }, {
         nodeType: "gx_layer",
@@ -136,7 +136,7 @@ Ext.onReady(function() {
         collapseMode: "mini",
         autoScroll: true,
         loader: new Ext.tree.TreeLoader({
-            clearOnLoad: true
+            applyLoader: false
         }),
         root: {
             nodeType: "async",
