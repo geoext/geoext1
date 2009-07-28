@@ -14,8 +14,8 @@
 Ext.namespace('GeoExt', 'GeoExt.data');
 
 GeoExt.data.ProtocolProxy = function(config) {
-    GeoExt.data.ProtocolProxy.superclass.constructor.call(this);
     Ext.apply(this, config);
+    GeoExt.data.ProtocolProxy.superclass.constructor.apply(this, arguments);
 };
 
 /** api: constructor
