@@ -140,16 +140,7 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
      */
     renderMap: function() {
         var map = this.map;
-
-        // hack: prevent map.updateSize (called from within map.render) from 
-        // zooming to the map extent. This hack is a workaround for 
-        // <http://trac.openlayers.org/ticket/2105> and must be
-        // removed once this ticket is closed.
-        var setCenter = map.setCenter;
-        map.setCenter = function() {};
         map.render(this.body.dom);
-        map.setCenter = setCenter;
-
         if(map.layers.length > 0) {
             if(this.center || this.zoom != null) {
                 // both do not have to be defined
