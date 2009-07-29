@@ -34,22 +34,25 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         if (a.checked === undefined) {
             a.checked = this.node.layer.getVisibility();
         }
-        GeoExt.tree.LayerNodeUI.superclass.render.call(this, bulkRender);
+        GeoExt.tree.LayerNodeUI.superclass.render.apply(this, arguments);
+        var cb = this.checkbox;
         if (a.radioGroup && this.radio === null) {
-            this.radio = Ext.DomHelper.insertAfter(this.checkbox,
+            this.radio = Ext.DomHelper.insertAfter(cb,
                 ['<input type="radio" class="gx-tree-layer-radio" name="',
                 a.radioGroup, '_radio"></input>'].join(""));
         }
         if(a.checkedGroup) {
             // replace the checkbox with a radio button
-            var radio = Ext.DomHelper.insertAfter(this.checkbox,
+            var radio = Ext.DomHelper.insertAfter(cb,
                 ['<input type="radio" name="', a.checkedGroup,
-                '_checkbox" class="', this.checkbox.className, 
-                this.checkbox.checked ? '" checked="checked"' : '',
+                '_checkbox" class="', cb.className,
+                cb.checked ? '" checked="checked"' : '',
                 '"></input>'].join(""));
-            Ext.get(this.checkbox).remove();
+            radio.defaultChecked = cb.defaultChecked;
+            Ext.get(cb).remove();
             this.checkbox = radio;
         }
+        this.enforceOneVisible();
     },
     
     /** private: method[onClick]
@@ -59,33 +62,84 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         if (e.getTarget('.gx-tree-layer-radio', 1)) {
             this.fireEvent("radiochange", this.node);
         } else if(e.getTarget('.x-tree-node-cb', 1)) {
-            GeoExt.tree.LayerNodeUI.superclass.onCheckChange.call(this);
+            this.onCheckChange();
         } else {
-            GeoExt.tree.LayerNodeUI.superclass.onClick.call(this, e);
+            GeoExt.tree.LayerNodeUI.superclass.onClick.apply(this, arguments);
         }
     },
     
     /** private: method[toggleCheck]
-     *  :param value: ``Boolean``
+     * :param value: ``Boolean``
      */
     toggleCheck: function(value) {
-        GeoExt.tree.LayerNodeUI.superclass.toggleCheck.call(this, value);
-        var node = this.node;
-        var layer = this.node.layer;
-        node.visibilityChanging = true;
-        if(this.checkbox && (layer.getVisibility() != this.isChecked())) {
-            layer.setVisibility(this.isChecked());
+        if(!this._visibilityChanging) {
+            this._visibilityChanging = true;
+            
+            // make sure we do not hide the checked layer from a checkedGroup
+            value = (value === undefined ? !this.isChecked() : value) ||
+                    (this.isChecked() && !!this.node.attributes.checkedGroup);
+            GeoExt.tree.LayerNodeUI.superclass.toggleCheck.call(this, value);
+            
+            this.enforceOneVisible();
+
+            delete this._visibilityChanging;
         }
-        node.visibilityChanging = false;
+    },
+    
+    /** private: method[enforceOneVisible]
+     * 
+     *  Makes sure that only one layer is visible if checkedGroup is set.
+     *  This can only work when ``layer.setVisibility()`` does not trigger
+     *  ``this.toggleCheck()``. If it does, ``this._visibilityChanging`` has
+     *  to be set to true before calling this method.
+     */
+    enforceOneVisible: function() {
+        var attributes = this.node.attributes;
+        var group = attributes.checkedGroup;
+        if(group) {
+            var layer = this.node.layer;
+            var checkedNodes = this.node.getOwnerTree().getChecked();
+            var checkedCount = 0;
+            // enforce "not more than one visible"
+            Ext.each(checkedNodes, function(n){
+                var ui = n.getUI();
+                var l = n.layer
+                if(!n.hidden && n.attributes.checkedGroup === group) {
+                    checkedCount++;
+                    if(l != layer && attributes.checked) {
+                        // toggleCheck won't be called (_visibilityChanging
+                        // set to true when we are called from toggleCheck(),
+                        // and layer visibility handler is not yet set when we
+                        // are called from render()), so we synchronize the
+                        // button state manually
+                        ui.checkbox.defaultChecked = false;
+                        ui.checkbox.checked = false;
+                        l.setVisibility(false);
+                    }
+                }
+            });
+            // enforce "at least one visible"
+            if(checkedCount === 0 && attributes.checked == false) {
+                var ui = this.node.getUI();
+                // toggleCheck won't be called (_visibilityChanging set to
+                // true when we are called from toggleCheck(), and layer
+                // visibility handler is not yet set when we are called from
+                // render()), so we synchronize the button state manually
+                ui.checkbox.defaultChecked = true;
+                ui.checkbox.checked = true;
+                layer.setVisibility(true);
+            }
+        }
     },
     
     /** private: method[destroy]
      */
     destroy: function() {
         delete this.radio;
-        GeoExt.tree.LayerNodeUI.superclass.destroy.call(this);
+        GeoExt.tree.LayerNodeUI.superclass.destroy.apply(this, arguments);
     }
 });
+
 
 /** api: (define)
  *  module = GeoExt.tree
@@ -156,21 +210,15 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
      */
     childNodeType: null,
     
-    /** private: property[visibilityChanging]
-     * {Boolean} private property indicating layer visibility being changed
-     *     by this node in order to prevent visibilitychanged events bouncing
-     *     back and forth
-     */
-    visibilityChanging: false,
-    
     /** private: method[constructor]
      *  Private constructor override.
      */
     constructor: function(config) {
         config.leaf = config.leaf || !config.children;
         
-        config.iconCls = typeof config.iconCls == "undefined" &&
-            !config.children ? "layer-icon" : config.iconCls;
+        if(!config.iconCls && !config.children) {
+            config.iconCls = "gx-tree-layer-icon";
+        }
         
         this.defaultUI = this.defaultUI || GeoExt.tree.LayerNodeUI;
         this.addEvents(
@@ -214,6 +262,13 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
             
             if(layer) {
                 this.layer = layer;
+                // no DD and radio buttons for base layers
+                if(layer.isBaseLayer) {
+                    this.draggable = false;
+                    Ext.applyIf(this.attributes, {
+                        checkedGroup: "gx_baselayer"
+                    });
+                }
                 if(!this.text) {
                     this.text = layer.name;
                 }
@@ -232,7 +287,7 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
                 this.addStoreEventHandlers(layer);
             }            
         }
-        GeoExt.tree.LayerNode.superclass.render.call(this, bulkRender);
+        GeoExt.tree.LayerNode.superclass.render.apply(this, arguments);
     },
     
     /** private: method[addVisibilityHandlers]
@@ -254,10 +309,7 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
      *  handler for visibilitychanged events on the layer
      */
     onLayerVisibilityChanged: function() {
-        if(!this.visibilityChanging &&
-                this.attributes.checked != this.layer.getVisibility()) {
-            this.getUI().toggleCheck(this.layer.getVisibility());
-        }
+        this.getUI().toggleCheck(this.layer.getVisibility());
     },
     
     /** private: method[onCheckChange]
@@ -267,10 +319,14 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
      *  handler for checkchange events 
      */
     onCheckChange: function(node, checked) {
-        if (checked && this.layer.isBaseLayer && this.layer.map) {
-            this.layer.map.setBaseLayer(this.layer);
+        if(checked != this.layer.getVisibility()) {
+            var layer = this.layer;
+            if(checked && layer.isBaseLayer && layer.map) {
+                layer.map.setBaseLayer(layer);
+            } else {
+                layer.setVisibility(checked);
+            }
         }
-        this.layer.setVisibility(checked);
     },
     
     /** private: method[addStoreEventHandlers]
@@ -299,12 +355,13 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
             l = records[i].get("layer");
             if(this.layer == l) {
                 this.getUI().show();
+                break;
             } else if (this.layer == l.name) {
                 // layer is a string, which means the node has not yet
                 // been rendered because the layer was not found. But
                 // now we have the layer and can render.
-                this.render(bulkRender);
-                return;
+                this.render();
+                break;
             }
         }
     },
@@ -369,7 +426,7 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.TreeNode, {
         delete this.layerStore;
         this.un("checkchange", this.onCheckChange, this);
 
-        GeoExt.tree.LayerNode.superclass.destroy.call(this);
+        GeoExt.tree.LayerNode.superclass.destroy.apply(this, arguments);
     }
 });
 

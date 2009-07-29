@@ -26,7 +26,7 @@
         
         function test_render(t) {
             
-            t.plan(8);
+            t.plan(9);
             
             var layer = new OpenLayers.Layer("foo");
             
@@ -64,14 +64,91 @@
                 node.ui.onClick({getTarget: function() {return true}});
                 
                 t.eq(node.ui.checkbox.type, "radio", "checkbox rendered as radio button when checkedGroup is configured");
-                t.eq(node.ui.checkbox.name, "check_checkbox", "option group name set correclty according to checkedGroup");
+                t.eq(node.ui.checkbox.name, "check_checkbox", "option group name set correctly according to checkedGroup");
                 
+                layer.setVisibility(false);
+                t.eq(layer.visibility, true, "unchecking a layer with checkedGroup has no effect");
+                
+                delete node.attributes.checkedGroup;
                 node.ui.toggleCheck();
-                t.eq(layer.visibility, false, "unchecking node hides layer");
+                t.eq(layer.visibility, false, "unchecking a layer without checkedGroup hides the layer");
             });
 
             mapPanel.render("map");
             
+            mapPanel.destroy();
+        }
+        
+        function test_enforceOneVisible(t) {
+            t.plan(8);
+
+            var layers = [
+                new OpenLayers.Layer("foo"),
+                new OpenLayers.Layer("bar")
+            ];
+            var mapPanel = new GeoExt.MapPanel({
+                layers: layers,
+                allOverlays: true
+            });
+            var root = new GeoExt.tree.LayerContainer({
+                loader: {
+                    baseAttrs: {checkedGroup: "group"}
+                },
+                expanded: true
+            });
+            var panel = new Ext.tree.TreePanel({
+                renderTo: "tree",
+                root: root
+            });
+            mapPanel.render("map");
+
+            // two overlay layers in the same checkedGroup: only one can be visible
+            var nodes = panel.getRootNode().childNodes;
+            t.eq(nodes[0].layer.getVisibility(), false, "Layer on top is hidden");
+            t.eq(nodes[1].layer.getVisibility(), true, "Layer on bottom is visible");
+            
+            delete root.loader.baseAttrs.checkedGroup;
+            mapPanel.map.allOverlays = false;
+            
+            // without a custom checkedGroup, base layers get the gx_baselayer group assigned
+            mapPanel.layers.on("add", function(){
+                t.eq(nodes[0].attributes.checkedGroup, "gx_baselayer", "gx_baselayer checkedGroup set for base layer");
+            }, this, {single: true});
+            mapPanel.map.addLayer(new OpenLayers.Layer("foo1", {isBaseLayer: true}));
+                        
+            root.loader.baseAttrs.checkedGroup = "another_group";
+            
+            // a custom checkedGroup will override the gx_baselayer default
+            mapPanel.layers.on("add", function() {
+                t.eq(nodes[0].attributes.checkedGroup, "another_group", "custom checkedGroup set for base layer");
+            }, this, {single: true});
+            mapPanel.map.addLayer(new OpenLayers.Layer("bar", {isBaseLayer: true}));
+            
+            // overlays also get the custom checkedGroup assigned
+            mapPanel.layers.on("add", function() {
+                t.eq(nodes[0].attributes.checkedGroup, "another_group", "custom checkedGroup set for overlay");
+                // the another_group baselayer from above is invisible (the gx_baselayer one is visible)
+                t.eq(nodes[0].layer.getVisibility(), true, "overlay in checkedGroup visible because no other layer in group is visible");
+                // now making it visible
+                nodes[1].layer.setVisibility(true);
+                // and the overlay in the same checkedGroup gets hidden
+                t.eq(nodes[0].layer.getVisibility(), false, "overlay in checkedGroup now hidden because base layer in group is visible");
+            }, this, {single: true});
+            mapPanel.map.addLayer(new OpenLayers.Layer("foo2", {isBaseLayer: false}));
+            
+            // remove all layers except one visible and one invisible layer
+            mapPanel.map.removeLayer(nodes[0].layer);
+            mapPanel.map.removeLayer(nodes[0].layer);
+            mapPanel.map.removeLayer(nodes[0].layer);
+            // now there is only one layer in the another_group
+            // "bar" (invisible) is now in the group at position [0], "foo" (visible) at [1]
+            mapPanel.layers.on("remove", function() {
+                t.eq(nodes[0].layer.getVisibility(), true, "Previously invisible layer was made visible because the visible layer has been removed")
+            }, this, {single: true});
+            // removing "foo", so "bar" will have to be made visible
+            mapPanel.map.removeLayer(nodes[1].layer);
+            
+            mapPanel.destroy();
         }
 
         function test_changelayername(t) {
