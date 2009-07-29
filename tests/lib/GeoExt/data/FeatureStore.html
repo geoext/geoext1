@@ -187,19 +187,28 @@
         }
 
         function test_featuremodified_update(t) {
-            t.plan(6);
+            t.plan(8);
 
             /*
              * Set up
              */
             var feature, id, layer, store, recordType, record;
-
+            
             feature = new OpenLayers.Feature.Vector(null, {
                 foo: "foo",
                 bar: "bar"
             });
 
             id = feature.id;
+            
+            function keys(obj) {
+                var list = [];
+                for(var k in obj) {
+                    list.push(k);
+                }
+                return list;
+            }
+            var originalAttrs = keys(feature.attributes);
 
             recordType = GeoExt.data.FeatureRecord.create([
                 {name: "foo"}, {name: "bar"}
@@ -244,6 +253,19 @@
 
             t.eq(layer.getFeatureById(id).attributes.bar, "bar3",
                  "update event causes update of feature property \"bar\"");
+            
+            // make sure calling record.set didn't add any attributes
+            var currentAttrs = keys(feature.attributes);
+            t.eq(originalAttrs.length, currentAttrs.length,
+                 "no new attributes added: " + currentAttrs.join(", "));
+            
+            var feature2 = new OpenLayers.Feature.Vector(null, {
+                "foo": "foo_f2"
+            });
+            layer.addFeatures([feature2]);
+            store.getById(feature2.id).set("bar", "bar_f2");
+            
+            t.eq(feature2.attributes.bar, "bar_f2", "previously undefined attribute set correctly");
 
          }
     </script> 
