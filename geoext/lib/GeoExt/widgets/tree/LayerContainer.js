@@ -20,7 +20,7 @@ Ext.namespace("GeoExt.tree");
 /** api: constructor
  *  .. class:: LayerContainer
  * 
- *      A subclass of ``Ext.tree.TreeNode`` that will collect all layers of an
+ *      A subclass of ``Ext.tree.AsyncTreeNode`` that will collect all layers of an
  *      OpenLayers map. Only layers that have displayInLayerSwitcher set to true
  *      will be included. The childrens' iconCls defaults to
  *      "gx-tree-layer-icon".
