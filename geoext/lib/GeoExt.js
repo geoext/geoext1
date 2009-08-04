@@ -64,6 +64,8 @@
      */
     if(!singleFile) {
         var jsfiles = new Array(
+            "GeoExt/data/AttributeReader.js",
+            "GeoExt/data/AttributeStore.js",
             "GeoExt/data/FeatureRecord.js",
             "GeoExt/data/FeatureReader.js",
             "GeoExt/data/FeatureStore.js",
