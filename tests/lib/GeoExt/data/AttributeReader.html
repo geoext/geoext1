@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+    <script type="text/javascript" src="AttributeReader.js"></script>
+
+    <script type="text/javascript">
+
+    function test_read(t) {
+        t.plan(3);
+
+        var reader = new GeoExt.data.AttributeReader({}, [
+            "name",
+            "type"
+        ]);
+
+        var records = reader.read({responseXML : doc});
+
+        //1 test
+        t.eq(records.totalRecords, 23, 'readRecords returns correct number of records');
+
+        var record = records.records[2];
+
+        //2 tests -- testing the fields of a record
+        t.eq(record.get("name"), "STATE_FIPS", "[2] correct attribute name");
+        t.eq(record.get("type"), "xsd:string", "[2] correct attribute type name");
+
+    }
+
+    function test_ignoreString(t) {
+        t.plan(1);
+
+        var reader = new GeoExt.data.AttributeReader({
+            ignore: {type: "xsd:string"}
+        }, [
+            "name",
+            "type"
+        ]);
+
+        var records = reader.read({responseXML : doc});
+
+        //1 test
+        t.eq(records.totalRecords, 19, 'right number of records are ignored (ignores String)');
+    }
+
+    function test_ignoreArray(t) {
+         t.plan(1);
+
+         var reader = new GeoExt.data.AttributeReader({
+             ignore: {type: ["xsd:double", "gml:MultiSurfacePropertyType"]}
+         }, [
+             "name",
+             "type"
+         ]);
+
+         var records = reader.read({responseXML : doc});
+
+         //1 test
+         t.eq(records.totalRecords, 4, 'right number of records are ignored (ignores Array)');
+    }
+
+    function test_ignoreRegexp(t) {
+        t.plan(1);
+
+        var reader = new GeoExt.data.AttributeReader({
+            ignore: {name: new RegExp('^S')}
+        }, [
+            "name",
+            "type"
+        ]);
+
+        var records = reader.read({responseXML : doc});
+
+        //1 test
+        t.eq(records.totalRecords, 17, 'right number of records are ignored (ignores RegExp)');
+    }
+
+    </script>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>
