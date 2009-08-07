@@ -107,7 +107,7 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
         var url, layerName, styleName;
         for (var i = 0, len = layers.length; i < len; i++){
             layerName = layers[i];
-            if(styles) {
+            if(styles && styles.length > 0) {
                 styleName = styleNames && styleNames[i];
                 if(styleName) {
                     Ext.each(styles, function(s) {
