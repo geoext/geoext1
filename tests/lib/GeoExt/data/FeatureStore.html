@@ -156,6 +156,35 @@
                  'Adding a record with "add" does not add feature to layer if addRecordFilter returns false');
         }
         
+        function test_getRecordFromFeature(t) {
+            t.plan(2);
+
+            var layer = new OpenLayers.Layer.Vector();
+            var store = new GeoExt.data.FeatureStore({
+                layer: layer
+            });
+            var features = [ 
+                new OpenLayers.Feature.Vector(), 
+                new OpenLayers.Feature.Vector() 
+            ];
+            features[0].state = OpenLayers.State.INSERT;
+            layer.addFeatures(features);
+            
+            var record;
+            
+            // confirm that we can get a phantom record
+            record = store.getRecordFromFeature(features[0]);
+            t.ok((record && record.get("feature")) === features[0],
+                 "phantom record retrieved");
+            
+            // confirm that we can get a normal record
+            record = store.getRecordFromFeature(features[1]);
+            t.ok((record && record.get("feature")) === features[1],
+                 "normal record retrieved");
+
+            layer.destroy();
+        }
+        
         function test_addFeatures_removeFeatures(t) {
             
             t.plan(5);
@@ -163,7 +192,11 @@
             var features = [ 
                 new OpenLayers.Feature.Vector(), 
                 new OpenLayers.Feature.Vector() 
-            ]; 
+            ];
+            
+            // set state of one feature to insert to test phantom record removal
+            features[0].state = OpenLayers.State.INSERT;
+            
             var layer = new OpenLayers.Layer.Vector("Foo layer");
             var store = new GeoExt.data.FeatureStore({
                 layer: layer
@@ -198,6 +231,8 @@
                 foo: "foo",
                 bar: "bar"
             });
+            // confirm that we can update phantom records
+            feature.state = OpenLayers.State.INSERT;
 
             id = feature.id;
             
@@ -221,11 +256,12 @@
                 fields: recordType,
                 data: [feature]
             });
+            record = store.getRecordFromFeature(feature);
 
-            t.eq(store.getById(id).get("foo"), "foo",
+            t.eq(record.get("foo"), "foo",
                  "record gets correct initial value for property \"foo\"");
 
-            t.eq(store.getById(id).get("bar"), "bar",
+            t.eq(record.get("bar"), "bar",
                  "record gets correct initial value for property \"bar\"");
 
             /*
@@ -237,21 +273,20 @@
             feature.attributes.bar = "bar2";
             layer.events.triggerEvent("featuremodified", {feature: feature});
 
-            t.eq(store.getById(id).get("foo"), "foo2",
+            t.eq(record.get("foo"), "foo2",
                  "featuremodified event causes update of record property \"foo\"");
 
-            t.eq(store.getById(id).get("bar"), "bar2",
+            t.eq(record.get("bar"), "bar2",
                  "featuremodified event causes update of record property \"bar\"");
 
             // update
-            record = store.getById(id);
             record.set("foo", "foo3");
             record.set("bar", "bar3");
 
-            t.eq(layer.getFeatureById(id).attributes.foo, "foo3",
+            t.eq(feature.attributes.foo, "foo3",
                  "update event causes update of feature property \"foo\"");
 
-            t.eq(layer.getFeatureById(id).attributes.bar, "bar3",
+            t.eq(feature.attributes.bar, "bar3",
                  "update event causes update of feature property \"bar\"");
             
             // make sure calling record.set didn't add any attributes
@@ -266,6 +301,7 @@
             store.getById(feature2.id).set("bar", "bar_f2");
             
             t.eq(feature2.attributes.bar, "bar_f2", "previously undefined attribute set correctly");
+            
 
          }
     </script> 
