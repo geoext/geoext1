@@ -191,6 +191,27 @@ GeoExt.data.FeatureStoreMixin = {
         }
     },
    
+    /** api: method[getRecordFromFeature]
+     *  :arg feature: ``OpenLayers.Vector.Feature``
+     *  :returns: :class:`GeoExt.data.FeatureRecord` The record corresponding
+     *      to the given feature.  Returns null if no record matches.
+     *
+     *  Get the record corresponding to a feature.
+     */
+    getRecordFromFeature: function(feature) {
+        var record = null;
+        if(feature.state !== OpenLayers.State.INSERT) {
+            record = this.getById(feature.id);
+        } else {
+            var index = this.findBy(function(r) {
+                return r.get("feature") === feature;
+            });
+            if(index > -1) {
+                record = this.getAt(index);
+            }
+        }
+        return record;
+    },
    
     /** private: method[onFeaturesAdded]
      *  Handler for layer featuresadded event
@@ -225,7 +246,7 @@ GeoExt.data.FeatureStoreMixin = {
             var features = evt.features, feature, record, i;
             for(i=features.length - 1; i>=0; i--) {
                 feature = features[i];
-                record = this.getById(feature.id);
+                record = this.getRecordFromFeature(feature);
                 if(record !== undefined) {
                     this._removing = true;
                     this.remove(record);
@@ -234,14 +255,14 @@ GeoExt.data.FeatureStoreMixin = {
             }
         }
     },
-
+    
     /** private: method[onFeatureModified]
      *  Handler for layer featuremodified event
      */
     onFeatureModified: function(evt) {
         if(!this._updating) {
             var feature = evt.feature;
-            var record = this.getById(feature.id);
+            var record = this.getRecordFromFeature(feature);
             if(record !== undefined) {
                 record.beginEdit();
                 attributes = feature.attributes;
