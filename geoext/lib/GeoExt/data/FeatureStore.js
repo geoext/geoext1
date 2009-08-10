@@ -270,10 +270,10 @@ GeoExt.data.FeatureStoreMixin = {
                     var fields = this.recordType.prototype.fields;
                     for(var i=0, len=fields.length; i<len; i++) {
                         var field = fields.items[i];
-                        var v = attributes[field.mapping || field.name] ||
-                                field.defaultValue;
-                        v = field.convert(v);
-                        record.set(field.name, v);
+                        var key = field.mapping || field.name;
+                        if(key in attributes) {
+                            record.set(field.name, field.convert(attributes[key]));
+                        }
                     }
                 }
                 // the calls to set below won't trigger "update"
