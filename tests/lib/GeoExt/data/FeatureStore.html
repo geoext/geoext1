@@ -220,7 +220,7 @@
         }
 
         function test_featuremodified_update(t) {
-            t.plan(8);
+            t.plan(10);
 
             /*
              * Set up
@@ -303,7 +303,15 @@
             t.eq(feature2.attributes.bar, "bar_f2", "previously undefined attribute set correctly");
             
 
-         }
+            // update with falsey vlues
+            feature.attributes.foo = false;
+            feature.attributes.bar = 0;
+            layer.events.triggerEvent("featuremodified", {feature: feature});
+            
+            t.eq(record.get("foo"), false, "false correctly set");
+            t.eq(record.get("bar"), 0, "0 correctly set");
+
+        }
     </script> 
  
   <body> 
