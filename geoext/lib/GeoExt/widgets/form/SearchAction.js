@@ -41,7 +41,8 @@ Ext.namespace("GeoExt.form");
  *              url: "http://publicus.opengeo.org/geoserver/wfs",
  *              featureType: "tasmania_roads",
  *              featureNS: "http://www.openplans.org/topp"
- *          })
+ *          }),
+ *          abortPrevious: true
  *      });
  *
  *      formPanel.getForm().doAction(searchAction, {
@@ -62,6 +63,9 @@ Ext.namespace("GeoExt.form");
  *
  *      * form ``Ext.form.BasicForm`` A basic form instance.
  *      * options ``Object`` Options passed to the protocol'read method
+ *            One can add an abortPrevious property to these options, if set
+ *            to true, the abort method will be called on the protocol if
+ *            there's a pending request.
  *
  *      When run this action builds an ``OpenLayers.Filter`` from the form
  *      and passes this filter to its protocol's read method. The form fields
@@ -110,13 +114,19 @@ GeoExt.form.SearchAction = Ext.extend(Ext.form.Action, {
         var o = this.options;
         var f = GeoExt.form.toFilter(this.form);
         if(o.clientValidation === false || this.form.isValid()){
-            this.response = o.protocol.read(
+
+            if (o.abortPrevious && this.form.prevResponse) {
+                o.protocol.abort(this.form.prevResponse);
+            }
+
+            this.form.prevResponse = o.protocol.read(
                 Ext.applyIf({
                     filter: f,
                     callback: this.handleResponse,
                     scope: this
                 }, o)
             );
+
         } else if(o.clientValidation !== false){
             // client validation failed
             this.failureType = Ext.form.Action.CLIENT_INVALID;
@@ -131,6 +141,7 @@ GeoExt.form.SearchAction = Ext.extend(Ext.form.Action, {
      *  Handle the response to the search query.
      */
     handleResponse: function(response) {
+        this.form.prevResponse = null;
         this.response = response;
         if(response.success()) {
             this.form.afterAction(this, true);
