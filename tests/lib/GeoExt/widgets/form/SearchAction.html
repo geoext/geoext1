@@ -63,7 +63,68 @@
         /*
          * Test
          */
-       action.run();
+
+        action.run();
+
+        /*
+         * Tear down
+         */
+
+        form.destroy();
+    }
+
+    function test_abort(t) {
+        t.plan(2);
+
+        /*
+         * Set up
+         */
+
+        var field, form, action, protocol, log = {};
+
+        var field = new Ext.form.TextField({
+            name: "foo__eq",
+            value: "bar"
+        });
+
+        form = new Ext.form.FormPanel({
+            renderTo: "form",
+            items: [field]
+        });
+
+        protocol = new OpenLayers.Protocol({
+            read: function(options) {
+                return "something";
+            },
+            abort: function() {
+                log.abort++;
+            }
+        });
+
+        action = new GeoExt.form.SearchAction(form.getForm(), {
+            protocol: protocol,
+            clientValidation: false,
+            abortPrevious: true
+        });
+
+        /*
+         * Test
+         */
+
+        log.abort = 0;
+        action.run();
+        action.run();
+        t.ok(log.abort == 1, "protocol abort called once");
+
+        log.abort = 0;
+        action.options.abortPrevious = false;
+        action.run();
+        t.ok(log.abort == 0, "protocol abort not called");
+
+        /*
+         * Tear down
+         */
+        form.destroy();
     }
     </script>
   <body>
