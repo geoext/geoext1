@@ -188,6 +188,44 @@
             mapPanel.destroy();
         }
 
+        function test_filter(t) {
+            t.plan(2);
+
+            var map = new OpenLayers.Map();
+            var layer = new OpenLayers.Layer.WMS("test", '/ows', {layers: 'a'}, {isBaseLayer: true});
+            map.addLayer(layer);
+            layer = new OpenLayers.Layer.WMS("test2", '/ows', {layers: 'b'}, {isBaseLayer: false});
+            map.addLayer(layer);
+
+            var mapPanel = new GeoExt.MapPanel({
+                map: map,
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600
+            });
+
+            var lp = new GeoExt.LegendPanel({
+                filter: function(record) { return !record.get("layer").isBaseLayer; },
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            t.eq(lp.items.length, 1, "Using the filter function only the non base layers will be shown in the legend");
+
+            lp.destroy();
+
+            var lp = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            t.eq(lp.items.length, 2, "With no filter both layers are drawn");
+
+            lp.destroy();
+            mapPanel.destroy();
+
+        }
+
     </script>
   <body>
     <div id="legendpanel"></div>
