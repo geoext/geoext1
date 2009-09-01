@@ -63,6 +63,22 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      *  the legend image.
      */
 
+    /** api: config[filter]
+     *  ``Function``
+     *  A function, called in the scope of the legend panel, with a layer record
+     *  as argument. Is expected to return true for layers to be displayed, false
+     *  otherwise. By default, all layers will be displayed.
+     *
+     *  .. code-block:: javascript
+     *
+     *      filter: function(record) {
+     *          return record.get("layer").isBaseLayer;
+     *      }
+     */
+    filter: function(record) {
+        return true;
+    },
+
     /** private: method[initComponent]
      *  Initializes the legend panel.
      */
@@ -237,12 +253,14 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      *  :param index: ``Integer`` The position at which to add the legend.
      */
     addLegend: function(record, index) {
-        index = index || 0;
-        var layer = record.get('layer');
-        var legendSubpanel = this.createLegendSubpanel(record);
-        if (legendSubpanel !== null) {
-           legendSubpanel.setVisible(layer.getVisibility());
-           this.insert(index, legendSubpanel);
+        if (this.filter(record) === true) {
+            index = index || 0;
+            var layer = record.get('layer');
+            var legendSubpanel = this.createLegendSubpanel(record);
+            if (legendSubpanel !== null) {
+                legendSubpanel.setVisible(layer.getVisibility());
+                this.insert(index, legendSubpanel);
+            }
         }
     },
 
