@@ -60,6 +60,7 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
      */
     onClick: function(e) {
         if (e.getTarget('.gx-tree-layer-radio', 1)) {
+            this.radio.defaultChecked = this.radio.checked;
             this.fireEvent("radiochange", this.node);
         } else if(e.getTarget('.x-tree-node-cb', 1)) {
             this.onCheckChange();
@@ -132,6 +133,21 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         }
     },
     
+    /** private: method[appendDDGhost]
+     *  :param ghostNode ``DOMElement``
+     *  
+     *  For radio buttons, makes sure that we do not use the option group of
+     *  the original, otherwise only the original or the clone can be checked 
+     */
+    appendDDGhost : function(ghostNode){
+        var n = this.elNode.cloneNode(true);
+        var radio = Ext.DomQuery.select("input[type='radio']", n);
+        Ext.each(radio, function(r) {
+            r.name = r.name + "_clone";
+        });
+        ghostNode.appendChild(n);
+    },
+
     /** private: method[destroy]
      */
     destroy: function() {
