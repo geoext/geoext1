@@ -27,6 +27,20 @@ GeoExt.data.LayerRecord = Ext.data.Record.create([
     {name: "title", type: "string", mapping: "name"}
 ]);
 
+/** api: method[clone]
+ *  :param id: ``String`` (optional) A new Record id.
+ *  :return: ``GeoExt.data.LayerRecord`` A new layer record.
+ *  
+ *  Creates a clone of this LayerRecord. 
+ */
+GeoExt.data.LayerRecord.prototype.clone = function(id) { 
+    var layer = this.get("layer") && this.get("layer").clone(); 
+    return new this.constructor( 
+        Ext.applyIf({layer: layer}, this.data), 
+        id || layer.id
+    );
+}; 
+
 /** api: classmethod[create]
  *  :param o: ``Array`` Field definition as in ``Ext.data.Record.create``. Can
  *      be omitted if no additional fields are required.

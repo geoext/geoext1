@@ -43,6 +43,27 @@
             record = new c({layer: layer, title: layer.name, foo: "bar"}, layer.id);
             t.eq(record.get("foo"), "bar", "foo data row set correctly");
         }
+
+         
+        function test_clone(t) { 
+             
+            t.plan(4); 
+             
+            var layer = new OpenLayers.Layer(); 
+            var recordType = GeoExt.data.LayerRecord.create(); 
+             
+            var record = new recordType({layer: layer, title: layer.name}); 
+            var clone = record.clone(); 
+
+            t.ok(clone.id !== record.id, "clone record does not have original id"); 
+            t.ok(clone.id == clone.get("layer").id, "clone record id is same as its layer id"); 
+             
+            record.set("title", "foo"); 
+            t.ok(clone.get("title") !== "foo", "setting a property on original doesn't modify clone"); 
+             
+            t.ok(clone.get("layer") !== layer, "clone does not have original layer"); 
+             
+        } 
         
     </script>
   <body>
