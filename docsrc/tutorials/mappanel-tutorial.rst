@@ -11,8 +11,9 @@ in the browser, and use tiles from popular mapping services such as Google Maps
 or Virtual Earth. In this tutorial, we explore ways that developers can
 customize the MapPanel.
 
-.. note:: It is recommended that you follow the :doc:`quickstart` tutorial
-before moving on to this one. It really is quick; we'll wait for you.
+.. note:: 
+  It is recommended that you follow the :doc:`quickstart` tutorial
+  before moving on to this one. It really is quick; we'll wait for you.
 
 A Basic MapPanel
 ================
@@ -96,8 +97,9 @@ More information on the :class:`Ext.grid.GridPanel` is available from the `ExtJS
 API documentation
 <http://extjs.com/deploy/dev/docs/?class=Ext.grid.GridPanel>`_.
 
-.. note:: This code is only meant as an example to demonstrate the map panel's
-integration with Ext. An :class:`Ext.tree.TreePanel` with
-:class:`GeoExt.tree.LayerNode`\ s is a a much nicer way to display the layers in
-a map, with optional support for hiding/showing layers and reordering. The
-TreePanel approach is discussed in the :doc:`layertree-tutorial`.
+.. note:: 
+  This code is only meant as an example to demonstrate the map panel's
+  integration with Ext. An :class:`Ext.tree.TreePanel` with
+  :class:`GeoExt.tree.LayerNode`\ s is a a much nicer way to display the layers in
+  a map, with optional support for hiding/showing layers and reordering. The
+  TreePanel approach is discussed in the :doc:`layertree-tutorial`.
