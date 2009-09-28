@@ -25,7 +25,7 @@ Ext.namespace("GeoExt.tree");
  *      will be included. The childrens' iconCls defaults to
  *      "gx-tree-layer-icon".
  *      
- *      Note: if this conatiner is loaded by an ``Ext.tree.TreeLoader``, the
+ *      Note: if this container is loaded by an ``Ext.tree.TreeLoader``, the
  *      ``applyLoader`` config option of that loader needs to be set to
  *      "false". Also note that the list of available uiProviders will be
  *      taken from the ownerTree if this container's loader is configured
