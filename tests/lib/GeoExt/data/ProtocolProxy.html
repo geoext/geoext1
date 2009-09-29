@@ -7,7 +7,7 @@
     <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
     <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
 
-    <script type="text/javascript"><!--
+    <script type="text/javascript">
         function test_constructor(t) {
             t.plan(1);
             // setup
@@ -20,6 +20,7 @@
             t.ok(proxy.protocol == protocol,
                  "ctor sets protocol in protocol property");
         }
+
         function test_load(t) {
             t.plan(8);
             // setup
@@ -67,7 +68,29 @@
             // 8 tests
             proxy.load(params, reader, callback, scope, arg);
         }
-    --></script>
+        
+        function test_abort(t) {
+            t.plan(1);
+
+            var protocol = new OpenLayers.Protocol({
+                read: function(o) {
+                    return new OpenLayers.Protocol.Response();
+                },
+                abort: function(response) {
+                    t.ok("protocol.abort called");
+                }
+            });
+            var proxy = new GeoExt.data.ProtocolProxy({
+                protocol: protocol
+            });
+
+            proxy.load(); // abort not called because proxy.response is null
+            proxy.load(); // abort called
+            proxy.abortPrevious = false;
+            proxy.load(); // abort not called because proxy.abortPrevious is false
+        }
+
+    </script>
 
   <body>
     <div id="map"></div>
