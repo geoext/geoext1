@@ -32,7 +32,7 @@ Ext.namespace("GeoExt.data");
 /** api: config[format]
  *  ``OpenLayers.Format``
  *  A parser for transforming the XHR response into an array of objects
- *  representing attributes.  Defaults to an ``OpenLayers.Format.WMSCapabilities``
+ *  representing attributes.  Defaults to an ``OpenLayers.Format.WMSDescribeLayer``
  *  parser.
  */
 
