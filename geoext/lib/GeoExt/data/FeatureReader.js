@@ -101,7 +101,9 @@ Ext.extend(GeoExt.data.FeatureReader, Ext.data.DataReader, {
                         else {
                             v = feature.attributes[field.mapping || field.name] || field.defaultValue;
                         }
-                        v = field.convert(v);
+                        if (field.convert) {
+                            v = field.convert(v);
+                        }
                         values[field.name] = v;
                     }
                 }
