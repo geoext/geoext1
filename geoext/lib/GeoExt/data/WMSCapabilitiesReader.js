@@ -23,7 +23,12 @@ Ext.namespace("GeoExt.data");
  *      :param meta: ``Object`` Reader configuration.
  *      :param recordType: ``Array | Ext.data.Record`` An array of field
  *          configuration objects or a record object.  Default is
- *          :class:`GeoExt.data.LayerRecord`.
+ *          :class:`GeoExt.data.LayerRecord` with the following additional
+ *          fields: name (string), abstract (string), queryable (string),
+ *          formats, styles, llbbox, minScale, maxScale, prefix, attribution,
+ *          keywords, metadataURLs. The type of these fields is the same as
+ *          for the matching fields in the object returned from
+ *          ``OpenLayers.Format.WMSCapabilities::read()``.
  *   
  *      Data reader class to create an array of
  *      :class:`GeoExt.data.LayerRecord` objects from a WMS GetCapabilities
