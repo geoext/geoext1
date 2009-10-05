@@ -45,15 +45,25 @@ GeoExt.data.WMSCapabilitiesReader = function(meta, recordType) {
                 {name: "name", type: "string"},
                 {name: "abstract", type: "string"},
                 {name: "queryable", type: "boolean"},
-                {name: "formats"},
-                {name: "styles"},
-                {name: "llbbox"},
-                {name: "minScale"},
-                {name: "maxScale"},
-                {name: "prefix"},
-                {name: "attribution"},
-                {name: "keywords"},
-                {name: "metadataURLs"}
+                {name: "opaque", type: "boolean"},
+                {name: "noSubsets", type: "boolean"},
+                {name: "cascaded", type: "int"},
+                {name: "fixedWidth", type: "int"},
+                {name: "fixedHeight", type: "int"},
+                {name: "minScale", type: "float"},
+                {name: "maxScale", type: "float"},
+                {name: "prefix", type: "string"},
+                {name: "formats"}, // array
+                {name: "styles"}, // array
+                {name: "srs"}, // object
+                {name: "dimensions"}, // object
+                {name: "bbox"}, // object
+                {name: "llbbox"}, // array
+                {name: "attribution"}, // object
+                {name: "keywords"}, // array
+                {name: "identifiers"}, // object
+                {name: "authorityURLs"}, // object
+                {name: "metadataURLs"} // array
             ]
         );
     }
@@ -85,9 +95,56 @@ Ext.extend(GeoExt.data.WMSCapabilitiesReader, Ext.data.DataReader, {
         }
         return this.readRecords(data);
     },
+    
+    /** private: method[serviceExceptionFormat]
+     *  :param formats: ``Array`` An array of service exception format strings.
+     *  :return: ``String`` The (supposedly) best service exception format.
+     */
+    serviceExceptionFormat: function(formats) {
+        if (OpenLayers.Util.indexOf(formats, 
+            "application/vnd.ogc.se_inimage")>-1) {
+            return "application/vnd.ogc.se_inimage";
+        }
+        if (OpenLayers.Util.indexOf(formats, 
+            "application/vnd.ogc.se_xml")>-1) {
+            return "application/vnd.ogc.se_xml";
+        }
+        return formats[0];
+    },
+    
+    /** private: method[imageFormat]
+     *  :param layer: ``Object`` The layer's capabilities object.
+     *  :return: ``String`` The (supposedly) best mime type for requesting 
+     *      tiles.
+     */
+    imageFormat: function(layer) {
+        var formats = layer.formats;
+        if (layer.opaque && 
+            OpenLayers.Util.indexOf(formats, "image/jpeg")>-1) {
+            return "image/jpeg";
+        }
+        if (OpenLayers.Util.indexOf(formats, "image/png")>-1) {
+            return "image/png";
+        }
+        if (OpenLayers.Util.indexOf(formats, "image/png; mode=24bit")>-1) {
+            return "image/png; mode=24bit";
+        }
+        if (OpenLayers.Util.indexOf(formats, "image/gif")>-1) {
+            return "image/gif";
+        }
+        return formats[0];
+    },
+
+    /** private: method[imageTransparent]
+     *  :param layer: ``Object`` The layer's capabilities object.
+     *  :return: ``Boolean`` The TRANSPARENT param.
+     */
+    imageTransparent: function(layer) {
+        return layer.opaque == undefined || !layer.opaque;
+    },
 
     /** private: method[readRecords]
-     *  :param data: ``DOMElement | Strint | Object`` A document element or XHR
+     *  :param data: ``DOMElement | String | Object`` A document element or XHR
      *      response string.  As an alternative to fetching capabilities data
      *      from a remote source, an object representing the capabilities can
      *      be provided given that the structure mirrors that returned from the
@@ -98,25 +155,37 @@ Ext.extend(GeoExt.data.WMSCapabilitiesReader, Ext.data.DataReader, {
      *  Create a data block containing Ext.data.Records from an XML document.
      */
     readRecords: function(data) {
-        
         if(typeof data === "string" || data.nodeType) {
             data = this.meta.format.read(data);
         }
-        var url = data.capability.request.getmap.href;
-        var records = [], layer;        
-
-        for(var i=0, len=data.capability.layers.length; i<len; i++){
-            layer = data.capability.layers[i];
-
+        var version = data.version;
+        var capability = data.capability;
+        var url = capability.request.getmap.href;
+        var layers = capability.layers;
+        var exceptions = this.serviceExceptionFormat(
+            capability.exception.formats
+        );
+        var records = [], layer;
+        
+        for(var i=0, len=capability.layers.length; i<len; i++){
+            layer = layers[i];
             if(layer.name) {
                 records.push(new this.recordType(Ext.apply(layer, {
                     layer: new OpenLayers.Layer.WMS(
                         layer.title || layer.name,
                         url,
-                        {layers: layer.name}, {
+                        {
+                            layers: layer.name, 
+                            exceptions: exceptions,
+                            format: this.imageFormat(layer),
+                            transparent: this.imageTransparent(layer),
+                            version: version
+                        }, {
                             attribution: layer.attribution ?
                                 this.attributionMarkup(layer.attribution) :
-                                undefined
+                                undefined,
+                            minScale: layer.minScale,
+                            maxScale: layer.maxScale
                         }
                     )
                 })));
