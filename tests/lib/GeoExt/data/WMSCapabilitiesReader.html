@@ -17,7 +17,7 @@
             var fields = reader.recordType.prototype.fields;
 
             // 1 test
-            t.eq(fields.items.length, 14, 'number of default items is correct');
+            t.eq(fields.items.length, 24, 'number of default items is correct');
 
 
             var reader = new GeoExt.data.WMSCapabilitiesReader({},[
@@ -33,18 +33,19 @@
                  'field values set from configuration are correct');
         }
         function test_read(t) {
-            t.plan(16);
+            t.plan(34);
 
             var reader = new GeoExt.data.WMSCapabilitiesReader();
 
-            var records = reader.read({responseXML : doc});
+            var records = reader.read({responseXML: doc});
 
             //1 test
             t.eq(records.totalRecords, 22, 'readRecords returns correct number of records');
             
-            var record = records.records[2];
+            var record, layer;
 
-            //8 tests -- testing the fields of a record
+            //22 tests -- testing the fields of a record
+            record = records.records[2];
             t.eq(record.get("name"), "tiger:tiger_roads", "[2] correct layer name");
             t.eq(record.get("title"), "Manhattan (NY) roads", "[2] correct layer title");
             t.eq(
@@ -65,20 +66,63 @@
                 "[2] correct legend url"
             );
             t.eq(record.get("queryable"), true, "[2] correct queryable attribute");
+            t.eq(record.get("opaque"), true, "[2] correct opaque attribute");
+            t.eq(record.get("cascaded"), 3, "[2] correct cascaded attribute");
+            t.eq(record.get("noSubsets"), true, "[2] correct noSubsets attribute");
+            t.eq(record.get("fixedWidth"), 400, "[2] correct fixedWidth attribute");
+            t.eq(record.get("fixedHeight"), 200, "[2] correct fixedHeight attribute");
+            t.eq(record.get("formats")[0], "image/png", "[2] correct image/png formats attribute");
+            t.eq(record.get("formats")[14], "image/geotiff", "[2] correct image/geotiff formats attribute");
+            t.eq(record.get("formats")[27], "rss", "[2] correct rss formats attribute");            
+            var srs = record.get("srs");
+            var count = 0;
+            for (var key in srs) {
+                if (srs.hasOwnProperty(key)) {
+                    count++;
+                }
+            }
+            t.eq(count, 3912, "[2] correct number of supported srs");
+            t.eq(srs["EPSG:42303"], true, "[2] random srs in list is supported");
+            t.eq(record.get("prefix"), "tiger", "[2] correct prefix attribute");
+            t.eq(
+                record.get("bbox")["EPSG:4326"].bbox,
+                [-74.02722,40.684221,-73.907005,40.878178],
+                "[2] correct bbox"
+            );
+            t.eq(record.get("authorityURLs").gcmd, "http://www.authority.com", "[2] correct authorityURLs attribute");
+            t.eq(record.get("identifiers").gcmd, "id_value", "[2] correct identifiers attribute");
+            // cannot test "dimensions" until we have nested layers: see http://trac.openlayers.org/ticket/2144
 
-            //4 tests -- Testing the layer field
-            var layer = record.get("layer");
+            //6 tests -- Testing the layer field
+            record = records.records[2];
+            layer = record.get("layer");
             t.eq(layer.CLASS_NAME, "OpenLayers.Layer.WMS", "[2] layer field is of type OpenLayers.Layer.WMS");
             t.eq(layer.url, "http://publicus.opengeo.org:80/geoserver/wms?SERVICE=WMS&", "[2] layer field has correct URL");
             t.eq(layer.params.LAYERS, "tiger:tiger_roads","[2] layer field has correct LAYERS parameter");
             t.eq(layer.name, "Manhattan (NY) roads","[2] layer field has correct name");
+            t.eq(typeof(layer.minScale), "number","[2] layer minScale has been set");
+            t.eq(typeof(layer.maxScale), "number","[2] layer maxScale has been set");
             
             // 3 tests -- attribution markup
+            record = records.records[2];
+            layer = record.get("layer");
             var attribution = layer.attribution;
             t.ok(attribution.indexOf("http://foo/logo.png") !== -1, "attribution markup has a logo");
             t.ok(attribution.indexOf("Foo Authority") !== -1, "attribution markup has a title");
             t.ok(attribution.indexOf("http://foo/about/") !== -1, "attribution has a link");
-
+            
+            // 2 tests - transparent param
+            var transparent;
+            record = records.records[2];
+            layer = record.get("layer");
+            transparent = layer.params.TRANSPARENT;
+            t.eq(transparent, false,
+                "TRANSPARENT param is false if opacity set to 1");
+            record = records.records[1];
+            layer = record.get("layer");
+            transparent = layer.params.TRANSPARENT;
+            t.eq(transparent, true,
+                "TRANSPARENT param is true if no opacity set");
         }
     </script>
   <body>

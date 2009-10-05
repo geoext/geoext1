@@ -4110,10 +4110,12 @@ var doc = (new OpenLayers.Format.XML).read(
               '</LegendURL>' +
             '</Style>' +
           '</Layer>' +
-          '<Layer queryable="1">' +
+          '<Layer queryable="1" opaque="1" cascaded="3" noSubsets="1" fixedWidth="400" fixedHeight="200">' +
             '<Name>tiger:tiger_roads</Name>' +
             '<Title>Manhattan (NY) roads</Title>' +
             '<Abstract>Highly simplified road layout of Manhattan in New York..</Abstract>' +
+            '<AuthorityURL name="gcmd"><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.authority.com" /></AuthorityURL>' +
+            '<Identifier authority="gcmd">id_value</Identifier>' +
             '<KeywordList>' +
               '<Keyword>DS_tiger_roads</Keyword>' +
               '<Keyword>tiger_roads</Keyword>' +
@@ -4149,6 +4151,7 @@ var doc = (new OpenLayers.Format.XML).read(
                 '<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://publicus.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tiger:tiger_roads"/>' +
               '</LegendURL>' +
             '</Style>' +
+            '<ScaleHint min="37.4177136322228" max="299.341709057782" />' +
           '</Layer>' +
           '<Layer queryable="1">' +
             '<Name>sf:archsites</Name>' +
