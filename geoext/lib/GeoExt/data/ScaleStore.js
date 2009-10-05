@@ -22,7 +22,7 @@ Ext.namespace("GeoExt.data");
  *
  *      Records have the following fields:
  *
- *      * zoom - ``Number``  The zoom level.
+ *      * level - ``Number``  The zoom level.
  *      * scale - ``Number`` The scale denominator.
  *      * resolution - ``Number`` The map units per pixel.
  */
