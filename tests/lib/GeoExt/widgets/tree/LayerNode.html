@@ -151,7 +151,7 @@
         }
 
         function test_changelayername(t) {
-            t.plan(2);
+            t.plan(3);
 
             var layer = new OpenLayers.Layer("test");
 
@@ -166,12 +166,15 @@
             });
 
             var panel = new Ext.tree.TreePanel({
-                 root: node
+                root: node
             });
             panel.render(document.body);
 
             layer.setName("My new name");
             t.eq(node.text, "My new name", "Node is named 'My new name' after layer setName is called");
+            
+            layer.setName("Second Name");
+            t.eq(node.text, "Second Name", "Layer name (title) can be set multiple times and the node respects it.");
             
             node = new GeoExt.tree.LayerNode({
                 layer: "My new name",
