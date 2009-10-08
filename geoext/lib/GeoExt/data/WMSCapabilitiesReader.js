@@ -170,25 +170,26 @@ Ext.extend(GeoExt.data.WMSCapabilitiesReader, Ext.data.DataReader, {
         for(var i=0, len=capability.layers.length; i<len; i++){
             layer = layers[i];
             if(layer.name) {
+                var l = new OpenLayers.Layer.WMS(
+                    layer.title || layer.name,
+                    url,
+                    {
+                        layers: layer.name, 
+                        exceptions: exceptions,
+                        format: this.imageFormat(layer),
+                        transparent: this.imageTransparent(layer),
+                        version: version
+                    }, {
+                        attribution: layer.attribution ?
+                            this.attributionMarkup(layer.attribution) :
+                            undefined,
+                        minScale: layer.minScale,
+                        maxScale: layer.maxScale
+                    }
+                );
                 records.push(new this.recordType(Ext.apply(layer, {
-                    layer: new OpenLayers.Layer.WMS(
-                        layer.title || layer.name,
-                        url,
-                        {
-                            layers: layer.name, 
-                            exceptions: exceptions,
-                            format: this.imageFormat(layer),
-                            transparent: this.imageTransparent(layer),
-                            version: version
-                        }, {
-                            attribution: layer.attribution ?
-                                this.attributionMarkup(layer.attribution) :
-                                undefined,
-                            minScale: layer.minScale,
-                            maxScale: layer.maxScale
-                        }
-                    )
-                })));
+                    layer: l
+                }), l.id));
             }
         }
         
