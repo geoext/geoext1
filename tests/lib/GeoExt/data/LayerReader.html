@@ -33,7 +33,7 @@
     }
 
     function test_readRecords(t) {
-        t.plan(5);
+        t.plan(6);
 
         var reader, layers, data;
 
@@ -50,6 +50,8 @@
              "readRecords returns expected number of records");
         t.ok(data.records[0] instanceof GeoExt.data.LayerRecord,
              "readRecords returns records of expected type");
+        t.ok(data.records[0].id == layers[0].id,
+             "readRecords returns records with expected \"id\"");
         t.ok(data.records[0].get("layer") == layers[0],
              "readRecords returns records with expected \"layer\" field");
         t.eq(data.records[0].get("title"), layers[0].name,

@@ -33,7 +33,7 @@
                  'field values set from configuration are correct');
         }
         function test_read(t) {
-            t.plan(34);
+            t.plan(35);
 
             var reader = new GeoExt.data.WMSCapabilitiesReader();
 
@@ -43,6 +43,10 @@
             t.eq(records.totalRecords, 22, 'readRecords returns correct number of records');
             
             var record, layer;
+
+            //1 test -- testing value of record id
+            record = records.records[2];
+            t.ok(record.id == record.get("layer").id, "[2] correct record id");
 
             //22 tests -- testing the fields of a record
             record = records.records[2];
