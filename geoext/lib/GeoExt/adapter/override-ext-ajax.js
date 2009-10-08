@@ -6,10 +6,7 @@
  * of the license.
  */
 
-/** api: (define)
- *  module = Ext.lib.Ajax
- */
-
+/** api: override = Ext.Ajax */
 (function() {
 
     /** private: function[createComplete]
