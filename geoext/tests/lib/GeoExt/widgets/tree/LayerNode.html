@@ -9,16 +9,20 @@
         
         function test_constructor(t) {
             
-            t.plan(1);
+            t.plan(2);
             
             var store = new GeoExt.data.LayerStore();
             
             var node = new GeoExt.tree.LayerNode({
                 layer: "foo",
-                layerStore: store
+                layerStore: store,
+                loader: {
+                    param: "foo"
+                }
             });
             
             t.ok(node.layerStore === store, "layerStore set");
+            t.ok(node.attributes.loader instanceof GeoExt.tree.LayerParamLoader, "LayerParamLoader created from object.");
             
             node.destroy();
             
@@ -26,7 +30,7 @@
         
         function test_render(t) {
             
-            t.plan(9);
+            t.plan(8);
             
             var layer = new OpenLayers.Layer("foo");
             
@@ -38,12 +42,7 @@
             var node = new GeoExt.tree.LayerNode({
                 layer: "foo",
                 radioGroup: "group",
-                checkedGroup: "check",
-                childNodeType: {
-                    add: function() {
-                        t.ok(true, "add function of childNodeType called");
-                    }
-                }
+                checkedGroup: "check"
             });
             
             node.on("radiochange", function() {
