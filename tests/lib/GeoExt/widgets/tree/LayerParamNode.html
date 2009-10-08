@@ -1,0 +1,171 @@
+<html>
+    <head>
+        <script src="../../../../../../openlayers/lib/OpenLayers.js"></script>
+        <script src="../../../../../../ext/adapter/ext/ext-base.js"></script>
+        <script src="../../../../../../ext/ext-all-debug.js"></script>
+        <script src="../../../../../lib/GeoExt.js"></script>
+    
+        <script>
+            
+        function setupTree() {
+            var layer = new OpenLayers.Layer.WMS("Group", "http://localhost/wms", {
+                 "LAYERS": ["layer1", "layer2"],
+                 "CQL_FILTER": "city='Vienna' OR city='Graz'"
+            }, {
+                visibility: false
+            });
+           
+            var store = new GeoExt.data.LayerStore({
+                layers: [layer]
+            });
+
+            return new Ext.tree.TreePanel({
+                renderTo: "tree",
+                loader: new Ext.tree.TreeLoader({
+                    baseAttrs: {
+                        layerStore: store
+                    }
+                }),
+                root: {
+                    text: "Layers",
+                    expanded: true,
+                    children: [{
+                        nodeType: "gx_layerparam",
+                        layer: layer,
+                        param: "LAYERS",
+                        item: "layer1"
+                    }, {
+                        nodeType: "gx_layerparam",
+                        layer: layer,
+                        param: "LAYERS",
+                        item: "layer2",
+                        delimiter: ";"
+                    }, {
+                        nodeType: "gx_layerparam",
+                        // provide this layer as string to see if the layer can
+                        // be configured from the store provided in baseParams
+                        layer: "Group",
+                        param: "CQL_FILTER",
+                        item: "city='Vienna'",
+                        delimiter: " OR "
+                    }]
+                }
+            });
+        }
+        
+        function test_constructor(t) {
+            t.plan(4);
+            
+            var layer = {
+                params: {bar: ["before", "foobar", "after"]},
+                getVisibility: function(){}
+            };
+            
+            var node = new GeoExt.tree.LayerParamNode({
+                layer: layer,
+                param: "bar",
+                item: "foobar"
+            });
+            
+            t.eq(node.param, "bar", "param set.");
+            t.eq(node.item, "foobar", "item set.");
+            t.eq(node.delimiter, ",", "default delimiter set.");
+            
+            node.destroy();
+            
+            node = new GeoExt.tree.LayerParamNode({
+                layer: layer,
+                param: "bar",
+                item: "foobar",
+                delimiter: ";"
+            });
+
+            t.eq(node.delimiter, ";", "custom delimiter set.");
+            
+            node.destroy();
+        }
+        
+        function test_render(t) {
+            t.plan(3);
+            
+            var panel = setupTree();
+            var nodes = panel.getRootNode().childNodes;
+            var layer = nodes[0].layer;
+
+            t.ok(nodes[2].layer instanceof OpenLayers.Layer, "layer set from store.");
+            t.eq(nodes[0].allItems, ["layer1", "layer2"], "allItems with set from array");
+            t.eq(nodes[2].allItems, ["city='Vienna'", "city='Graz'"], "allItems with custom delimiter set");
+            
+            panel.destroy();
+            nodes[2].attributes.layerStore.destroy();
+            layer.destroy();
+        }
+        
+        function test_onLayerVisibilityChanged(t) {
+            t.plan(6);
+
+            var panel = setupTree();
+            var nodes = panel.getRootNode().childNodes;
+            var layer = nodes[0].layer;
+            
+            t.eq(nodes[0].attributes.checked, false, "node for layer1 is unchecked.");
+            t.eq(nodes[1].attributes.checked, false, "node for layer2 is unchecked.");
+            
+            layer.setVisibility(true);
+            t.eq(nodes[0].attributes.checked, true, "node for layer1 is checked.");
+            t.eq(nodes[1].attributes.checked, true, "node for layer2 is checked.");
+            
+            layer.setVisibility(false);
+            t.eq(nodes[0].attributes.checked, false, "node for layer1 is unchecked again.");
+            t.eq(nodes[1].attributes.checked, false, "node for layer2 is unchecked again.");
+            
+            panel.destroy();
+            nodes[2].attributes.layerStore.destroy();
+            layer.destroy();
+        }
+        
+        function test_onCheckChange(t) {
+            t.plan(9);
+            
+            var panel = setupTree();
+            var nodes = panel.getRootNode().childNodes;
+            var layer = nodes[0].layer;
+            
+            layer.setVisibility(false);
+            
+            // now all nodes are unchecked, but the layer has all params set
+            
+            t.eq(nodes[1].attributes.checked, false, "node unchecked because layer is invisible.");
+            
+            nodes[1].getUI().toggleCheck(true);
+            
+            // now the layer has just the param item of nodes[0] set, and is visible
+            
+            t.eq(layer.getVisibility(), true, "layer is visible after checking a subnode.");
+            t.eq(layer.params.LAYERS, ["layer2"], "correct sublayer is set after checking it.");
+            
+            nodes[1].getUI().toggleCheck(false);
+            t.eq(layer.params.LAYERS, [], "layer2 invisible again after unchecking.");
+            t.eq(layer.getVisibility(), false, "layer hidden if no sublayers are visible");
+            
+            nodes[0].getUI().toggleCheck(true);
+            t.eq(layer.params.LAYERS, ["layer1"], "only checked sublayer is visible.");
+            t.eq(layer.getVisibility(), true, "layer set to visible with checked sublayer.");
+
+            // now check if split and join with custom delimiter works
+            nodes[2].getUI().toggleCheck(false);
+            t.eq(layer.params.CQL_FILTER, "city='Graz'", "param with custom delimiter removed.");
+            nodes[2].getUI().toggleCheck(true);
+            t.eq(layer.params.CQL_FILTER, "city='Vienna' OR city='Graz'", "param with custom delimiter re-added.");
+
+            panel.destroy();
+            nodes[2].attributes.layerStore.destroy();
+            layer.destroy();
+        }
+                
+        </script>
+    </head>
+    <body>
+        <div id="tree" style="width: 100px; height: 100px;"></div>
+    </body>
+</html>

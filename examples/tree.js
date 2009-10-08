@@ -14,6 +14,7 @@ Ext.onReady(function() {
         nodeType: "gx_baselayercontainer"
     }, {
         nodeType: "gx_overlaylayercontainer",
+        expanded: true,
         // render the nodes inside this container with a radio button,
         // and assign them the group "foo"
         loader: {
@@ -21,7 +22,12 @@ Ext.onReady(function() {
         }
     }, {
         nodeType: "gx_layer",
-        layer: "Tasmania Roads"
+        layer: "Tasmania (Group Layer)",
+        isLeaf: false,
+        // create subnodes for the layers in the LAYERS param
+        loader: {
+            param: "LAYERS"
+        }
     }], true);
 
     mapPanel = new GeoExt.MapPanel({
@@ -70,9 +76,19 @@ Ext.onReady(function() {
                     format: "image/gif"
                 }, {
                     isBaseLayer: false,
+                    buffer: 0
+                }),
+            new OpenLayers.Layer.WMS("Tasmania (Group Layer)",
+                "http://demo.opengeo.org/geoserver/wms", {
+                    layers: "topp:tasmania_state_boundaries,topp:tasmania_water_bodies,topp:tasmania_cities,topp:tasmania_roads",
+                    transparent: true,
+                    format: "image/gif"
+                }, {
+                    isBaseLayer: false,
                     buffer: 0,
                     // exclude this layer from layer container nodes
-                    displayInLayerSwitcher: false
+                    displayInLayerSwitcher: false,
+                    visibility: false
                 })
         ]
     });
