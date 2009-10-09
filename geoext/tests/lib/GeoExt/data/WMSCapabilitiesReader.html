@@ -33,9 +33,13 @@
                  'field values set from configuration are correct');
         }
         function test_read(t) {
-            t.plan(35);
+            t.plan(36);
 
-            var reader = new GeoExt.data.WMSCapabilitiesReader();
+            var reader = new GeoExt.data.WMSCapabilitiesReader({
+                layerOptions: {
+                    singleTile: true
+                }
+            });
 
             var records = reader.read({responseXML: doc});
 
@@ -97,7 +101,7 @@
             t.eq(record.get("identifiers").gcmd, "id_value", "[2] correct identifiers attribute");
             // cannot test "dimensions" until we have nested layers: see http://trac.openlayers.org/ticket/2144
 
-            //6 tests -- Testing the layer field
+            //7 tests -- Testing the layer field
             record = records.records[2];
             layer = record.get("layer");
             t.eq(layer.CLASS_NAME, "OpenLayers.Layer.WMS", "[2] layer field is of type OpenLayers.Layer.WMS");
@@ -106,6 +110,7 @@
             t.eq(layer.name, "Manhattan (NY) roads","[2] layer field has correct name");
             t.eq(typeof(layer.minScale), "number","[2] layer minScale has been set");
             t.eq(typeof(layer.maxScale), "number","[2] layer maxScale has been set");
+            t.eq(layer.singleTile, true, "[2] layer field has correct singleTile attribute (from WMSCapabilitiesReader constructor)");
             
             // 3 tests -- attribution markup
             record = records.records[2];
