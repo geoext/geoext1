@@ -158,7 +158,7 @@ GeoExt.grid.FeatureSelectionModelMixin = {
      *
      *  :param obj: ``OpenLayers.Layer.Vector`` or
      *      ``OpenLayers.Control.SelectFeature`` The object this selection model
-     *      should be bound to, either a vector layeer or a select feature
+     *      should be bound to, either a vector layer or a select feature
      *      control.
      *  :param options: ``Object`` An object with a "controlConfig"
      *      property referencing the configuration object to pass to the
