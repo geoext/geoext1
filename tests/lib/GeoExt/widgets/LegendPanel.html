@@ -226,6 +226,29 @@
 
         }
 
+        function test_changelayerparams(t) {
+            t.plan(2);
+
+            var mapPanel = loadMapPanel();
+            var lp = new GeoExt.LegendPanel({
+                renderTo: "legendpanel"
+            });
+            var layer = mapPanel.map.layers[0];
+            var cmp = lp.getComponent(layer.id);
+
+            layer.mergeNewParams({
+                layers: "a,b"
+            });
+            t.eq(cmp.items.get(1).items.getCount(), 2,
+                 "mergeNewParams caused addition of a legend image");
+
+            layer.mergeNewParams({
+                layers: "b"
+            });
+            t.eq(cmp.items.get(1).items.getCount(), 1,
+                 "mergeNewParams caused removal of a legend image");
+        }
+
     </script>
   <body>
     <div id="legendpanel"></div>
