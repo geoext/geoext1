@@ -76,57 +76,112 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
         if(!this.layer) {
             this.layer = this.record.get("layer");
         }
-        this.createLegend();
+        this.updateLegend();
     },
 
     /** private: method[getLegendUrl]
-     *  :param layer: ``OpenLayers.Layer.WMS`` The OpenLayers WMS layer object
-     *  :param layerName: ``String`` The name of the layer 
-     *      (used in the LAYERS parameter)
-     *  :return: ``String`` The url of the SLD WMS GetLegendGraphic request.
+     *  :param layerName: ``String`` A sublayer.
+     *  :param layerNames: ``Array(String)`` The array of sublayers,
+     *      read from this.layer if not provided.
+     *  :return: ``String`` The legend URL.
      *
-     *  Get the url for the SLD WMS GetLegendGraphic request.
+     *  Get the legend URL of a sublayer.
      */
-    getLegendUrl: function(layerName) {
-        return this.layer.getFullRequestString({
-            REQUEST: "GetLegendGraphic",
-            WIDTH: null,
-            HEIGHT: null,
-            EXCEPTIONS: "application/vnd.ogc.se_xml",
-            LAYER: layerName,
-            LAYERS: null,
-            SRS: null,
-            FORMAT: this.imageFormat
+    getLegendUrl: function(layerName, layerNames) {
+        var url;
+ 
+        // check if we have a legend URL in the record's
+        // "styles" data field
+        var styles = this.record && this.record.get("styles");
+        if(styles && styles.length > 0) {
+            layerNames = layerNames ||
+                         (this.layer.params.LAYERS instanceof Array) ?
+                            this.layer.params.LAYERS :
+                            this.layer.params.LAYERS.split(",");
+
+            var styleNames = this.layer.params.STYLES &&
+                             this.layer.params.STYLES.split(",");
+
+            var idx = layerNames.indexOf(layerName);
+            var styleName = styleNames && styleNames[idx];
+
+            if(styleName) {
+                Ext.each(styles, function(s) {
+                    url = (s.name == styleName && s.legend) && s.legend.href;
+                    return !url;
+                })
+            } else if(this.defaultStyleIsFirst === true && !styleNames &&
+                      !this.layer.params.SLD && !this.layer.params.SLD_BODY) {
+                url = styles[0].legend && styles[0].legend.href;
+            }
+        }
+
+        return url ||
+               this.layer.getFullRequestString({
+                   REQUEST: "GetLegendGraphic",
+                   WIDTH: null,
+                   HEIGHT: null,
+                   EXCEPTIONS: "application/vnd.ogc.se_xml",
+                   LAYER: layerName,
+                   LAYERS: null,
+                   SRS: null,
+                   FORMAT: this.imageFormat
         });
     },
 
-    /** private: method[createLegend]
-     *  Add one BoxComponent per sublayer to this panel.
+    /** private: method[updateLegend]
+     *  :param url: ``String`` The legend URL, derived from the
+     *      layer record or layer params (WMS GetLegendGraphic)
+     *      if not provided.
+     *
+     *  Update the legend panel, adding, removing or updating
+     *  the per-sublayer box component.
      */
-    createLegend: function() {
-        var layers = (this.layer.params.LAYERS instanceof Array) ? 
-            this.layer.params.LAYERS : this.layer.params.LAYERS.split(",");
-        var styleNames = this.layer.params.STYLES &&
-            this.layer.params.STYLES.split(",");
-        var styles = this.record && this.record.get("styles");
-        var url, layerName, styleName;
-        for (var i = 0, len = layers.length; i < len; i++){
-            layerName = layers[i];
-            if(styles && styles.length > 0) {
-                styleName = styleNames && styleNames[i];
-                if(styleName) {
-                    Ext.each(styles, function(s) {
-                        url = (s.name == styleName && s.legend) && s.legend.href;
-                        return !url;
-                    })
-                } else if(this.defaultStyleIsFirst === true){
-                    url = styles[0].legend && styles[0].legend.href;
+    updateLegend: function(url) {
+        var layerNames, layerName, i, len;
+        
+        layerNames = (this.layer.params.LAYERS instanceof Array) ? 
+            this.layer.params.LAYERS :
+            this.layer.params.LAYERS.split(",");
+
+        if(this.items) {
+            var destroyList = [];
+            this.items.each(function(cmp) {
+                i = layerNames.indexOf(cmp.itemId);
+                if(i < 0) {
+                    destroyList.push(cmp);
+                } else {
+                    layerName = layerNames[i];
+                    var newUrl = url ||
+                                 this.getLegendUrl(layerName, layerNames);
+                    if(!OpenLayers.Util.isEquivalentUrl(newUrl, cmp.url)) {
+                        cmp.updateLegend(newUrl);
+                    }
                 }
+            }, this);
+            for(i = 0, len = destroyList.length; i<len; i++) {
+                var cmp = destroyList[i];
+                // cmp.destroy() does not remove the cmp from
+                // its parent container!
+                this.remove(cmp);
+                cmp.destroy();
             }
-            var legend = new GeoExt.LegendImage({url:
-                url || this.getLegendUrl(layerName)});
-            this.add(legend);
+        }
+
+        var doLayout = false;
+        for(i = 0, len = layerNames.length; i<len; i++) {
+            layerName = layerNames[i];
+            if(!this.items || !this.getComponent(layerName)) {
+                this.add({
+                    xtype: "gx_legendimage",
+                    url: url || this.getLegendUrl(layerName, layerNames),
+                    itemId: layerName
+                });
+                doLayout = true;
+            }
+        }
+        if(doLayout) {
+            this.doLayout();
         }
     }
-
 });

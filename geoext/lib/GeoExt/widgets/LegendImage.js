@@ -53,12 +53,12 @@ GeoExt.LegendImage = Ext.extend(Ext.BoxComponent, {
         };
     },
 
-    /** api: method[setUrl]
-     *  :param url: ``String`` The new url of the image.
+    /** api: method[updateLegend]
+     *  :param url: ``String`` The new URL.
      *  
      *  Sets the url of the image.
      */
-    setUrl: function(url) {
+    updateLegend: function(url) {
         this.url = url;
         var el = this.getEl();
         if (el) {
@@ -75,7 +75,7 @@ GeoExt.LegendImage = Ext.extend(Ext.BoxComponent, {
     onRender: function(ct, position) {
         GeoExt.LegendImage.superclass.onRender.call(this, ct, position);
         if(this.url) {
-            this.setUrl(this.url);
+            this.updateLegend(this.url);
         }
     },
 
