@@ -11,4 +11,4 @@ See below for a list of available overrides.
 .. toctree::
    :maxdepth: 1
    
-   GeoExt/adapter/override-ext-ajax
+   overrides/override-ext-ajax
