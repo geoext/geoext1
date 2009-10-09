@@ -89,22 +89,19 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
      */
     getLegendUrl: function(layerName, layerNames) {
         var url;
- 
+        var styles = this.record && this.record.get("styles");
+        var layerNames = layerNames ||
+                             (this.layer.params.LAYERS instanceof Array) ?
+                             this.layer.params.LAYERS :
+                             this.layer.params.LAYERS.split(",");
+
+        var styleNames = this.layer.params.STYLES &&
+                             this.layer.params.STYLES.split(",");
+        var idx = layerNames.indexOf(layerName);
+        var styleName = styleNames && styleNames[idx];
         // check if we have a legend URL in the record's
         // "styles" data field
-        var styles = this.record && this.record.get("styles");
         if(styles && styles.length > 0) {
-            layerNames = layerNames ||
-                         (this.layer.params.LAYERS instanceof Array) ?
-                            this.layer.params.LAYERS :
-                            this.layer.params.LAYERS.split(",");
-
-            var styleNames = this.layer.params.STYLES &&
-                             this.layer.params.STYLES.split(",");
-
-            var idx = layerNames.indexOf(layerName);
-            var styleName = styleNames && styleNames[idx];
-
             if(styleName) {
                 Ext.each(styles, function(s) {
                     url = (s.name == styleName && s.legend) && s.legend.href;
@@ -115,7 +112,6 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
                 url = styles[0].legend && styles[0].legend.href;
             }
         }
-
         return url ||
                this.layer.getFullRequestString({
                    REQUEST: "GetLegendGraphic",
@@ -124,6 +120,8 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
                    EXCEPTIONS: "application/vnd.ogc.se_xml",
                    LAYER: layerName,
                    LAYERS: null,
+                   STYLE: (styleName !== '') ? styleName: null,
+                   STYLES: null,
                    SRS: null,
                    FORMAT: this.imageFormat
         });

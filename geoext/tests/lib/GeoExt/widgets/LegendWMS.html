@@ -39,7 +39,7 @@
             l.render();
 
             url = l.items.get(0).url;
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&LAYER=a";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&LAYER=a";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
             l.destroy()
             
@@ -76,7 +76,7 @@
             });
             l.render();
             url = l.items.get(0).url;
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&SLD=sld&LAYER=a";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&SLD=sld&LAYER=a";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated when layer has SLD set");
             l.destroy();
             delete mapPanel.map.layers[0].params.SLD;
@@ -89,7 +89,7 @@
             });
             l.render();
             url = l.items.get(0).url;
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&SLD_BODY=sld_body&LAYER=a";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&SLD_BODY=sld_body&LAYER=a";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated when layer has SLD_BODY set");
             l.destroy();
             delete mapPanel.map.layers[0].params.SLD_BODY;
@@ -133,10 +133,10 @@
             l.updateLegend();
             t.ok(l.getComponent("b"),
                  "updateLegend does not remove components to be updated");
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&FOO=bar&LAYER=b";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&FOO=bar&LAYER=b";
             t.eq(l.getComponent("b").url, expectedUrl,
                  "updateLegend updates component URL");
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&FOO=bar&LAYER=c";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&FOO=bar&LAYER=c";
             t.eq(l.getComponent("c").url, expectedUrl,
                  "updateLegend sets correct URL in new component");
 
@@ -145,10 +145,10 @@
                 layers: "c",
                 styles: "style1"
             });
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&STYLES=style1&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&FOO=bar&LAYER=c";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&FOO=bar&LAYER=c&STYLE=style1";
             l.updateLegend();
             t.eq(l.getComponent("c").url, expectedUrl,
-                 "updateLegend sets correct STYLES params in URL");
+                 "updateLegend sets correct STYLE params in URL");
 
             // #4
             layerRecord.set("styles", [{
