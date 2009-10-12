@@ -19,7 +19,6 @@
             // 1 test
             t.eq(fields.items.length, 24, 'number of default items is correct');
 
-
             var reader = new GeoExt.data.WMSCapabilitiesReader({},[
                 {name: "foo"},
                 {name: "bar"}
@@ -33,19 +32,33 @@
                  'field values set from configuration are correct');
         }
         function test_read(t) {
-            t.plan(36);
+            t.plan(39);
+
+            // test a reader with the only two default LayerRecord fields
+            var reader = new GeoExt.data.WMSCapabilitiesReader({}, []);
+
+            var records = reader.read({responseXML: doc});
+
+            //1 test
+            t.eq(records.records[0].fields.items.length, 2, 'LayerRecord with 2 default fields');
+
+            var record = records.records[2];
+            //2 tests -- testing the fields of a record
+            t.eq(record.get("title"), "tiger:tiger_roads", "correct layer title");
+            t.eq(record.get("abstract"), undefined, "correct undefined abstract which is not part of fields");
+
+            // test a reader with all default fields
 
             var reader = new GeoExt.data.WMSCapabilitiesReader({
                 layerOptions: {
                     singleTile: true
                 }
             });
-
             var records = reader.read({responseXML: doc});
 
             //1 test
             t.eq(records.totalRecords, 22, 'readRecords returns correct number of records');
-            
+
             var record, layer;
 
             //1 test -- testing value of record id
