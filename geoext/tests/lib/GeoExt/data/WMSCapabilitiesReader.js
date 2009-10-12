@@ -4114,8 +4114,6 @@ var doc = (new OpenLayers.Format.XML).read(
             '<Name>tiger:tiger_roads</Name>' +
             '<Title>Manhattan (NY) roads</Title>' +
             '<Abstract>Highly simplified road layout of Manhattan in New York..</Abstract>' +
-            '<AuthorityURL name="gcmd"><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.authority.com" /></AuthorityURL>' +
-            '<Identifier authority="gcmd">id_value</Identifier>' +
             '<KeywordList>' +
               '<Keyword>DS_tiger_roads</Keyword>' +
               '<Keyword>tiger_roads</Keyword>' +
@@ -4142,6 +4140,8 @@ var doc = (new OpenLayers.Format.XML).read(
                 '<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://foo/logo.png" />' +
               '</LogoURL>' +
             '</Attribution>' +
+            '<AuthorityURL name="gcmd"><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://www.authority.com" /></AuthorityURL>' +
+            '<Identifier authority="gcmd">id_value</Identifier>' +
             '<Style>' +
               '<Name>tiger_roads</Name>' +
               '<Title>Default Styler</Title>' +
