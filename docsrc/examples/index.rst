@@ -4,6 +4,8 @@ Examples
 
 * `Feature Grid <http://dev.geoext.org/trunk/geoext/examples/feature-grid.html>`_
 
+* `Layer Tree <http://dev.geoext.org/trunk/geoext/examples/tree.html>`_
+
 * `Map Panel <http://dev.geoext.org/trunk/geoext/examples/mappanel-window.html>`_
 
 * `Popups <http://dev.geoext.org/trunk/geoext/examples/popup.html>`_
