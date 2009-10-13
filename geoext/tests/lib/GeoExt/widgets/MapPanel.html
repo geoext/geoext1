@@ -69,8 +69,6 @@
             panel = new GeoExt.MapPanel({
             });
             t.eq(panel.map.allOverlays, true, "allOverlays set to true if no map is provided to panel");
-            // since we created the map, we destroy it
-            map.destroy();
             panel.destroy();
             
             panel = new GeoExt.MapPanel({
@@ -79,8 +77,6 @@
                 }
             });
             t.eq(panel.map.allOverlays, true, "allOverlays set to true if map config is provided to panel");
-            // since we created the map, we destroy it
-            map.destroy();
             panel.destroy();
             
         }
@@ -287,6 +283,7 @@
                 }]
             });
 
+            map.destroy();
             panel.destroy();
         }
 
