@@ -1,0 +1,139 @@
+= GeoExt 0.6 Release Notes =
+
+This release of GeoExt includes many new widgets and data components. These
+notes summarize the new features and list bug fixes included since the last
+release.
+
+== Dependencies ==
+ * Ext JS >= 2.2
+ * OpenLayers >= 2.8 (see notes below about features that require higher than 2.8)
+
+GeoExt 0.6 was tested with Ext JS 2.2.1 and OpenLayers revision 9737.
+
+== Overview Of GeoExt 0.6 Features ==
+
+=== Widgets ===
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/tree.html LayerParamsNode]
+   added. This lets you configure your layer tree to display one node for each
+   layer listed in the LAYERS parameter of a WMS request. You can use the same
+   to display one layer node for each of any entry in a parameter list.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/feature-grid.html FeatureSelectionModel] 
+   added. This allows you to bind selection in a grid with feature records to
+   feature selection on a layer.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/layeropacityslider.html sliders] 
+   to adjust layer opacity.
+
+ * The [http://dev.geoext.org/trunk/geoext/examples/layercontainer.html LayerContainer] 
+   widget got a couple enhancements for better drag/drop support and flexibility
+   in configuring child nodes.
+
+ * Layer nodes can now be rendered with a radio input instead of a checkbox.
+   This gives you exclusive visibility for layers in the same group.
+
+ * Many [http://dev.geoext.org/trunk/geoext/examples/legendpanel.html LegendPanel] 
+   enhancements including support for refreshing the legend when layer
+   parameters change, deriving the legend URL from capabilities documents, and
+   providing a filter to limit layers shown in the legend.
+
+=== Data Components ===
+
+ * New WFSCapabilitiesStore and WFSCapabilitiesReader added. This store and
+   associated reader handle WFS capabilities responses, creating a store of
+   vector layer records.
+
+ * New WMSDescribeLayerStore and WMSDescribeLayerReader added.  These can be used
+   to generate and store records representing WMS layer attributes advertised in
+   WMS DescribeLayer documents.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/attributes.html AttributeStore and AttributeReader]. 
+   This store can be used to represent feature attributes (derived from
+   DescribeFeatureType responses for example).
+
+ * New WMCReader added. This reader creates layer records based on Web Map
+   Context documents.
+
+ * More features for the
+   [http://dev.geoext.org/trunk/geoext/examples/wms-capabilities.html WMSCapabilitiesReader].
+   Layers derived from the reader now get attribution metadata and can be
+   created with user supplied options. The reader can also take advantage of
+   additional elements parsed by the OpenLayers format for applications using
+   the latest from the OpenLayers trunk.
+
+== Bug fixes ==
+
+=== GeoExt.tree.LayerNode ===
+
+ * Radio buttons on tree nodes are no longer unchecked at the start of a drag
+   (#112). 
+
+ * LayerNode no longer changes defaults on the node UI (#114).
+
+ * Layer node text no longer updated if provided in the node config (#110).
+
+=== GeoExt.data.LayerContainer ===
+
+ * Overlay and base layer containers now call superclasses with correct
+   arguments (#111).
+
+=== GeoExt.data.WMSCapabilitiesReader ===
+
+ * Test improvements (#105).
+ 
+ * Reader now respects fields from configuration (#157).
+ 
+ * Reader still works with OpenLayers 2.8 (#162).
+
+=== GeoExt.data.FeatureStore ===
+
+ * Several FeatureStore fixes related to editing and Ext 3.0 (#132, #134, #142,
+   #143).
+
+=== GeoExt.data.FeatureReader ===
+
+ * Only calls convert when convert available (#159).
+
+=== GeoExt.data.AttributeStore ===
+
+ * Now can be constructed with no arguments (#136).
+
+=== GeoExt.ZoomSlider ===
+
+ * No longer fails when update called early (#148).
+
+=== GeoExt.LegendWMS ===
+
+ * Fixes for capabilities without style (#140) and proper use of STYLE (#163).
+
+== OpenLayers Compatibility ==
+
+This release includes several new features that take advantage of functionality
+added to OpenLayers after the 2.8 release. If you previously used GeoExt 0.5 in
+your application, you should be able to upgrade to GeoExt 0.6 and use OpenLayers
+2.8 without any trouble. However, if you wish to take advantage of some of the
+new features in GeoExt 0.6, you will need to use a more recent OpenLayers build
+than the 2.8 release.
+
+=== Features that require more than OpenLayers 2.8 ===
+
+ * The WMSCapabilitiesReader supports enhancements to the WMSCapabilities format
+   in OpenLayers (http://trac.openlayers.org/changeset/9664).  The reader can be 
+   used without these enhancements.
+
+ * The WMCReader depends on changes to the WMC format in OpenLayers
+   (http://trac.openlayers.org/changeset/9733).
+
+ * The WFSCapabilitiesReader depends on changes to the WFSCapabilities format in
+   OpenLayers (http://trac.openlayers.org/changeset/9658).
+
+ * The DescribeLayerReader depends on changes to the DescribeLayer format in
+   OpenLayers (http://trac.openlayers.org/changeset/9570).
+
+ * The refreshing legend panel depends on changes to HTTPRequest layers in
+   OpenLayers (http://trac.openlayers.org/changeset/9618).
+
+ * The LayerOpacitySlider depends on changes to the map and layer in OpenLayers
+   (http://trac.openlayers.org/changeset/9616).
+
