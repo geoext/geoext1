@@ -12,16 +12,10 @@ Getting Started
 Examples
 --------
 
-* Using a `Feature Grid <http://dev.geoext.org/trunk/geoext/examples/feature-grid.html>`_ to display geospatial data in a tabular format
-
-* Using a `Map Panel <http://dev.geoext.org/trunk/geoext/examples/mappanel-window.html>`_ to embed an interactive map in a web page
-
-* Using `Popups <http://dev.geoext.org/trunk/geoext/examples/popup.html>`_ to provide more detailed information about features on a map
-
-* Using `WMS Capabilities <http://dev.geoext.org/trunk/geoext/examples/wms-capabilities.html>`_ to find the available layers from a web mapping service.
-
-* Using a `Zoom Chooser <http://dev.geoext.org/trunk/geoext/examples/zoom-chooser.html>`_ to help users navigate the map.
-
+Learn by `example <examples>`_! Most of the GeoExt widgets and data components
+have simple examples that demonstrate their use. By looking through the sources
+for the examples, you can learn how to use GeoExt components in your
+application.
 
 Library Reference
 -----------------

@@ -54,7 +54,7 @@ community of individuals, businesses and organizations.
     docs
     tutorials/index
     primers/index
+    examples
     developer/index
     lib/index
-    examples/index
     downloads
