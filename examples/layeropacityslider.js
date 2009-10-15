@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[layeropacityslider]
+ *  Layer Opacity Slider
+ *  --------------------
+ *  Use a slider to control layer opacity.
+ */
+
 var panel1, panel2, wms, slider;
 
 Ext.onReady(function() {

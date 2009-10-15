@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[mappanel-viewport]
+ *  Map Panel (in a Viewport)
+ *  -------------------------
+ *  Render a map panel in a viewport.
+ */
+
 var mapPanel;
 
 Ext.onReady(function() {

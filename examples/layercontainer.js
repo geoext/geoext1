@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[layercontainer]
+ *  Layer Tree
+ *  ----------
+ *  Create a layer tree with a LayerContainer.
+ */
+
 var store, tree, panel;
 Ext.onReady(function() {
     

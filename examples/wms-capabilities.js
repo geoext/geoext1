@@ -6,6 +6,13 @@
  * of the license.
  */
 
+
+/** api: example[wms-capabilities]
+ *  WMS Capabilities Store
+ *  ----------------------
+ *  Create layer records from WMS capabilities documents.
+ */
+
 var store;
 Ext.onReady(function() {
     

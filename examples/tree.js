@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[tree]
+ *  Tree Nodes
+ *  ----------
+ *  Create all kinds of tree nodes.
+ */
+
 var mapPanel;
 Ext.onReady(function() {
     // create a map panel with some layers that we will show in our layer tree

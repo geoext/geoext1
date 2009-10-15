@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[search-form]
+ *  Filter Form Panel
+ *  -----------------
+ *  Use a form to build an OpenLayers filter.
+ */
+
 var formPanel;
 
 Ext.onReady(function() {

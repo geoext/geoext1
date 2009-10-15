@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[feature-grid]
+ *  Grid with Features
+ *  ------------------
+ *  Synchronize selection of features between a grid and a layer.
+ */
+
 var mapPanel, store, gridPanel, mainPanel;
 
 Ext.onReady(function() {
