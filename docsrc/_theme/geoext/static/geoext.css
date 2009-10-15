@@ -193,11 +193,22 @@ ul.rss_items li.rss_item {
 
 .exampleblock {
     width: 225px;
-    float: left;
-    margin: 10px;
-    height: 130px;
+    margin: 5px;
+    height: 110px;
     overflow: auto;
 }
 .exampleblock h2 {
+    margin-top: 0px;
     font-size: 1em;
+}
+a.examplelink {
+    margin: 5px;
+    text-decoration: none !important;
+    float: left;
+    display: block;
+    border: 1px solid #FFFFFF;
+}
+a.examplelink:hover {
+    border: 1px solid #E5EDD3;
+    background-color: #F5FDE3
 }

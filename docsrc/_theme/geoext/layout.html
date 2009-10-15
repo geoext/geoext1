@@ -40,6 +40,10 @@
     <script src="{{ pathto('_static/GeoExt.js', 1) }}"></script>
     <script src="{{ pathto('_static/front-page.js', 1) }}"></script>
     {% endif %}
+    {% if pagename == "examples" %}
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <script src="{{ pathto('_static/examples.js', 1) }}"></script>
+    {% endif %}
 {% endblock %}
 
 {% block header %}
