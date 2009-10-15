@@ -14,10 +14,11 @@ GeoExt 0.6 was tested with Ext JS 2.2.1 and OpenLayers revision 9737.
 
 === Widgets ===
 
- * New [http://dev.geoext.org/trunk/geoext/examples/tree.html LayerParamsNode]
+ * New [http://dev.geoext.org/trunk/geoext/examples/tree.html LayerParamNode]
    added. This lets you configure your layer tree to display one node for each
-   layer listed in the LAYERS parameter of a WMS request. You can use the same
-   to display one layer node for each of any entry in a parameter list.
+   layer listed in the LAYERS (or any other) parameter of a WMS request. You can
+   use the same to display one layer node for each of any entry in a parameter
+   list.
 
  * New [http://dev.geoext.org/trunk/geoext/examples/feature-grid.html FeatureSelectionModel] 
    added. This allows you to bind selection in a grid with feature records to
