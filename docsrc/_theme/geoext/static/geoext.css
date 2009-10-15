@@ -190,3 +190,14 @@ ul.rss_items li.rss_item {
 .x-btn.execute {
     margin: 1em;
 }
+
+.exampleblock {
+    width: 225px;
+    float: left;
+    margin: 10px;
+    height: 130px;
+    overflow: auto;
+}
+.exampleblock h2 {
+    font-size: 1em;
+}
