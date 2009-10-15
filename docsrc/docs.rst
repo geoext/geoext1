@@ -12,7 +12,7 @@ Getting Started
 Examples
 --------
 
-Learn by `example <examples>`_! Most of the GeoExt widgets and data components
+Learn by :ref:`example <examples>`! Most of the GeoExt widgets and data components
 have simple examples that demonstrate their use. By looking through the sources
 for the examples, you can learn how to use GeoExt components in your
 application.

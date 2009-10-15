@@ -131,7 +131,7 @@ Going Further
 
 From here, there are a wide variety of options available for making
 customized, highly interactive mapping applications with GeoExt.  To
-learn more take a look at :doc:`index`, `examples <examples>`_ and
+learn more take a look at :doc:`index`, :ref:`examples <examples>` and
 :doc:`/lib/index`.
 
 We also recommend reading :doc:`../primers/ext-primer` and

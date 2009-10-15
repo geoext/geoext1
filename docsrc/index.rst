@@ -11,7 +11,7 @@ GeoExt brings together the geospatial know how of
 the web with JavaScript.
 
 `Documentation <./docs.html>`_ | 
-`Examples <./examples/index.html>`_ | 
+:ref:`Examples <examples>` | 
 `Download <./downloads.html>`_ | 
 `Development <http://trac.geoext.org/>`_
 
