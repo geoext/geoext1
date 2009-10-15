@@ -33,7 +33,7 @@ clean:
 ext:
 	@echo "Building ext.js."
 	mkdir -p $(LIB_NAME)/script
-	jsbuild full.cfg -v -o $(LIB_NAME)/script/ -s ext.js
+	jsbuild full.cfg -v -o $(LIB_NAME)/script/ -j ext.js
 
 examples:
 	mkdir -p $(LIB_NAME)/examples 
@@ -47,7 +47,7 @@ lib:
 	@echo "Building the library."
 	mkdir -p $(LIB_NAME)/script $(LIB_NAME)/resources/css
 	
-	jsbuild full.cfg -v -o $(LIB_NAME)/script/ -s GeoExt.js
+	jsbuild full.cfg -v -o $(LIB_NAME)/script/ -j GeoExt.js
 	echo "GeoExt.VERSION_NUMBER='$(VERSION)';" >> $(LIB_NAME)/script/GeoExt.js 
 	
 	rsync -au --exclude=.svn `pwd`/../resources `pwd`/$(LIB_NAME)
