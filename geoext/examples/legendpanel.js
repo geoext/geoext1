@@ -6,6 +6,13 @@
  * of the license.
  */
 
+/** api: example[legendpanel]
+ *  Legend Panel
+ *  ------------
+ *  Display a layer legend in a panel.
+ */
+
+
 var mapPanel;
 
 Ext.onReady(function() {

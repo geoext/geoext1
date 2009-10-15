@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[mappanel-div]
+ *  Map Panel
+ *  ---------
+ *  Render a map panel in any block level page element.
+ */
+
 var mapPanel;
 
 Ext.onReady(function() {

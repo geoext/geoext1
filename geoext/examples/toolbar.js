@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[toolbar]
+ *  Toolbar with Actions
+ *  --------------------
+ *  Create a toolbar with GeoExt Actions.
+ */
+
 Ext.onReady(function() {
     Ext.QuickTips.init();
 

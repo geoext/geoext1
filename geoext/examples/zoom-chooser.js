@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[zoom-chooser]
+ *  Scale Chooser
+ *  -------------
+ *  Use a ComboBox to display available map scales.
+ */
+
 var mapPanel;
 
 Ext.onReady(function() {

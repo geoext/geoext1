@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[attributes]
+ *  Attribute Store & Reader
+ *  ------------------------
+ *  Create records with attribute types and values with an AttributeStore.
+ */
+
 var store;
 Ext.onReady(function() {
     

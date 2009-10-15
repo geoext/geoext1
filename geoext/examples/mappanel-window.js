@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[mappanel-window]
+ *  Map Panel (in a Window)
+ *  -------------------------
+ *  Render a map panel in a Window.
+ */
+
 var mapPanel;
 
 Ext.onReady(function() {

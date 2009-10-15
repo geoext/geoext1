@@ -6,6 +6,12 @@
  * of the license.
  */
 
+/** api: example[zoomslider]
+ *  Zoom Slider
+ *  -----------
+ *  Use a slider to control map scale.
+ */
+
 var panel, slider;
 
 Ext.onReady(function() {

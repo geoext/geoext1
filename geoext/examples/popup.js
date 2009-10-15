@@ -6,9 +6,12 @@
  * of the license.
  */
 
-// make the references to the map panel and the popup 
-// global, this is useful for looking at their states
-// from the console
+/** api: example[popup]
+ *  Feature Popup
+ *  -------------
+ *  Display a popup with feature information.
+ */
+
 var mapPanel, popup;
 
 Ext.onReady(function() {
