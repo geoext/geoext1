@@ -158,6 +158,22 @@
             t.eq(result, expect,
                  "serializeForm returns expected result (" + expect + ")");
         }
+
+        function test_formPost(t) {
+            t.plan(1);
+            var proto = OpenLayers.Request.XMLHttpRequest.prototype;
+            proto.setRequestHeader = function(k, v) {
+                t.ok(k == "Content-Type" && v == "application/x-www-form-urlencoded",
+                     "Content-Type header properly set for form POST");
+            };
+            Ext.Ajax.request({
+                failure: function(response) { },
+                method: 'POST',
+                success: function(response) { },
+                params: { username: 'bart', password: 'xx'},
+                url: 'foo.php'
+            });
+        }
     </script>
   <body>
   <form id="form">
