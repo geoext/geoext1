@@ -25,7 +25,7 @@ Ext.onReady(function() {
         zoom: 6,
         layers: [
             new OpenLayers.Layer.WMS("Global Imagery",
-                "http://demo.opengeo.org/geoserver/wms", {
+                "http://maps.opengeo.org/geowebcache/service/wms", {
                     layers: "bluemarble"
                 }, {
                     buffer: 0,

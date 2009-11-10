@@ -18,8 +18,8 @@ Ext.onReady(function() {
     var map = new OpenLayers.Map();
     var layer = new OpenLayers.Layer.WMS(
         "Global Imagery",
-        "http://demo.opengeo.org/geoserver/wms",
-        {layers: 'bluemarble'}
+        "http://maps.opengeo.org/geowebcache/service/wms",
+        {layers: "bluemarble"}
     );
     map.addLayer(layer);
 

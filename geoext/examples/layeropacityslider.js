@@ -18,8 +18,8 @@ Ext.onReady(function() {
     
     wms = new OpenLayers.Layer.WMS(
         "Global Imagery",
-        "http://demo.opengeo.org/geoserver/wms",
-        {layers: 'bluemarble'}
+        "http://maps.opengeo.org/geowebcache/service/wms",
+        {layers: "bluemarble"}
     );
 
     // create a map panel with an embedded slider

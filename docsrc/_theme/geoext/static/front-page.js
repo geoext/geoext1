@@ -13,8 +13,8 @@ Ext.onReady(function() {
                     items: [{
                         xtype: "gx_mappanel",
                         layers: [new OpenLayers.Layer.WMS(
-                            "Global Imagery", "http://demo.opengeo.org/geoserver/wms",
-                            {layers: 'bluemarble'}
+                            "Global Imagery", "http://maps.opengeo.org/geowebcache/service/wms",
+                            {layers: "bluemarble"}
                         )],
                         zoom: 1
                     }]

@@ -40,7 +40,7 @@ what you did:
     
         var layer = new OpenLayers.Layer.WMS(
             "Global Imagery",
-            "http://demo.opengeo.org/geoserver/wms",
+            "http://maps.opengeo.org/geowebcache/service/wms",
             {layers: "bluemarble"}
         );
         map.addLayer(layer);
