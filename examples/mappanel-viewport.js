@@ -46,8 +46,8 @@ Ext.onReady(function() {
     } else {
         layer = new OpenLayers.Layer.WMS(
             "Global Imagery",
-            "http://demo.opengeo.org/geoserver/wms",
-            {layers: 'bluemarble'},
+            "http://maps.opengeo.org/geowebcache/service/wms",
+            {layers: "bluemarble"},
             {isBaseLayer: true}
         );
     }

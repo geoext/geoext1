@@ -25,8 +25,8 @@ Ext.onReady(function() {
             id: "mappanel",
             layers: [new OpenLayers.Layer.WMS(
                 "Global Imagery",
-                "http://demo.opengeo.org/geoserver/wms",
-                {layers: 'bluemarble'}
+                "http://maps.opengeo.org/geowebcache/service/wms",
+                {layers: "bluemarble"}
             )],
             extent: "-5,35,15,55"
         }]
