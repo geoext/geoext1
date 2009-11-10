@@ -99,7 +99,7 @@
             // 1 test
             var CheckboxSelectionModel = Ext.extend(
                 Ext.grid.CheckboxSelectionModel,
-                GeoExt.grid.FeatureSelectionModelMixin
+                new GeoExt.grid.FeatureSelectionModelMixin
             );
             sm = new CheckboxSelectionModel();
             t.ok(sm instanceof Ext.grid.CheckboxSelectionModel,
