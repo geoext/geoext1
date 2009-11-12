@@ -13,7 +13,7 @@
  */
 
 
-var mapPanel;
+var mapPanel, legendPanel;
 
 Ext.onReady(function() {
     var map = new OpenLayers.Map({allOverlays: true});
@@ -75,7 +75,7 @@ Ext.onReady(function() {
         zoom: 7
     });
 
-    var legendPanel = new GeoExt.LegendPanel({
+    legendPanel = new GeoExt.LegendPanel({
         labelCls: 'mylabel',
         bodyStyle: 'padding:5px',
         width: 350,
