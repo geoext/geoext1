@@ -250,6 +250,21 @@
                  "mergeNewParams caused removal of a legend image");
         }
 
+        function test_scaledependency(t) {
+            t.plan(1);
+            var mapPanel = loadMapPanel();
+            mapPanel.map.layers[0].inRange = false;
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+
+            var id = mapPanel.layers.getAt(0).get('layer').id;
+            t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend because it is not in scale");
+
+            lp.destroy();
+            mapPanel.destroy();
+        }
+
     </script>
   <body>
     <div id="legendpanel"></div>
