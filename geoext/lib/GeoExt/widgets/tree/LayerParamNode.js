@@ -110,7 +110,13 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
         }
         this.layer = layer;
         this.allItems = this.getItems();
-        this.attributes.checked = layer.getVisibility();
+        
+        var visibility = layer.getVisibility();
+        this.attributes.checked = this.attributes.checked == null ?
+            visibility : this.attributes.checked;
+        if(this.attributes.checked !== visibility) {
+            this.onCheckChange(this, !visibility);
+        }
 
         this.addVisibilityEventHandlers();
         GeoExt.tree.LayerParamNode.superclass.render.apply(this, arguments);
