@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = LegendImage
- *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.Panel>`_
+ *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.BoxComponent>`_
  */
 
 Ext.namespace('GeoExt');
@@ -17,8 +17,8 @@ Ext.namespace('GeoExt');
 /** api: constructor
  *  .. class:: LegendImage(config)
  *
- *  Show a legend image in a BoxComponent and make sure load errors are dealt
- *  with.
+ *      Show a legend image in a BoxComponent and make sure load errors are 
+ *      dealt with.
  */
 GeoExt.LegendImage = Ext.extend(Ext.BoxComponent, {
 
