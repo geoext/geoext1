@@ -283,6 +283,7 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
                 id: layer.id,
                 border: false,
                 bodyBorder: false,
+                hideMode: 'offsets',
                 bodyStyle: this.bodyStyle,
                 items: [
                     new Ext.form.Label({
