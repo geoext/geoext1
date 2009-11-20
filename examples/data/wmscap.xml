@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://demo.opengeo.org:80/geoserver/schemas/wms/1.1.1/WMS_MS_Capabilities.dtd">
-<WMT_MS_Capabilities version="1.1.1" updateSequence="70">
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://demo.opengeo.org/geoserver/schemas/wms/1.1.1/WMS_MS_Capabilities.dtd">
+<WMT_MS_Capabilities version="1.1.1" updateSequence="146">
   <Service>
     <Name>OGC:WMS</Name>
     <Title>GeoServer Web Map Service</Title>
@@ -10,7 +10,7 @@
       <Keyword>WMS</Keyword>
       <Keyword>GEOSERVER</Keyword>
     </KeywordList>
-    <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms"/>
+    <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms"/>
     <ContactInformation>
       <ContactPersonPrimary>
         <ContactPerson>Claudius Ptolomaeus</ContactPerson>
@@ -39,10 +39,10 @@
         <DCPType>
           <HTTP>
             <Get>
-              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms?SERVICE=WMS&amp;"/>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms?SERVICE=WMS&amp;"/>
             </Get>
             <Post>
-              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms?SERVICE=WMS&amp;"/>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms?SERVICE=WMS&amp;"/>
             </Post>
           </HTTP>
         </DCPType>
@@ -79,7 +79,7 @@
         <DCPType>
           <HTTP>
             <Get>
-              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms?SERVICE=WMS&amp;"/>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms?SERVICE=WMS&amp;"/>
             </Get>
           </HTTP>
         </DCPType>
@@ -91,10 +91,10 @@
         <DCPType>
           <HTTP>
             <Get>
-              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms?SERVICE=WMS&amp;"/>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms?SERVICE=WMS&amp;"/>
             </Get>
             <Post>
-              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms?SERVICE=WMS&amp;"/>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms?SERVICE=WMS&amp;"/>
             </Post>
           </HTTP>
         </DCPType>
@@ -104,7 +104,7 @@
         <DCPType>
           <HTTP>
             <Get>
-              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms?SERVICE=WMS&amp;"/>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms?SERVICE=WMS&amp;"/>
             </Get>
           </HTTP>
         </DCPType>
@@ -116,7 +116,7 @@
         <DCPType>
           <HTTP>
             <Get>
-              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms?SERVICE=WMS&amp;"/>
+              <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms?SERVICE=WMS&amp;"/>
             </Get>
           </HTTP>
         </DCPType>
@@ -4042,7 +4042,187 @@
       <SRS>EPSG:42305</SRS>
       <SRS>EPSG:42304</SRS>
       <SRS>EPSG:42303</SRS>
-      <LatLonBoundingBox minx="-180.0" miny="-90.0" maxx="180.0" maxy="90.0"/>
+      <LatLonBoundingBox minx="-180.0" miny="-2277.78344726562" maxx="2.971959E7" maxy="4927039.0"/>
+      <Layer queryable="1">
+        <Name>og:bugsites</Name>
+        <Title/>
+        <Abstract>Sample data from GRASS, bug sites location, Spearfish, South Dakota, USA</Abstract>
+        <KeywordList>
+          <Keyword>spearfish</Keyword>
+          <Keyword>sfBugsites</Keyword>
+          <Keyword>insects</Keyword>
+          <Keyword>bugsites</Keyword>
+          <Keyword>tiger_beetles</Keyword>
+        </KeywordList>
+        <SRS>EPSG:26713</SRS>
+        <!--WKT definition of this CRS:
+PROJCS["NAD27 / UTM zone 13N", 
+  GEOGCS["NAD27", 
+    DATUM["North American Datum 1927", 
+      SPHEROID["Clarke 1866", 6378206.4, 294.9786982138982, AUTHORITY["EPSG","7008"]], 
+      TOWGS84[-4.2, 135.4, 181.9, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY["EPSG","6267"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4267"]], 
+  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -105.0], 
+  PARAMETER["latitude_of_origin", 0.0], 
+  PARAMETER["scale_factor", 0.9996], 
+  PARAMETER["false_easting", 500000.0], 
+  PARAMETER["false_northing", 0.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","26713"]]-->
+        <LatLonBoundingBox minx="-103.8678559295459" miny="44.3738305876282" maxx="-103.63763045271456" maxy="44.434080121216205"/>
+        <BoundingBox SRS="EPSG:26713" minx="590232.0" miny="4914096.0" maxx="608471.0" maxy="4920512.0"/>
+        <Style>
+          <Name>capitals</Name>
+          <Title>Capital cities</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:bugsites"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="1">
+        <Name>og:restricted</Name>
+        <Title/>
+        <Abstract>Sample data from GRASS, restricted areas, Spearfish, South Dakota, USA</Abstract>
+        <KeywordList>
+          <Keyword>spearfish</Keyword>
+          <Keyword>restricted</Keyword>
+          <Keyword>areas</Keyword>
+          <Keyword>sfRestricted</Keyword>
+        </KeywordList>
+        <SRS>EPSG:26713</SRS>
+        <!--WKT definition of this CRS:
+PROJCS["NAD27 / UTM zone 13N", 
+  GEOGCS["NAD27", 
+    DATUM["North American Datum 1927", 
+      SPHEROID["Clarke 1866", 6378206.4, 294.9786982138982, AUTHORITY["EPSG","7008"]], 
+      TOWGS84[-4.2, 135.4, 181.9, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY["EPSG","6267"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4267"]], 
+  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -105.0], 
+  PARAMETER["latitude_of_origin", 0.0], 
+  PARAMETER["scale_factor", 0.9996], 
+  PARAMETER["false_easting", 500000.0], 
+  PARAMETER["false_northing", 0.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","26713"]]-->
+        <LatLonBoundingBox minx="-104.35148148738409" miny="44.25607459294179" maxx="-103.0750295549078" maxy="44.621871797688264"/>
+        <BoundingBox SRS="EPSG:26713" minx="551796.8125" miny="4901896.0" maxx="652788.5625" maxy="4940954.0"/>
+        <Style>
+          <Name>restricted</Name>
+          <Title>Red, translucent style</Title>
+          <Abstract>A sample style that just prints out a transparent red interior with a red outline</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:restricted"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="1">
+        <Name>og:archsites</Name>
+        <Title/>
+        <Abstract>Sample data from GRASS, archeological sites location, Spearfish, South Dakota, USA</Abstract>
+        <KeywordList>
+          <Keyword>archsites</Keyword>
+          <Keyword>spearfish</Keyword>
+          <Keyword>sfArchsites</Keyword>
+          <Keyword>archeology</Keyword>
+        </KeywordList>
+        <SRS>EPSG:26713</SRS>
+        <!--WKT definition of this CRS:
+PROJCS["NAD27 / UTM zone 13N", 
+  GEOGCS["NAD27", 
+    DATUM["North American Datum 1927", 
+      SPHEROID["Clarke 1866", 6378206.4, 294.9786982138982, AUTHORITY["EPSG","7008"]], 
+      TOWGS84[-4.2, 135.4, 181.9, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY["EPSG","6267"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4267"]], 
+  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -105.0], 
+  PARAMETER["latitude_of_origin", 0.0], 
+  PARAMETER["scale_factor", 0.9996], 
+  PARAMETER["false_easting", 500000.0], 
+  PARAMETER["false_northing", 0.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","26713"]]-->
+        <LatLonBoundingBox minx="-103.8724583832911" miny="44.37729507653392" maxx="-103.63783694485966" maxy="44.48793465340441"/>
+        <BoundingBox SRS="EPSG:26713" minx="589860.0" miny="4914479.0" maxx="608355.0" maxy="4926490.0"/>
+        <Style>
+          <Name>point</Name>
+          <Title>Default point</Title>
+          <Abstract>A sample style that just prints out a 6px wide red square</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:archsites"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="1">
+        <Name>og:streams</Name>
+        <Title/>
+        <Abstract>Sample data from GRASS, streams, Spearfish, South Dakota, USA</Abstract>
+        <KeywordList>
+          <Keyword>spearfish</Keyword>
+          <Keyword>sfStreams</Keyword>
+          <Keyword>streams</Keyword>
+        </KeywordList>
+        <SRS>EPSG:26713</SRS>
+        <!--WKT definition of this CRS:
+PROJCS["NAD27 / UTM zone 13N", 
+  GEOGCS["NAD27", 
+    DATUM["North American Datum 1927", 
+      SPHEROID["Clarke 1866", 6378206.4, 294.9786982138982, AUTHORITY["EPSG","7008"]], 
+      TOWGS84[-4.2, 135.4, 181.9, 0.0, 0.0, 0.0, 0.0], 
+      AUTHORITY["EPSG","6267"]], 
+    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+    UNIT["degree", 0.017453292519943295], 
+    AXIS["Geodetic longitude", EAST], 
+    AXIS["Geodetic latitude", NORTH], 
+    AUTHORITY["EPSG","4267"]], 
+  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
+  PARAMETER["central_meridian", -105.0], 
+  PARAMETER["latitude_of_origin", 0.0], 
+  PARAMETER["scale_factor", 0.9996], 
+  PARAMETER["false_easting", 500000.0], 
+  PARAMETER["false_northing", 0.0], 
+  UNIT["m", 1.0], 
+  AXIS["Easting", EAST], 
+  AXIS["Northing", NORTH], 
+  AUTHORITY["EPSG","26713"]]-->
+        <LatLonBoundingBox minx="-103.87778561486992" miny="44.37222288070277" maxx="-103.62277295981083" maxy="44.50211347714936"/>
+        <BoundingBox SRS="EPSG:26713" minx="589443.0" miny="4913935.0" maxx="609526.75" maxy="4928059.5"/>
+        <Style>
+          <Name>simple_streams</Name>
+          <Title>Default Styler for streams segments</Title>
+          <Abstract>Blue lines, 2px wide</Abstract>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:streams"/>
+          </LegendURL>
+        </Style>
+      </Layer>
       <Layer queryable="1">
         <Name>tiger:poly_landmarks</Name>
         <Title>Manhattan (NY) landmarks</Title>
@@ -4072,7 +4252,7 @@ GEOGCS["WGS 84",
           <Abstract/>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tiger:poly_landmarks"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tiger:poly_landmarks"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4105,7 +4285,7 @@ GEOGCS["WGS 84",
           <Abstract>Manhattan points of interest</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tiger:poi"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tiger:poi"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4137,7 +4317,146 @@ GEOGCS["WGS 84",
           <Abstract/>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tiger:tiger_roads"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tiger:tiger_roads"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="1">
+        <Name>za:za_natural</Name>
+        <Title>Natural Landmarks in South Africa</Title>
+        <Abstract>This layer describes natural features of South Africa such as forests and lakes.</Abstract>
+        <KeywordList>
+          <Keyword>forests</Keyword>
+          <Keyword>water</Keyword>
+          <Keyword>landmarks</Keyword>
+          <Keyword>Africa</Keyword>
+          <Keyword>South</Keyword>
+          <Keyword>natural</Keyword>
+        </KeywordList>
+        <SRS>EPSG:4326</SRS>
+        <!--WKT definition of this CRS:
+GEOGCS["WGS 84", 
+  DATUM["World Geodetic System 1984", 
+    SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
+    AUTHORITY["EPSG","6326"]], 
+  PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Geodetic longitude", EAST], 
+  AXIS["Geodetic latitude", NORTH], 
+  AUTHORITY["EPSG","4326"]]-->
+        <LatLonBoundingBox minx="16.935359954834" miny="-34.3737831115723" maxx="32.5472412109375" maxy="-22.7736549377441"/>
+        <BoundingBox SRS="EPSG:4326" minx="16.935359954834" miny="-34.3737831115723" maxx="32.5472412109375" maxy="-22.7736549377441"/>
+        <Style>
+          <Name>za_natural</Name>
+          <Title>Default Styler</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=za:za_natural"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="1">
+        <Name>za:za_points</Name>
+        <Title>Points of Interest in South Africa</Title>
+        <Abstract>Noteworthy locations such as hotels and tourist attractions in South Africa.</Abstract>
+        <KeywordList>
+          <Keyword>of</Keyword>
+          <Keyword>tourist</Keyword>
+          <Keyword>zoo</Keyword>
+          <Keyword>landmarks</Keyword>
+          <Keyword>cities</Keyword>
+          <Keyword>interest</Keyword>
+          <Keyword>attractions</Keyword>
+          <Keyword>museum</Keyword>
+          <Keyword>hotel</Keyword>
+          <Keyword>points</Keyword>
+          <Keyword>picnic</Keyword>
+        </KeywordList>
+        <SRS>EPSG:4326</SRS>
+        <!--WKT definition of this CRS:
+GEOGCS["WGS 84", 
+  DATUM["World Geodetic System 1984", 
+    SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
+    AUTHORITY["EPSG","6326"]], 
+  PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Geodetic longitude", EAST], 
+  AXIS["Geodetic latitude", NORTH], 
+  AUTHORITY["EPSG","4326"]]-->
+        <LatLonBoundingBox minx="16.4827766418457" miny="-46.9045600891113" maxx="37.9386329650879" maxy="-22.2347373962402"/>
+        <BoundingBox SRS="EPSG:4326" minx="16.4827766418457" miny="-46.9045600891113" maxx="37.9386329650879" maxy="-22.2347373962402"/>
+        <Style>
+          <Name>za_points</Name>
+          <Title>Default Styler</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=za:za_points"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="1">
+        <Name>za:za_roads</Name>
+        <Title>South African Roads</Title>
+        <Abstract>This layer describes roads in South Africa.</Abstract>
+        <KeywordList>
+          <Keyword>south</Keyword>
+          <Keyword>africa</Keyword>
+          <Keyword>roads</Keyword>
+        </KeywordList>
+        <SRS>EPSG:4326</SRS>
+        <!--WKT definition of this CRS:
+GEOGCS["WGS 84", 
+  DATUM["World Geodetic System 1984", 
+    SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
+    AUTHORITY["EPSG","6326"]], 
+  PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Geodetic longitude", EAST], 
+  AXIS["Geodetic latitude", NORTH], 
+  AUTHORITY["EPSG","4326"]]-->
+        <LatLonBoundingBox minx="16.4580821990967" miny="-34.8331336975098" maxx="32.8781242370605" maxy="-22.1271991729736"/>
+        <BoundingBox SRS="EPSG:4326" minx="16.4580821990967" miny="-34.8331336975098" maxx="32.8781242370605" maxy="-22.1271991729736"/>
+        <Style>
+          <Name>za_roads</Name>
+          <Title>Default Styler</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=za:za_roads"/>
+          </LegendURL>
+        </Style>
+      </Layer>
+      <Layer queryable="1">
+        <Name>za:za_vegetation</Name>
+        <Title>South African Vegetation</Title>
+        <Abstract>This layer describes vegetated areas in South Africa, categorized by biome.</Abstract>
+        <KeywordList>
+          <Keyword>south</Keyword>
+          <Keyword>africa</Keyword>
+          <Keyword>vegetation</Keyword>
+        </KeywordList>
+        <SRS>EPSG:4326</SRS>
+        <!--WKT definition of this CRS:
+GEOGCS["WGS 84", 
+  DATUM["World Geodetic System 1984", 
+    SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
+    AUTHORITY["EPSG","6326"]], 
+  PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Geodetic longitude", EAST], 
+  AXIS["Geodetic latitude", NORTH], 
+  AUTHORITY["EPSG","4326"]]-->
+        <LatLonBoundingBox minx="16.4691715240479" miny="-34.8336486816406" maxx="32.8940010070801" maxy="-22.123929977417"/>
+        <BoundingBox SRS="EPSG:4326" minx="16.4691715240479" miny="-34.8336486816406" maxx="32.8940010070801" maxy="-22.123929977417"/>
+        <Style>
+          <Name>za_vegetation</Name>
+          <Title>Default Styler</Title>
+          <Abstract/>
+          <LegendURL width="20" height="20">
+            <Format>image/png</Format>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=za:za_vegetation"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4168,7 +4487,7 @@ GEOGCS["WGS 84",
           <Abstract/>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_cities"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_cities"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4199,7 +4518,7 @@ GEOGCS["WGS 84",
           <Abstract>Light red line, 2px wide</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_roads"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_roads"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4231,7 +4550,7 @@ GEOGCS["WGS 84",
           <Abstract>Green fill with black outline</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_state_boundaries"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_state_boundaries"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4265,7 +4584,7 @@ GEOGCS["WGS 84",
           <Abstract>A blue fill, solid black outline style</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_water_bodies"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:tasmania_water_bodies"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4291,7 +4610,7 @@ GEOGCS["WGS 84",
   AXIS["Geodetic longitude", EAST], 
   AXIS["Geodetic latitude", NORTH], 
   AUTHORITY["EPSG","4326"]]-->
-        <LatLonBoundingBox minx="-125.30903773" miny="7.705448770000002" maxx="-66.39223326999999" maxy="66.62225323"/>
+        <LatLonBoundingBox minx="-124.731422" miny="24.955967" maxx="-66.969849" maxy="49.371735"/>
         <BoundingBox SRS="EPSG:4326" minx="-124.73142200000001" miny="24.955967" maxx="-66.969849" maxy="49.371735"/>
         <Style>
           <Name>population</Name>
@@ -4300,17 +4619,17 @@ GEOGCS["WGS 84",
         categories of population, drawn in different colors</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:states"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=topp:states"/>
           </LegendURL>
         </Style>
       </Layer>
       <Layer queryable="1">
-        <Name>tiger:giant_polygon</Name>
-        <Title>World rectangle</Title>
-        <Abstract>A simple rectangular polygon covering most of the world, it's only used for the purpose of providing a background (WMS bgcolor could be used instead)</Abstract>
+        <Name>tike:waterways</Name>
+        <Title>Waterways</Title>
+        <Abstract>Waterways in Finland.</Abstract>
         <KeywordList>
-          <Keyword>DS_giant_polygon</Keyword>
-          <Keyword>giant_polygon</Keyword>
+          <Keyword>Finland</Keyword>
+          <Keyword>waterways</Keyword>
         </KeywordList>
         <SRS>EPSG:4326</SRS>
         <!--WKT definition of this CRS:
@@ -4323,144 +4642,77 @@ GEOGCS["WGS 84",
   AXIS["Geodetic longitude", EAST], 
   AXIS["Geodetic latitude", NORTH], 
   AUTHORITY["EPSG","4326"]]-->
-        <LatLonBoundingBox minx="-180.0" miny="-90.0" maxx="180.0" maxy="90.0"/>
-        <BoundingBox SRS="EPSG:4326" minx="-180.0" miny="-90.0" maxx="180.0" maxy="90.0"/>
+        <LatLonBoundingBox minx="19.649055480957" miny="59.9357719421387" maxx="31.5377140045166" maxy="69.9118957519531"/>
+        <BoundingBox SRS="EPSG:4326" minx="19.649055480957" miny="59.9357719421387" maxx="31.5377140045166" maxy="69.9118957519531"/>
         <Style>
-          <Name>giant_polygon</Name>
-          <Title>Border-less gray fill</Title>
-          <Abstract>Light gray polygon fill without a border</Abstract>
+          <Name>line</Name>
+          <Title>1 px blue line</Title>
+          <Abstract>Default line style, 1 pixel wide blue</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tiger:giant_polygon"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tike:waterways"/>
           </LegendURL>
         </Style>
       </Layer>
       <Layer queryable="1">
-        <Name>og:archsites</Name>
-        <Title>archsites_Type</Title>
-        <Abstract>Generated from sf_reset</Abstract>
+        <Name>tike:railways</Name>
+        <Title>roads_Type</Title>
+        <Abstract>Generated from tike</Abstract>
         <KeywordList>
-          <Keyword>archsites</Keyword>
-          <Keyword>sf_reset</Keyword>
+          <Keyword>tike</Keyword>
+          <Keyword>roads</Keyword>
         </KeywordList>
-        <SRS>EPSG:26713</SRS>
+        <SRS>EPSG:4326</SRS>
         <!--WKT definition of this CRS:
-PROJCS["NAD27 / UTM zone 13N", 
-  GEOGCS["NAD27", 
-    DATUM["North American Datum 1927", 
-      SPHEROID["Clarke 1866", 6378206.4, 294.9786982138982, AUTHORITY["EPSG","7008"]], 
-      TOWGS84[-4.2, 135.4, 181.9, 0.0, 0.0, 0.0, 0.0], 
-      AUTHORITY["EPSG","6267"]], 
-    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
-    UNIT["degree", 0.017453292519943295], 
-    AXIS["Geodetic longitude", EAST], 
-    AXIS["Geodetic latitude", NORTH], 
-    AUTHORITY["EPSG","4267"]], 
-  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
-  PARAMETER["central_meridian", -105.0], 
-  PARAMETER["latitude_of_origin", 0.0], 
-  PARAMETER["scale_factor", 0.9996], 
-  PARAMETER["false_easting", 500000.0], 
-  PARAMETER["false_northing", 0.0], 
-  UNIT["m", 1.0], 
-  AXIS["Easting", EAST], 
-  AXIS["Northing", NORTH], 
-  AUTHORITY["EPSG","26713"]]-->
-        <LatLonBoundingBox minx="-103.8724583832911" miny="44.37729507653392" maxx="-103.63783694485966" maxy="44.48793465340441"/>
-        <BoundingBox SRS="EPSG:26713" minx="579284.662479525" miny="4907611.177401545" maxx="618930.337520475" maxy="4933357.822598455"/>
+GEOGCS["WGS 84", 
+  DATUM["World Geodetic System 1984", 
+    SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
+    AUTHORITY["EPSG","6326"]], 
+  PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Geodetic longitude", EAST], 
+  AXIS["Geodetic latitude", NORTH], 
+  AUTHORITY["EPSG","4326"]]-->
+        <LatLonBoundingBox minx="19.5393085479736" miny="-2277.78344726562" maxx="2.971959E7" maxy="4927039.0"/>
+        <BoundingBox SRS="EPSG:4326" minx="19.5393085479736" miny="-2277.78344726562" maxx="2.971959E7" maxy="4927039.0"/>
         <Style>
-          <Name>point</Name>
-          <Title>Default point</Title>
-          <Abstract>A sample style that just prints out a 6px wide red square</Abstract>
+          <Name>line</Name>
+          <Title>1 px blue line</Title>
+          <Abstract>Default line style, 1 pixel wide blue</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:archsites"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tike:railways"/>
           </LegendURL>
         </Style>
       </Layer>
       <Layer queryable="1">
-        <Name>og:bugsites</Name>
-        <Title>bugsites_Type</Title>
-        <Abstract>Generated from sf_reset</Abstract>
+        <Name>tike:roads</Name>
+        <Title>roads_Type</Title>
+        <Abstract>Generated from tike</Abstract>
         <KeywordList>
-          <Keyword>bugsites</Keyword>
-          <Keyword>sf_reset</Keyword>
+          <Keyword>tike</Keyword>
+          <Keyword>roads</Keyword>
         </KeywordList>
-        <SRS>EPSG:26713</SRS>
+        <SRS>EPSG:4326</SRS>
         <!--WKT definition of this CRS:
-PROJCS["NAD27 / UTM zone 13N", 
-  GEOGCS["NAD27", 
-    DATUM["North American Datum 1927", 
-      SPHEROID["Clarke 1866", 6378206.4, 294.9786982138982, AUTHORITY["EPSG","7008"]], 
-      TOWGS84[-4.2, 135.4, 181.9, 0.0, 0.0, 0.0, 0.0], 
-      AUTHORITY["EPSG","6267"]], 
-    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
-    UNIT["degree", 0.017453292519943295], 
-    AXIS["Geodetic longitude", EAST], 
-    AXIS["Geodetic latitude", NORTH], 
-    AUTHORITY["EPSG","4267"]], 
-  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
-  PARAMETER["central_meridian", -105.0], 
-  PARAMETER["latitude_of_origin", 0.0], 
-  PARAMETER["scale_factor", 0.9996], 
-  PARAMETER["false_easting", 500000.0], 
-  PARAMETER["false_northing", 0.0], 
-  UNIT["m", 1.0], 
-  AXIS["Easting", EAST], 
-  AXIS["Northing", NORTH], 
-  AUTHORITY["EPSG","26713"]]-->
-        <LatLonBoundingBox minx="-103.8678559295459" miny="44.3738305876282" maxx="-103.63763045271456" maxy="44.434080121216205"/>
-        <BoundingBox SRS="EPSG:26713" minx="579803.0418472051" miny="4910427.367097522" maxx="618899.9581527949" maxy="4924180.632902478"/>
+GEOGCS["WGS 84", 
+  DATUM["World Geodetic System 1984", 
+    SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
+    AUTHORITY["EPSG","6326"]], 
+  PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Geodetic longitude", EAST], 
+  AXIS["Geodetic latitude", NORTH], 
+  AUTHORITY["EPSG","4326"]]-->
+        <LatLonBoundingBox minx="19.5393085479736" miny="-2277.78344726562" maxx="2.971959E7" maxy="4927039.0"/>
+        <BoundingBox SRS="EPSG:4326" minx="19.5393085479736" miny="-2277.78344726562" maxx="2.971959E7" maxy="4927039.0"/>
         <Style>
-          <Name>point</Name>
-          <Title>Default point</Title>
-          <Abstract>A sample style that just prints out a 6px wide red square</Abstract>
+          <Name>line</Name>
+          <Title>1 px blue line</Title>
+          <Abstract>Default line style, 1 pixel wide blue</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:bugsites"/>
-          </LegendURL>
-        </Style>
-      </Layer>
-      <Layer queryable="1">
-        <Name>og:restricted</Name>
-        <Title>restricted_Type</Title>
-        <Abstract>Generated from sf_reset</Abstract>
-        <KeywordList>
-          <Keyword>restricted</Keyword>
-          <Keyword>sf_reset</Keyword>
-        </KeywordList>
-        <SRS>EPSG:26713</SRS>
-        <!--WKT definition of this CRS:
-PROJCS["NAD27 / UTM zone 13N", 
-  GEOGCS["NAD27", 
-    DATUM["North American Datum 1927", 
-      SPHEROID["Clarke 1866", 6378206.4, 294.9786982138982, AUTHORITY["EPSG","7008"]], 
-      TOWGS84[-4.2, 135.4, 181.9, 0.0, 0.0, 0.0, 0.0], 
-      AUTHORITY["EPSG","6267"]], 
-    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
-    UNIT["degree", 0.017453292519943295], 
-    AXIS["Geodetic longitude", EAST], 
-    AXIS["Geodetic latitude", NORTH], 
-    AUTHORITY["EPSG","4267"]], 
-  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
-  PARAMETER["central_meridian", -105.0], 
-  PARAMETER["latitude_of_origin", 0.0], 
-  PARAMETER["scale_factor", 0.9996], 
-  PARAMETER["false_easting", 500000.0], 
-  PARAMETER["false_northing", 0.0], 
-  UNIT["m", 1.0], 
-  AXIS["Easting", EAST], 
-  AXIS["Northing", NORTH], 
-  AUTHORITY["EPSG","26713"]]-->
-        <LatLonBoundingBox minx="-103.85046714477757" miny="44.39425322606261" maxx="-103.74730938570416" maxy="44.482051617995175"/>
-        <BoundingBox SRS="EPSG:26713" minx="586973.4138631009" miny="4910714.68911342" maxx="604271.7736368991" maxy="4931370.31088658"/>
-        <Style>
-          <Name>polygon</Name>
-          <Title>Default polygon style</Title>
-          <Abstract>A sample style that just draws out a solid gray interior with a black 1px outline</Abstract>
-          <LegendURL width="20" height="20">
-            <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:restricted"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tike:roads"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4495,58 +4747,46 @@ PROJCS["NAD27 / UTM zone 13N",
   AXIS["Easting", EAST], 
   AXIS["Northing", NORTH], 
   AUTHORITY["EPSG","26713"]]-->
-        <LatLonBoundingBox minx="-103.87787616044085" miny="44.37286182959436" maxx="-103.62276582457976" maxy="44.50215049516538"/>
-        <BoundingBox SRS="EPSG:26713" minx="577946.0691546879" miny="4905968.000151713" maxx="621015.9933453121" maxy="4936101.499848287"/>
+        <LatLonBoundingBox minx="-103.87787616044085" miny="44.37286182959436" maxx="-103.62269938718721" maxy="44.50497230654195"/>
+        <BoundingBox SRS="EPSG:26713" minx="589434.8125" miny="4914006.0" maxx="609527.25" maxy="4928377.0"/>
         <Style>
-          <Name>line</Name>
-          <Title>1 px blue line</Title>
-          <Abstract>Default line style, 1 pixel wide blue</Abstract>
+          <Name>simple_roads</Name>
+          <Title>Default Styler for simple road segments</Title>
+          <Abstract>Light red line, 2px wide</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:roads"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:roads"/>
           </LegendURL>
         </Style>
       </Layer>
       <Layer queryable="1">
-        <Name>og:streams</Name>
-        <Title>streams_Type</Title>
-        <Abstract>Generated from sf_reset</Abstract>
+        <Name>tike:points</Name>
+        <Title>roads_Type</Title>
+        <Abstract>Generated from tike</Abstract>
         <KeywordList>
-          <Keyword>streams</Keyword>
-          <Keyword>sf_reset</Keyword>
+          <Keyword>tike</Keyword>
+          <Keyword>roads</Keyword>
         </KeywordList>
-        <SRS>EPSG:26713</SRS>
+        <SRS>EPSG:4326</SRS>
         <!--WKT definition of this CRS:
-PROJCS["NAD27 / UTM zone 13N", 
-  GEOGCS["NAD27", 
-    DATUM["North American Datum 1927", 
-      SPHEROID["Clarke 1866", 6378206.4, 294.9786982138982, AUTHORITY["EPSG","7008"]], 
-      TOWGS84[-4.2, 135.4, 181.9, 0.0, 0.0, 0.0, 0.0], 
-      AUTHORITY["EPSG","6267"]], 
-    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
-    UNIT["degree", 0.017453292519943295], 
-    AXIS["Geodetic longitude", EAST], 
-    AXIS["Geodetic latitude", NORTH], 
-    AUTHORITY["EPSG","4267"]], 
-  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
-  PARAMETER["central_meridian", -105.0], 
-  PARAMETER["latitude_of_origin", 0.0], 
-  PARAMETER["scale_factor", 0.9996], 
-  PARAMETER["false_easting", 500000.0], 
-  PARAMETER["false_northing", 0.0], 
-  UNIT["m", 1.0], 
-  AXIS["Easting", EAST], 
-  AXIS["Northing", NORTH], 
-  AUTHORITY["EPSG","26713"]]-->
-        <LatLonBoundingBox minx="-103.87778561486992" miny="44.37222288070277" maxx="-103.62277295981083" maxy="44.50211347714936"/>
-        <BoundingBox SRS="EPSG:26713" minx="577959.2241185814" miny="4905858.689926578" maxx="621010.5258814186" maxy="4936135.810073422"/>
+GEOGCS["WGS 84", 
+  DATUM["World Geodetic System 1984", 
+    SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
+    AUTHORITY["EPSG","6326"]], 
+  PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Geodetic longitude", EAST], 
+  AXIS["Geodetic latitude", NORTH], 
+  AUTHORITY["EPSG","4326"]]-->
+        <LatLonBoundingBox minx="19.8481521606445" miny="59.8213005065918" maxx="31.2861518859863" maxy="70.0596923828125"/>
+        <BoundingBox SRS="EPSG:4326" minx="19.8481521606445" miny="59.8213005065918" maxx="31.2861518859863" maxy="70.0596923828125"/>
         <Style>
           <Name>line</Name>
           <Title>1 px blue line</Title>
           <Abstract>Default line style, 1 pixel wide blue</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=og:streams"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=tike:points"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4578,7 +4818,7 @@ GEOGCS["WGS 84",
           <Abstract>A sample style for rasters, good for displaying imagery</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=nurc:Arc_Sample"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=nurc:Arc_Sample"/>
           </LegendURL>
         </Style>
       </Layer>
@@ -4610,93 +4850,21 @@ GEOGCS["WGS 84",
           <Abstract>A sample style for rasters, good for displaying imagery</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=nurc:Img_Sample"/>
-          </LegendURL>
-        </Style>
-      </Layer>
-      <Layer queryable="1">
-        <Name>nurc:mosaic</Name>
-        <Title>Sample PNG mosaic</Title>
-        <Abstract>Subsampled satellite imagery loaded as a mosaic of PNG images</Abstract>
-        <KeywordList>
-          <Keyword>WCS</Keyword>
-          <Keyword>mosaic</Keyword>
-          <Keyword>mosaic</Keyword>
-        </KeywordList>
-        <!--WKT definition of this CRS:
-GEOGCS["WGS 84", 
-  DATUM["World Geodetic System 1984", 
-    SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
-    AUTHORITY["EPSG","6326"]], 
-  PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
-  UNIT["degree", 0.017453292519943295], 
-  AXIS["Geodetic longitude", EAST], 
-  AXIS["Geodetic latitude", NORTH], 
-  AUTHORITY["EPSG","4326"]]-->
-        <SRS>EPSG:4326</SRS>
-        <LatLonBoundingBox minx="6.34617490847439" miny="36.4917718219401" maxx="20.8296831527815" maxy="46.5907669751351"/>
-        <BoundingBox SRS="EPSG:4326" minx="6.34617490847439" miny="36.4917718219401" maxx="20.8296831527815" maxy="46.5907669751351"/>
-        <Style>
-          <Name>raster</Name>
-          <Title>Raster</Title>
-          <Abstract>A sample style for rasters, good for displaying imagery</Abstract>
-          <LegendURL width="20" height="20">
-            <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=nurc:mosaic"/>
-          </LegendURL>
-        </Style>
-      </Layer>
-      <Layer queryable="1">
-        <Name>nurc:Pk50095</Name>
-        <Title>Sample scanned and georerenced map</Title>
-        <Abstract>This is a sample for the world image format (wld + prj + tiff)</Abstract>
-        <KeywordList>
-          <Keyword>WCS</Keyword>
-          <Keyword>img_sample2</Keyword>
-          <Keyword>Pk50095</Keyword>
-        </KeywordList>
-        <!--WKT definition of this CRS:
-PROJCS["WGS 84 / UTM zone 33N", 
-  GEOGCS["WGS 84", 
-    DATUM["World Geodetic System 1984", 
-      SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], 
-      AUTHORITY["EPSG","6326"]], 
-    PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
-    UNIT["degree", 0.017453292519943295], 
-    AXIS["Geodetic longitude", EAST], 
-    AXIS["Geodetic latitude", NORTH], 
-    AUTHORITY["EPSG","4326"]], 
-  PROJECTION["Transverse Mercator", AUTHORITY["EPSG","9807"]], 
-  PARAMETER["central_meridian", 15.0], 
-  PARAMETER["latitude_of_origin", 0.0], 
-  PARAMETER["scale_factor", 0.9996], 
-  PARAMETER["false_easting", 500000.0], 
-  PARAMETER["false_northing", 0.0], 
-  UNIT["m", 1.0], 
-  AXIS["Easting", EAST], 
-  AXIS["Northing", NORTH], 
-  AUTHORITY["EPSG","32633"]]-->
-        <SRS>EPSG:32633</SRS>
-        <LatLonBoundingBox minx="12.999446822650462" miny="46.722110379286" maxx="13.308182612644663" maxy="46.91359611878293"/>
-        <BoundingBox SRS="EPSG:32633" minx="347649.93086859107" miny="5176214.082539256" maxx="370725.976428591" maxy="5196961.352859256"/>
-        <Style>
-          <Name>raster</Name>
-          <Title>Raster</Title>
-          <Abstract>A sample style for rasters, good for displaying imagery</Abstract>
-          <LegendURL width="20" height="20">
-            <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=nurc:Pk50095"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=nurc:Img_Sample"/>
           </LegendURL>
         </Style>
       </Layer>
       <Layer queryable="1">
         <Name>sf:sfdem</Name>
-        <Title>sfdem is a Tagged Image File Format with Geographic information</Title>
-        <Abstract>Generated from sfdem</Abstract>
+        <Title>Spearfish DEM</Title>
+        <Abstract>Digital Elevation Model data for Spearfish, South Dakota</Abstract>
         <KeywordList>
           <Keyword>WCS</Keyword>
-          <Keyword>sfdem</Keyword>
-          <Keyword>sfdem</Keyword>
+          <Keyword>sf</Keyword>
+          <Keyword>dem</Keyword>
+          <Keyword>digital</Keyword>
+          <Keyword>elevation</Keyword>
+          <Keyword>model</Keyword>
         </KeywordList>
         <!--WKT definition of this CRS:
 PROJCS["NAD27 / UTM zone 13N", 
@@ -4729,7 +4897,7 @@ PROJCS["NAD27 / UTM zone 13N",
           <Abstract>Classic elevation color progression</Abstract>
           <LegendURL width="20" height="20">
             <Format>image/png</Format>
-            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org:80/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=sf:sfdem"/>
+            <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="http://demo.opengeo.org/geoserver/wms/GetLegendGraphic?VERSION=1.0.0&amp;FORMAT=image/png&amp;WIDTH=20&amp;HEIGHT=20&amp;LAYER=sf:sfdem"/>
           </LegendURL>
         </Style>
       </Layer>
