@@ -106,7 +106,7 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
                 Ext.each(styles, function(s) {
                     url = (s.name == styleName && s.legend) && s.legend.href;
                     return !url;
-                })
+                });
             } else if(this.defaultStyleIsFirst === true && !styleNames &&
                       !this.layer.params.SLD && !this.layer.params.SLD_BODY) {
                 url = styles[0].legend && styles[0].legend.href;
