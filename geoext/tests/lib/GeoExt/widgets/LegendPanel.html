@@ -157,6 +157,21 @@
             mapPanel.destroy();
         }
 
+        function test_clear(t) {
+            t.plan(2);
+            var mapPanel = loadMapPanel();
+            var lp  = new GeoExt.LegendPanel({
+                renderTo: 'legendpanel'});
+            lp.render();
+            t.eq(lp.items.length, 1, "Same number of layers in legend panel and in layerstore");
+
+            mapPanel.layers.removeAll();
+            t.eq(lp.items.length, 0, "When layerstore is cleared, legend panel is cleared");
+
+            lp.destroy();
+            mapPanel.destroy();
+        }
+
         function test_changelayername(t) {
             t.plan(3);
             var mapPanel = loadMapPanel();
