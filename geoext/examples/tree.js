@@ -91,6 +91,11 @@ Ext.onReady(function() {
             )
         ]
     });
+
+    // create our own layer node UI class, using the RadioButtonMixin
+    var LayerNodeUI = Ext.extend(
+        GeoExt.tree.LayerNodeUI, new GeoExt.tree.RadioButtonMixin()
+    );
         
     // using OpenLayers.Format.JSON to create a nice formatted string of the
     // configuration for editing it in the UI
@@ -104,7 +109,10 @@ Ext.onReady(function() {
         // in the code that we use as handlers for the tree's insert and
         // append events to make these radio buttons change the active layer.
         loader: {
-            baseAttrs: {radioGroup: "foo"}
+            baseAttrs: {
+                radioGroup: "foo",
+                uiProvider: "use_radio"
+            }
         }
     }, {
         nodeType: "gx_layer",
@@ -141,7 +149,10 @@ Ext.onReady(function() {
         loader: new Ext.tree.TreeLoader({
             // applyLoader has to be set to false to not interfer with loaders
             // of nodes further down the tree hierarchy
-            applyLoader: false
+            applyLoader: false,
+            uiProviders: {
+                "use_radio": LayerNodeUI
+            }
         }),
         root: {
             nodeType: "async",

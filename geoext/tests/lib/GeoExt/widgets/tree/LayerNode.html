@@ -30,7 +30,7 @@
         
         function test_render(t) {
             
-            t.plan(8);
+            t.plan(6);
             
             var layer = new OpenLayers.Layer("foo");
             
@@ -41,15 +41,10 @@
             
             var node = new GeoExt.tree.LayerNode({
                 layer: "foo",
-                radioGroup: "group",
                 checkedGroup: "check"
             });
-            
-            node.on("radiochange", function() {
-                t.ok(arguments[0] === node, "radiochange event triggered with the selected node as first argument");
-            });
-                        
-            var panel = new Ext.tree.TreePanel({
+
+           var panel = new Ext.tree.TreePanel({
                 renderTo: "tree",
                 root: node
             });
@@ -58,10 +53,7 @@
                 t.ok(node.layer === layer, "layer found on detected map panel");
 
                 t.ok(node.ui.checkbox, "node has a checkbox");
-                t.ok(node.ui.radio, "node has a radio button");
-                // simulate a click event for testing the radiochange event
-                node.ui.onClick({getTarget: function() {return true}});
-                
+
                 t.eq(node.ui.checkbox.type, "radio", "checkbox rendered as radio button when checkedGroup is configured");
                 t.eq(node.ui.checkbox.name, "check_checkbox", "option group name set correctly according to checkedGroup");
                 

@@ -15,11 +15,6 @@ Ext.namespace("GeoExt.tree");
  */
 GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     
-    /** private: property[radio]
-     *  ``Ext.Element``
-     */
-    radio: null,
-    
     /** private: method[constructor]
      */
     constructor: function(config) {
@@ -36,11 +31,6 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
         }
         GeoExt.tree.LayerNodeUI.superclass.render.apply(this, arguments);
         var cb = this.checkbox;
-        if (a.radioGroup && this.radio === null) {
-            this.radio = Ext.DomHelper.insertAfter(cb,
-                ['<input type="radio" class="gx-tree-layer-radio" name="',
-                a.radioGroup, '_radio"></input>'].join(""));
-        }
         if(a.checkedGroup) {
             // replace the checkbox with a radio button
             var radio = Ext.DomHelper.insertAfter(cb,
@@ -59,10 +49,7 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
      *  :param e: ``Object``
      */
     onClick: function(e) {
-        if (e.getTarget('.gx-tree-layer-radio', 1)) {
-            this.radio.defaultChecked = this.radio.checked;
-            this.fireEvent("radiochange", this.node);
-        } else if(e.getTarget('.x-tree-node-cb', 1)) {
+        if(e.getTarget('.x-tree-node-cb', 1)) {
             this.toggleCheck(this.isChecked());
         } else {
             GeoExt.tree.LayerNodeUI.superclass.onClick.apply(this, arguments);
@@ -122,13 +109,6 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
             r.name = r.name + "_clone";
         });
         ghostNode.appendChild(n);
-    },
-
-    /** private: method[destroy]
-     */
-    destroy: function() {
-        delete this.radio;
-        GeoExt.tree.LayerNodeUI.superclass.destroy.apply(this, arguments);
     }
 });
 
@@ -158,12 +138,6 @@ GeoExt.tree.LayerNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
  *      rendered with a radio button instead of the checkbox. The value of
  *      the checkedGroup attribute is a string, identifying the options group
  *      for the node.
- * 
- *      If the node has a radioGroup attribute configured, the node will be
- *      rendered with a radio button next to the checkbox. This works like the
- *      checkbox with the checked attribute, but radioGroup is a string that
- *      identifies the options group. Clicking the radio button will fire a
- *      radioChange event.
  * 
  *      To use this node type in a ``TreePanel`` config, set ``nodeType`` to
  *      "gx_layer".
@@ -218,13 +192,6 @@ GeoExt.tree.LayerNode = Ext.extend(Ext.tree.AsyncTreeNode, {
         }
         
         this.defaultUI = this.defaultUI || GeoExt.tree.LayerNodeUI;
-        this.addEvents(
-            /** api: event[radiochange]
-             *  Notifies listener when a differnt radio button was selected.
-             *  Will be called with the currently selected node as argument.
-             */
-            "radiochange"
-        );
         
         Ext.apply(this, {
             layer: config.layer,
