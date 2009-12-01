@@ -28,9 +28,10 @@ that displays data from a KML. Copy :download:`this sample KML file
 we can load it with some JavaScript::
 
     var map = new Openlayers.Map();
-    var bluemarble = new OpenLayers.Layer.WMS("Blue Marble",
-        'http://sigma.openplans.org/geoserver/wms',
-        { layers: 'bluemarble' }
+    var bluemarble = new OpenLayers.Layer.WMS(
+        "Global Imagery",
+        "http://maps.opengeo.org/geowebcache/service/wms",
+        {layers: "bluemarble"}
     );
     var sundials = new OpenLayers.Layer.Vector("Sundials");
     map.addLayer(bluemarble);

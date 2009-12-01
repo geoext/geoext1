@@ -23,8 +23,8 @@ very basic map configuration::
        
     var map = new OpenLayers.Map();
     var layer = new OpenLayers.Layer.WMS(
-        "Blue Marble",
-        "http://sigma.openplans.org/geoserver/wms?",
+        "Global Imagery",
+        "http://maps.opengeo.org/geowebcache/service/wms",
         {layers: "bluemarble"}
     );
     map.addLayer(layer);
@@ -45,7 +45,7 @@ customize our map a bit.
 
 In **lines 2-6** we create a new :class:`OpenLayers.Layer`. This particular
 layer is a WMS layer, which uses tiles from the Blue Marble layer at
-http://sigma.openplans.org/. 
+http://maps.opengeo.org/. 
 
 In **line 7** we add our new layer to the map.
 

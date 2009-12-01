@@ -50,12 +50,12 @@ the ``layer`` variable, and that you'd like to add that layer to the map. In
 this case, we're adding the `Blue Marble data set
 <http://earthobservatory.nasa.gov/Features/BlueMarble/>`_ provided by NASA.
 
-In **line 2** we provide "Blue Marble" as the name of the layer. This can be
+In **line 2** we provide "Global Imagery" as the name of the layer. This can be
 anything, and is only used to reference the layer on screen.
 
 In **line 3** we provide the location of the WMS server tasked with providing
-the images. Here, we use a GeoServer instance located at
-``sigma.openplans.org``\ .
+the images. Here, we use a GeoWebCache instance located at
+``maps.opengeo.org``\ .
 
 In **line 4** we provide extra parameters for the WMS server. Since many servers
 host different data sets, we need to specify which set we'd like. We do this by

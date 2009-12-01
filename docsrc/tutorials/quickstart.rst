@@ -67,8 +67,8 @@ navigation.
             Ext.onReady(function() {
                 var map = new OpenLayers.Map();
                 var layer = new OpenLayers.Layer.WMS(
-                    "Blue Marble",
-                    "http://sigma.openplans.org/geoserver/wms?",
+                    "Global Imagery",
+                    "http://maps.opengeo.org/geowebcache/service/wms",
                     {layers: "bluemarble"}
                 );
                 map.addLayer(layer);
@@ -102,8 +102,8 @@ The entire source of your page should look something like:
         Ext.onReady(function() {
             var map = new OpenLayers.Map();
             var layer = new OpenLayers.Layer.WMS(
-                "Blue Marble",
-                "http://sigma.openplans.org/geoserver/wms?",
+                "Global Imagery",
+                "http://maps.opengeo.org/geowebcache/service/wms",
                 {layers: "bluemarble"}
             );
             map.addLayer(layer);
