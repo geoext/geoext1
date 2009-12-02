@@ -19,8 +19,11 @@ A Basic MapPanel
 ================
 
 Taking a look at the example code from the quickstart tutorial, we can see a
-very basic map configuration::
+very basic map configuration:
        
+.. code-block:: javascript
+    :linenos:
+
     var map = new OpenLayers.Map();
     var layer = new OpenLayers.Layer.WMS(
         "Global Imagery",
