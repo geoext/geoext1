@@ -15,19 +15,19 @@ library and the rich graphical components of ExtJS.  For licensing
 reasons, ExtJS cannot be included in the GeoExt download, so preparing
 GeoExt for use on your own web pages is a multi-step process:
 
-#. Download GeoExt from the :doc:`downloads page </downloads>`. For the purposes
+#.  Download GeoExt from the :doc:`downloads page </downloads>`. For the purposes
     of this quickstart, the development version will be fine.
 
-#. Download OpenLayers 2.8 or later from http://openlayers.org/. 
+#.  Download OpenLayers 2.8 or later from http://openlayers.org/. 
 
-#. Download ExtJS 2.2 from `the ExtJS website <http://extjs.com/products/extjs/download.php>`_.
+#.  Download ExtJS 2.2 from `the ExtJS website <http://extjs.com/products/extjs/download.php>`_.
 
-#. Place both unpacked libraries in a directory that is published by your web
+#.  Place both unpacked libraries in a directory that is published by your web
     server. For this tutorial, I will assume that this is the root of your web
     server, so that GeoExt.js is at http://localhost/GeoExt/lib/GeoExt.js and
     ext-all.js is at http://localhost/ext-2.2/ext-all.js
 
-#. Now you're ready to use GeoExt in your application!
+#.  Now you're ready to use GeoExt in your application!
 
 .. note:: For production environments, the GeoExt team recommends that
     you use compressed and minified builds of GeoExt and ExtJS to
@@ -41,10 +41,10 @@ GeoExt for use on your own web pages is a multi-step process:
 Basic Example
 =============
 
-let's build a simple web page that just embeds a map with interactive
+Let's build a simple web page that just embeds a map with interactive
 navigation.
 
-#. Include the ExtJS libraries in your web page.
+#.  Include the ExtJS libraries in your web page.
 
     .. code-block:: html
     
@@ -55,11 +55,11 @@ navigation.
         <script src="GeoExt/lib/GeoExt.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="GeoExt/resources/geoext-all-debug.css"></link>
 
-#. Create a ``<div>`` element in your web page with its ``id``
+#.  Create a ``<div>`` element in your web page with its ``id``
     attribute set to ``gxmap``.  We will use the ``id`` to attach a
     GeoExt component to the ``div``.
 
-#. Attach a ``MapPanel`` object to the ``div`` with some JavaScript code:
+#.  Attach a ``MapPanel`` object to the ``div`` with some JavaScript code:
 
     .. code-block:: html 
     
