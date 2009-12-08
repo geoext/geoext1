@@ -105,9 +105,7 @@ Ext.onReady(function() {
         nodeType: "gx_overlaylayercontainer",
         expanded: true,
         // render the nodes inside this container with a radio button,
-        // and assign them the group "foo". See the registerRadio function
-        // in the code that we use as handlers for the tree's insert and
-        // append events to make these radio buttons change the active layer.
+        // and assign them the group "foo".
         loader: {
             baseAttrs: {
                 radioGroup: "foo",
@@ -126,16 +124,6 @@ Ext.onReady(function() {
         }
     }], true);
 
-    // the layer node's radio button with its radiochange event can be used
-    // to set an active layer.
-    var registerRadio = function(node){
-        if(!node.hasListener("radiochange")) {
-            node.on("radiochange", function(node){
-                alert(node.layer.name + " is now the the active layer.");
-            });
-        }
-    }
-    
     // create the tree with the configuration from above
     var tree = new Ext.tree.TreePanel({
         border: true,
@@ -162,8 +150,9 @@ Ext.onReady(function() {
             children: Ext.decode(treeConfig)
         },
         listeners: {
-            "insert": registerRadio,
-            "append": registerRadio
+            "radiochange": function(node){
+                alert(node.layer.name + " is now the the active layer.");
+            }
         },
         rootVisible: false,
         lines: false,
