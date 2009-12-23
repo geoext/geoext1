@@ -38,32 +38,34 @@ Ext.onReady(function() {
     ]);
     map.addControl(new OpenLayers.Control.LayerSwitcher());
 
-    var addLayer = function() {
-        var wmslayer = new OpenLayers.Layer.WMS("Bodies of Water",
-            "http://demo.opengeo.org/geoserver/wms?",
-            {layers: 'topp:tasmania_water_bodies', format: 'image/png', transparent: true},
-            {singleTile: true});
-        mapPanel.map.addLayer(wmslayer);
-    };
-
-    var removeLayer = function() {
-        mapPanel.map.removeLayer(mapPanel.map.layers[1]);
+    var addRemoveLayer = function() {
+        if(mapPanel.map.layers.indexOf(water) == -1) {
+            mapPanel.map.addLayer(water);
+        } else {
+            mapPanel.map.removeLayer(water);
+        }
     };
 
     var moveLayer = function(idx) {
-        mapPanel.map.setLayerIndex(mapPanel.map.layers[0], idx);
+        var layer = layerRec0.get("layer");
+        var idx = mapPanel.map.layers.indexOf(layer) == 0 ?
+            mapPanel.map.layers.length : 0;
+        mapPanel.map.setLayerIndex(layerRec0.get("layer"), idx);
     };
 
     var toggleVisibility = function() {
-        mapPanel.map.layers[1].setVisibility(!mapPanel.map.layers[1].getVisibility());
+        var layer = layerRec0.get("layer");
+        layer.setVisibility(!layer.getVisibility());
     };
 
     var updateHideInLegend = function() {
-        mapPanel.layers.getAt(1).set("hideInLegend", true);
+        layerRec0.set("hideInLegend", !layerRec0.get("hideInLegend"));
     };
 
     var updateLegendUrl = function() {
-        mapPanel.layers.getAt(0).set("legendURL", "http://www.geoext.org/trac/geoext/chrome/site/img/GeoExt.png");
+        var url = layerRec0.get("legendURL");
+        layerRec0.set("legendURL", otherUrl);
+        otherUrl = url;
     };
 
     var mapPanel = new GeoExt.MapPanel({
@@ -74,6 +76,20 @@ Ext.onReady(function() {
         center: new OpenLayers.LonLat(146.4, -41.6),
         zoom: 7
     });
+    
+    // give the record of the 1st layer a legendURL, which will cause
+    // UrlLegend instead of WMSLegend to be used
+    var layerRec0 = mapPanel.layers.getAt(0);
+    layerRec0.set("legendURL", "http://demo.opengeo.org/geoserver/wms?FORMAT=image%2Fgif&TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries");
+
+    // stores another legendURL for the legendurl button action
+    var otherUrl = "http://www.geoext.org/trac/geoext/chrome/site/img/GeoExt.png";
+
+    // create another layer for the add/remove button action
+    var water = new OpenLayers.Layer.WMS("Bodies of Water",
+        "http://demo.opengeo.org/geoserver/wms?",
+        {layers: 'topp:tasmania_water_bodies', format: 'image/png', transparent: true},
+        {singleTile: true});
 
     legendPanel = new GeoExt.LegendPanel({
         defaults: {
@@ -94,12 +110,10 @@ Ext.onReady(function() {
         width: 800,
         tbar: new Ext.Toolbar({
             items: [
-                {text: 'add', handler: addLayer},
-                {text: 'remove', handler: removeLayer},
-                {text: 'movetotop', handler: function() { moveLayer(10); } },
-                {text: 'moveup', handler: function() { moveLayer(1); } },
+                {text: 'add/remove', handler: addRemoveLayer},
+                {text: 'movetop/bottom', handler: moveLayer },
                 {text: 'togglevis', handler: toggleVisibility},
-                {text: 'hide', handler: updateHideInLegend},
+                {text: 'hide/show', handler: updateHideInLegend},
                 {text: 'legendurl', handler: updateLegendUrl}
             ]
         }),
