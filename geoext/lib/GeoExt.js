@@ -101,8 +101,10 @@
             "GeoExt/widgets/tree/LayerParamNode.js",
             "GeoExt/widgets/tree/LayerParamLoader.js",
             "GeoExt/widgets/LayerOpacitySlider.js",
+            "GeoExt/widgets/LayerLegend.js",
             "GeoExt/widgets/LegendImage.js",
-            "GeoExt/widgets/LegendWMS.js",
+            "GeoExt/widgets/UrlLegend.js",
+            "GeoExt/widgets/WMSLegend.js",
             "GeoExt/widgets/LegendPanel.js",
             "GeoExt/widgets/ZoomSlider.js",
             "GeoExt/widgets/grid/FeatureSelectionModel.js"

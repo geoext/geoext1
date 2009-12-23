@@ -8,24 +8,25 @@
 
 /**
  * @include GeoExt/widgets/LegendImage.js
+ * @requires GeoExt/widgets/LayerLegend.js
  */
 
 /** api: (define)
  *  module = GeoExt
- *  class = LegendWMS
+ *  class = WMSLegend
  *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.Panel>`_
  */
 Ext.namespace('GeoExt');
 
 /** api: constructor
- *  .. class:: LegendWMS(config)
+ *  .. class:: WMSLegend(config)
  *
  *  Show a legend image for a WMS layer. The image can be read from the styles
  *  field of a layer record (if the record comes e.g. from a
  *  :class:`GeoExt.data.WMSCapabilitiesReader`). If not provided, a
  *  GetLegendGraphic request will be issued to retrieve the image.
  */
-GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
+GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
 
     /** api: config[imageFormat]
      *  ``String``  
@@ -46,57 +47,43 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
      */
     defaultStyleIsFirst: true,
 
-    /** api: config[layer]
-     *  ``OpenLayers.Layer.WMS``
-     *  The WMS layer to request the legend for. Not required if record is
-     *  provided.
-     */
-    layer: null,
-    
-    /** api: config[record]
-     *  ``Ext.data.Record``
-     *  Optional record containing the layer. If provided, and if the record
-     *  has a styles property, the legend image associated with the layer's
-     *  style will be used.
-     */
-    record: null,
-
-    /** api: config[bodyBorder]
-     *  ``Boolean``
-     *  Show a border around the legend image or not. Default is false.
-     */
-    bodyBorder: false,
-
     /** private: method[initComponent]
      *  Initializes the WMS legend. For group layers it will create multiple
      *  image box components.
      */
     initComponent: function() {
-        GeoExt.LegendWMS.superclass.initComponent.call(this);
-        if(!this.layer) {
-            this.layer = this.record.get("layer");
-        }
-        this.updateLegend();
+        GeoExt.WMSLegend.superclass.initComponent.call(this);
     },
 
+    /** private: method[onRender]
+     *  Private method called when the legend image component is being
+     *  rendered.
+     */
+    onRender: function(ct, position) {
+        GeoExt.WMSLegend.superclass.onRender.call(this, ct, position);
+        this.update();
+    },
+    
     /** private: method[getLegendUrl]
      *  :param layerName: ``String`` A sublayer.
      *  :param layerNames: ``Array(String)`` The array of sublayers,
-     *      read from this.layer if not provided.
+     *      read from this.layerRecord if not provided.
      *  :return: ``String`` The legend URL.
      *
      *  Get the legend URL of a sublayer.
      */
     getLegendUrl: function(layerName, layerNames) {
+        var rec = this.layerRecord;
         var url;
-        var styles = this.record && this.record.get("styles");
+        var styles = rec && rec.get("styles");
+        var layer = rec.get("layer");
         layerNames = layerNames ||
-                             (this.layer.params.LAYERS instanceof Array) ?
-                             this.layer.params.LAYERS :
-                             this.layer.params.LAYERS.split(",");
+                             (layer.params.LAYERS instanceof Array) ?
+                             layer.params.LAYERS :
+                             layer.params.LAYERS.split(",");
 
-        var styleNames = this.layer.params.STYLES &&
-                             this.layer.params.STYLES.split(",");
+        var styleNames = layer.params.STYLES &&
+                             layer.params.STYLES.split(",");
         var idx = layerNames.indexOf(layerName);
         var styleName = styleNames && styleNames[idx];
         // check if we have a legend URL in the record's
@@ -108,12 +95,12 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
                     return !url;
                 });
             } else if(this.defaultStyleIsFirst === true && !styleNames &&
-                      !this.layer.params.SLD && !this.layer.params.SLD_BODY) {
+                      !layer.params.SLD && !layer.params.SLD_BODY) {
                 url = styles[0].legend && styles[0].legend.href;
             }
         }
         return url ||
-               this.layer.getFullRequestString({
+               layer.getFullRequestString({
                    REQUEST: "GetLegendGraphic",
                    WIDTH: null,
                    HEIGHT: null,
@@ -127,59 +114,65 @@ GeoExt.LegendWMS = Ext.extend(Ext.Panel, {
         });
     },
 
-    /** private: method[updateLegend]
-     *  :param url: ``String`` The legend URL, derived from the
-     *      layer record or layer params (WMS GetLegendGraphic)
-     *      if not provided.
-     *
-     *  Update the legend panel, adding, removing or updating
+    /** private: method[update]
+     *  Update the legend, adding, removing or updating
      *  the per-sublayer box component.
      */
-    updateLegend: function(url) {
+    update: function() {
+        GeoExt.WMSLegend.superclass.update.apply(this, arguments);
+        
         var layerNames, layerName, i, len;
         
-        layerNames = (this.layer.params.LAYERS instanceof Array) ? 
-            this.layer.params.LAYERS :
-            this.layer.params.LAYERS.split(",");
+        var layer = this.layerRecord.get("layer");
+        layerNames = (layer.params.LAYERS instanceof Array) ? 
+            layer.params.LAYERS :
+            layer.params.LAYERS.split(",");
 
-        if(this.items) {
-            var destroyList = [];
-            this.items.each(function(cmp) {
-                i = layerNames.indexOf(cmp.itemId);
-                if(i < 0) {
-                    destroyList.push(cmp);
-                } else {
-                    layerName = layerNames[i];
-                    var newUrl = url ||
-                                 this.getLegendUrl(layerName, layerNames);
-                    if(!OpenLayers.Util.isEquivalentUrl(newUrl, cmp.url)) {
-                        cmp.updateLegend(newUrl);
-                    }
+        var destroyList = [];
+        var textCmp = this.items.get(0);
+        this.items.each(function(cmp) {
+            i = layerNames.indexOf(cmp.itemId);
+            if(i < 0 && cmp != textCmp) {
+                destroyList.push(cmp);
+            } else if(cmp !== textCmp){
+                layerName = layerNames[i];
+                var newUrl = this.getLegendUrl(layerName, layerNames);
+                if(!OpenLayers.Util.isEquivalentUrl(newUrl, cmp.url)) {
+                    cmp.setUrl(newUrl);
                 }
-            }, this);
-            for(i = 0, len = destroyList.length; i<len; i++) {
-                var cmp = destroyList[i];
-                // cmp.destroy() does not remove the cmp from
-                // its parent container!
-                this.remove(cmp);
-                cmp.destroy();
             }
+        }, this);
+        for(i = 0, len = destroyList.length; i<len; i++) {
+            var cmp = destroyList[i];
+            // cmp.destroy() does not remove the cmp from
+            // its parent container!
+            this.remove(cmp);
+            cmp.destroy();
         }
 
-        var doLayout = false;
         for(i = 0, len = layerNames.length; i<len; i++) {
             layerName = layerNames[i];
             if(!this.items || !this.getComponent(layerName)) {
                 this.add({
                     xtype: "gx_legendimage",
-                    url: url || this.getLegendUrl(layerName, layerNames),
+                    url: this.getLegendUrl(layerName, layerNames),
                     itemId: layerName
                 });
-                doLayout = true;
             }
         }
-        if(doLayout) {
-            this.doLayout();
-        }
+        this.doLayout();
     }
 });
+
+/** private: method[supports]
+ *  Private override
+ */
+GeoExt.WMSLegend.supports = function(layerRecord) {
+    return layerRecord.get("layer") instanceof OpenLayers.Layer.WMS;
+};
+
+/** api: legendtype = gx_wmslegend */
+GeoExt.LayerLegend.types["gx_wmslegend"] = GeoExt.WMSLegend;
+
+/** api: xtype = gx_wmslegend */
+Ext.reg('gx_wmslegend', GeoExt.WMSLegend);

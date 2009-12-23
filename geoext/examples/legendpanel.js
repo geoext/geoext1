@@ -76,7 +76,10 @@ Ext.onReady(function() {
     });
 
     legendPanel = new GeoExt.LegendPanel({
-        labelCls: 'mylabel',
+        defaults: {
+            labelCls: 'mylabel',
+            style: 'padding:5px'            
+        },
         bodyStyle: 'padding:5px',
         width: 350,
         autoScroll: true,

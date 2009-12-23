@@ -30,26 +30,6 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      */
     dynamic: true,
     
-    /** api: config[showTitle]
-     *  ``Boolean``
-     *  Whether or not to show the title of a layer. This can be a global
-     *  setting for the whole panel, or it can be overridden on the LayerStore 
-     *  record using the hideInLegend property.
-     */
-    showTitle: true,
-
-    /** api: config[labelCls]
-     *  ``String``
-     *  Optional css class to use for the layer title labels.
-     */
-    labelCls: null,
-
-    /** api: config[bodyStyle]
-     *  ``String``
-     *  Optional style to apply to the body of the legend panels.
-     */
-    bodyStyle: '',
-
     /** api: config[layerStore]
      *  ``GeoExt.data.LayerStore``
      *  The layer store containing layers to be displayed in the legend 
@@ -57,11 +37,13 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      */
     layerStore: null,
     
-    /** api: config[legendOptions]
-     *  ``Object``
-     *  Config options for the legend generator, i.e. the panel that provides
-     *  the legend image.
+    /** api: config[preferredTypes]
+     *  ``Array(String)`` An array of preferred legend types.
      */
+    
+    /** private: property[preferredTypes]
+     */
+    preferredTypes: null,
 
     /** api: config[filter]
      *  ``Function``
@@ -106,7 +88,6 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
                 scope: this
             });
         }
-        this.doLayout();
     },
 
     /** private: method[recordIndexToPanelIndex]
@@ -122,12 +103,12 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
         var count = store.getCount();
         var panelIndex = -1;
         var legendCount = this.items ? this.items.length : 0;
+        var record, layer;
         for(var i=count-1; i>=0; --i) {
-            var layer = store.getAt(i).get("layer");
-            var legendGenerator = GeoExt[
-                "Legend" + layer.CLASS_NAME.split(".").pop()
-            ];
-            if(layer.displayInLayerSwitcher && legendGenerator &&
+            record = store.getAt(i);
+            layer = record.get("layer");
+            var types = GeoExt.LayerLegend.getTypes(record);
+            if(layer.displayInLayerSwitcher && types.length > 0 &&
                 (store.getAt(i).get("hideInLegend") !== true)) {
                     ++panelIndex;
                     if(index === i || panelIndex > legendCount-1) {
@@ -152,19 +133,10 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
     onStoreUpdate: function(store, record, operation) {
         var layer = record.get('layer');
         var legend = this.items ? this.getComponent(layer.id) : null;
-        if ((this.showTitle && !record.get('hideTitle')) && 
-            (legend && legend.items.get(0).text !== record.get('title'))) {
-                // we need to update the title
-                legend.items.get(0).setText(record.get('title'));
-        }
         if (legend) {
             legend.setVisible(layer.getVisibility() && layer.inRange &&
                 layer.displayInLayerSwitcher && !record.get('hideInLegend'));
-            var url = record.get("legendURL") != null ?
-                      record.get("legendURL") : undefined;
-            // the actual legend panel is the second item in
-            // the main panel
-            legend.items.get(1).updateLegend(url);
+            legend.update();
         }
     },
 
@@ -228,40 +200,6 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
         this.doLayout();
     },
 
-    /** private: method[createLegendSubpanel]
-     *  Create a legend sub panel for the layer.
-     *
-     *  :param record: ``Ext.data.Record`` The record object from the layer
-     *      store.
-     *
-     *  :return: ``Ext.Panel`` The created panel per layer
-     */
-    createLegendSubpanel: function(record) {
-        var layer = record.get('layer');
-        var mainPanel = this.createMainPanel(record);
-        if (mainPanel !== null) {
-            // the default legend can be overridden by specifying a
-            // legendURL property
-            var legend;
-            if (record.get('legendURL')) {
-                legend = new GeoExt.LegendImage({url: record.get('legendURL')});
-                mainPanel.add(legend);
-            } else {
-                var legendGenerator = GeoExt[
-                    "Legend" + layer.CLASS_NAME.split(".").pop()
-                ];
-                if (legendGenerator) {
-                    legend = new legendGenerator(Ext.applyIf({
-                        layer: layer,
-                        record: record
-                    }, this.legendOptions));
-                    mainPanel.add(legend);
-                }
-            }
-        }
-        return mainPanel;
-    },
-
     /** private: method[addLegend]
      *  Add a legend for the layer.
      *
@@ -271,50 +209,21 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      */
     addLegend: function(record, index) {
         if (this.filter(record) === true) {
+            var layer = record.get("layer");
             index = index || 0;
-            var layer = record.get('layer');
-            var legendSubpanel = this.createLegendSubpanel(record);
-            if (legendSubpanel !== null) {
-                legendSubpanel.setVisible(layer.getVisibility() && layer.inRange);
-                this.insert(index, legendSubpanel);
+            var legend;
+            var types = GeoExt.LayerLegend.getTypes(record,
+                this.preferredTypes);
+            if(layer.displayInLayerSwitcher && !record.get('hideInLegend') &&
+                types.length > 0) {
+                this.insert(index, {
+                    xtype: types[0],
+                    id: layer.id,
+                    layerRecord: record,
+                    hidden: !(layer.getVisibility() && layer.inRange)
+                });
             }
         }
-    },
-
-    /** private: method[createMainPanel]
-     *  Creates the main panel with a title for the layer.
-     *
-     *  :param record: ``Ext.data.Record`` The record object from the layer
-     *      store.
-     *
-     *  :return: ``Ext.Panel`` The created main panel with a label.
-     */
-    createMainPanel: function(record) {
-        var layer = record.get('layer');
-        var panel = null;
-        var legendGenerator = GeoExt[
-            "Legend" + layer.CLASS_NAME.split(".").pop()
-        ];
-        if (layer.displayInLayerSwitcher && !record.get('hideInLegend') &&
-            legendGenerator) {
-            var panelConfig = {
-                id: layer.id,
-                border: false,
-                bodyBorder: false,
-                hideMode: 'offsets',
-                bodyStyle: this.bodyStyle,
-                items: [
-                    new Ext.form.Label({
-                        text: (this.showTitle && !record.get('hideTitle')) ? 
-                            layer.name : '',
-                        cls: 'x-form-item x-form-item-label' +
-                            (this.labelCls ? ' ' + this.labelCls : '')
-                    })
-                ]
-            };
-            panel = new Ext.Panel(panelConfig);
-        }
-        return panel;
     },
 
     /** private: method[onDestroy]
