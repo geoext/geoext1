@@ -215,7 +215,12 @@ GeoExt.Action = Ext.extend(Ext.Action, {
         var cs = this.items;
         for(var i = 0, len = cs.length; i < len; i++){
             if(cs[i][fnName]) {
-                cs[i][fnName].apply(cs[i], args);
+                cs[i].rendered ?
+                    cs[i][fnName].apply(cs[i], args) :
+                    cs[i].on({
+                        "render": cs[i][fnName].createDelegate(cs[i], args),
+                        single: true
+                    });
             }
         }
     }
