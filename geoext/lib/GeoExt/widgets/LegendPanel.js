@@ -118,6 +118,16 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
         }
         return panelIndex;
     },
+    
+    /** private: method[getIdForLayer]
+     *  :arg layer: ``OpenLayers.Layer``
+     *  :returns: ``String``
+     *
+     *  Generate an element id that is unique to this panel/layer combo.
+     */
+    getIdForLayer: function(layer) {
+        return this.id + "-" + layer.id;
+    },
 
     /** private: method[onStoreUpdate]
      *  Update a layer within the legend panel. Gets called when the store
@@ -132,7 +142,7 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      */
     onStoreUpdate: function(store, record, operation) {
         var layer = record.get('layer');
-        var legend = this.items ? this.getComponent(layer.id) : null;
+        var legend = this.items ? this.getComponent(this.getIdForLayer(layer)) : null;
         if (legend) {
             legend.setVisible(layer.getVisibility() && layer.inRange &&
                 layer.displayInLayerSwitcher && !record.get('hideInLegend'));
@@ -176,7 +186,7 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      *      store to remove.
      */
     removeLegend: function(record) {
-        var legend = this.getComponent(record.get('layer').id);
+        var legend = this.getComponent(this.getIdForLayer(record.get('layer')));
         if (legend) {
             this.remove(legend, true);
             this.doLayout();
@@ -218,7 +228,7 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
                 types.length > 0) {
                 this.insert(index, {
                     xtype: types[0],
-                    id: layer.id,
+                    id: this.getIdForLayer(layer),
                     layerRecord: record,
                     hidden: !(layer.getVisibility() && layer.inRange)
                 });
