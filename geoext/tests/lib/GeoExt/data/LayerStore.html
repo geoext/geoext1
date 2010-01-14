@@ -221,7 +221,7 @@
             
             // create a copy of the record with the same layer
             var copy = record.copy(); // record with same id will replace original
-            copy.set("layer", record.get("layer")); // force records to have same layer            
+            copy.data.layer = record.get("layer"); // force records to have same layer            
             store.add(copy);
             t.eq(store.getCount(), 1, "store has a single record after adding copy");
             t.eq(map.layers.length, 1, "map has a single layer after adding copy");
