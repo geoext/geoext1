@@ -38,7 +38,7 @@
             var newUrl = "http://trac.geoext.org/chrome/site/img/GeoExt.png";
             mapPanel.layers.getAt(0).set("legendURL", newUrl);
 
-            var item = lp.getComponent(mapPanel.map.layers[0].id);
+            var item = lp.getComponent(lp.getIdForLayer(mapPanel.map.layers[0]));
             t.ok(item instanceof GeoExt.UrlLegend, "If legendURL is found in layerRecord, UrlLegend is chosen.")
             var url = item.items.get(1).getEl().dom.src;
             t.eq(url, newUrl, "Update the image with the provided legendURL");
@@ -67,7 +67,7 @@
             lp.render();
 
             mapPanel.map.layers[0].setVisibility(false);
-            var id = mapPanel.layers.getAt(0).get('layer').id;
+            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).get('layer'));
             t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend");
 
             mapPanel.map.layers[0].setVisibility(true);
@@ -85,7 +85,7 @@
             lp.render();
 
             mapPanel.layers.getAt(0).set("hideInLegend", true);
-            var id = mapPanel.layers.getAt(0).get('layer').id;
+            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).get('layer'));
             t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend");
 
             lp.destroy();
@@ -118,7 +118,7 @@
             lp.render();
             t.eq(lp.items.length, 1, "Same number of layers in legend panel and in map");
 
-            var item = lp.getComponent(mapPanel.map.layers[0].id);
+            var item = lp.getComponent(lp.getIdForLayer(mapPanel.map.layers[0]));
 
             var layer;
             layer = new OpenLayers.Layer.WMS("test2", '/ows', {layers: 'b', format: 'image/png', transparent: 'TRUE'});
@@ -161,7 +161,7 @@
             lp.render();
 
             var layer = mapPanel.map.layers[0];
-            var cmp = lp.getComponent(layer.id);
+            var cmp = lp.getComponent(lp.getIdForLayer(layer));
             t.eq(cmp.items.get(0).text, 'test', "Layer name is test before change");
 
             layer.setName("My new name");
@@ -178,7 +178,7 @@
             lp.render();
 
             layer.setName("My new new name");
-            var cmp = lp.getComponent(layer.id);
+            var cmp = lp.getComponent(lp.getIdForLayer(layer));
             t.eq(cmp.items.get(0).text, "", "When showTitle is false, there is no label for a layer and it is not changed");
 
             lp.destroy();
@@ -233,7 +233,7 @@
                 renderTo: "legendpanel"
             });
             var layer = mapPanel.map.layers[0];
-            var cmp = lp.getComponent(layer.id);
+            var cmp = lp.getComponent(lp.getIdForLayer(layer));
 
             layer.mergeNewParams({
                 layers: "a,b"
@@ -256,7 +256,7 @@
                 renderTo: 'legendpanel'});
             lp.render();
 
-            var id = mapPanel.layers.getAt(0).get('layer').id;
+            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).get('layer'));
             t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend because it is not in scale");
 
             lp.destroy();
