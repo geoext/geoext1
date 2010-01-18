@@ -68,7 +68,7 @@ Ext.onReady(function() {
         otherUrl = url;
     };
 
-    var mapPanel = new GeoExt.MapPanel({
+    mapPanel = new GeoExt.MapPanel({
         region: 'center',
         height: 400,
         width: 600,
