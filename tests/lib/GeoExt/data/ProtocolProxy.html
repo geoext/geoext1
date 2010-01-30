@@ -90,6 +90,23 @@
             proxy.load(); // abort not called because proxy.abortPrevious is false
         }
 
+        function test_setParamsAsOptions(t) {
+            t.plan(2);
+            var params = {fake: "params"};
+            protocol = new OpenLayers.Protocol({
+                read: function(o) {
+                    t.eq(o.fake, params.fake,
+                         "protocol read is passed expected params directly");
+                    t.eq(o.params, undefined, "Params is cleared");
+                }
+            });
+            var proxy = new GeoExt.data.ProtocolProxy({
+                setParamsAsOptions: true,
+                protocol: protocol
+            });
+            proxy.load(params);
+        }
+
     </script>
 
   <body>
