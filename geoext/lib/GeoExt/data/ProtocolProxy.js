@@ -37,6 +37,13 @@ Ext.extend(GeoExt.data.ProtocolProxy, Ext.data.DataProxy, {
      */
     abortPrevious: true,
 
+    /** api: config[setParamsAsOptions]
+     *  ``Boolean``
+     *  Should options.params be set directly on options before passing it into
+     *  the protocol's read method? Default is ``false``.
+     */
+    setParamsAsOptions: false,
+
     /** private: property[response]
      *  ``OpenLayers.Protocol.Response``
      *  The response returned by the read call on the protocol.
@@ -79,6 +86,10 @@ Ext.extend(GeoExt.data.ProtocolProxy, Ext.data.DataProxy, {
                 scope: this
             };
             Ext.applyIf(options, arg);
+            if (this.setParamsAsOptions === true) {
+                Ext.applyIf(options, options.params);
+                delete options.params;
+            }
             this.response = this.protocol.read(options);
         } else {
            callback.call(scope || this, null, arg, false);
