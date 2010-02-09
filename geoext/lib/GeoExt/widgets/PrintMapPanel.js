@@ -79,11 +79,11 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
      *  
      *  .. note:: ``numZoomLevels`` and ``resolutions`` of the map will be set
      *      by this PrintMapPanel, and the layers will be copied from
-     *      :ref:`GeoExt.PrintMapPanel.sourceMap`.
+     *      ``sourceMap``.
      */
     
     /** api: config[sourceMap]
-     *  :class:`GeoExt.MapPanel`|``OpenLayers.Map`` The map that is to be
+     *  :class:`GeoExt.MapPanel` or ``OpenLayers.Map`` The map that is to be
      *  printed.
      */
     
@@ -93,7 +93,7 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
     sourceMap: null,
     
     /** api: config[printProvider]
-     *  :class:`GeoExt.data.PrintProvider`|``Object`` PrintProvider to use
+     *  :class:`GeoExt.data.PrintProvider` or ``Object`` PrintProvider to use
      *  for printing. If an ``Object`` is provided, a new PrintProvider will
      *  be created and configured with the object.
      */
@@ -103,12 +103,12 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
      *  PrintMapPanel.
      *  
      *  .. note:: The PrintMapPanel requires the printProvider's capabilities
-     *  to be available upon initialization. This means that a PrintMapPanel
-     *  configured with an object as ``printProvider`` will only work when
-     *  ``capabilities`` is provided in the printProvider's configuration
-     *  object. If ``printProvider`` is provided as an instance of
-     *  :class:`GeoExt.data.PrintProvider`, the capabilities must be loaded
-     *  before PrintMapPanel initialization.
+     *    to be available upon initialization. This means that a PrintMapPanel
+     *    configured with an object as ``printProvider`` will only work when
+     *    ``capabilities`` is provided in the printProvider's configuration
+     *    object. If ``printProvider`` is provided as an instance of
+     *    :class:`GeoExt.data.PrintProvider`, the capabilities must be loaded
+     *    before PrintMapPanel initialization.
      */
     printProvider: null,
     
@@ -117,6 +117,26 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
      *  Read-only.
      */
     printPage: null,
+    
+    /** api: config[center]
+     *  ``OpenLayers.LonLat`` or ``Array(Number)``  A location for the map
+     *  center. Do not set, as this will be overridden with the
+     *  ``sourceMap`` center.
+     */
+    center: null,
+
+    /** api: config[zoom]
+     *  ``Number``  An initial zoom level for the map. Do not set, as this
+     *  will be overridden with a zoom level matching the ``sourceMap``.
+     */
+    zoom: null,
+
+    /** api: config[extent]
+     *  ``OpenLayers.Bounds or Array(Number)``  An initial extent for the map.
+     *  Do not set, as this will be overridden with an extent matching the
+     *  ``sourceMap`` resolution.
+     */
+    extent: null,
     
     /**
      * private: method[initComponent]
@@ -215,10 +235,11 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
     },
     
     /** api: method[print]
-     *  :param options: ``Object`` options for the printProvider's
-     *  :ref:`GeoExt.data.PrintProvider.print` method.
-     *  Convenience method for printing the map, without the need to interact
-     *  with the printProvider and printPage.
+     *  :param options: ``Object`` options for
+     *      the :class:`GeoExt.data.PrintProvider` :: ``print``  method.
+     *  
+     *  Convenience method for printing the map, without the need to
+     *  interact with the printProvider and printPage.
      */
     print: function(options) {
         this.printProvider.print(this.map, [this.printPage], options);
