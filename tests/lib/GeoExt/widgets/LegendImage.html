@@ -40,7 +40,7 @@
                     GeoExt.LegendImage.prototype.onImageLoadError.apply(this, arguments);
                 }
             });
-            t.delay_call(0.5, function() {
+            t.delay_call(1, function() {
                 t.eq(calls, 1, "onImageLoadError called once for bogus image src");
                 var el = legend.getEl();
                 t.eq(el && el.dom.src.split("/").pop(), "also-bogus", "defaultImgSrc set as image src");
