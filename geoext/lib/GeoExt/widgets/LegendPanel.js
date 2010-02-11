@@ -144,7 +144,7 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
         var layer = record.get('layer');
         var legend = this.items ? this.getComponent(this.getIdForLayer(layer)) : null;
         if (legend) {
-            legend.setVisible(layer.getVisibility() && layer.inRange &&
+            legend.setVisible(layer.getVisibility() && layer.calculateInRange() &&
                 layer.displayInLayerSwitcher && !record.get('hideInLegend'));
             legend.update();
         }
@@ -230,7 +230,7 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
                     xtype: types[0],
                     id: this.getIdForLayer(layer),
                     layerRecord: record,
-                    hidden: !(layer.getVisibility() && layer.inRange)
+                    hidden: !(layer.getVisibility() && layer.calculateInRange())
                 });
             }
         }

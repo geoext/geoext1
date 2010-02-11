@@ -8,7 +8,7 @@
 
     <script type="text/javascript">
 
-        function loadMapPanel() {
+        function loadMapPanel(mapOptions) {
             mapPanel = new GeoExt.MapPanel({
                 // panel options
                 id: "map-panel",
@@ -17,6 +17,7 @@
                 height: 400,
                 width: 600,
                 // map panel-specific options
+                map: mapOptions,
                 layers: [
                     new OpenLayers.Layer.WMS("test", '/ows', {layers: 'a'})
                 ],
@@ -249,15 +250,19 @@
         }
 
         function test_scaledependency(t) {
-            t.plan(1);
-            var mapPanel = loadMapPanel();
-            mapPanel.map.layers[0].inRange = false;
+            t.plan(2);
+            var mapPanel = loadMapPanel({allOverlays: false});
+            mapPanel.map.addLayer(new OpenLayers.Layer.WMS("foo", "http://dummy",
+                {layers: "dummy"},
+                {minResolution: 3, maxResolution: 4, isBaseLayer: false}));
             var lp  = new GeoExt.LegendPanel({
                 renderTo: 'legendpanel'});
             lp.render();
 
-            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).get('layer'));
-            t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend because it is not in scale");
+            var id0 = lp.getIdForLayer(mapPanel.layers.getAt(0).get('layer'));
+            var id1 = lp.getIdForLayer(mapPanel.layers.getAt(1).get('layer'));
+            t.eq(lp.getComponent(id0).hidden, false, "Base layer is visible");
+            t.eq(lp.getComponent(id1).hidden, true, "Layer has been hidden in legend because it is not in scale");
 
             lp.destroy();
             mapPanel.destroy();
