@@ -39,6 +39,11 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
      */
     feature: null,
     
+    /** api: property[center]
+     *  ``OpenLayers.LonLat`` The current center of the page. Read-only.
+     */
+    center: null,
+    
     /** api: property[scale]
      *  ``Ext.data.Record`` The current scale record of the page. Read-only.
      */
@@ -95,15 +100,6 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
         });
     },
 
-    /** api: method[getCenter]
-     *  :return: ``OpenLayers.LonLat``
-     *  
-     *  Returns the current page center.
-     */
-    getCenter: function() {
-        return this.feature.geometry.getBounds().getCenterLonLat();
-    },
-    
     /** api: method[setScale]
      *  :param scale: ``Ext.data.Record`` The new scale record.
      *  :param units: ``String`` map units to use for the scale calculation.
