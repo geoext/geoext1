@@ -53,17 +53,9 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
      */
     initComponent: function() {
         GeoExt.WMSLegend.superclass.initComponent.call(this);
-    },
-
-    /** private: method[onRender]
-     *  Private method called when the legend image component is being
-     *  rendered.
-     */
-    onRender: function(ct, position) {
-        GeoExt.WMSLegend.superclass.onRender.call(this, ct, position);
         this.update();
     },
-    
+
     /** private: method[getLegendUrl]
      *  :param layerName: ``String`` A sublayer.
      *  :param layerNames: ``Array(String)`` The array of sublayers,

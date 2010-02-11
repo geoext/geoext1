@@ -35,19 +35,11 @@ GeoExt.UrlLegend = Ext.extend(GeoExt.LayerLegend, {
      */
     initComponent: function() {
         GeoExt.UrlLegend.superclass.initComponent.call(this);
-    },
-    
-    /** private: method[onRender]
-     *  Private method called when the legend image component is being
-     *  rendered.
-     */
-    onRender: function(ct, position) {
-        GeoExt.UrlLegend.superclass.onRender.call(this, ct, position);
         this.add(new GeoExt.LegendImage({
             url: this.layerRecord.get("legendURL")
         }));
     },
-
+    
     /** private: method[update]
      *  Private override
      */
