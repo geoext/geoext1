@@ -42,6 +42,7 @@
             
             var size = printMapPanel.printProvider.layout.get("size");
             var center = mapPanel.map.getCenter();
+            var pageCenter = printMapPanel.printPage.center;
             
             t.eq(printMapPanel.map.controls.length, printMapPanel.map.controls[0].controls.length+1, "Preview map has only the control we added,");
             t.ok(printMapPanel.map.controls[0] instanceof OpenLayers.Control.PanPanel, "which is a PanPanel.");
@@ -50,7 +51,7 @@
             t.eq(printMapPanel.map.layers[0].name, mapPanel.map.layers[0].name, "Preview map has the same visible layer as the source map.");
             t.eq(log.preaddlayer.name, printMapPanel.map.layers[0].name, "preaddlayer listener noticed addition of the layer.");
             t.eq((printMapPanel.width/printMapPanel.height).toPrecision(8), (size.width/size.height).toPrecision(8), "Aspect ratio of the preview map is the same as of the print layout.");
-            t.ok(printMapPanel.printPage.getCenter().equals(center), "Print page has the same center as the source map.");
+            t.ok(Math.abs(center.lon - pageCenter.lon) < 0.0000001 && Math.abs(center.lat - pageCenter.lat) < 0.0000001, "Print page has the same center as the source map.");
             t.eq(printMapPanel.printPage.scale.get("value"), 2000000, "Print page has the correct scale to fit the source map.");
             
             printMapPanel.destroy();
