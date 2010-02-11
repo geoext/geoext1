@@ -54,7 +54,7 @@ Ext.onReady(function() {
     };
 
     var toggleVisibility = function() {
-        var layer = layerRec0.get("layer");
+        var layer = layerRec1.get("layer");
         layer.setVisibility(!layer.getVisibility());
     };
 
@@ -81,6 +81,9 @@ Ext.onReady(function() {
     // UrlLegend instead of WMSLegend to be used
     var layerRec0 = mapPanel.layers.getAt(0);
     layerRec0.set("legendURL", "http://demo.opengeo.org/geoserver/wms?FORMAT=image%2Fgif&TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries");
+
+    // store the layer that we will modify in toggleVis()
+    var layerRec1 = mapPanel.layers.getAt(1);
 
     // stores another legendURL for the legendurl button action
     var otherUrl = "http://www.geoext.org/trac/geoext/chrome/site/img/GeoExt.png";
