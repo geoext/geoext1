@@ -133,15 +133,19 @@
             map.addLayers(layers);
             
             // give the vector layer a feature
-            map.getLayersBy("name", "vector")[0].addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(1,2))]);
+            var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(1,2));
+            feature.id = "f1";
+            map.getLayersBy("name", "vector")[0].addFeatures([feature]);
             
             map.setCenter(new OpenLayers.LonLat(1, 2), 3);
             printPage.fit(map);
             
             // create a layer store for the legend
             var layerStore = new GeoExt.data.LayerStore({
-                layers: [layers[0], layers[1]]
+                layers: [layers[0], layers[2]]
             });
+            // pretend layer is in range, to make sure it appears in the legend
+            layers[0].inRange = true;
             layerStore.getAt(1).set("legendURL", "http://trac.geoext.org/chrome/site/img/GeoExt.png");
             
             // a legend panel to test all legend encoders
@@ -163,7 +167,7 @@
             printProvider.print(map, [printPage], {legend: legend});
             Ext.Ajax.request = origRequest;
             
-            var expect = {"units":"degrees","srs":"EPSG:4326","layout":"A4 portrait","dpi":75,"layers":[{"baseURL":"http://demo.opengeo.org/geoserver/wms","opacity":1,"singleTile":false,"type":"WMS","layers":["topp:tasmania_state_boundaries","topp:tasmania_water_bodies"],"format":"image/gif","styles":[""],"customParams":{"VENDORFOO":"bar"}},{"baseURL":"http://c0.labs.metacarta.com/wms-c/cache/","opacity":1,"singleTile":false,"type":"TileCache","layer":"basic","maxExtent":[-180,-90,180,90],"tileSize":[256,256],"extension":"png","resolutions":[0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125,0.000021457672119140625]},{"type":"Image","baseURL":"http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif","opacity":1,"extent":[-180,-88.759,180,88.759],"pixelSize":[580,288],"name":"image"},{"type":"Vector","styles":{"1":{"fillColor":"#ee9900","fillOpacity":0.4,"hoverFillColor":"white","hoverFillOpacity":0.8,"strokeColor":"#ee9900","strokeOpacity":1,"strokeWidth":1,"strokeLinecap":"round","strokeDashstyle":"solid","hoverStrokeColor":"red","hoverStrokeOpacity":1,"hoverStrokeWidth":0.2,"pointRadius":6,"hoverPointRadius":1,"hoverPointUnit":"%","pointerEvents":"visiblePainted","cursor":"inherit"}},"styleProperty":"_gx_style","geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","id":"OpenLayers.Feature.Vector_72","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[1,2]}}]},"name":"vector","opacity":1}],"pages":[{"mapTitle":"foo","comment":"bar","center":[1,2],"scale":4000000,"rotation":0}],"customParam":"foo","legends":[{"name":"osm","classes":[{"name":"","icon":"http://trac.geoext.org/chrome/site/img/GeoExt.png"}]},{"name":"wms","classes":[{"name":"","icons":["http://demo.opengeo.org/geoserver/wms?FORMAT=image%2Fgif&VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries","http://demo.opengeo.org/geoserver/wms?FORMAT=image%2Fgif&VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_water_bodies"]}]}]};
+            var expect = {"units":"degrees","srs":"EPSG:4326","layout":"A4 portrait","dpi":75,"layers":[{"baseURL":"http://demo.opengeo.org/geoserver/wms","opacity":1,"singleTile":false,"type":"WMS","layers":["topp:tasmania_state_boundaries","topp:tasmania_water_bodies"],"format":"image/gif","styles":[""],"customParams":{"VENDORFOO":"bar"}},{"baseURL":"http://c0.labs.metacarta.com/wms-c/cache/","opacity":1,"singleTile":false,"type":"TileCache","layer":"basic","maxExtent":[-180,-90,180,90],"tileSize":[256,256],"extension":"png","resolutions":[0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125,0.000021457672119140625]},{"type":"Image","baseURL":"http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif","opacity":1,"extent":[-180,-88.759,180,88.759],"pixelSize":[580,288],"name":"image"},{"type":"Vector","styles":{"1":{"fillColor":"#ee9900","fillOpacity":0.4,"hoverFillColor":"white","hoverFillOpacity":0.8,"strokeColor":"#ee9900","strokeOpacity":1,"strokeWidth":1,"strokeLinecap":"round","strokeDashstyle":"solid","hoverStrokeColor":"red","hoverStrokeOpacity":1,"hoverStrokeWidth":0.2,"pointRadius":6,"hoverPointRadius":1,"hoverPointUnit":"%","pointerEvents":"visiblePainted","cursor":"inherit"}},"styleProperty":"_gx_style","geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","id":"f1","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[1,2]}}]},"name":"vector","opacity":1}],"pages":[{"mapTitle":"foo","comment":"bar","center":[1,2],"scale":4000000,"rotation":0}],"customParam":"foo","legends":[{"name":"tilecache","classes":[{"name":"","icon":"http://trac.geoext.org/chrome/site/img/GeoExt.png"}]},{"name":"wms","classes":[{"name":"","icons":["http://demo.opengeo.org/geoserver/wms?FORMAT=image%2Fgif&VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries","http://demo.opengeo.org/geoserver/wms?FORMAT=image%2Fgif&VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_water_bodies"]}]}]};
 
             t.eq(log.request.jsonData, expect, "Request with encoded layers and legend is correct.");
             
