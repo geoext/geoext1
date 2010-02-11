@@ -104,7 +104,7 @@
                 plugins: [printExtent]
             });
 
-            t.ok(printExtent.pages[0].getCenter().equals(mapPanel.map.getCenter()),
+            t.ok(printExtent.pages[0].center.equals(mapPanel.map.getCenter()),
                  "print page centered to map center");
             t.ok(printExtent.layer.map == mapPanel.map,
                  "auto-generated layer added to map.");
