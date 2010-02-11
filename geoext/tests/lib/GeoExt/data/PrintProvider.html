@@ -144,8 +144,6 @@
             var layerStore = new GeoExt.data.LayerStore({
                 layers: [layers[0], layers[2]]
             });
-            // pretend layer is in range, to make sure it appears in the legend
-            layers[0].inRange = true;
             layerStore.getAt(1).set("legendURL", "http://trac.geoext.org/chrome/site/img/GeoExt.png");
             
             // a legend panel to test all legend encoders
