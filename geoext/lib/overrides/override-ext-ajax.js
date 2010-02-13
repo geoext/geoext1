@@ -48,8 +48,8 @@
                 data = typeof options.jsonData == "object" ?
                        Ext.encode(options.jsonData) : options.jsonData;
             }
-            // options.params means form-encoded data, so change content-type
-            if (options.params && (!hs || !hs["Content-Type"])) {
+            // options.form or options.params means form-encoded data, so change content-type
+            if ((options.form || options.params) && (!hs || !hs["Content-Type"])) {
                 hs = hs || {};
                 hs["Content-Type"] = "application/x-www-form-urlencoded";
             }
