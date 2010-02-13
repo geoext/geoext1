@@ -160,7 +160,7 @@
         }
 
         function test_formPost(t) {
-            t.plan(1);
+            t.plan(2);
             var proto = OpenLayers.Request.XMLHttpRequest.prototype;
             proto.setRequestHeader = function(k, v) {
                 t.ok(k == "Content-Type" && v == "application/x-www-form-urlencoded",
@@ -173,9 +173,15 @@
                 params: { username: 'bart', password: 'xx'},
                 url: 'foo.php'
             });
+
+            var form = new Ext.form.FormPanel();
+            form.add(new Ext.form.Hidden({name: 'foo', value: 'bar'}));
+            form.render('basicform');
+            form.getForm().submit({method: 'POST', url: 'foo.php'});
         }
     </script>
   <body>
+  <div id="basicform"></div>
   <form id="form">
       <input type="text" name="key1" value="val1"></input>
       <input type="checkbox" name="key2" value="val2" checked="checked"></input>
