@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt.form
  *  class = FormPanel
- *  base_link = `Ext.form.Action <http://extjs.com/deploy/dev/docs/?class=Ext.form.FormPanel>`_
+ *  base_link = `Ext.form.FormPanel <http://extjs.com/deploy/dev/docs/?class=Ext.form.FormPanel>`_
  */
 
 /**
