@@ -37,3 +37,28 @@ or
         overrides/override-ext-ajax.js
         # other files listed here ...
 
+
+Workaround for Existing Builds
+------------------------------
+
+If you are using a build of GeoExt that includes the Ajax overrides (e.g. the
+0.6 release or earlier), you can work around any issues you may have using this
+override in your appliction by protecting the ``Ext.lib.Ajax`` object before
+loading file:`GeoExt.js`.
+
+The example markup below will remove the effect of the override on Ajax methods.
+
+.. code-block:: html
+
+    <script src="path/to/ext.js"></script>
+    <script>
+        Ext.lib._Ajax = Ext.lib.Ajax; // protect the original
+        Ext.lib.Ajax = {};  // create dummy for override
+    </script>
+    <script src="path/to/GeoExt.js"></script>
+    <script>
+        Ext.lib.Ajax = Ext.lib._Ajax; // restore the original
+    </script>
+
+Note that issues with the Ajax override present in 0.6 will be fixed in
+subsequent releases.
