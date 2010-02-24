@@ -39,6 +39,12 @@ div.related {
     margin: 0 80px;
     width: auto;
 }
+div.related ul {
+    border: 1px solid #EEEEEE;
+}
+div.bodywrapper {
+    border-right: 0;
+}
 a.reference em {
     font-style: normal;
 }
@@ -59,6 +65,8 @@ div.document {
 }
 div.documentwrapper {
     width: auto;
+    border-left: 1px solid #EEEEEE;
+    border-right: 1px solid #EEEEEE;
 }
 div.footer {
     background: #4E7AB2 url(img/footer-bg.png) repeat-x;
