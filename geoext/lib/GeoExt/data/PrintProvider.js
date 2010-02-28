@@ -394,7 +394,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
 
         if(this.method === "GET") {
             var url = this.capabilities.printURL + "?spec=" +
-                escape(Ext.encode(jsonData));
+                encodeURIComponent(Ext.encode(jsonData));
             window.open(url);
             this.fireEvent("print", this, url);
         } else {
