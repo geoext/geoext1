@@ -47,6 +47,13 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
      */
     defaultStyleIsFirst: true,
 
+    /** api: config[useScaleParameter]
+     * ``Boolean``
+     * Should we use the optional SCALE parameter in the SLD WMS
+     * GetLegendGraphic request? Defaults to false.
+     */
+    useScaleParameter: false,
+
     /** private: method[initComponent]
      *  Initializes the WMS legend. For group layers it will create multiple
      *  image box components.
@@ -99,7 +106,8 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
                    STYLE: (styleName !== '') ? styleName: null,
                    STYLES: null,
                    SRS: null,
-                   FORMAT: this.imageFormat
+                   FORMAT: this.imageFormat,
+                   SCALE: (this.useScaleParameter === true) ? layer.map.getScale(): null
         });
     },
 
