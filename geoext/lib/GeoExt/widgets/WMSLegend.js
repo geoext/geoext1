@@ -50,9 +50,14 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
     /** api: config[useScaleParameter]
      * ``Boolean``
      * Should we use the optional SCALE parameter in the SLD WMS
-     * GetLegendGraphic request? Defaults to false.
+     * GetLegendGraphic request? Defaults to true.
      */
-    useScaleParameter: false,
+    useScaleParameter: true,
+    
+    /** private: property[map]
+     *  ``OpenLayers.Map`` The map to register events to.
+     */
+    map: null,
 
     /** private: method[initComponent]
      *  Initializes the WMS legend. For group layers it will create multiple
@@ -60,6 +65,11 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
      */
     initComponent: function() {
         GeoExt.WMSLegend.superclass.initComponent.call(this);
+        var layer = this.layerRecord.get("layer");
+        this.map = layer.map;
+        if (this.useScaleParameter === true) {
+            this.map.events.register("zoomend", this, this.update);
+        }
         this.update();
     },
 
@@ -95,20 +105,30 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
                 url = styles[0].legend && styles[0].legend.href;
             }
         }
-        return url ||
-               layer.getFullRequestString({
-                   REQUEST: "GetLegendGraphic",
-                   WIDTH: null,
-                   HEIGHT: null,
-                   EXCEPTIONS: "application/vnd.ogc.se_xml",
-                   LAYER: layerName,
-                   LAYERS: null,
-                   STYLE: (styleName !== '') ? styleName: null,
-                   STYLES: null,
-                   SRS: null,
-                   FORMAT: this.imageFormat,
-                   SCALE: (this.useScaleParameter === true) ? layer.map.getScale(): null
-        });
+        if(!url) {
+            url = layer.getFullRequestString({
+                REQUEST: "GetLegendGraphic",
+                WIDTH: null,
+                HEIGHT: null,
+                EXCEPTIONS: "application/vnd.ogc.se_xml",
+                LAYER: layerName,
+                LAYERS: null,
+                STYLE: (styleName !== '') ? styleName: null,
+                STYLES: null,
+                SRS: null,
+                FORMAT: this.imageFormat
+            });
+        }
+        // add scale parameter - also if we have the url from the record's
+        // styles data field and it is actually a GetLegendGraphic request.
+        if(this.useScaleParameter === true &&
+                url.toLowerCase().indexOf("request=getlegendgraphic") != -1) {
+            var scale = layer.map.getScale();
+            //TODO replace with Ext.urlAppend when we drop support for Ext 2.x
+            url = OpenLayers.Util.urlAppend(url, "SCALE=" + scale);
+        }
+        
+        return url;
     },
 
     /** private: method[update]
@@ -121,6 +141,7 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
         var layerNames, layerName, i, len;
         
         var layer = this.layerRecord.get("layer");
+
         layerNames = [layer.params.LAYERS].join(",").split(",");
 
         var destroyList = [];
@@ -156,7 +177,20 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
             }
         }
         this.doLayout();
+    },
+
+    /** private: method[beforeDestroy]
+     */
+    beforeDestroy: function() {
+        if (this.useScaleParameter === true) {
+            var layer = this.layerRecord.get("layer")
+            this.map && this.map.events &&
+                this.map.events.unregister("zoomend", this, this.update);
+        }
+        delete this.map;
+        GeoExt.WMSLegend.superclass.beforeDestroy.apply(this, arguments);
     }
+
 });
 
 /** private: method[supports]
