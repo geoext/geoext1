@@ -568,7 +568,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                 var styleFormat = new OpenLayers.Format.JSON();
                 var nextId = 1;
                 var styleDict = {};
-                var feature, style, dictKey, dictItem;
+                var feature, style, dictKey, dictItem, styleName;
                 for(var i=0, len=features.length; i<len; ++i) {
                     feature = features[i];
                     style = feature.style || layer.style ||
