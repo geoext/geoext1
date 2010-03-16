@@ -44,6 +44,15 @@
     <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
     <script src="{{ pathto('_static/examples.js', 1) }}"></script>
     {% endif %}
+    {% if pagename == "builder/v0.6" %}
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <script src="{{ pathto('_static/builder.js', 1) }}"></script>
+    <script>
+        Ext.BLANK_IMAGE_URL = "{{ pathto('_static/img/blank.gif', 1) }}";
+        builder.url = "http://buildjs.opengeo.org/builder/geoext/0.6";
+    </script>
+    <script src="http://buildjs.opengeo.org/assets/geoext/0.6?callback=builder.setAssets"></script>
+    {% endif %}
 {% endblock %}
 
 {% block header %}

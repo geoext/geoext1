@@ -220,3 +220,33 @@ a.examplelink:hover {
     border: 1px solid #E5EDD3;
     background-color: #F5FDE3
 }
+
+
+/* builder page style */
+div.builder-form {
+    margin-top: 1em;
+}
+.module-desc {
+    padding: 0 0 5px;
+    font-size: 12px;
+}
+.component label {
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+    font-size: 11px;
+}
+
+div.download-button {
+    margin: 0 1em 2em;
+}
+div.download-button>table {
+    float: right;
+}
+
+.x-btn .download {
+    background-image: url(img/disk.png);
+}
+
+p.credit {
+    font-size: smaller;
+    color: #666666;
+}
