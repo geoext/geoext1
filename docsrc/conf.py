@@ -38,7 +38,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'GeoExt'
-copyright = u'2009, GeoExt Community'
+copyright = u'2009-2010, GeoExt Community'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
