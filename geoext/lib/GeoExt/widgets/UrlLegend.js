@@ -44,7 +44,7 @@ GeoExt.UrlLegend = Ext.extend(GeoExt.LayerLegend, {
      *  Private override
      */
     update: function() {
-        GeoExt.WMSLegend.superclass.update.apply(this, arguments);
+        GeoExt.UrlLegend.superclass.update.apply(this, arguments);
         this.items.get(1).setUrl(this.layerRecord.get("legendURL"));
     }
 
