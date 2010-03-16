@@ -291,7 +291,288 @@
             panel.destroy();
         }
 
+        function test_applyState_called(t) {
+            t.plan(1);
 
+            // set up
+
+            var provider, applyState, mapPanel, log;
+
+            provider = new Ext.state.Provider();
+            provider.state["map"] = {};
+            Ext.state.Manager.setProvider(provider);
+
+            applyState = GeoExt.MapPanel.prototype.applyState;
+            GeoExt.MapPanel.prototype.applyState = function(state) {
+                log = true;
+            };
+
+            // test
+
+            // test that applyState gets called when the MapPanel is created
+            // 1 test
+            log = false;
+            mapPanel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                stateId: "map",
+                height: 400,
+                width: 600
+            });
+            t.eq(log, true, "applyState called when creating the MapPanel");
+
+            // tear down
+
+            GeoExt.MapPanel.prototype.applyState = applyState;
+            mapPanel.destroy();
+        }
+
+        function test_applyState(t) {
+            t.plan(21);
+
+            // set up
+
+            var state;
+
+            var layers = [
+                new OpenLayers.Layer("foo", {visibility: false}),
+                new OpenLayers.Layer("bar", {visibility: false})
+            ];
+            layers[0].id = "fooid";
+            layers[1].id = "barid";
+            var mapPanel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                stateId: "map",
+                prettyStateKeys: true,
+                height: 400,
+                width: 600,
+                layers: layers
+            });
+
+            // test
+
+            // test with numeric and boolean state values
+            state = {
+                x: 5,
+                y: 45,
+                zoom: 10,
+                visibility_foo: true,
+                visibility_bar: true,
+                opacity_foo: 0.2,
+                opacity_bar: 0.5
+            };
+            mapPanel.applyState(state);
+            t.eq(mapPanel.center.lon, 5,
+                 "mapPanel.center.lon correctly set [0]");
+            t.eq(mapPanel.center.lat, 45,
+                 "mapPanel.center.lat correctly set [0]");
+            t.eq(mapPanel.zoom, 10,
+                 "mapPanel.zoom correctly set [0]");
+            t.eq(layers[0].getVisibility(), true,
+                 "layer foo visibility is correct [0]");
+            t.eq(layers[1].getVisibility(), true,
+                 "layer bar visibility is correct [0]");
+            t.eq(layers[0].opacity, 0.2,
+                 "layer foo opacity is correct [0]");
+            t.eq(layers[1].opacity, 0.5,
+                 "layer bar opacity is correct [0]");
+
+            layers[0].visibility = false;
+            layers[1].visibility = false;
+            layers[0].opacity = null;
+            layers[1].opacity = null;
+ 
+            // test with string state values
+            state = {
+                x: "5",
+                y: "45",
+                zoom: "10",
+                visibility_foo: "true",
+                visibility_bar: "true",
+                opacity_foo: "0.2",
+                opacity_bar: "0.5"
+            };
+            mapPanel.applyState(state);
+            t.eq(mapPanel.center.lon, 5,
+                 "mapPanel.center.lon correctly set [1]");
+            t.eq(mapPanel.center.lat, 45,
+                 "mapPanel.center.lat correctly set [1]");
+            t.eq(mapPanel.zoom, "10",
+                 "mapPanel.zoom correctly set [1]");
+            t.eq(layers[0].getVisibility(), true,
+                 "layer foo visibility is correct [1]");
+            t.eq(layers[1].getVisibility(), true,
+                 "layer bar visibility is correct [1]");
+            t.eq(layers[0].opacity, "0.2",
+                 "layer foo opacity is correct [1]");
+            t.eq(layers[1].opacity, "0.5",
+                 "layer bar opacity is correct [1]");
+
+            layers[0].visibility = false;
+            layers[1].visibility = false;
+            layers[0].opacity = null;
+            layers[1].opacity = null;
+
+            // test with prettyStateKeys set to false
+            mapPanel.prettyStateKeys = false;
+            state = {
+                x: "5",
+                y: "45",
+                zoom: "10",
+                visibility_fooid: "true",
+                visibility_barid: "true",
+                opacity_fooid: "0.2",
+                opacity_barid: "0.5"
+            };
+            mapPanel.applyState(state);
+            t.eq(mapPanel.center.lon, 5,
+                 "mapPanel.center.lon correctly set [1]");
+            t.eq(mapPanel.center.lat, 45,
+                 "mapPanel.center.lat correctly set [1]");
+            t.eq(mapPanel.zoom, "10",
+                 "mapPanel.zoom correctly set [1]");
+            t.eq(layers[0].getVisibility(), true,
+                 "layer foo visibility is correct [1]");
+            t.eq(layers[1].getVisibility(), true,
+                 "layer bar visibility is correct [1]");
+            t.eq(layers[0].opacity, "0.2",
+                 "layer foo opacity is correct [1]");
+            t.eq(layers[1].opacity, "0.5",
+                 "layer bar opacity is correct [1]");
+
+            // tear down
+
+            mapPanel.destroy();
+        }
+
+        function test_getState_called(t) {
+            t.plan(2);
+
+            // set up
+
+            var getState, mapPanel, log;
+
+            getState = GeoExt.MapPanel.prototype.getState;
+            GeoExt.MapPanel.prototype.getState = function(state) {
+                log = true;
+            };
+
+            mapPanel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                layers: [
+                    new OpenLayers.Layer("foo")
+                ],
+                stateId: "map",
+                height: 400,
+                width: 600
+            });
+
+            // test
+
+            // test that getState gets called when the map is moved
+            // 1 test
+            log = false;
+            mapPanel.map.setCenter(new OpenLayers.LonLat(5, 45), 5);
+            t.delay_call(1, function() {
+                t.eq(log, true, "getState called when map is moved");
+            });
+
+            // test that getState gets called when layer visibility
+            // is changed
+            // 1 test
+            log = false;
+            mapPanel.map.layers[0].setVisibility(false);
+            t.delay_call(1, function() {
+                t.eq(log, true, "getState called when layer visibility is changed");
+
+                // tear down
+
+                GeoExt.MapPanel.prototype.getState = getState;
+                mapPanel.destroy();
+            });
+        }
+
+        function test_getState(t) {
+            t.plan(14);
+
+            // set up
+
+            var state;
+
+            // test
+
+            // test with prettyStateKeys set to true
+            var layers = [
+                new OpenLayers.Layer("foo", {visibility: true}),
+                new OpenLayers.Layer("bar", {visibility: false})
+            ];
+            layers[0].id = "fooid";
+            layers[1].id = "barid";
+            var mapPanel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                prettyStateKeys: true,
+                stateId: "map",
+                height: 400,
+                width: 600,
+                layers: layers,
+                center: [5, 45],
+                zoom: 6
+            });
+            layers[0].setOpacity(0.5);
+
+            state = mapPanel.getState();
+            t.eq(state.x, 5,
+                 "state.x correctly set");
+            t.eq(state.y, 45,
+                 "state.y correctly set");
+            t.eq(state.zoom, 6,
+                 "state.zoom correctly set");
+            t.eq(state.visibility_foo, true,
+                 "state.visibility_foo correctly set");
+            t.eq(state.visibility_bar, false,
+                 "state.visibility_bar correctly set");
+            t.eq(state.opacity_foo, 0.5,
+                 "state.opacity_foo correctly set");
+            t.eq(state.opacity_bar, 1,
+                 "state.opacity_bar correctly set");
+            mapPanel.destroy();
+
+            // test with prettyStateKeys set to false
+            var layers = [
+                new OpenLayers.Layer("foo", {visibility: true}),
+                new OpenLayers.Layer("bar", {visibility: false})
+            ];
+            layers[0].id = "fooid";
+            layers[1].id = "barid";
+            var mapPanel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                prettyStateKeys: false,
+                stateId: "map",
+                height: 400,
+                width: 600,
+                layers: layers,
+                center: [5, 45],
+                zoom: 6
+            });
+            layers[0].setOpacity(0.5);
+
+            mapPanel.prettyStateKeys = false;
+            state = mapPanel.getState();
+            t.eq(state.x, 5,
+                 "state.x correctly set");
+            t.eq(state.y, 45,
+                 "state.y correctly set");
+            t.eq(state.zoom, 6,
+                 "state.zoom correctly set");
+            t.eq(state.visibility_fooid, true,
+                 "state.visibility_fooid correctly set");
+            t.eq(state.visibility_barid, false,
+                 "state.visibility_barid correctly set");
+            t.eq(state.opacity_fooid, 0.5,
+                 "state.opacity_fooid correctly set");
+            t.eq(state.opacity_barid, 1,
+                 "state.opacity_barid correctly set");
+            mapPanel.destroy();
+        }
     </script>
   </head>
   <body>

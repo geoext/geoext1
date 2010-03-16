@@ -85,13 +85,29 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
      */
     zoom: null,
 
+    /** api: config[prettyStateKeys]
+     *  ``Boolean`` Set this to true if you want pretty strings in the MapPanel's
+     *  state keys. More specifically, layer.name instead of layer.id will be used
+     *  in the state keys if this option is set to true. But in that case you have
+     *  to make sure you don't have two layers with the same name. Defaults to 
+     *  false.
+     */
+    prettyStateKeys: false,
+
     /** api: config[extent]
      *  ``OpenLayers.Bounds or Array(Number)``  An initial extent for the map (used
      *  if center and zoom are not provided.  If an array, the first four items
      *  should be minx, miny, maxx, maxy.
      */
     extent: null,
-    
+
+    /** private: property[stateEvents]
+     *  ``Array(String)`` Array of state events
+     */
+    stateEvents: ["aftermapmove",
+                  "afterlayervisibilitychange",
+                  "afterlayeropacitychange"],
+
     /** private: method[initComponent]
      *  Initializes the map panel. Creates an OpenLayers map if
      *  none was provided in the config options passed to the
@@ -122,9 +138,129 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
             this.extent = OpenLayers.Bounds.fromArray(this.extent);
         }
         
-        GeoExt.MapPanel.superclass.initComponent.call(this);       
+        GeoExt.MapPanel.superclass.initComponent.call(this);
+
+        this.addEvents(
+            /** private: event[aftermapmove]
+             *  Fires after the map is moved.
+             */
+            "aftermapmove",
+
+            /** private: event[afterlayervisibilitychange]
+             *  Fires after a layer changed visibility.
+             */
+            "afterlayervisibilitychange",
+
+            /** private: event[afterlayeropacitychange]
+             *  Fires after a layer changed opacity.
+             */
+            "afterlayeropacitychange"
+        );
+        this.map.events.on({
+            "moveend": this.onMoveend,
+            "changelayer": this.onLayerchange,
+            scope: this
+        });
     },
-    
+
+    /** private: method[onMoveend]
+     *
+     *  The "moveend" listener.
+     */
+    onMoveend: function() {
+        this.fireEvent("aftermapmove");
+    },
+
+    /** private: method[onLayerchange]
+     *  :param e: ``Object``
+     *
+     * The "changelayer" listener.
+     */
+    onLayerchange: function(e) {
+        if(e.property) {
+            if(e.property === "visibility") {
+                this.fireEvent("afterlayervisibilitychange");
+            } else if(e.property === "opacity") {
+                this.fireEvent("afterlayeropacitychange");
+            }
+        }
+    },
+
+    /** private: method[applyState]
+     *  :param state: ``Object`` The state to apply.
+     *
+     *  Apply the state provided as an argument.
+     */
+    applyState: function(state) {
+
+        // if we get strings for state.x, state.y or state.zoom
+        // OpenLayers will take care of converting them to the
+        // appropriate types so we don't bother with that
+        this.center = new OpenLayers.LonLat(state.x, state.y);
+        this.zoom = state.zoom;
+
+        // set layer visibility and opacity
+        var i, l, layer, layerId, visibility, opacity;
+        var layers = this.map.layers;
+        for(i=0, l=layers.length; i<l; i++) {
+            layer = layers[i];
+            layerId = this.prettyStateKeys ? layer.name : layer.id;
+            visibility = state["visibility_" + layerId];
+            if(visibility !== undefined) {
+                // convert to boolean
+                visibility = (/^true$/i).test(visibility);
+                if(layer.isBaseLayer) {
+                    if(visibility) {
+                        this.map.setBaseLayer(layer);
+                    }
+                } else {
+                    layer.setVisibility(visibility);
+                }
+            }
+            opacity = state["opacity_" + layerId];
+            if(opacity !== undefined) {
+                layer.setOpacity(opacity);
+            }
+        }
+    },
+
+    /** private: method[getState]
+     *  :return:  ``Object`` The state.
+     *
+     *  Returns the current state for the map panel.
+     */
+    getState: function() {
+        var state;
+
+        // Ext delays the call to getState when a state event
+        // occurs, so the MapPanel may have been destroyed
+        // between the time the event occurred and the time
+        // getState is called
+        if(!this.map) {
+            return;
+        }
+
+        // record location and zoom level
+        var center = this.map.getCenter();
+        state = {
+            x: center.lon,
+            y: center.lat,
+            zoom: this.map.getZoom()
+        };
+
+        // record layer visibility and opacity
+        var i, l, layer, layerId, layers = this.map.layers;
+        for(i=0, l=layers.length; i<l; i++) {
+            layer = layers[i];
+            layerId = this.prettyStateKeys ? layer.name : layer.id;
+            state["visibility_" + layerId] = layer.getVisibility();
+            state["opacity_" + layerId] = layer.opacity == null ?
+                1 : layer.opacity;
+        }
+
+        return state;
+    },
+
     /** private: method[updateMapSize]
      *  Tell the map that it needs to recalculate its size and position.
      */
@@ -208,10 +344,15 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
             this.ownerCt.un("move", this.updateMapSize, this);
         }
         GeoExt.MapPanel.superclass.beforeDestroy.apply(this, arguments);
-        /**
-         * If this container was passed a map instance, it is the
-         * responsibility of the creator to destroy it.
-         */
+        // if the map panel was passed a map instance, this map instance
+        // is under the user's responsibility
+        if(this.map && this.map.events) {
+            this.map.events.un({
+                "moveend": this.onMoveend,
+                "changelayer": this.onLayerchange,
+                scope: this
+            });
+        }
         if(!this.initialConfig.map ||
            !(this.initialConfig.map instanceof OpenLayers.Map)) {
             // we created the map, we destroy it
