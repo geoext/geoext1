@@ -16,6 +16,11 @@
         <p>This example shows the how to create a MapPanel with a map that has
         already been created.  See <a href="mappanel-window.html">mappanel-window.html</a>
         for an example that creates the MapPanel without creating the map first.<p>
+        <p>This example makes use of a <code>CookieProvider</code>. The <code>MapPanel</code>
+        being a stateful component, if you reload the page the map should be
+        at the same location as previously. Also the <code>getState</code> and
+        <code>applyState</code> methods are overloaded so the size of the map
+        panel is also restored when refreshing the page.</p>
         <p>The js is not minified so it is readable. See <a href="mappanel-div.js">mappanel-div.js</a>.</p>
         <div id="mappanel"></div>
         <input type="button" onclick="mapSizeUp()" value="bigger"></input>
