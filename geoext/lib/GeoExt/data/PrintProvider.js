@@ -527,6 +527,13 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                     extension: "png"
                 });
             },
+            "TMS": function(layer) {
+                var enc = this.encoders.layers.TileCache.call(this, layer);
+                return Ext.apply(enc, {
+                    type: 'TMS',
+                    format: layer.type
+                });
+            },
             "TileCache": function(layer) {
                 var enc = this.encoders.layers.HTTPRequest.call(this, layer);
                 return Ext.apply(enc, {
