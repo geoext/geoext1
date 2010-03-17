@@ -116,7 +116,7 @@ Ext.extend(GeoExt.state.PermalinkProvider, Ext.state.Provider, {
         for(id in state) {
             if(state.hasOwnProperty(id)) {
                 for(k in state[id]) {
-                    params[id + "_" + k] = this.encodeType ? 
+                    params[id + "_" + k] = this.encodeType ?
                         unescape(this.encodeValue(state[id][k])) : state[id][k];
                 }
             }
