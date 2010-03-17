@@ -114,7 +114,7 @@
             "GeoExt/plugins/PrintProviderField.js",
             "GeoExt/plugins/PrintExtent.js",
             "GeoExt/widgets/PrintMapPanel.js",
-            "GeoExt/state/PermalinkProvider"
+            "GeoExt/state/PermalinkProvider.js"
         );
 
         var agent = navigator.userAgent;
