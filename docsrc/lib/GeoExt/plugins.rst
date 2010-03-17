@@ -1,4 +1,4 @@
-.. module:: GeoExt.plugin
+.. module:: GeoExt.plugins
     :synopsis: Plugins add functionality to components like maps or forms.
 
 :mod:`GeoExt.plugins`
