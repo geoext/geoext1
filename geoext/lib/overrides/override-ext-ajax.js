@@ -56,7 +56,6 @@
             return OpenLayers.Request.issue({
                 success: createComplete("success", cb),
                 failure: createComplete("failure", cb),
-                headers: options.headers,
                 method: method,
                 headers: hs,
                 data: data,
