@@ -13,13 +13,15 @@ Ext.namespace("GeoExt.form");
  *  :param logicalOp: ``String`` Either ``OpenLayers.Filter.Logical.AND`` or
  *      ``OpenLayers.Filter.Logical.OR``, set to
  *      ``OpenLayers.Filter.Logical.AND`` if null or undefined
+ *  :param wildcard: ``Integer`` Determines the wildcard behaviour of like
+ *      queries. This behaviour can either be: none, prepend, append or both.
  *      
  *  :return: ``OpenLayers.Filter``
  *  
  *  Create an {OpenLayers.Filter} object from a {Ext.form.BasicForm}
  *      or a {Ext.form.FormPanel} instance.
  */
-GeoExt.form.toFilter = function(form, logicalOp) {
+GeoExt.form.toFilter = function(form, logicalOp, wildcard) {
     if(form instanceof Ext.form.FormPanel) {
         form = form.getForm();
     }
@@ -34,6 +36,23 @@ GeoExt.form.toFilter = function(form, logicalOp) {
             prop = s[0];
         } else {
             type = OpenLayers.Filter.Comparison.EQUAL_TO;
+        }
+
+        if (type === OpenLayers.Filter.Comparison.LIKE) {
+            switch(wildcard) {
+                case GeoExt.form.ENDS_WITH:
+                    value = '.*' + value;
+                    break;
+                case GeoExt.form.STARTS_WITH:
+                    value += '.*';
+                    break;
+                case GeoExt.form.CONTAINS:
+                    value = '.*' + value + '.*';
+                    break;
+                default:
+                    // do nothing, just take the value
+                    break;
+            }
         }
 
         filters.push(
@@ -64,3 +83,7 @@ GeoExt.form.toFilter.FILTER_MAP = {
     "ge": OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
     "like": OpenLayers.Filter.Comparison.LIKE
 };
+
+GeoExt.form.ENDS_WITH = 1;
+GeoExt.form.STARTS_WITH = 2;
+GeoExt.form.CONTAINS = 3;

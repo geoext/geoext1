@@ -112,7 +112,7 @@ GeoExt.form.SearchAction = Ext.extend(Ext.form.Action, {
      */
     run: function() {
         var o = this.options;
-        var f = GeoExt.form.toFilter(this.form);
+        var f = GeoExt.form.toFilter(this.form, o.logicalOp, o.wildcard);
         if(o.clientValidation === false || this.form.isValid()){
 
             if (o.abortPrevious && this.form.prevResponse) {
