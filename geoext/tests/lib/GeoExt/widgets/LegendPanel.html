@@ -49,12 +49,12 @@
 
             vectorLayer.setVisibility(false);
 
-            t.eq(lp.items.length, 1, "Currently there are no legends for non WMS layers");
+            t.eq(lp.items.length, 2, "legend for vector layer");
 
             var wms = new OpenLayers.Layer.WMS("testArray", '/ows', {layers: ['a', 'b', 'c']});
             mapPanel.map.addLayer(wms);
 
-            t.eq(lp.items.length, 2, "The legend panel can deal with WMS layers which have a LAYERS params which is an array");
+            t.eq(lp.items.length, 3, "The legend panel can deal with WMS layers which have a LAYERS params which is an array");
 
             lp.destroy();
             mapPanel.destroy();
