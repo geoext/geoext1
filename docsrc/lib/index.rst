@@ -38,6 +38,11 @@ methods and properties provided by these objects, see the
     
     GeoExt/plugins
 
+.. toctree::
+    :maxdepth: 2
+    
+    GeoExt/state
+
 Overrides
 ---------
 
