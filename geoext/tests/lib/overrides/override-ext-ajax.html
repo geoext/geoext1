@@ -187,6 +187,34 @@
             });
 
         }
+
+        function test_paramsGet(t) {
+            t.plan(0);
+            /*
+             * Setup
+             */
+            setup();
+
+            var proto = OpenLayers.Request.XMLHttpRequest.prototype;
+            var _srh = proto.setRequestHeader; 
+            proto.setRequestHeader = function(k, v) {
+                t.eq(k == "Content-Type" && v != "application/x-www-form-urlencoded",
+                     "Content-Type header should not be set for GET request");
+            };
+            Ext.Ajax.request({
+                failure: function(response) { },
+                method: 'GET',
+                success: function(response) { },
+                params: { xx: 'xx', yy: 'yy'},
+                url: 'foo.php'
+            });
+            proto.setRequestHeader = _srh;
+
+            /*
+             * Teardown
+             */
+            teardown();
+        }
     </script>
   <body>
   <div id="basicform"></div>
