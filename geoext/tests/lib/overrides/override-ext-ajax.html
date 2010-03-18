@@ -178,6 +178,14 @@
             form.add(new Ext.form.Hidden({name: 'foo', value: 'bar'}));
             form.render('basicform');
             form.getForm().submit({method: 'POST', url: 'foo.php'});
+
+            t.delay_call(1, function() {
+                proto.setRequestHeader = function(k, v) {
+                    t.ok(k == "Content-Type" && v == "application/x-www-form-urlencoded",
+                        "Content-Type header properly set for form POST");
+                };
+            });
+
         }
     </script>
   <body>
