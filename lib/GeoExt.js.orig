@@ -114,7 +114,6 @@
             "GeoExt/plugins/PrintPageField.js",
             "GeoExt/plugins/PrintProviderField.js",
             "GeoExt/plugins/PrintExtent.js",
-            "GeoExt/plugins/AttributeForm.js",
             "GeoExt/widgets/PrintMapPanel.js",
             "GeoExt/state/PermalinkProvider.js"
         );
