@@ -87,7 +87,9 @@ GeoExt.SliderTip = Ext.extend(Ext.Tip, {
      *  Set as a listener for 'render' if hover is true.
      */
     registerThumbListeners: function() {
-        this.slider.thumb.on({
+        // Ext 3.2 slider no longer has a thumb
+        var el = this.slider.thumb || this.slider.thumbs[0].tracker.el;
+        el.on({
             "mouseover": function() {
                 this.onSlide(this.slider);
                 this.dragging = false;
@@ -111,7 +113,9 @@ GeoExt.SliderTip = Ext.extend(Ext.Tip, {
         this.show();
         this.body.update(this.getText(slider));
         this.doAutoWidth();
-        this.el.alignTo(slider.thumb, 'b-t?', this.offsets);
+        // Ext 3.2 slider no longer has a thumb
+        var el = slider.thumb || slider.thumbs[0].tracker.el;
+        this.el.alignTo(el, 'b-t?', this.offsets);
     },
 
     /** api: config[getText]
