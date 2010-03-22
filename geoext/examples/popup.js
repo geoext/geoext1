@@ -35,6 +35,7 @@ Ext.onReady(function() {
             feature: feature,
             width:200,
             html: bogusMarkup,
+            maximizable: true,
             collapsible: true
         });
         // unselect feature when the popup

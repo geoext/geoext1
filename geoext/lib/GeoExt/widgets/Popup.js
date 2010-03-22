@@ -176,6 +176,16 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
         }
     },
     
+    /** private: method[maximize]
+     *  Override.
+     */
+    maximize: function() {
+        if(!this.maximized && this.anc) {
+            this.unanchorPopup();
+        }
+        GeoExt.Popup.superclass.maximize.apply(this, arguments);
+    },
+    
     /** api: method[setSize]
      *  :param w: ``Integer``
      *  :param h: ``Integer``

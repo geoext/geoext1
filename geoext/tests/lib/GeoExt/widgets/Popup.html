@@ -164,6 +164,23 @@
 
         }
 
+        function test_maximize(t) {
+            t.plan(2);
+
+            var context = setupContext();
+
+            var pop = popup(context.feature, context.mapPanel);
+
+            pop.show();
+
+            pop.maximize();
+            t.ok(!pop.anc, "Anchor element removed");
+            t.ok(pop.maximized, "Popup is maximized");
+
+            tearDown(context);
+
+        }
+
         function test_Popup_destroy(t){
 
             t.plan(1);
