@@ -86,30 +86,29 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
         var config = attributes || {};
         config.iconCls = config.iconCls || "gx-tree-layerparam-icon";
         config.text = config.text || config.item;
-        typeof config.layer == "string" ? false :
-            config.layer.getVisibility();
         
         this.param = config.param;
         this.item = config.item;
         this.delimiter = config.delimiter || ",";
                 
         GeoExt.tree.LayerParamNode.superclass.constructor.apply(this, arguments);
+
+        // see if we have a layer already, and set allItems.
+        if(this.getLayer()) {
+            this.allItems = this.getItems();
+        }
     },
     
     /** private: method[render]
      *  Private override.
      */
     render: function(bulkRender) {
-        var layer = this.attributes.layer;
-        if(typeof layer == "string") {
-            var store = this.attributes.layerStore || GeoExt.MapPanel.guess().layers;
-            var i = store.findBy(function(o) {
-                return o.get("title") == layer;
-            });
-            layer = store.getAt(i).get("layer");
+        var layer = this.getLayer();
+        
+        // set allItems now if we weren't able to do so in the c'tor
+        if(!this.allItems) {
+            this.allItems = this.getItems();
         }
-        this.layer = layer;
-        this.allItems = this.getItems();
         
         var visibility = layer.getVisibility();
         this.attributes.checked = this.attributes.checked == null ?
@@ -120,6 +119,27 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
 
         this.addVisibilityEventHandlers();
         GeoExt.tree.LayerParamNode.superclass.render.apply(this, arguments);
+    },
+    
+    /** private: method[getLayer]
+     *  :return: ``OpenLayers.Layer.HTTPRequest`` the layer
+     *  
+     *  Sets this.layer and returns the layer.
+     */
+    getLayer: function() {
+        if(!this.layer) {
+            var layer = this.attributes.layer;
+            if(typeof layer == "string") {
+                var store = this.attributes.layerStore ||
+                    GeoExt.MapPanel.guess().layers;
+                var i = store.findBy(function(o) {
+                    return o.get("title") == layer;
+                });
+                layer = i != -1 ? store.getAt(i).get("layer") : null;
+            }
+            this.layer = layer;
+        }
+        return this.layer;
     },
     
     /** private: method[getItems]
