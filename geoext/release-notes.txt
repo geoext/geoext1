@@ -1,0 +1,113 @@
+= GeoExt 0.7 Release Notes =
+
+'''Work In Progress'''
+
+These notes summarize the new features and list bug fixes included since the last release.
+
+== Dependencies ==
+
+TODO:
+
+ * Ext JS >= 2.2
+ * OpenLayers >= 2.9
+
+GeoExt 0.7 was tested with Ext JS 2.2.1 and OpenLayers 2.9.
+
+== Overview Of GeoExt 0.7 Features ==
+
+
+=== Data components ===
+
+ * New PrintProvider added. This handles interactions with the [http://trac.mapfish.org/trac/mapfish/wiki/PrintModuleInstallation MapFish print module] (now also packaged into a [http://geoserver.org/display/GEOS/Printing+2.0+HOWTO GeoServer extension]).
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/print-page.html PrintPage] added. This represents a print page, i.e. a map plus other objects (text) to be printed.
+
+=== Plugins ===
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/print-form.html PrintProviderField] added. This is a plugin for form fields that provides synchronization with a PrintProvider, i.e. the PrintProvider is notified when values change in the form and vice-versa.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/print-form.html PrintPageField] added. This is a plugin for form fields that provides synchronization with a PrintPage, i.e. the PrintPage is notified when values change in the form and vice-versa.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/print-extent.html PrintExtent] added. This is a plugin for MapPanel that handles a collection of PrintPage's, and a TransformFeature control to modify the map to be printed.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/attribute-form.html AttributeForm] added. This is a plugin for form panels that creates form fields from records of an AttributeStore and adds them to the form panel.
+
+=== State components ===
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/permalink.html PermalinkProvider] added. This is a state provider to create permalinks from state values provided by stateful components.
+
+=== Widgets ===
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/print-preview.html PrintMapPanel] added. This is a specific MapPanel for printing the current map viewport.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/renderer.html FeatureRenderer] added. This is a specific BoxComponent for rendering a vector feature. This component is for example used by the new VectorLegend component.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/vector-legend.html VectorLegend] added. This allows having legends for vector layers in a LegendPanel.
+
+ * New [http://dev.geoext.org/trunk/geoext/examples/tree.html RadioButtonMixin] added. Adding a radio button to layer nodes is now done using a RadionButtonMixin.
+
+ * Make the [http://dev.geoext.org/trunk/geoext/examples/mappanel-div.html MapPanel] stateful. This allows restoring the position, layer visibility, and layer opacity of a map from one page load to another.
+
+ * Make the [http://dev.geoext.org/trunk/geoext/examples/popup.html Popup] maximazable.
+
+ * Enhance the WMSLegend component so it supports the SCALE parameter in GetLegendGraphic requests.
+
+See the [http://trac.geoext.org/query?group=type&resolution=fixed&milestone=0.7&type=enhancement&order=component enhancement page] for the complete list of enhancements made in the 0.7 release.
+
+== Bug fixes ==
+
+See the [http://trac.geoext.org/query?group=type&resolution=fixed&milestone=0.7&type=defect&order=component defect page] for the list of bugs fixed in the 0.7 release.
+
+== API Changes Since 0.6 ==
+
+ * '''LegendPanel''': {{{showTitle}}}, {{{labelCls}}}, {{{bodyStyle}}} and {{{legendOptions}}} config options removed. Use the {{{defaults}}} config option instead to configure {{{showTitle}}}, {{{labelCls}}} and {{{style}}} (instead of {{{bodyStyle}}} for the legend items.
+
+  If you e.g. had the following:
+  {{{
+  legendPanel = new GeoExt.LegendPanel({ 
+      labelCls: 'mylabel',
+      legendDefaults: {
+          imageFormat: 'image/png'
+      },
+      bodyStyle: 'padding:5px', 
+  });
+  }}}
+
+  you would have to change that to:
+  {{{
+  legendPanel = new GeoExt.LegendPanel({ 
+      defaults: { 
+          labelCls: 'mylabel', 
+          style: 'padding:5px',
+          imageFormat: 'image/png'
+      }, 
+      bodyStyle: 'padding:5px', 
+  });
+  }}}
+ * '''RadioButtonMixin''': to add radio buttons to layer nodes you now need to use the RadioButtonMixin.
+
+  To create a layer node UI with a radio button do:
+  {{{
+  // create our own layer node UI class, using the RadioButtonMixin
+  var LayerNodeUI = Ext.extend(
+    GeoExt.tree.LayerNodeUI, new GeoExt.tree.RadioButtonMixin()
+  );
+  }}}
+
+  Then, to use that layer node UI, configure the loader with something like this:
+  {{{
+  loader: {
+      baseAttrs: {
+          radioGroup: "foo",
+          uiProvider: "use_radio"
+      }
+   }
+   }}}
+
+  And provide set {{{uiProviders}}} in the options passed to the TreePanel:
+   {{{
+   uiProviders: {
+       "use_radio": LayerNodeUI
+   }
+   }}}
+ 
