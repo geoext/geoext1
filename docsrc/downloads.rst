@@ -2,6 +2,11 @@
  Download GeoExt
 =================
 
+Release Candidate
+-----------------
+
+ * GeoExt 0.7 RC1 (`Source <http://trac.geoext.org/attachment/wiki/Download/GeoExt-release-0.7-rc1.zip?format=raw>`__ | `Release Notes <http://trac.geoext.org/wiki/Release/0.7/Notes>`__)
+
 Current Release
 ---------------
 
