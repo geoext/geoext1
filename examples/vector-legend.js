@@ -105,7 +105,7 @@ Ext.onReady(function() {
     });
     
     legendPanel = new GeoExt.LegendPanel({
-        map: mapPanel.map,
+        layerStore: mapPanel.layers,
         renderTo: "legend",
         border: false
     });
