@@ -18,6 +18,10 @@ below:
 * GeoExt Users List: http://www.geoext.org/cgi-bin/mailman/listinfo/users
 * GeoExt Developers List: http://www.geoext.org/cgi-bin/mailman/listinfo/dev
 
+.. warning::
+   Make sure you are subscribed to the mailing list prior to posting, posts
+   from unsubscribed people are rejected with no notification sent to the
+   mailing list administrator.
 
 IRC
 ---
