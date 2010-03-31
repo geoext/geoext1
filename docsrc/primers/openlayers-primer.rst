@@ -228,7 +228,7 @@ custom ``Ext.Panel`` class, this is done using the ``addEvents()`` method below.
 
 .. code-block:: javascript
    
-    var MyPanel = Ext.Extend(Ext.Panel, {
+    var MyPanel = Ext.extend(Ext.Panel, {
         initComponent: function() {
             // ...
             this.addEvents("event1" /*, "event2", ... etc.*/ ); 
@@ -241,7 +241,7 @@ Finally triggering the event is easy:
 
 .. code-block:: javascript
    
-    var MyPanel = Ext.Extend(Ext.Panel, {
+    var MyPanel = Ext.extend(Ext.Panel, {
          
         // ...
          
