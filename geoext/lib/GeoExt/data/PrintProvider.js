@@ -224,17 +224,6 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
              */
             "print",
 
-            /** api: events[printexception]
-             *  Triggered when using the ``POST`` method, when the print
-             *  backend returns an exception.
-             *  
-             *  Listener arguments:
-             *  * printProvider - :class:`GeoExt.data.PrintProvider` this
-             *    PrintProvider
-             *  * response - ``Object`` the response object of the XHR
-             */
-            "printexception",
-
             /** api: events[beforeencodelayer]
              *  Triggered before a layer is encoded. This can be used to
              *  exclude layers from the printing, by having the listener
@@ -427,9 +416,6 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                         window.location.href = url;                        
                     } 
                     this.fireEvent("print", this, url);
-                },
-                failure: function(response) {
-                    this.fireEvent("printexception", this, response);
                 },
                 scope: this
             });
