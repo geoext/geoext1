@@ -34,6 +34,8 @@ Ext.namespace("GeoExt.plugins");
  *          plugins: printExtent
  *      });
  *
+ *      printExtent.addPage();
+ *
  *      // print the map
  *      printExtent.print();
  */
@@ -46,25 +48,7 @@ Ext.namespace("GeoExt.plugins");
  *  and provides a control to modify them. Must be set as a plugin to a
  *  :class:`GeoExt.MapPanel`.
  */
-
-GeoExt.plugins.PrintExtent = function(config) {
-    config = config || {};
-
-    Ext.apply(this, config);
-    this.initialConfig = config;
-
-    if(!this.pages) {
-        this.pages = [new GeoExt.data.PrintPage({
-            printProvider: this.printProvider
-        })];
-    }
-
-    if(!this.printProvider) {
-        this.printProvider = this.pages[0].printProvider;
-    }
-};
-
-GeoExt.plugins.PrintExtent.prototype = {
+GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
 
     /** private: initialConfig
      *  ``Object`` Holds the initial config object passed to the
@@ -122,6 +106,36 @@ GeoExt.plugins.PrintExtent.prototype = {
      */
     page: null,
 
+    /** private: method[constructor]
+     *  Private constructor override.
+     */
+    constructor: function(config) {
+        config = config || {};
+
+        Ext.apply(this, config);
+        this.initialConfig = config;
+
+        if(!this.printProvider) {
+            this.printProvider = this.pages[0].printProvider;
+        }
+
+        if(!this.pages) {
+            this.pages = [];
+        }
+        
+        this.addEvents(
+            /** api: events[selectpage]
+             *  Triggered when a page has been selected using the control
+             *  
+             *  Listener arguments:
+             *  * printPage - :class:`GeoExt.data.PrintPage` this printPage
+             */
+            "selectpage"
+        );
+
+        GeoExt.plugins.PrintExtent.superclass.constructor.apply(this, arguments);
+    },
+
     /** api: method[print]
      *  :param options: ``Object`` Options to send to the PrintProvider's
      *      print method. See :class:`GeoExt.data.PrintProvider` :: ``print``.
@@ -140,7 +154,71 @@ GeoExt.plugins.PrintExtent.prototype = {
     init: function(mapPanel) {
         this.map = mapPanel.map;
         mapPanel.on("destroy", this.onMapPanelDestroy, this);
+
+        if (!this.layer) {
+            this.layer = new OpenLayers.Layer.Vector(null, {
+                displayInLayerSwitcher: false
+            });
+        }
+        this.createControl();
+
+        for(var i=0, len=this.pages.length; i<len; ++i) {
+            this.addPage(this.pages[i]);
+        }
         this.setUp();
+    },
+
+    /** api: method[addPage]
+     *  Adds a page to the list of pages that this plugin controls.
+     *  :param page: :class:`GeoExt.data.PrintPage` The page to add
+     *       to this plugin. If not provided, a page that fits the current
+     *       extent is created.
+     *  :return: page :class:``GeoExt.data.PrintPage``
+     */
+    addPage: function(page) {
+        page = page || new GeoExt.data.PrintPage({
+            printProvider: this.printProvider
+        });
+        if(this.pages.indexOf(page) === -1) {
+            this.pages.push(page);
+        }
+        this.layer.addFeatures([page.feature]);
+        page.on("change", this.onPageChange, this);
+
+        this.page = page;
+        var map = this.map;
+        if(map.getCenter()) {
+            this.fitPage();
+        } else {
+            map.events.register("moveend", this, function() {
+                map.events.unregister("moveend", this, arguments.callee);
+                this.fitPage();
+            });
+        }
+        return page;
+    },
+
+    /** api: method[removePage]
+     *  Removes a page from the list of pages that this plugin controls.
+     *  :param page: :class:`GeoExt.data.PrintPage` The page to remove
+     *       from this plugin.
+     */
+    removePage: function(page) {
+        this.pages.remove(page);
+        if (page.feature.layer) {
+            this.layer.removeFeatures([page.feature]);
+        }
+        page.un("change", this.onPageChange, this);
+    },
+    
+    /** api: method[selectPage]
+     *  Selects the given page (ie. calls the setFeature on the
+     *      modify feature control)
+     *  :param page: :class:`GeoExt.data.PrintPage` The page to select
+     */
+    selectPage: function(page) {
+        this.control.active && this.control.setFeature(page.feature);
+        // FIXME raise the feature up so that it is on top
     },
 
     /** api: method[setUp]
@@ -149,26 +227,11 @@ GeoExt.plugins.PrintExtent.prototype = {
      *  the first page if no pages were specified in the configuration.
      */
     setUp: function() {
-        this.initLayer();
-
-        this.initControl();
+        this.map.addLayer(this.layer);
         this.map.addControl(this.control);
         this.control.activate();
 
         this.printProvider.on("layoutchange", this.updateBox, this);
-
-        if(!this.initialConfig.pages) {
-            this.page = this.pages[0];
-            var map = this.map;
-            if(map.getCenter()) {
-                this.fitPage();
-            } else {
-                map.events.register("moveend", this, function() {
-                    map.events.unregister("moveend", this, arguments.callee);
-                    this.fitPage();
-                });
-            }
-        }
     },
 
     /** private: method[tearDown]
@@ -195,13 +258,6 @@ GeoExt.plugins.PrintExtent.prototype = {
         }
 
         var layer = this.layer;
-        if(layer && layer.events) {
-            for(var i=0, len=this.pages.length; i<len; ++i) {
-                var page = this.pages[i];
-                page.un("change", this.onPageChange, this);
-                layer.removeFeatures([page.feature]);
-            }
-        }
 
         if(!this.initialConfig.layer &&
            map && map.events &&
@@ -213,9 +269,14 @@ GeoExt.plugins.PrintExtent.prototype = {
     /** private: method[onMapPanelDestroy]
      */
     onMapPanelDestroy: function() {
-        this.tearDown();
 
         var map = this.map;
+
+        for(var len = this.pages.length - 1, i = len; i>=0; i--) {
+            this.removePage(this.pages[i]);
+        }
+
+        this.tearDown();
 
         var control = this.control;
         if(map && map.events &&
@@ -235,79 +296,65 @@ GeoExt.plugins.PrintExtent.prototype = {
         delete this.page;
         this.map = null;
     },
-
-    /** private: method[initLayer]
-     */
-    initLayer: function() {
-        if(!this.layer) {
-            this.layer = new OpenLayers.Layer.Vector(null, {
-                displayInLayerSwitcher: false
-            });
-        }
-        for(var i=0, len=this.pages.length; i<len; ++i) {
-            var page = this.pages[i];
-            this.layer.addFeatures([page.feature]);
-            page.on("change", this.onPageChange, this);
-        }
-        if(!this.layer.map) {
-            this.map.addLayer(this.layer);
-        }
-    },
     
-    /** private: method[initControl]
+    /** private: method[createControl]
      */
-    initControl: function() {
-        var pages = this.pages;
-
-        if(!this.control) {
-            this.control = new OpenLayers.Control.TransformFeature(this.layer, {
-                preserveAspectRatio: true,
-                eventListeners: {
-                    "beforesetfeature": function(e) {
-                        for(var i=0, len=this.pages.length; i<len; ++i) {
-                            if(this.pages[i].feature === e.feature) {
-                                this.page = this.pages[i];
-                                e.object.rotation = -this.pages[i].rotation;
-                                break;
-                            }
+    createControl: function() {
+        this.control = new OpenLayers.Control.TransformFeature(this.layer, {
+            preserveAspectRatio: true,
+            eventListeners: {
+                "beforesetfeature": function(e) {
+                    for(var i=0, len=this.pages.length; i<len; ++i) {
+                        if(this.pages[i].feature === e.feature) {
+                            this.page = this.pages[i];
+                            e.object.rotation = -this.pages[i].rotation;
+                            break;
                         }
-                    },
-                    "beforetransform": function(e) {
-                        this._updating = true;
-                        var page = this.page;
-                        if(e.rotation) {
-                            if(this.printProvider.layout.get("rotation")) {
-                                page.setRotation(-e.object.rotation);
-                            } else {
-                                e.object.setFeature(page.feature);
-                            }
-                        } else if(e.center) {
-                            page.setCenter(OpenLayers.LonLat.fromString(
-                                e.center.toShortString()
-                            ));
+                    }
+                },
+                "setfeature": function(e) {
+                    for(var i=0, len=this.pages.length; i<len; ++i) {
+                        if(this.pages[i].feature === e.feature) {
+                            this.fireEvent("selectpage", this.pages[i]);
+                            break;
+                        }
+                    }
+                },
+                "beforetransform": function(e) {
+                    this._updating = true;
+                    var page = this.page;
+                    if(e.rotation) {
+                        if(this.printProvider.layout.get("rotation")) {
+                            page.setRotation(-e.object.rotation);
                         } else {
-                            page.fit(e.object.box);
-                            var minScale = this.printProvider.scales.getAt(0);
-                            var maxScale = this.printProvider.scales.getAt(
-                                this.printProvider.scales.getCount() - 1);
-                            var boxBounds = e.object.box.geometry.getBounds();
-                            var pageBounds = page.feature.geometry.getBounds();
-                            var tooLarge = page.scale === minScale &&
-                                boxBounds.containsBounds(pageBounds);
-                            var tooSmall = page.scale === maxScale &&
-                                pageBounds.containsBounds(boxBounds);
-                            if(tooLarge === true || tooSmall === true) {
-                                this.updateBox();
-                            }
+                            e.object.setFeature(page.feature);
                         }
-                        delete this._updating;
-                        return false;
-                    },
-                    "transformcomplete": this.updateBox,
-                    scope: this
-                }
-            });
-        }
+                    } else if(e.center) {
+                        page.setCenter(OpenLayers.LonLat.fromString(
+                            e.center.toShortString()
+                        ));
+                    } else {
+                        page.fit(e.object.box);
+                        var minScale = this.printProvider.scales.getAt(0);
+                        var maxScale = this.printProvider.scales.getAt(
+                            this.printProvider.scales.getCount() - 1);
+                        var boxBounds = e.object.box.geometry.getBounds();
+                        var pageBounds = page.feature.geometry.getBounds();
+                        var tooLarge = page.scale === minScale &&
+                            boxBounds.containsBounds(pageBounds);
+                        var tooSmall = page.scale === maxScale &&
+                            pageBounds.containsBounds(boxBounds);
+                        if(tooLarge === true || tooSmall === true) {
+                            this.updateBox();
+                        }
+                    }
+                    delete this._updating;
+                    return false;
+                },
+                "transformcomplete": this.updateBox,
+                scope: this
+            }
+        });
     },
 
     /** private: method[fitPage]
@@ -325,7 +372,8 @@ GeoExt.plugins.PrintExtent.prototype = {
      */
     updateBox: function() {
         var page = this.page;
-        this.control.setFeature(page.feature, {rotation: -page.rotation});
+        this.control.active &&
+            this.control.setFeature(page.feature, {rotation: -page.rotation});
     },
 
     /** private: method[onPageChange]
@@ -333,10 +381,11 @@ GeoExt.plugins.PrintExtent.prototype = {
      */
     onPageChange: function(page, mods) {
         if(!this._updating) {
-            this.control.setFeature(page.feature, {rotation: -page.rotation});
+            this.control.active &&
+                this.control.setFeature(page.feature, {rotation: -page.rotation});
         }
     }
-};
+});
 
 /** api: ptype = gx_printextent */
 Ext.preg && Ext.preg("gx_printextent", GeoExt.plugins.PrintExtent);
