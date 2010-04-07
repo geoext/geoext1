@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+    <script type="text/javascript" src="AttributeReader.js"></script>
+
+    <script type="text/javascript">
+
+    function test_ctor(t) {
+        t.plan(4);
+
+        var store = new GeoExt.data.AttributeStore();
+        t.ok(store instanceof GeoExt.data.AttributeStore,
+             "ctor creates a GeoExt.data.AttributeStore");
+        t.ok(store instanceof Ext.data.Store,
+             "ctor creates an Ext.data.Store");
+        t.ok(store.reader instanceof GeoExt.data.AttributeReader,
+             "ctor sets an GeoExt.data.AttributeReader in the store");
+        t.ok(store.proxy instanceof Ext.data.HttpProxy,
+             "ctor sets an Ext.data.HttpProxy in the store");
+    }
+
+    </script>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>
