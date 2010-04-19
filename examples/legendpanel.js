@@ -36,6 +36,10 @@ Ext.onReady(function() {
                     strokeWidth: 2
                 }) }) })
     ]);
+    map.layers[2].addFeatures([
+        new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(
+            "POLYGON(146.1 -41, 146.2 -41, 146.2 -41.1, 146.1 -41.1)"))
+    ]);
     map.addControl(new OpenLayers.Control.LayerSwitcher());
 
     var addRemoveLayer = function() {
@@ -97,7 +101,7 @@ Ext.onReady(function() {
     legendPanel = new GeoExt.LegendPanel({
         defaults: {
             labelCls: 'mylabel',
-            style: 'padding:5px'            
+            style: 'padding:5px'
         },
         bodyStyle: 'padding:5px',
         width: 350,
