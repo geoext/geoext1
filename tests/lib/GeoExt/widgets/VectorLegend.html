@@ -82,6 +82,35 @@
         
     }
     
+    function test_update(t) {
+        
+        t.plan(2);
+
+        var map = new OpenLayers.Map();
+        var layer = new OpenLayers.Layer.Vector("old");
+        map.addLayer(layer);
+
+        var store = new GeoExt.data.LayerStore({map: map});
+        
+        var legend = new GeoExt.VectorLegend({
+            layerRecord: store.getAt(0),
+            renderTo: "legendpanel",
+            symbolType: "Point"
+        });
+        
+        // check title
+        t.eq(legend.getComponent(0).getEl().dom.innerHTML, "old", "correct legend title");
+
+        // change layer title
+        layer.setName("new");
+
+        // check title (only works if layer is added to a map)
+        t.eq(legend.getComponent(0).getEl().dom.innerHTML, "new", "correct new legend title");
+
+        legend.destroy();
+        map.destroy();
+    }
+    
 
     </script>
 </head><body>
