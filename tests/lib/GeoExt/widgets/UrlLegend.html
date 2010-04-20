@@ -10,11 +10,13 @@
 
         function test_initialize(t) {
             t.plan(1);
+            var store = new GeoExt.data.LayerStore();
 
             var Rec = GeoExt.data.LayerRecord.create();
             var rec = new Rec({
                 layer: new OpenLayers.Layer("foo")
             });
+            store.add(rec);
             var legend = new GeoExt.UrlLegend({
                 layerRecord: rec,
                 renderTo: "legend"
@@ -25,6 +27,7 @@
         
         function test_render(t) {
             t.plan(2);
+            var store = new GeoExt.data.LayerStore();
 
             var Rec = GeoExt.data.LayerRecord.create([{
                 name: "legendURL"
@@ -33,6 +36,7 @@
                 layer: new OpenLayers.Layer("foo"),
                 legendURL: Ext.BLANK_IMAGE_URL+"?foo"
             });
+            store.add(rec);
             var legend = new GeoExt.UrlLegend({
                 layerRecord: rec,
                 renderTo: "legend"
@@ -44,6 +48,7 @@
 
         function test_update(t) {
             t.plan(1);
+            var store = new GeoExt.data.LayerStore();
             
             var Rec = GeoExt.data.LayerRecord.create([{
                 name: "legendURL"
@@ -52,14 +57,14 @@
                 layer: new OpenLayers.Layer("foo"),
                 legendURL: "http://path/to/foo"
             });
+            store.add(rec);
             var legend = new GeoExt.UrlLegend({
                 layerRecord: rec,
                 renderTo: "legend"
             });
             rec.set("legendURL", Ext.BLANK_IMAGE_URL+"?foo");
-            legend.update();
             t.eq(legend.items.get(1).url, Ext.BLANK_IMAGE_URL+"?foo", "Legend content updated correctly");
-
+            legend.destroy();
         }
 
         function test_supports(t) {
