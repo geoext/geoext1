@@ -519,6 +519,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  Update rule titles and symbolizers.
      */
     update: function() {
+        GeoExt.VectorLegend.superclass.update.apply(this, arguments);
         if (this.symbolType && this.rules) {
             if (this.rulesContainer.items) {
                 var comp;
