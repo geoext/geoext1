@@ -57,6 +57,29 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
             cls: 'x-form-item x-form-item-label' +
                 (this.labelCls ? ' ' + this.labelCls : '')
         });
+        this.layerRecord &&
+            this.layerRecord.store.on("update", this.onStoreUpdate, this);
+    },
+
+    /** private: method[onStoreUpdate]
+     *  Update a the legend. Gets called when the store fires the update event.
+     *  This usually means the visibility of the layer, its style or title
+     *  has changed.
+     *
+     *  :param store: ``Ext.data.Store`` The store in which the record was
+     *      changed.
+     *  :param record: ``Ext.data.Record`` The record object corresponding
+     *      to the updated layer.
+     *  :param operation: ``String`` The type of operation.
+     */
+    onStoreUpdate: function(store, record, operation) {
+        if(record === this.layerRecord) {
+            var layer = record.get('layer');
+            this.setVisible(layer.getVisibility() &&
+                layer.calculateInRange() && layer.displayInLayerSwitcher &&
+                !record.get('hideInLegend'));
+            this.update();
+        }
     },
 
     /** private: method[update]
@@ -87,6 +110,14 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
             }
         }
         return title;
+    },
+    
+    /** private: method[beforeDestroy]
+     */
+    beforeDestroy: function() {
+        this.layerRecord && this.layerRecord.store &&
+            this.layerRecord.store.un("update", this.onStoreUpdate, this);
+        GeoExt.LayerLegend.superclass.beforeDestroy.apply(this, arguments);
     }
 
 });

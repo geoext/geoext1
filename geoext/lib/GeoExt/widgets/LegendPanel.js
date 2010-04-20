@@ -84,7 +84,6 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
                 "add": this.onStoreAdd,
                 "remove": this.onStoreRemove,
                 "clear": this.onStoreClear,
-                "update": this.onStoreUpdate,
                 scope: this
             });
         }
@@ -127,27 +126,6 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      */
     getIdForLayer: function(layer) {
         return this.id + "-" + layer.id;
-    },
-
-    /** private: method[onStoreUpdate]
-     *  Update a layer within the legend panel. Gets called when the store
-     *  fires the update event. This usually means the visibility of the layer
-     *  has changed.
-     *
-     *  :param store: ``Ext.data.Store`` The store in which the record was
-     *      changed.
-     *  :param record: ``Ext.data.Record`` The record object corresponding
-     *      to the updated layer.
-     *  :param operation: ``String`` The type of operation.
-     */
-    onStoreUpdate: function(store, record, operation) {
-        var layer = record.get('layer');
-        var legend = this.items ? this.getComponent(this.getIdForLayer(layer)) : null;
-        if (legend) {
-            legend.setVisible(layer.getVisibility() && layer.calculateInRange() &&
-                layer.displayInLayerSwitcher && !record.get('hideInLegend'));
-            legend.update();
-        }
     },
 
     /** private: method[onStoreAdd]
