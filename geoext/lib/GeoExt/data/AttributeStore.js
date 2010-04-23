@@ -22,7 +22,7 @@ Ext.namespace("GeoExt.data");
  *  
  *      Small helper class to make creating stores for remotely-loaded attributes
  *      data easier. AttributeStore is pre-configured with a built-in
- *      ``Ext.data.HttpProxy`` and :class:`gxp.data.AttributeReader`.  The
+ *      ``Ext.data.HttpProxy`` and :class:`Ext.data.AttributeReader`.  The
  *      HttpProxy is configured to allow caching (disableCaching: false) and
  *      uses GET. If you require some other proxy/reader combination then you'll
  *      have to configure this with your own proxy or create a basic
