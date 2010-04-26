@@ -48,7 +48,7 @@ lib:
 	mkdir -p $(LIB_NAME)/script $(LIB_NAME)/resources/css
 	
 	jsbuild full.cfg -v -o $(LIB_NAME)/script/ -j GeoExt.js
-	echo "GeoExt.VERSION_NUMBER='$(VERSION)';" >> $(LIB_NAME)/script/GeoExt.js 
+	echo "GeoExt.version='$(VERSION)';" >> $(LIB_NAME)/script/GeoExt.js 
 	
 	rsync -au --exclude=.svn `pwd`/../resources `pwd`/$(LIB_NAME)
 	
