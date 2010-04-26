@@ -57,7 +57,7 @@ Ext.namespace("GeoExt.plugins");
  *                  printPage: printPage
  *              })
  *          }]
- *      }):
+ *      });
  */
 
 /** api: constructor
