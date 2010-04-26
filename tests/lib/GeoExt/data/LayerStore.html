@@ -334,6 +334,25 @@
             map.destroy();
         }
         
+        function test_getByLayer(t) {
+            t.plan(2);
+            
+            var layers = [
+                new OpenLayers.Layer("layer1"),
+                new OpenLayers.Layer("layer2")
+            ];
+            
+            var store = new GeoExt.data.LayerStore({
+                layers: layers
+            });
+            
+            var record = store.getByLayer(layers[1]);
+            t.ok(record.get("layer") === layers[1], "correct layer record returned");
+            
+            record = store.getByLayer(new OpenLayers.Layer("other layer"));
+            t.eq(record, undefined, "getByLayer returns undefined if layer is not in store");
+        }
+        
         function test_events(t) {
             t.plan(21);
             
