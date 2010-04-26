@@ -7,7 +7,7 @@
     <script>
 
     function test_constructor(t) {
-        t.plan(5);
+        t.plan(7);
         
         var legend;
 
@@ -23,7 +23,12 @@
             renderTo: "legendpanel",
             rules: [
                 new OpenLayers.Rule({title: "first rule"}),
-                new OpenLayers.Rule({title: "second rule"})
+                new OpenLayers.Rule({
+                    title: "second rule",
+                    symbolizer: {
+                        "Polygon": {strokeColor: "blue"}
+                    }
+                })
             ],
             symbolType: "Point"
         });
@@ -38,6 +43,9 @@
         var ruleTitleCmp = ruleCmp.getComponent(1);
         // this should eventually become a container instead of a panel
         t.ok(ruleTitleCmp.getEl().dom.innerHTML.indexOf("first rule") > -1, "correct title for first rule");
+
+        t.eq(ruleCmp.getComponent(0).feature.geometry.CLASS_NAME, "OpenLayers.Geometry.Point", "1st swatch uses a Point feature");
+        t.eq(legend.rulesContainer.getComponent(1).getComponent(0).feature.geometry.CLASS_NAME, "OpenLayers.Geometry.Polygon", "2nd swatch uses a Polygon feature");
 
         legend.destroy();
     }
