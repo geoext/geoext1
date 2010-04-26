@@ -24,6 +24,20 @@
              "ctor sets an Ext.data.HttpProxy in the store");
     }
 
+    function test_grouping(t) {
+        t.plan(2);
+
+        var AttributeGroupingStore = Ext.extend(
+            Ext.data.GroupingStore,
+            GeoExt.data.AttributeStoreMixin()
+        );
+        var store = new AttributeGroupingStore();
+        t.ok(store instanceof AttributeGroupingStore,
+             "ctor creates an AttributeGroupingStore");
+        t.ok(store instanceof Ext.data.GroupingStore,
+             "ctor creates an Ext.data.GroupingStore");
+    }
+
     </script>
   <body>
     <div id="map"></div>
