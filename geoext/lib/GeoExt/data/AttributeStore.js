@@ -17,6 +17,45 @@
  */
 Ext.namespace("GeoExt.data");
 
+/**
+ * Function: GeoExt.data.AttributeStoreMixin
+ *
+ * This function generates a mixin object to be used when extending an Ext.data.Store
+ * to create an attribute store.
+ *
+ * (start code)
+ * var AttrStore = Ext.extend(Ext.data.Store, GeoExt.data.AttributeStoreMixin);
+ * var store = new AttrStore();
+ * (end)
+ *
+ * For convenience, a GeoExt.data.AttributeStore class is available as a
+ * shortcut to the Ext.extend sequence in the above code snippet. The above
+ * is equivalent to:
+ * (start code)
+ * var store = new GeoExt.data.AttributeStore();
+ * (end)
+ */
+GeoExt.data.AttributeStoreMixin = function() {
+    return {
+        /** private */
+        constructor: function(c) {
+            c = c || {};
+            arguments.callee.superclass.constructor.call(
+                this,
+                Ext.apply(c, {
+                    proxy: c.proxy || (!c.data ?
+                        new Ext.data.HttpProxy({url: c.url, disableCaching: false, method: "GET"}) :
+                        undefined
+                    ),
+                    reader: new GeoExt.data.AttributeReader(
+                        c, c.fields || ["name", "type", "restriction"]
+                    )
+                })
+            );
+        }
+    };
+};
+
 /** api: constructor
  *  .. class:: AttributeStore(config)
  *  
@@ -42,19 +81,7 @@ Ext.namespace("GeoExt.data");
  *  ``Ext.data.Record.create``, or a record constructor created using
  *  ``Ext.data.Record.create``.  Defaults to ``["name", "type", "restriction"]``.
  */
-GeoExt.data.AttributeStore = function(c) {
-    c = c || {};
-    GeoExt.data.AttributeStore.superclass.constructor.call(
-        this,
-        Ext.apply(c, {
-            proxy: c.proxy || (!c.data ?
-                new Ext.data.HttpProxy({url: c.url, disableCaching: false, method: "GET"}) :
-                undefined
-            ),
-            reader: new GeoExt.data.AttributeReader(
-                c, c.fields || ["name", "type", "restriction"]
-            )
-        })
-    );
-};
-Ext.extend(GeoExt.data.AttributeStore, Ext.data.Store);
+GeoExt.data.AttributeStore = Ext.extend(
+    Ext.data.Store,
+    GeoExt.data.AttributeStoreMixin()
+);
