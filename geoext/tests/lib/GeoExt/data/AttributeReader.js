@@ -8,7 +8,13 @@ var doc = (new OpenLayers.Format.XML).read(
         '<xsd:sequence>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="the_geom" nillable="true" type="gml:MultiSurfacePropertyType"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_NAME" nillable="true" type="xsd:string"/>' +
-          '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_FIPS" nillable="true" type="xsd:string"/>' +
+          '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_FIPS" nillable="true">' +
+            '<xsd:simpleType>' +
+              '<xsd:restriction base="xsd:string">' +
+                '<xsd:maxLength value="2"/>' +
+              '</xsd:restriction>' +
+            '</xsd:simpleType>' +
+          '</xsd:element>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="SUB_REGION" nillable="true" type="xsd:string"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_ABBR" nillable="true" type="xsd:string"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="LAND_KM" nillable="true" type="xsd:double"/>' +

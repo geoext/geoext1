@@ -40,7 +40,7 @@ Ext.namespace("GeoExt.data");
  *  ``Array or Function``
  *  Either an array of field definition objects as passed to
  *  ``Ext.data.Record.create``, or a record constructor created using
- *  ``Ext.data.Record.create``.  Defaults to ``["name", "type"]``. 
+ *  ``Ext.data.Record.create``.  Defaults to ``["name", "type", "restriction"]``.
  */
 GeoExt.data.AttributeStore = function(c) {
     c = c || {};
@@ -52,7 +52,7 @@ GeoExt.data.AttributeStore = function(c) {
                 undefined
             ),
             reader: new GeoExt.data.AttributeReader(
-                c, c.fields || ["name", "type"]
+                c, c.fields || ["name", "type", "restriction"]
             )
         })
     );
