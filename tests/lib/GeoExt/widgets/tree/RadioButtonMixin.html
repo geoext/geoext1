@@ -39,7 +39,7 @@
             });
             
             mapPanel.on("render", function() {
-                t.ok(Ext.Element.get(node.ui.anchor.previousSibling).hasClass("gx-tree-radio"), "node has a radio button");
+                t.ok(Ext.fly(node.ui.getEl()).child(".gx-tree-radio"), "node has a radio button");
                 // simulate a click event for testing the radiochange event
                 node.ui.onClick({getTarget: function() {return true}});
             });
