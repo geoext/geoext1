@@ -39,7 +39,7 @@
     }
 
     function test_feature(t) {
-        t.plan(34);
+        t.plan(35);
 
         // set up
 
@@ -187,6 +187,15 @@
              "record value is correct, read from data");
         t.eq(feature.attributes.foo6, "bar6",
              "feature attribute foo6 added, with correct value");
+
+        // create an AttributeStore with data and a feature
+        store = new GeoExt.data.AttributeStore({
+            feature: feature,
+            data: data
+        });
+
+        t.eq(feature.attributes.foo1, "bar1",
+             "feature attribute foo1 added, with correct value");
 
         // tear down
     }
