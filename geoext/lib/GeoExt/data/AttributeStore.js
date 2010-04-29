@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2010 The Open Source Geospatial Foundation
- * 
+ *
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
@@ -52,13 +52,98 @@ GeoExt.data.AttributeStoreMixin = function() {
                     )
                 })
             );
+            if(this.feature) {
+                this.bind(this.feature);
+            }
+        },
+
+        /** private: method[bind]
+         *  :param feature: ``OpenLayers.Feature.Vector``
+         */
+        bind: function(feature) {
+            this.on({
+                "update": this.onUpdate,
+                "load": this.onLoad,
+                "add": this.onAdd,
+                scope: this
+            });
+        },
+
+        /** private: method[onUpdate]
+         *  :param store: ``Ext.data.Store``
+         *  :param record: ``Ext.data.Record``
+         *  :param operation: ``String``
+         *
+         *  Handler for store update event.
+         */
+        onUpdate: function(store, record, operation) {
+            this.updateFeature([record]);
+        },
+
+        /** private: method[onLoad]
+         *  :param store: ``Ext.data.Store``
+         *  :param records: ``Array(Ext.data.Record)``
+         *  :param options: ``Object``
+         *
+         *  Handler for store load event
+         */
+        onLoad: function(store, records, options) {
+            // if options.add is true an "add" event was already
+            // triggered, and onAdd already did the work of
+            // adding the features to the layer.
+            if(!options || options.add !== true) {
+                this.updateFeature(records);
+            }
+        },
+
+        /** private: method[onAdd]
+         *  :param store: ``Ext.data.Store``
+         *  :param records: ``Array(Ext.data.Record)``
+         *  :param index: ``Number``
+         *
+         *  Handler for store add event
+         */
+        onAdd: function(store, records, index) {
+            this.updateFeature(records);
+        },
+
+        /** private: method[updateFeature]
+         *  :param records: ``Array(Ext.data.Record)``
+         *
+         *  Update feature from records.
+         */
+        updateFeature: function(records) {
+            var feature = this.feature, layer = feature.layer;
+            var record, name, value, oldValue, cont;
+            for(var i=0,len=records.length; i<len; i++) {
+                record = records[i];
+                name = record.get("name");
+                value = record.get("value");
+                oldValue = feature.attributes[name];
+                if(oldValue !== value) {
+                    cont = true;
+                    if(layer && layer.events) {
+                        cont = layer.events.triggerEvent(
+                            "beforefeaturemodified", {feature: feature});
+                    }
+                    if(cont !== false) {
+                        feature.attributes[name] = value;
+                        if(layer && layer.events) {
+                            layer.events.triggerEvent(
+                                "featuremodified", {feature: feature});
+                            layer.drawFeature(feature);
+                        }
+                    }
+                }
+            }
         }
+
     };
 };
 
 /** api: constructor
  *  .. class:: AttributeStore(config)
- *  
+ *
  *      Small helper class to make creating stores for remotely-loaded attributes
  *      data easier. AttributeStore is pre-configured with a built-in
  *      ``Ext.data.HttpProxy`` and :class:`GeoExt.data.AttributeReader`.  The
@@ -80,6 +165,16 @@ GeoExt.data.AttributeStoreMixin = function() {
  *  Either an array of field definition objects as passed to
  *  ``Ext.data.Record.create``, or a record constructor created using
  *  ``Ext.data.Record.create``.  Defaults to ``["name", "type", "restriction"]``.
+ */
+
+/** api: config[feature]
+ *  ``OpenLayers.Feature.Vector``
+ *  A vector feature. If provided, and if the reader is a
+ *  :class:`GeoExt.data.AttributeReader` (the default), then records
+ *  of this store will include a field named "value" referencing the
+ *  corresponding attribute value in the feature. And if the "value"
+ *  field of a record is updated the update will propagate to the
+ *  corresponding feature attribute. Optional.
  */
 GeoExt.data.AttributeStore = Ext.extend(
     Ext.data.Store,
