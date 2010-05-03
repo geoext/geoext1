@@ -44,7 +44,9 @@ Ext.onReady(function() {
                 var record = grid.getSelectionModel().getSelected();
                 if(record) {
                     var copy = record.copy();
-                    copy.set("layer", record.get("layer"));
+                    // Ext 3.X does not allow circular references in objects passed 
+                    // to record.set 
+                    copy.data["layer"] = record.get("layer");
                     copy.get("layer").mergeNewParams({
                         format: "image/png",
                         transparent: "true"
