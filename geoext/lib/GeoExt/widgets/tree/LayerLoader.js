@@ -85,7 +85,7 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
      *  attribute for child nodes is a string rather than a reference to a
      *  TreeNodeUI implementation, then that string value is used as a
      *  property name in the uiProviders object. If not provided, the
-     *  uiProviders object will be taken from the ownerTree.
+     *  uiProviders object will be taken from the ownerTree's loader.
      */
     uiProviders: null,
     
