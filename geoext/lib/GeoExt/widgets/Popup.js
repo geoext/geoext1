@@ -260,8 +260,6 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
      *  padding.
      */ 
     panIntoView: function() {
-        var centerLonLat = this.feature.geometry.getBounds().getCenterLonLat();
-        var centerPx = this.map.getViewPortPxFromLonLat(centerLonLat);
         var mapBox = Ext.fly(this.map.div).getBox(); 
 
         //assumed viewport takes up whole body element of map panel
