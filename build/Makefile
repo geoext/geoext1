@@ -51,6 +51,7 @@ lib:
 	echo "GeoExt.version='$(VERSION)';" >> $(LIB_NAME)/script/GeoExt.js 
 	
 	rsync -au --exclude=.svn `pwd`/../resources `pwd`/$(LIB_NAME)
+	rsync -au --exclude=.svn `pwd`/../lib `pwd`/$(LIB_NAME)
 	
 	for file in `find $(CSS_DIR) -name "*.css"`; do \
 	    csstidy $${file} --template=highest $${file} ; \
@@ -59,7 +60,6 @@ lib:
 	for filename in $(CSS_IMPORTS); do \
 	    cat $(CSS_DIR)/$${filename} >> $(ALL_CSS) ; \
 	done ;
-	-rm $(CSS_DIR)/geoext-all-debug.css
 
 	cp ../license.txt $(LIB_NAME)
 
