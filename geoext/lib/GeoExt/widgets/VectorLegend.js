@@ -488,29 +488,51 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  Adds drag & drop functionality to a rule entry.
      */
     addDD: function(component) {
-        var cursor = component.body.getStyle("cursor");
-        var dd = new Ext.Panel.DD(component);
-        // restore previous curser (if set). because Panel.DD always
-        // sets a move cursor
-        component.body.setStyle("cursor", cursor || "move");
+        var ct = component.ownerCt;
         var panel = this;
-        var dropZone = new Ext.dd.DropTarget(component.getEl(), {
-            notifyDrop: function(ddSource) {
-                var source = Ext.getCmp(ddSource.getEl().id);
-                var target = Ext.getCmp(this.getEl().id);
-                // sometimes, for whatever reason, Ext forgets who the source
-                // was, so we make sure that we have one before moving on
-                if (source && target && source != target) {
-                    var sourceCt = source.ownerCt;
-                    var targetCt = target.ownerCt;
-                    // only move rules around inside the same container
-                    if (sourceCt == targetCt) {
-                        panel.moveRule(
-                            sourceCt.items.indexOf(source),
-                            targetCt.items.indexOf(target)
-                        );
+        new Ext.dd.DragSource(component.getEl(), {
+            ddGroup: ct.id,
+            onDragOut: function(e, targetId) {
+                var target = Ext.getCmp(targetId);
+                target.removeClass("gx-ruledrag-insert-above");
+                target.removeClass("gx-ruledrag-insert-below");
+                return Ext.dd.DragZone.prototype.onDragOut.apply(this, arguments);
+            },
+            onDragEnter: function(e, targetId) {
+                var target = Ext.getCmp(targetId);
+                var cls;
+                var sourcePos = ct.items.indexOf(component);
+                var targetPos = ct.items.indexOf(target);
+                if (sourcePos > targetPos) {
+                    cls = "gx-ruledrag-insert-above";
+                } else if (sourcePos < targetPos) {
+                    cls = "gx-ruledrag-insert-below";
+                }                
+                cls && target.addClass(cls);
+                return Ext.dd.DragZone.prototype.onDragEnter.apply(this, arguments);
+            },
+            onDragDrop: function(e, targetId) {
+                panel.moveRule(ct.items.indexOf(component),
+                    ct.items.indexOf(Ext.getCmp(targetId)));
+                return Ext.dd.DragZone.prototype.onDragDrop.apply(this, arguments);
+            },
+            getDragData: function(e) {
+                var sourceEl = e.getTarget(".x-column-inner");
+                if(sourceEl) {
+                    var d = sourceEl.cloneNode(true);
+                    d.id = Ext.id();
+                    return {
+                        sourceEl: sourceEl,
+                        repairXY: Ext.fly(sourceEl).getXY(),
+                        ddel: d
                     }
                 }
+            }
+        });
+        new Ext.dd.DropTarget(component.getEl(), {
+            ddGroup: ct.id,
+            notifyDrop: function() {
+                return true;
             }
         });
     },
