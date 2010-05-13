@@ -169,11 +169,12 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
     },
 
     /** api: method[addPage]
-     *  Adds a page to the list of pages that this plugin controls.
      *  :param page: :class:`GeoExt.data.PrintPage` The page to add
      *       to this plugin. If not provided, a page that fits the current
      *       extent is created.
      *  :return: page :class:``GeoExt.data.PrintPage``
+     *  
+     *  Adds a page to the list of pages that this plugin controls.
      */
     addPage: function(page) {
         page = page || new GeoExt.data.PrintPage({
@@ -199,9 +200,10 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
     },
 
     /** api: method[removePage]
-     *  Removes a page from the list of pages that this plugin controls.
      *  :param page: :class:`GeoExt.data.PrintPage` The page to remove
      *       from this plugin.
+     *       
+     *  Removes a page from the list of pages that this plugin controls.
      */
     removePage: function(page) {
         this.pages.remove(page);
@@ -212,9 +214,10 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
     },
     
     /** api: method[selectPage]
-     *  Selects the given page (ie. calls the setFeature on the
-     *      modify feature control)
      *  :param page: :class:`GeoExt.data.PrintPage` The page to select
+     *  
+     *  Selects the given page (ie. calls the setFeature on the modify feature
+     *  control)
      */
     selectPage: function(page) {
         this.control.active && this.control.setFeature(page.feature);
@@ -222,6 +225,7 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
     },
 
     /** api: method[setUp]
+     * 
      *  Sets up the plugin, initializing the ``OpenLayers.Layer.Vector``
      *  layer and ``OpenLayers.Control.TransformFeature``, and centering
      *  the first page if no pages were specified in the configuration.
@@ -235,6 +239,7 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
     },
 
     /** private: method[tearDown]
+     * 
      *  Tear downs the plugin, removing the
      *  ``OpenLayers.Control.TransformFeature`` control and
      *  the ``OpenLayers.Layer.Vector`` layer.
