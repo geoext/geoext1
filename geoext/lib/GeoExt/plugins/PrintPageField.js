@@ -111,6 +111,7 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
             "layoutchange": this.onLayoutChange,
             scope: this
         });
+        this.setValue(this.printPage);
     },
 
     /** private: method[onFieldChange]
@@ -141,14 +142,7 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
      */
     onPageChange: function(printPage) {
         if(!this._updating) {
-            var t = this.target;
-            t.suspendEvents();
-            if(t.store === printPage.printProvider.scales) {
-                t.setValue(printPage.scale.get(t.displayField));
-            } else if(t.name == "rotation") {
-                t.setValue(printPage.rotation);
-            }
-            t.resumeEvents();
+            this.setValue(printPage);
         }
     },
     
@@ -162,7 +156,25 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
         var t = this.target;
         t.name == "rotation" && t.setDisabled(!layout.get("rotation"));
     },
-    
+
+    /** private: method[setValue]
+     *  :param printPage: :class:`GeoExt.data.PrintPage`
+     *
+     *  Sets the value in the target field.
+     */
+    setValue: function(printPage) {
+        var t = this.target;
+        t.suspendEvents();
+        if(t.store === printPage.printProvider.scales) {
+            if(printPage.scale) {
+                t.setValue(printPage.scale.get(t.displayField));
+            }
+        } else if(t.name == "rotation") {
+            t.setValue(printPage.rotation);
+        }
+        t.resumeEvents();
+    },
+
     /** private: method[destroy]
      */
     destroy: function() {
