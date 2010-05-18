@@ -46,7 +46,7 @@ GeoExt.tree.LayerParamLoader = function(config) {
         "load"
     );
 
-    GeoExt.tree.LayerLoader.superclass.constructor.call(this);
+    GeoExt.tree.LayerParamLoader.superclass.constructor.call(this);
 };
 
 Ext.extend(GeoExt.tree.LayerParamLoader, Ext.util.Observable, {
