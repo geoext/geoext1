@@ -190,6 +190,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  Fires when a rule title is clicked.
              *
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule whose title was clicked.
              */
@@ -199,6 +200,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  Fires when a rule symbolizer is clicked.
              *
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule whose symbol was clicked.
              */
@@ -209,6 +211,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  title click).
              *
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule that was clicked.
              */
@@ -219,6 +222,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  ``true``.
              * 
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule that was selected.
              */
@@ -230,6 +234,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  different one.
              * 
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule that was unselected.
              */
@@ -239,6 +244,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
              *  Fires when a rule is moved.
              * 
              *  Listener arguments:
+             *  
              *  * comp - :class:`GeoExt.VectorLegend`` This component.
              *  * rule - ``OpenLayers.Rule`` The rule that was moved.
              */
