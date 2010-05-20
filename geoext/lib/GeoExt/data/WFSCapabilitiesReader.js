@@ -38,6 +38,8 @@ GeoExt.data.WFSCapabilitiesReader = function(meta, recordType) {
         recordType = GeoExt.data.LayerRecord.create(
             recordType || meta.fields || [
                 {name: "name", type: "string"},
+                {name: "title", type: "string"},
+                {name: "namespace", type: "string", mapping: "featureNS"},
                 {name: "abstract", type: "string"}
             ]
         );
@@ -78,34 +80,43 @@ Ext.extend(GeoExt.data.WFSCapabilitiesReader, Ext.data.DataReader, {
         if(typeof data === "string" || data.nodeType) {
             data = this.meta.format.read(data);
         }
-        var records = [], layer, l, parts, layerOptions, protocolOptions;
+
         var featureTypes = data.featureTypeList.featureTypes;
+        var fields = this.recordType.prototype.fields;
+
+        var featureType, values, field, v, parts, layer, values;
+        var layerOptions, protocolOptions;
+
         var protocolDefaults = {
             url: data.capability.request.getfeature.href.post
         };
-        for(var i=0, len=featureTypes.length; i<len; i++) {
-            layer = featureTypes[i];
-            if(layer.name) {
-                // create protocol
-                parts = layer.name.split(":");
-                if (parts.length > 1) {
-                    protocolOptions = {
-                        featureType: parts[1],
-                        featurePrefix: parts[0]
-                    };
-                } else {
-                    protocolOptions = {
-                        featureType: parts[0],
-                        featurePrefix: null
-                    };
+
+        var records = [];
+
+        for(var i=0, lenI=featureTypes.length; i<lenI; i++) {
+            featureType = featureTypes[i];
+            if(featureType.name) {
+                values = {};
+
+                for(var j=0, lenJ=fields.length; j<lenJ; j++) {
+                    field = fields.items[j];
+                    v = featureType[field.mapping || field.name] ||
+                        field.defaultValue;
+                    v = field.convert(v);
+                    values[field.name] = v;
                 }
+
+                protocolOptions = {
+                    featureType: featureType.name,
+                    featureNS: featureType.featureNS
+                };
                 if(this.meta.protocolOptions) {
                     Ext.apply(protocolOptions, this.meta.protocolOptions, 
                         protocolDefaults);
                 } else {
                     Ext.apply(protocolOptions, {}, protocolDefaults);
                 }
-                // create vector layer with protocol
+
                 layerOptions = {
                     protocol: new OpenLayers.Protocol.WFS(protocolOptions),
                     strategies: [new OpenLayers.Strategy.Fixed()]
@@ -113,13 +124,13 @@ Ext.extend(GeoExt.data.WFSCapabilitiesReader, Ext.data.DataReader, {
                 if(this.meta.layerOptions) {
                     Ext.apply(layerOptions, this.meta.layerOptions);
                 }
-                l = new OpenLayers.Layer.Vector(
-                    layer.title || layer.name, 
+
+                values.layer = new OpenLayers.Layer.Vector(
+                    featureType.title || featureType.name,
                     layerOptions
                 );
-                records.push(new this.recordType(Ext.apply(layer, {
-                    layer: l
-                }), l.id));
+
+                records.push(new this.recordType(values, values.layer.id));
             }
         }
         return {

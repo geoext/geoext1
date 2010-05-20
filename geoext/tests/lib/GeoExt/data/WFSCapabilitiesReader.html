@@ -17,7 +17,7 @@
             var fields = reader.recordType.prototype.fields;
 
             // 1 test
-            t.eq(fields.items.length, 4, 'number of default items is correct');
+            t.eq(fields.items.length, 5, 'number of default items is correct');
 
             var reader = new GeoExt.data.WFSCapabilitiesReader({},[
                 {name: "foo"},
@@ -33,7 +33,7 @@
         }
         
         function test_read(t) {
-            t.plan(7);
+            t.plan(9);
 
             var reader = new GeoExt.data.WFSCapabilitiesReader();
 
@@ -45,8 +45,9 @@
             var record = records.records[0];
 
             //3 tests -- testing the fields of a record
-            t.eq(record.get("name"), "sf:archsites", "[0] correct layer name");
+            t.eq(record.get("name"), "archsites", "[0] correct layer name");
             t.eq(record.get("title"), "Spearfish archeological sites", "[0] correct layer title");
+            t.eq(record.get("namespace"), "http://www.openplans.org/spearfish", "[0] correct layer namespace");
             t.eq(
                 record.get("abstract"),
                "Sample data from GRASS, archeological sites location, Spearfish, South Dakota, USA",
@@ -58,6 +59,7 @@
             t.eq(layer.CLASS_NAME, "OpenLayers.Layer.Vector", "[0] layer field is of type OpenLayers.Layer.Vector");
             t.eq(layer.protocol.CLASS_NAME, "OpenLayers.Protocol.WFS.v1_0_0", "[0] protocol is of type OpenLayers.Protocol.WFS.v1_0_0");
             t.eq(layer.protocol.url, "http://someserver.com:8080/geoserver/wfs?", "[0] protocol has correct URL");
+            t.eq(layer.protocol.featureNS, "http://www.openplans.org/spearfish", "[0] protocol has correct featureNS");
         }
         
     </script>
