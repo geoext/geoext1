@@ -89,11 +89,11 @@ Ext.extend(GeoExt.tree.LayerParamLoader, Ext.util.Observable, {
                 node.layer.params[this.param];
             if(paramValue) {
                 var items = (paramValue instanceof Array) ?
-                    paramValue :
+                    paramValue.slice() :
                     paramValue.split(this.delimiter);
 
-                Ext.each(items, function(item) {
-                    this.addParamNode(item, node);
+                Ext.each(items, function(item, index, allItems) {
+                    this.addParamNode(item, allItems, node);
                 }, this);
             }
     
@@ -108,16 +108,18 @@ Ext.extend(GeoExt.tree.LayerParamLoader, Ext.util.Observable, {
     /** private: method[addParamNode]
      *  :param paramItem: ``String`` The param item that the child node will
      *      represent.
+     *  :param allParamItems: ``Array`` The full list of param items.
      *  :param node: :class:`GeoExt.tree.LayerNode`` The node that the param
      *      node will be added to as child.
      *  
      *  Adds a child node representing a param value of the layer
      */
-    addParamNode: function(paramItem, node) {
+    addParamNode: function(paramItem, allParamItems, node) {
         var child = this.createNode({
             layer: node.layer,
             param: this.param,
             item: paramItem,
+            allItems: allParamItems,
             delimiter: this.delimiter
         });
         var sibling = node.item(0);

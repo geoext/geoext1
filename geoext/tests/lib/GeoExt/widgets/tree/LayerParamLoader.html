@@ -52,7 +52,7 @@
         }
         
         function test_load(t) {
-            t.plan(4);
+            t.plan(5);
 
             var panel = setupTree();
             var nodes = panel.getRootNode().childNodes[0].childNodes;
@@ -61,6 +61,7 @@
             t.eq(nodes.length, 2, "2 child nodes created.");
             t.eq(nodes[0].param, "LAYERS", "param for 1st node set.");
             t.eq(nodes[0].item, "layer2", "item for 1st node set.");
+            t.eq(nodes[0].allItems, ["layer1", "layer2"], "allItems for 1st node set.");
             t.eq(nodes[1].item, "layer1", "item for 2nd node set.");
             
             panel.destroy();
