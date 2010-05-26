@@ -100,6 +100,7 @@
             "GeoExt/widgets/tree/OverlayLayerContainer.js",
             "GeoExt/widgets/tree/LayerParamNode.js",
             "GeoExt/widgets/tree/LayerParamLoader.js",
+            "GeoExt/widgets/tree/WMSCapabilitiesLoader.js",
             "GeoExt/widgets/LayerOpacitySlider.js",
             "GeoExt/widgets/LayerLegend.js",
             "GeoExt/widgets/LegendImage.js",
