@@ -33,7 +33,7 @@ can use the following information to connect.
 * Channel: `#geoext <irc://irc.freenode.net/#geoext>`_
 
 For a history of previous activity on the channel, search the `archives
-<http://geo.openplans.org/~georj/cgi-bin/log.cgi/geoext/>`_.
+<http://atlas.openplans.org/~georj/cgi-bin/log.cgi/geoext/>`_.
 
 
 
