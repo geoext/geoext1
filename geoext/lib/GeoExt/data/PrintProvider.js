@@ -112,6 +112,11 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      */
     customParams: null,
     
+    /** api: config[baseParams]
+     *  ``Object`` Key-value pairs of base params to be add to every 
+     *  request to the service. Optional. 
+     */
+    
     /** api: property[scales]
      *  ``Ext.data.JsonStore`` read-only. A store representing the scales
      *  available.
@@ -423,7 +428,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                         // content tab with the pdf
                         window.open(url);
                     } else {
-                        // This avoids popup blockers for all other browers
+                        // This avoids popup blockers for all other browsers
                         window.location.href = url;                        
                     } 
                     this.fireEvent("print", this, url);
@@ -431,6 +436,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                 failure: function(response) {
                     this.fireEvent("printexception", this, response);
                 },
+                params: this.initialConfig.baseParams,
                 scope: this
             });
         }
@@ -447,6 +453,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                 this.capabilities = Ext.decode(response.responseText);
                 this.loadStores();
             },
+            params: this.initialConfig.baseParams,
             scope: this
         });
     },
