@@ -574,6 +574,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
                 this.addRuleEntry(this.rules[i], true);
             }
             this.doLayout();
+            // make sure that the selected rule is still selected after update
             if (this.selectedRule) {
                 this.getRuleEntry(this.selectedRule).body.addClass("x-grid3-row-selected");
             }
