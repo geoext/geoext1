@@ -5,6 +5,11 @@
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
  */
+
+/*
+ * @include GeoExt/widgets/form.js
+ */
+
 Ext.namespace("GeoExt.plugins");
 
 /** api: (define)
