@@ -146,6 +146,14 @@ GeoExt.LayerOpacitySlider = Ext.extend(Ext.Slider, {
                     config.complementaryLayer.get('layer');
             }
 
+            if (this.layer && this.layer.opacity !== null) {
+                config.value = parseInt(
+                    this.layer.opacity * (this.maxValue - this.minValue)
+                );
+            } else if (config.value === undefined) {
+                config.value = this.maxValue;
+            }
+
             delete config.layer;
             delete config.complementaryLayer;
         }
@@ -156,14 +164,6 @@ GeoExt.LayerOpacitySlider = Ext.extend(Ext.Slider, {
      *  Initialize the component.
      */
     initComponent: function() {
-        // set the slider initial value
-        if (this.layer && this.layer.opacity !== null) {
-            this.value = parseInt(
-                this.layer.opacity * (this.maxValue - this.minValue)
-            );
-        } else if (this.value == null) {
-            this.value = this.maxValue;
-        }
 
         GeoExt.LayerOpacitySlider.superclass.initComponent.call(this);
 
