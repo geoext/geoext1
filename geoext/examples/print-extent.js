@@ -9,8 +9,8 @@
 /** api: example[print-extent]
  *  Setting the Print Extent interactively
  *  --------------------------------------
- *  Using the PrintExtent component to interactively change scale, center and
- *  rotation of a print page.
+ *  Using the PrintExtent component to change print scale, center and
+ *  rotation.
  */
 
 var mapPanel, printProvider;
