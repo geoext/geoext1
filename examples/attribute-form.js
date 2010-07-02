@@ -6,6 +6,13 @@
  * of the license.
  */
 
+/** api: example[attribute-form]
+ *  Attribute Form
+ *  --------------
+ *  Create a form with fields from attributes read from a WFS
+ *  DescribeFeatureType response
+ */
+
 var form;
 
 Ext.onReady(function() {
