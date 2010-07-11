@@ -16,7 +16,7 @@ Ext.namespace("GeoExt.tree");
 /** api: constructor
  *  A mixin to create tree node UIs with radio buttons. Can be mixed in
  *  any ``Ext.tree.TreeNodeUI`` class, and in particular in
- *  :class:`GeoExt.data.LayerNodeUI`.
+ *  :class:`GeoExt.tree.LayerNodeUI`.
  *
  *  A tree node using an ``Ext.tree.TreeNodeUI`` with a
  *  ``GeoExt.tree.RadioButtonMixin`` mixed into it generates a ``radiochange``
