@@ -138,6 +138,42 @@
             lp.destroy();
             mapPanel.destroy();
         }
+        
+        function test_unsupported(t) {
+            
+            t.plan(1);
+            var mapPanel = new GeoExt.MapPanel({
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                layers: [
+                    new OpenLayers.Layer("unsupported 1", {isBaseLayer: true}),
+                    new OpenLayers.Layer("unsupported 2")
+                ],
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+            
+            var legendPanel = new GeoExt.LegendPanel({
+                renderTo: "legendpanel"
+            });
+            legendPanel.render();
+            
+            var map = mapPanel.map;
+            var layer = map.layers[1];
+            var trouble;
+            try {
+                map.removeLayer(layer);
+            } catch (err) {
+                trouble = true;
+            }
+            t.ok(!trouble, "removed layer without issues");
+            
+            legendPanel.destroy();
+            mapPanel.destroy();
+            
+        }
 
         function test_clear(t) {
             t.plan(2);

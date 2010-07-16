@@ -155,7 +155,7 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      *  :param index: ``Integer`` The index of the removed record.
      */
     onStoreRemove: function(store, record, index) {
-        this.removeLegend(record);
+        this.removeLegend(record);            
     },
 
     /** private: method[removeLegend]
@@ -164,10 +164,12 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
      *      store to remove.
      */
     removeLegend: function(record) {
-        var legend = this.getComponent(this.getIdForLayer(record.get('layer')));
-        if (legend) {
-            this.remove(legend, true);
-            this.doLayout();
+        if (this.items) {
+            var legend = this.getComponent(this.getIdForLayer(record.get('layer')));
+            if (legend) {
+                this.remove(legend, true);
+                this.doLayout();
+            }
         }
     },
 
