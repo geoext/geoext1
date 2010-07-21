@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>GeoExt PrintMapPanel Example</title>
+
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-2.2.1/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-2.2.1/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.2.1/examples/shared/examples.css" />
+        <script src="http://openlayers.org/api/2.9.1/OpenLayers.js"></script>
+        <script type="text/javascript" src="../lib/GeoExt.js"></script>
+
+        <script type="text/javascript" src="print-preview-osm.js"></script>
+        
+        <!-- The script below will load the capabilities of the print service
+             and save them into the global printCapabilities variable. Instead
+             of this, the PrintProvider can be configured with a url and take
+             care of fetching the capabilities. -->
+        <script type="text/javascript" src="http://demo.opengeo.org/geoserver/pdf/info.json?var=printCapabilities"></script>
+
+    </head>
+    <body>
+        <h1>Using a Print Preview</h1>
+        <p>This example shows the how to use GeoExt.PrintMapPanel, to create
+            a printable OSM map. It requires the
+        <a href="http://trac.mapfish.org/trac/mapfish/wiki/PrintModuleInstallation">MapFish</a>
+        or <a href="http://geoserver.org/display/GEOS/Printing+2.0+HOWTO">GeoServer</a>
+        print module. Note that attempting to print from this example will result in a server
+        exception. This is because tile.openstreetmap.org is a host which is not added to the
+        print module at demo.opengeo.org/geoserver/pdf. You need to use your own print module
+        location to make this work.</p>
+        <p>The js is not minified so it is readable. See <a href="print-preview-osm.js">print-preview-osm.js</a>.</p>
+        <div id="content"></div>
+    </body>
+</html>
