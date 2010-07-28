@@ -283,6 +283,24 @@
 
             slider.destroy();
         }
+
+        function test_setlayer(t) {
+            t.plan(2);
+            var layer1, layer2, slider;
+            layer1 = new OpenLayers.Layer("1");
+            layer1.setOpacity(0.3);
+            layer2 = new OpenLayers.Layer("2");
+            layer2.setOpacity(0.6);
+            slider = new GeoExt.LayerOpacitySlider({
+                renderTo: document.body,
+                value: 100
+            });
+            slider.setLayer(layer1);
+            t.eq(slider.getValue(), 30, "Opacity of first layer is used");
+            slider.setLayer(layer2);
+            t.eq(slider.getValue(), 60, "Opacity of second layer is used");
+            slider.destroy();
+        }
     </script>
   <body>
   </body>

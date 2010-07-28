@@ -133,32 +133,53 @@ GeoExt.LayerOpacitySlider = Ext.extend(Ext.Slider, {
      */
     constructor: function(config) {
         if (config.layer) {
-            if (config.layer instanceof OpenLayers.Layer) {
-                this.layer = config.layer;
-            } else if (config.layer instanceof GeoExt.data.LayerRecord) {
-                this.layer = config.layer.get('layer');
-            }
-
-            if (config.complementaryLayer instanceof OpenLayers.Layer) {
-                this.complementaryLayer = config.complementaryLayer;
-            } else if (config.complementaryLayer instanceof
-                       GeoExt.data.LayerRecord) {
-                this.complementaryLayer =
-                    config.complementaryLayer.get('layer');
-            }
-
-            if (this.layer && this.layer.opacity !== null) {
-                config.value = parseInt(
-                    this.layer.opacity * (this.maxValue - this.minValue)
-                );
-            } else if (config.value === undefined) {
-                config.value = this.maxValue;
-            }
-
+            this.layer = this.getLayer(config.layer);
+            this.complementaryLayer = this.getLayer(config.complementaryLayer);
+            config.value = (config.value !== undefined) ? 
+                config.value : this.getOpacityValue(this.layer);
             delete config.layer;
             delete config.complementaryLayer;
         }
         GeoExt.LayerOpacitySlider.superclass.constructor.call(this, config);
+    },
+
+    /** api: method[setLayer]
+     *  :param layer: ``OpenLayers.Layer`` or :class:`GeoExt.data.LayerRecord`
+     *
+     *  Bind a new layer to the opacity slider.
+     */
+    setLayer: function(layer) {
+        this.layer = this.getLayer(layer);
+        this.setValue(this.getOpacityValue(layer));
+    },
+
+    /** private: method[getOpacityValue]
+     *  :param layer: ``OpenLayers.Layer`` or :class:`GeoExt.data.LayerRecord`
+     *  :return:  ``Integer`` The opacity for the layer.
+     *
+     *  Returns the opacity value for the layer.
+     */
+    getOpacityValue: function(layer) {
+        if (layer && layer.opacity !== null) {
+            return parseInt(layer.opacity * (this.maxValue - this.minValue));
+        } else {
+            return this.maxValue;
+        }
+    },
+
+    /** private: method[getLayer]
+     *  :param layer: ``OpenLayers.Layer`` or :class:`GeoExt.data.LayerRecord`
+     *  :return:  ``OpenLayers.Layer`` The OpenLayers layer object
+     *
+     *  Returns the OpenLayers layer object for a layer record or a plain layer 
+     *  object.
+     */
+    getLayer: function(layer) {
+        if (layer instanceof OpenLayers.Layer) {
+            return layer;
+        } else if (layer instanceof GeoExt.data.LayerRecord) {
+            return layer.get('layer');
+        }
     },
 
     /** private: method[initComponent]
