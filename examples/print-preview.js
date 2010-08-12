@@ -30,11 +30,21 @@ Ext.onReady(function() {
         renderTo: "content",
         width: 500,
         height: 350,
+        map: {
+            maxExtent: new OpenLayers.Bounds(
+                143.835, -43.648,
+                148.479, -39.574
+            ),
+            maxResolution: 0.018140625,
+            projection: "EPSG:4326",
+            units: 'degrees'
+        },
         layers: [new OpenLayers.Layer.WMS("Tasmania State Boundaries",
             "http://demo.opengeo.org/geoserver/wms",
-            {layers: "topp:tasmania_state_boundaries"}, {singleTile: true})],
+            {layers: "topp:tasmania_state_boundaries"},
+            {singleTile: true, numZoomLevels: 8})],
         center: [146.56, -41.56],
-        zoom: 6,
+        zoom: 0,
         bbar: [{
             text: "Print...",
             handler: function(){
@@ -42,6 +52,9 @@ Ext.onReady(function() {
                 // the print extent before creating the pdf.
                 printDialog = new Ext.Window({
                     title: "Print Preview",
+                    layout: "fit",
+                    width: 350,
+                    autoHeight: true,
                     items: [{
                         xtype: "gx_printmappanel",
                         sourceMap: mapPanel,
