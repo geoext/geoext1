@@ -33,6 +33,7 @@ Ext.namespace("GeoExt.plugins");
  *              xtype: "combo",
  *              displayField: "name",
  *              store: printPage.scales, // printPage.scale
+ *              name: "scale",
  *              fieldLabel: "Scale",
  *              typeAhead: true,
  *              mode: "local",
@@ -64,7 +65,8 @@ Ext.namespace("GeoExt.plugins");
  *  .. class:: PrintPageField
  * 
  *  A plugin for ``Ext.form.Field`` components which provides synchronization
- *  with a :class:`GeoExt.data.PrintPage`.
+ *  with a :class:`GeoExt.data.PrintPage`. The field name has to match the
+ *  respective property of the printPage (e.g. ``scale``, ``rotation``).
  */
 GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
     
@@ -124,7 +126,7 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
         var printProvider = this.printPage.printProvider;
         var value = field.getValue();
         this._updating = true;
-        if(field.store === printProvider.scales) {
+        if(field.store === printProvider.scales || field.name === "scale") {
             this.printPage.setScale(record);
         } else if(field.name == "rotation") {
             !isNaN(value) && this.printPage.setRotation(value);
@@ -165,7 +167,7 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
     setValue: function(printPage) {
         var t = this.target;
         t.suspendEvents();
-        if(t.store === printPage.printProvider.scales) {
+        if(t.store === printPage.printProvider.scales || t.name === "scale") {
             if(printPage.scale) {
                 t.setValue(printPage.scale.get(t.displayField));
             }

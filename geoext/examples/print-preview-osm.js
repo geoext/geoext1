@@ -54,8 +54,12 @@ Ext.onReady(function() {
                 // the print extent before creating the pdf.
                 printDialog = new Ext.Window({
                     title: "Print Preview",
+                    width: 350,
+                    autoHeight: true,
                     items: [{
                         xtype: "gx_printmappanel",
+                        // use only a PanPanel control
+                        map: {controls: [new OpenLayers.Control.PanPanel()]},
                         sourceMap: mapPanel,
                         printProvider: printProvider
                     }],
