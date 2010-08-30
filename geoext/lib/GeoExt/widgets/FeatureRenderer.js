@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = FeatureRenderer
- *  base_link = `Ext.BoxComponent <http://extjs.com/deploy/dev/docs/?class=Ext.BoxComponent>`_
+ *  base_link = `Ext.BoxComponent <http://dev.sencha.com/deploy/dev/docs/?class=Ext.BoxComponent>`_
  */
 Ext.namespace('GeoExt');
 

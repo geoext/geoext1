@@ -13,7 +13,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = Popup
- *  base_link = `Ext.Window <http://extjs.com/deploy/dev/docs/?class=Ext.Window>`_
+ *  base_link = `Ext.Window <http://dev.sencha.com/deploy/dev/docs/?class=Ext.Window>`_
  */
 Ext.namespace("GeoExt");
 

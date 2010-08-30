@@ -14,7 +14,7 @@ Ext.namespace("GeoExt.tree");
 /** api: (define)
  *  module = GeoExt.tree
  *  class = LayerContainer
- *  base_link = `Ext.tree.AsyncTreeNode <http://extjs.com/deploy/dev/docs/?class=Ext.tree.AsyncTreeNode>`_
+ *  base_link = `Ext.tree.AsyncTreeNode <http://dev.sencha.com/deploy/dev/docs/?class=Ext.tree.AsyncTreeNode>`_
  */
 
 /** api: constructor

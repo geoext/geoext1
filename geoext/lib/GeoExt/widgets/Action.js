@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = Action
- *  base_link = `Ext.Action <http://extjs.com/deploy/dev/docs/?class=Ext.Action>`_
+ *  base_link = `Ext.Action <http://dev.sencha.com/deploy/dev/docs/?class=Ext.Action>`_
  */
 Ext.namespace("GeoExt");
 

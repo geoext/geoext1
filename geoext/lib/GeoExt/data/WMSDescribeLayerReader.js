@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt.data
  *  class = WMSDescribeLayerReader
- *  base_link = `Ext.data.DataReader <http://extjs.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
+ *  base_link = `Ext.data.DataReader <http://dev.sencha.com/deploy/dev/docs/?class=Ext.data.DataReader>`_
  */
 Ext.namespace("GeoExt.data");
 

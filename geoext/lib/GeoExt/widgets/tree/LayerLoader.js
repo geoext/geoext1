@@ -15,7 +15,7 @@ Ext.namespace("GeoExt.tree");
 /** api: (define)
  *  module = GeoExt.tree
  *  class = LayerLoader
- *  base_link = `Ext.util.Observable <http://extjs.com/deploy/dev/docs/?class=Ext.util.Observable>`_
+ *  base_link = `Ext.util.Observable <http://dev.sencha.com/deploy/dev/docs/?class=Ext.util.Observable>`_
  */
 
 /** api: constructor

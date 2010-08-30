@@ -11,7 +11,7 @@ Ext.namespace("GeoExt.tree");
 /** api: (define)
  *  module = GeoExt.tree
  *  class = WMSCapabilitiesLoader
- *  base_link = `Ext.tree.TreeLoader <http://www.extjs.com/deploy/dev/docs/?class=Ext.tree.TreeLoader>`_
+ *  base_link = `Ext.tree.TreeLoader <http://www.dev.sencha.com/deploy/dev/docs/?class=Ext.tree.TreeLoader>`_
  */
 
 /** api: constructor

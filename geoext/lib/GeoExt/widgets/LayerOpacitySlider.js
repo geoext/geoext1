@@ -12,7 +12,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = LayerOpacitySlider
- *  base_link = `Ext.Slider <http://extjs.com/deploy/dev/docs/?class=Ext.Slider>`_
+ *  base_link = `Ext.Slider <http://dev.sencha.com/deploy/dev/docs/?class=Ext.Slider>`_
  */
 Ext.namespace("GeoExt");
 

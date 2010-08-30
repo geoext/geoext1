@@ -13,7 +13,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = MapPanel
- *  base_link = `Ext.Panel <http://extjs.com/deploy/dev/docs/?class=Ext.Panel>`_
+ *  base_link = `Ext.Panel <http://dev.sencha.com/deploy/dev/docs/?class=Ext.Panel>`_
  */
 Ext.namespace("GeoExt");
 

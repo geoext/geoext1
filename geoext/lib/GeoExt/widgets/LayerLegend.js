@@ -9,7 +9,7 @@
 /** api: (define)
  *  module = GeoExt
  *  class = LayerLegend
- *  base_link = `Ext.Container <http://extjs.com/deploy/dev/docs/?class=Ext.Container>`_
+ *  base_link = `Ext.Container <http://dev.sencha.com/deploy/dev/docs/?class=Ext.Container>`_
  */
 
 Ext.namespace('GeoExt');
