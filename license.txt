@@ -40,5 +40,5 @@ Notice about ExtJS
 ==================
 
 The GeoExt library is for use with the ExtJS library.  ExtJS is distributed
-under the terms of the GPL v3.  See http://extjs.com/products/license.php for
+under the terms of the GPL v3.  See http://www.sencha.com/products/license.php for
 details on ExtJS licensing.
