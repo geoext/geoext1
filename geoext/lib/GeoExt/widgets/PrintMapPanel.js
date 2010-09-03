@@ -201,7 +201,7 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
         
         GeoExt.PrintMapPanel.superclass.initComponent.call(this);
 
-        this.printProvider.on("layoutchange", this.syncSize, this);
+        this.printProvider.on("layoutchange", this.updateExtent, this);
         this.printPage.on("change", this.fitZoom, this);
         this.map.events.register("moveend", this, this.updatePage);
     },
@@ -211,28 +211,12 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
      */
     afterRender: function() {
         GeoExt.PrintMapPanel.superclass.afterRender.apply(this, arguments);
-        this.syncSize();
-        if (this.initialConfig.limitScales === true) {
-            if (!this.ownerCt) {
-                this.calculatePreviewScales()
-            } else {
-                this.ownerCt.on({
-                    "afterlayout": {
-                        fn: this.calculatePreviewScales,
-                        scope: this,
-                        single: true
-                    }
-                });
-            }
-            this.on("resize", this.calculatePreviewScales, this);
-        }
+        this.updateExtent();
     },
     
     /** private: method[adjustSize]
-     *  :param width: ``Number`` If not provided or 0, initialConfig.width will
-     *      be used.
-     *  :param height: ``Number`` If not provided or 0, initialConfig.height
-     *      will be used.
+     *  :param width: ``Number``
+     *  :param height: ``Number``
      *  Private override - sizing this component always takes the aspect ratio
      *  of the print page into account.
      */
@@ -243,10 +227,8 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
         // aspect ratio - do not exceed either, but don't take values for
         // granted if container is configured with autoWidth or autoHeight.
         var ownerCt = this.ownerCt;
-        var targetWidth = (ownerCt && ownerCt.autoWidth) ? 0 :
-            (width || this.initialConfig.width);
-        var targetHeight = (ownerCt && ownerCt.autoHeight) ? 0 :
-            (height || this.initialConfig.height);
+        var targetWidth = (ownerCt && ownerCt.autoWidth) ? 0 : width;
+        var targetHeight = (ownerCt && ownerCt.autoHeight) ? 0 : height;
         if (targetWidth) {
             height = targetWidth / ratio;
             if (targetHeight && height > targetHeight) {
@@ -261,6 +243,17 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
         }
 
         return {width: width, height: height};
+    },
+    
+    /** private: method[updateExtent]
+     *  Makes sure that this :class:`PrintMapPanel` gets the aspect ratio that
+     *  matches the print page, and update the previewable scales.
+     */
+    updateExtent: function() {
+        this.syncSize();
+        if (this.initialConfig.limitScales === true) {
+            this.calculatePreviewScales();
+        }
     },
     
     /** private: method[fitZoom]
@@ -363,7 +356,7 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
     beforeDestroy: function() {
         this.map.events.unregister("moveend", this, this.updatePage);
         this.printPage.un("change", this.fitZoom, this);
-        this.printProvider.un("layoutchange", this.syncSize, this);
+        this.printProvider.un("layoutchange", this.updateExtent, this);
         GeoExt.PrintMapPanel.superclass.beforeDestroy.apply(this, arguments);
     }
 });

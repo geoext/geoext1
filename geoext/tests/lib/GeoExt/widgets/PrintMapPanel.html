@@ -16,9 +16,9 @@
                 renderTo: "mappanel",
                 width: 256,
                 height: 256,
-                layers: [new OpenLayers.Layer("Empty",
-                    {isBaseLayer: true}
-                )],
+                layers: [new OpenLayers.Layer.WMS("Tasmania State Boundaries",
+                    "http://demo.opengeo.org/geoserver/wms",
+                    {layers: "topp:tasmania_state_boundaries"}, {singleTile: true})],
                 center: [146.56, -41.56],
                 zoom: 7
             });
@@ -42,7 +42,7 @@
             });
             
             var printSize = printMapPanel.printProvider.layout.get("size");
-            var size = printMapPanel.map.getSize();
+            var size = printMapPanel.getSize();
             var center = mapPanel.map.getCenter();
             var pageCenter = printMapPanel.printPage.center;
             
@@ -50,7 +50,7 @@
             t.ok(printMapPanel.map.controls[0] instanceof OpenLayers.Control.PanPanel, "which is a PanPanel.");
             t.eq(printMapPanel.map.layers[0].name, mapPanel.map.layers[0].name, "Preview map has the same visible layer as the source map.");
             t.eq(log.preaddlayer.name, printMapPanel.map.layers[0].name, "preaddlayer listener noticed addition of the layer.");
-            t.eq((size.w/size.h).toPrecision(2), (printSize.width/printSize.height).toPrecision(2), "Aspect ratio of the preview map is the same as of the print layout.");
+            t.eq((size.width/size.height).toPrecision(2), (printSize.width/printSize.height).toPrecision(2), "Aspect ratio of the preview map is the same as of the print layout.");
             t.ok(Math.abs(center.lon - pageCenter.lon) < 0.0000001 && Math.abs(center.lat - pageCenter.lat) < 0.0000001, "Print page has the same center as the source map.");
 
             printMapPanel.destroy();
