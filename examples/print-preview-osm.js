@@ -7,9 +7,9 @@
  */
 
 /** api: example[print-preview]
- *  Printing with a Preview
+ *  Printing OpenStreetMap
  *  ----------------------------------------
- *  Using PrintMapPanel for an interactive print preview.
+ *  PrintMapPanel with an OSM map.
  */
 
 var mapPanel, printDialog;
