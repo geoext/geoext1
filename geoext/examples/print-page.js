@@ -7,9 +7,9 @@
  */
 
 /** api: example[print-page]
- *  Printing contents from a MapPanel
- *  ---------------------------------
- *  Using PrintPage and PrintProvider to print the visible extent of a MapPanel.
+ *  Printing contents of a MapPanel
+ *  -------------------------------
+ *  Print the visible extent of a MapPanel with PrintPage and PrintProvider.
  */
 
 var mapPanel, printPage;

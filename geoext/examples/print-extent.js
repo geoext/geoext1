@@ -9,8 +9,7 @@
 /** api: example[print-extent]
  *  Interactive Print Extent Configuration
  *  --------------------------------------
- *  Use the PrintExtent plugin to change print scale, center and
- *  rotation.
+ *  change print scale, center and rotation with the PrintExtent plugin.
  */
 
 var mapPanel, printProvider;
