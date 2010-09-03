@@ -7,9 +7,9 @@
  */
 
 /** api: example[print-extent]
- *  Setting the Print Extent interactively
+ *  Interactive Print Extent Configuration
  *  --------------------------------------
- *  Using the PrintExtent component to change print scale, center and
+ *  Use the PrintExtent plugin to change print scale, center and
  *  rotation.
  */
 

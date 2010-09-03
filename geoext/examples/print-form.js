@@ -7,9 +7,9 @@
  */
 
 /** api: example[print-form]
- *  Advanced Printing with a Form
- *  -----------------------------
- *  Using form field plugins to control print output.
+ *  Print Configuration with a Form
+ *  -------------------------------
+ *  Use form field plugins to control print output.
  */
 
 var mapPanel, printPage;

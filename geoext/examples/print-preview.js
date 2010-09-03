@@ -7,9 +7,9 @@
  */
 
 /** api: example[print-preview]
- *  Printing with a Preview
- *  ----------------------------------------
- *  Using PrintMapPanel for an interactive print preview.
+ *  Print Preview Window
+ *  --------------------
+ *  Use the PrintMapPanel for interactive print previews.
  */
 
 var mapPanel, printDialog;
