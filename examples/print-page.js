@@ -7,8 +7,8 @@
  */
 
 /** api: example[print-page]
- *  Printing contents of a MapPanel
- *  -------------------------------
+ *  Print Your Map
+ *  --------------
  *  Print the visible extent of a MapPanel with PrintPage and PrintProvider.
  */
 
