@@ -651,7 +651,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                 var icons = [];
                 for(var i=1, len=legend.items.getCount(); i<len; ++i) {
                     icons.push(this.getAbsoluteUrl(legend.items.get(i).url));
-                };
+                }
                 enc[0].classes[0] = {
                     name: "",
                     icons: icons
