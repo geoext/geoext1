@@ -301,6 +301,29 @@
             t.eq(slider.getValue(), 60, "Opacity of second layer is used");
             slider.destroy();
         }
+
+        function test_changelayerEvent(t) {
+            t.plan(2);
+            var map = new OpenLayers.Map();
+            var layer1 = new OpenLayers.Layer("1");
+            var layer2 = new OpenLayers.Layer("2");
+            
+            map.addLayers([layer1, layer2]);
+            
+            slider = new GeoExt.LayerOpacitySlider({
+                layer: layer1,
+                renderTo: document.body,
+                value: 100
+            });
+            slider.setLayer(layer1);
+            layer1.setOpacity(0.9);
+            t.eq(slider.getValue(), 90, "value set from changelayer event");
+            layer2.setOpacity(0.1);
+            t.eq(slider.getValue(), 90, "listen to the right layer");
+
+            map.destroy();
+            slider.destroy();
+        }
     </script>
   <body>
   </body>
