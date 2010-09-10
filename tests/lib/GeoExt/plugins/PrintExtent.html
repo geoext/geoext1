@@ -115,7 +115,7 @@
             mapPanel.destroy();
         }
 
-        function test_tearDown(t) {
+        function test_hide(t) {
             t.plan(2);
  
             var printExtent = new GeoExt.plugins.PrintExtent({
@@ -137,7 +137,7 @@
                 plugins: [printExtent]
             });
 
-            printExtent.tearDown();
+            printExtent.hide();
             
             t.eq(mapPanel.map.layers.length, 1,
                  "layer was removed.");
