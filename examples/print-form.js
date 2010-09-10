@@ -18,15 +18,15 @@ Ext.onReady(function() {
     // The printProvider that connects us to the print service
     var printProvider = new GeoExt.data.PrintProvider({
         method: "GET", // "POST" recommended for production use
-        capabilities: printCapabilities // from the info.json script in the html
+        capabilities: printCapabilities, // from the info.json script in the html
+        customParams: {
+            mapTitle: "Printing Demo"
+        }
     });
     // Our print page. Stores scale, center and rotation and gives us a page
     // extent feature that we can add to a layer.
     printPage = new GeoExt.data.PrintPage({
-        printProvider: printProvider,
-        customParams: {
-            mapTitle: "Printing Demo"
-        }
+        printProvider: printProvider
     });
     // A layer to display the print page extent
     var pageLayer = new OpenLayers.Layer.Vector();
