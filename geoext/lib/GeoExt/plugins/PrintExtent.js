@@ -165,7 +165,7 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
         for(var i=0, len=this.pages.length; i<len; ++i) {
             this.addPage(this.pages[i]);
         }
-        this.setUp();
+        this.show();
     },
 
     /** api: method[addPage]
@@ -224,25 +224,25 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
         // FIXME raise the feature up so that it is on top
     },
 
-    /** api: method[setUp]
+    /** api: method[show]
      * 
      *  Sets up the plugin, initializing the ``OpenLayers.Layer.Vector``
      *  layer and ``OpenLayers.Control.TransformFeature``, and centering
      *  the first page if no pages were specified in the configuration.
      */
-    setUp: function() {
+    show: function() {
         this.map.addLayer(this.layer);
         this.map.addControl(this.control);
         this.control.activate();
     },
 
-    /** private: method[tearDown]
+    /** api: method[hide]
      * 
      *  Tear downs the plugin, removing the
      *  ``OpenLayers.Control.TransformFeature`` control and
      *  the ``OpenLayers.Layer.Vector`` layer.
      */
-    tearDown: function() {
+    hide: function() {
         // note: we need to be extra cautious when destroying OpenLayers
         // objects here (the tests will fail if we're not cautious anyway).
         // We use obj.events to test whether an OpenLayers object is
@@ -277,7 +277,7 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
             this.removePage(this.pages[i]);
         }
 
-        this.tearDown();
+        this.hide();
 
         var control = this.control;
         if(map && map.events &&
