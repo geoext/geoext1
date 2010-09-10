@@ -68,7 +68,7 @@
             lp.render();
 
             mapPanel.map.layers[0].setVisibility(false);
-            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).get('layer'));
+            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).getLayer());
             t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend");
 
             mapPanel.map.layers[0].setVisibility(true);
@@ -86,7 +86,7 @@
             lp.render();
 
             mapPanel.layers.getAt(0).set("hideInLegend", true);
-            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).get('layer'));
+            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).getLayer());
             t.eq(lp.getComponent(id).hidden, true, "Layer has been hidden in legend");
 
             lp.destroy();
@@ -242,7 +242,7 @@
             });
 
             var lp = new GeoExt.LegendPanel({
-                filter: function(record) { return !record.get("layer").isBaseLayer; },
+                filter: function(record) { return !record.getLayer().isBaseLayer; },
                 renderTo: 'legendpanel'});
             lp.render();
 
@@ -295,8 +295,8 @@
                 renderTo: 'legendpanel'});
             lp.render();
 
-            var id0 = lp.getIdForLayer(mapPanel.layers.getAt(0).get('layer'));
-            var id1 = lp.getIdForLayer(mapPanel.layers.getAt(1).get('layer'));
+            var id0 = lp.getIdForLayer(mapPanel.layers.getAt(0).getLayer());
+            var id1 = lp.getIdForLayer(mapPanel.layers.getAt(1).getLayer());
             t.eq(lp.getComponent(id0).hidden, false, "Base layer is visible");
             t.eq(lp.getComponent(id1).hidden, true, "Layer has been hidden in legend because it is not in scale");
 

@@ -44,7 +44,7 @@ Ext.onReady(function() {
     
     function mapPreview(grid, index) {
         var record = grid.getStore().getAt(index);
-        var layer = record.get("layer").clone();
+        var layer = record.getLayer().clone();
         
         var win = new Ext.Window({
             title: "Preview: " + record.get("title"),

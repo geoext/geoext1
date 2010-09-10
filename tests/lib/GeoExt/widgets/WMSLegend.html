@@ -165,7 +165,7 @@
             // test
 
             // #1
-            layerRecord.get("layer").mergeNewParams({
+            layerRecord.getLayer().mergeNewParams({
                 layers: "b"
             });
             l.update();
@@ -175,7 +175,7 @@
                  "update adds new components");
 
             // #2
-            layerRecord.get("layer").mergeNewParams({
+            layerRecord.getLayer().mergeNewParams({
                 layers: "b,c",
                 foo: "bar"
             });
@@ -190,7 +190,7 @@
                  "update sets correct URL in new component");
 
             // #3
-            layerRecord.get("layer").mergeNewParams({
+            layerRecord.getLayer().mergeNewParams({
                 layers: "c",
                 styles: "style1"
             });
@@ -212,7 +212,7 @@
                  "update uses the legend href from the styles field");
 
             // #5
-            layerRecord.get("layer").mergeNewParams({
+            layerRecord.getLayer().mergeNewParams({
                 layers: "c",
                 styles: null,
                 sld: "http://url-to-sld.org/"

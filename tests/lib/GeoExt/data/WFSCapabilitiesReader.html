@@ -55,7 +55,7 @@
             );
 
             //3 tests -- Testing the layer field (and its default protocol)
-            var layer = record.get("layer");
+            var layer = record.getLayer();
             t.eq(layer.CLASS_NAME, "OpenLayers.Layer.Vector", "[0] layer field is of type OpenLayers.Layer.Vector");
             t.eq(layer.protocol.CLASS_NAME, "OpenLayers.Protocol.WFS.v1_0_0", "[0] protocol is of type OpenLayers.Protocol.WFS.v1_0_0");
             t.eq(layer.protocol.url, "http://someserver.com:8080/geoserver/wfs?", "[0] protocol has correct URL");

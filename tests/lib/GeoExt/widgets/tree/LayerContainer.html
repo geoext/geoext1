@@ -157,9 +157,9 @@
                         // change the group when moving to a new container
                         if (oldParent !== newParent) {
                             var index = store.findBy(function(r){
-                                return r.get("layer") === node.layer;
+                                return r.getLayer() === node.layer;
                             });
-                            var layer = store.getAt(index).get("layer");
+                            var layer = store.getAt(index).getLayer();
                             layer.displayInLayerSwitcher = !layer.displayInLayerSwitcher;
                         }
                     },
@@ -171,7 +171,7 @@
                 loader: {
                     store: store,
                     filter: function(record) {
-                        return !record.get("layer").displayInLayerSwitcher
+                        return !record.getLayer().displayInLayerSwitcher
                     }
                 },
                 expanded: true
@@ -181,7 +181,7 @@
                 loader: {
                     store: store,
                     filter: function(record) {
-                        return record.get("layer").displayInLayerSwitcher
+                        return record.getLayer().displayInLayerSwitcher
                     }
                 },
                 expanded: true
