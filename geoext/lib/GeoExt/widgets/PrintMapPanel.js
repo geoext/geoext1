@@ -215,8 +215,10 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
     },
     
     /** private: method[adjustSize]
-     *  :param width: ``Number``
-     *  :param height: ``Number``
+     *  :param width: ``Number`` If not provided or 0, initialConfig.width will
+     *      be used.
+     *  :param height: ``Number`` If not provided or 0, initialConfig.height
+     *      will be used.
      *  Private override - sizing this component always takes the aspect ratio
      *  of the print page into account.
      */
@@ -227,8 +229,10 @@ GeoExt.PrintMapPanel = Ext.extend(GeoExt.MapPanel, {
         // aspect ratio - do not exceed either, but don't take values for
         // granted if container is configured with autoWidth or autoHeight.
         var ownerCt = this.ownerCt;
-        var targetWidth = (ownerCt && ownerCt.autoWidth) ? 0 : width;
-        var targetHeight = (ownerCt && ownerCt.autoHeight) ? 0 : height;
+        var targetWidth = (ownerCt && ownerCt.autoWidth) ? 0 :
+            (width || this.initialConfig.width);
+        var targetHeight = (ownerCt && ownerCt.autoHeight) ? 0 :
+            (height || this.initialConfig.height);
         if (targetWidth) {
             height = targetWidth / ratio;
             if (targetHeight && height > targetHeight) {
