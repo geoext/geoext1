@@ -265,7 +265,7 @@ GeoExt.data.FeatureStoreMixin = function() {
                 var record = this.getRecordFromFeature(feature);
                 if(record !== undefined) {
                     record.beginEdit();
-                    attributes = feature.attributes;
+                    var attributes = feature.attributes;
                     if(attributes) {
                         var fields = this.recordType.prototype.fields;
                         for(var i=0, len=fields.length; i<len; i++) {
