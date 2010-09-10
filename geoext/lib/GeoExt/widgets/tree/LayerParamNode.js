@@ -142,7 +142,7 @@ GeoExt.tree.LayerParamNode = Ext.extend(Ext.tree.TreeNode, {
                 var i = store.findBy(function(o) {
                     return o.get("title") == layer;
                 });
-                layer = i != -1 ? store.getAt(i).get("layer") : null;
+                layer = i != -1 ? store.getAt(i).getLayer() : null;
             }
             this.layer = layer;
         }

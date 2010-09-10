@@ -38,7 +38,7 @@
             record = new c({layer: layer, title: layer.name}, layer.id);
             t.ok(record instanceof GeoExt.data.LayerRecord, "create returns a constructor (LayerRecord)");
             t.ok(record instanceof c, "create returns a constructor (c)");
-            t.eq(record.get("layer").id, layer.id, "layer stored correctly");
+            t.eq(record.getLayer().id, layer.id, "layer stored correctly");
             t.eq(record.id, layer.id, "id set correctly");
             record = new c({layer: layer, title: layer.name, foo: "bar"}, layer.id);
             t.eq(record.get("foo"), "bar", "foo data row set correctly");
@@ -56,12 +56,12 @@
             var clone = record.clone(); 
 
             t.ok(clone.id !== record.id, "clone record does not have original id"); 
-            t.ok(clone.id == clone.get("layer").id, "clone record id is same as its layer id"); 
+            t.ok(clone.id == clone.getLayer().id, "clone record id is same as its layer id"); 
              
             record.set("title", "foo"); 
             t.ok(clone.get("title") !== "foo", "setting a property on original doesn't modify clone"); 
              
-            t.ok(clone.get("layer") !== layer, "clone does not have original layer"); 
+            t.ok(clone.getLayer() !== layer, "clone does not have original layer"); 
              
         } 
         

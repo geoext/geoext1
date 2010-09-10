@@ -231,7 +231,7 @@ GeoExt.grid.FeatureSelectionModelMixin = function() {
             if(!this._selecting) {
                 var store = this.grid.store;
                 var row = store.findBy(function(record, id) {
-                    return record.data.feature == evt.feature;
+                    return record.getFeature() == evt.feature;
                 });
                 if(row != -1 && !this.isSelected(row)) {
                     this._selecting = true;
@@ -251,7 +251,7 @@ GeoExt.grid.FeatureSelectionModelMixin = function() {
             if(!this._selecting) {
                 var store = this.grid.store;
                 var row = store.findBy(function(record, id) {
-                    return record.data.feature == evt.feature;
+                    return record.getFeature() == evt.feature;
                 });
                 if(row != -1 && this.isSelected(row)) {
                     this._selecting = true;
@@ -268,7 +268,7 @@ GeoExt.grid.FeatureSelectionModelMixin = function() {
          *  :param record: ``Ext.data.Record`` The record.
          */
         rowSelected: function(model, row, record) {
-            var feature = record.data.feature;
+            var feature = record.getFeature();
             if(!this._selecting && feature) {
                 var layers = this.getLayers();
                 for(var i = 0, len = layers.length; i < len; i++) {
@@ -288,7 +288,7 @@ GeoExt.grid.FeatureSelectionModelMixin = function() {
          *  :param record: ``Ext.data.Record`` The record.
          */
         rowDeselected: function(model, row, record) {
-            var feature = record.data.feature;
+            var feature = record.getFeature();
             if(!this._selecting && feature) {
                 var layers = this.getLayers();
                 for(var i = 0, len = layers.length; i < len; i++) {

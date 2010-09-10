@@ -174,12 +174,12 @@
             
             // confirm that we can get a phantom record
             record = store.getRecordFromFeature(features[0]);
-            t.ok((record && record.get("feature")) === features[0],
+            t.ok((record && record.getFeature()) === features[0],
                  "phantom record retrieved");
             
             // confirm that we can get a normal record
             record = store.getRecordFromFeature(features[1]);
-            t.ok((record && record.get("feature")) === features[1],
+            t.ok((record && record.getFeature()) === features[1],
                  "normal record retrieved");
 
             layer.destroy();

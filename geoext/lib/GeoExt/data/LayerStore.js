@@ -137,7 +137,7 @@ GeoExt.data.LayerStoreMixin = function() {
 
             if(initDir & GeoExt.data.LayerStore.STORE_TO_MAP) {
                 this.each(function(record) {
-                    this.map.addLayer(record.get("layer"));
+                    this.map.addLayer(record.getLayer());
                 }, this);
             }
             if(initDir & GeoExt.data.LayerStore.MAP_TO_STORE) {
@@ -195,7 +195,7 @@ GeoExt.data.LayerStoreMixin = function() {
         onChangeLayer: function(evt) {
             var layer = evt.layer;
             var recordIndex = this.findBy(function(rec, id) {
-                return rec.get("layer") === layer;
+                return rec.getLayer() === layer;
             });
             if(recordIndex > -1) {
                 var record = this.getAt(recordIndex);
@@ -277,7 +277,7 @@ GeoExt.data.LayerStoreMixin = function() {
                 if (len > 0) {
                     var layers = new Array(len);
                     for (var j = 0; j < len; j++) {
-                        layers[j] = records[j].get("layer");
+                        layers[j] = records[j].getLayer();
                     }
                     this._adding = true;
                     this.map.addLayers(layers);
@@ -311,7 +311,7 @@ GeoExt.data.LayerStoreMixin = function() {
                 this._adding = true;
                 var layer;
                 for(var i=records.length-1; i>=0; --i) {
-                    layer = records[i].get("layer");
+                    layer = records[i].getLayer();
                     this.map.addLayer(layer);
                     if(index !== this.map.layers.length-1) {
                         this.map.setLayerIndex(layer, index);
@@ -330,7 +330,7 @@ GeoExt.data.LayerStoreMixin = function() {
          */
         onRemove: function(store, record, index){
             if(!this._removing) {
-                var layer = record.get("layer");
+                var layer = record.getLayer();
                 if (this.map.getLayer(layer.id) != null) {
                     this._removing = true;
                     this.removeMapLayer(record);
@@ -349,7 +349,7 @@ GeoExt.data.LayerStoreMixin = function() {
         onUpdate: function(store, record, operation) {
             if(operation === Ext.data.Record.EDIT) {
                 if (record.modified && record.modified.title) {
-                    var layer = record.get("layer");
+                    var layer = record.getLayer();
                     var title = record.get("title");
                     if(title !== layer.name) {
                         layer.setName(title);
@@ -364,7 +364,7 @@ GeoExt.data.LayerStoreMixin = function() {
          *  Removes a record's layer from the bound map.
          */
         removeMapLayer: function(record){
-            this.map.removeLayer(record.get("layer"));
+            this.map.removeLayer(record.getLayer());
         },
 
         /** private: method[onReplace]
@@ -388,7 +388,7 @@ GeoExt.data.LayerStoreMixin = function() {
          */
         getByLayer: function(layer) {
             var index = this.findBy(function(r) {
-                return r.get("layer") === layer;
+                return r.getLayer() === layer;
             });
             if(index > -1) {
                 return this.getAt(index);

@@ -54,10 +54,10 @@
             t.eq(records[0].get('c'), 'c_value', 'readRecords correctly set complex mapped feature properties in record');
             t.eq(records[0].get('fid'), 1, 'readRecords correctly set feature fid in record');
             t.eq(records[0].get('state'), OpenLayers.State.INSERT, 'readRecords correctly set feature state in record');
-            t.ok(records[0].get('feature') == features[0], 'readRecords correctly set feature in record');
+            t.ok(records[0].getFeature() == features[0], 'readRecords correctly set feature in record');
             t.eq(records[1].get('fid'), 2, 'readRecords correctly set feature fid in record (no properties case)');
             t.eq(records[1].get('state'), OpenLayers.State.DELETE, 'readRecords correctly set feature state in record (no properties case)');
-            t.ok(records[1].get('feature') == features[1], 'readRecords correctly set feature in record (no properties case)');
+            t.ok(records[1].getFeature() == features[1], 'readRecords correctly set feature in record (no properties case)');
             // 1 test
             reader.totalRecords = 20;
             info = reader.readRecords(features);

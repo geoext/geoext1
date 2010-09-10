@@ -51,14 +51,14 @@ Ext.onReady(function() {
     };
 
     var moveLayer = function(idx) {
-        var layer = layerRec0.get("layer");
+        var layer = layerRec0.getLayer();
         var idx = mapPanel.map.layers.indexOf(layer) == 0 ?
             mapPanel.map.layers.length : 0;
-        mapPanel.map.setLayerIndex(layerRec0.get("layer"), idx);
+        mapPanel.map.setLayerIndex(layerRec0.getLayer(), idx);
     };
 
     var toggleVisibility = function() {
-        var layer = layerRec1.get("layer");
+        var layer = layerRec1.getLayer();
         layer.setVisibility(!layer.getVisibility());
     };
 

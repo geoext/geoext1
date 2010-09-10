@@ -52,7 +52,7 @@
              "readRecords returns records of expected type");
         t.ok(data.records[0].id == layers[0].id,
              "readRecords returns records with expected \"id\"");
-        t.ok(data.records[0].get("layer") == layers[0],
+        t.ok(data.records[0].getLayer() == layers[0],
              "readRecords returns records with expected \"layer\" field");
         t.eq(data.records[0].get("title"), layers[0].name,
              "readRecords returns records with expected \"title\" field");

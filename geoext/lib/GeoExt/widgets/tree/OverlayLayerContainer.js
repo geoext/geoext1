@@ -41,7 +41,7 @@ GeoExt.tree.OverlayLayerContainer = Ext.extend(GeoExt.tree.LayerContainer, {
         });
         config.loader = Ext.applyIf(config.loader || {}, {
             filter: function(record){
-                var layer = record.get("layer");
+                var layer = record.getLayer();
                 return layer.displayInLayerSwitcher === true &&
                 layer.isBaseLayer === false;
             }

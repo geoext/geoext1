@@ -70,7 +70,7 @@
             t.eq(record.get("styles")[0].title, "1 px blue line", "correct title for styles record field");
 
             //4 tests -- Testing the layer field
-            var layer = record.get("layer");
+            var layer = record.getLayer();
             t.eq(layer.CLASS_NAME, "OpenLayers.Layer.WMS", "layer record field is of type OpenLayers.Layer.WMS");
             t.eq(layer.url, "../geoserver/wms?SERVICE=WMS&", "layer record field has correct URL");
             t.eq(layer.params.LAYERS, "geob:communes_geofla","layer record field has correct LAYERS parameter");

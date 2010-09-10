@@ -63,7 +63,7 @@
 
             //1 test -- testing value of record id
             record = records.records[2];
-            t.ok(record.id == record.get("layer").id, "[2] correct record id");
+            t.ok(record.id == record.getLayer().id, "[2] correct record id");
 
             //22 tests -- testing the fields of a record
             record = records.records[2];
@@ -116,7 +116,7 @@
 
             //7 tests -- Testing the layer field
             record = records.records[2];
-            layer = record.get("layer");
+            layer = record.getLayer();
             t.eq(layer.CLASS_NAME, "OpenLayers.Layer.WMS", "[2] layer field is of type OpenLayers.Layer.WMS");
             t.eq(layer.url, "http://publicus.opengeo.org:80/geoserver/wms?SERVICE=WMS&", "[2] layer field has correct URL");
             t.eq(layer.params.LAYERS, "tiger:tiger_roads","[2] layer field has correct LAYERS parameter");
@@ -127,7 +127,7 @@
             
             // 3 tests -- attribution markup
             record = records.records[2];
-            layer = record.get("layer");
+            layer = record.getLayer();
             var attribution = layer.attribution;
             t.ok(attribution.indexOf("http://foo/logo.png") !== -1, "attribution markup has a logo");
             t.ok(attribution.indexOf("Foo Authority") !== -1, "attribution markup has a title");
@@ -136,12 +136,12 @@
             // 2 tests - transparent param
             var transparent;
             record = records.records[2];
-            layer = record.get("layer");
+            layer = record.getLayer();
             transparent = layer.params.TRANSPARENT;
             t.eq(transparent, false,
                 "TRANSPARENT param is false if opacity set to 1");
             record = records.records[1];
-            layer = record.get("layer");
+            layer = record.getLayer();
             transparent = layer.params.TRANSPARENT;
             t.eq(transparent, true,
                 "TRANSPARENT param is true if no opacity set");

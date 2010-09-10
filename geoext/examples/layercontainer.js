@@ -46,8 +46,8 @@ Ext.onReady(function() {
                     var copy = record.copy();
                     // Ext 3.X does not allow circular references in objects passed 
                     // to record.set 
-                    copy.data["layer"] = record.get("layer");
-                    copy.get("layer").mergeNewParams({
+                    copy.data["layer"] = record.getLayer();
+                    copy.getLayer().mergeNewParams({
                         format: "image/png",
                         transparent: "true"
                     });

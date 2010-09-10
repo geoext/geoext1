@@ -101,13 +101,13 @@
             t.eq(store.getCount(), 3, "three layers in store");
             t.eq(map.layers.length, 3, "three layers on map");
 
-            t.eq(store.getAt(0).get("layer").name, "a", "first layer correct in store");
+            t.eq(store.getAt(0).getLayer().name, "a", "first layer correct in store");
             t.eq(map.layers[0].name, "a", "first layer correct on map");
 
-            t.eq(store.getAt(1).get("layer").name, "b", "second layer correct in store");
+            t.eq(store.getAt(1).getLayer().name, "b", "second layer correct in store");
             t.eq(map.layers[1].name, "b", "second layer correct on map");
 
-            t.eq(store.getAt(2).get("layer").name, "c", "third layer correct in store");
+            t.eq(store.getAt(2).getLayer().name, "c", "third layer correct in store");
             t.eq(map.layers[2].name, "c", "third layer correct on map");
 
             map.destroy();
@@ -221,7 +221,7 @@
             
             // create a copy of the record with the same layer
             var copy = record.copy(); // record with same id will replace original
-            copy.data.layer = record.get("layer"); // force records to have same layer            
+            copy.setLayer(record.getLayer()); // force records to have same layer            
             store.add(copy);
             t.eq(store.getCount(), 1, "store has a single record after adding copy");
             t.eq(map.layers.length, 1, "map has a single layer after adding copy");
@@ -244,9 +244,9 @@
             store.add(store.reader.readRecords([a, b, c]).records);
 
             t.eq(store.getCount(), 3, "[a, b, c] three layers in store");
-            t.eq(store.getAt(0).get("layer").name, "a", "[a, b, c] first layer correct in store");
-            t.eq(store.getAt(1).get("layer").name, "b", "[a, b, c] second layer correct in store");
-            t.eq(store.getAt(2).get("layer").name, "c", "[a, b, c] third layer correct in store");
+            t.eq(store.getAt(0).getLayer().name, "a", "[a, b, c] first layer correct in store");
+            t.eq(store.getAt(1).getLayer().name, "b", "[a, b, c] second layer correct in store");
+            t.eq(store.getAt(2).getLayer().name, "c", "[a, b, c] third layer correct in store");
             t.eq(map.layers.length, 3, "[a, b, c] three layers on map");
             t.eq(map.layers[0].name, "a", "[a, b, c] first layer correct on map");
             t.eq(map.layers[1].name, "b", "[a, b, c] second layer correct on map");
@@ -256,9 +256,9 @@
             map.setLayerIndex(a, 1);
 
             t.eq(store.getCount(), 3, "[b, a, c] three layers in store");
-            t.eq(store.getAt(0).get("layer").name, "b", "[b, c, a] first layer correct in store");
-            t.eq(store.getAt(1).get("layer").name, "a", "[b, c, a] second layer correct in store");
-            t.eq(store.getAt(2).get("layer").name, "c", "[b, c, a] third layer correct in store");
+            t.eq(store.getAt(0).getLayer().name, "b", "[b, c, a] first layer correct in store");
+            t.eq(store.getAt(1).getLayer().name, "a", "[b, c, a] second layer correct in store");
+            t.eq(store.getAt(2).getLayer().name, "c", "[b, c, a] third layer correct in store");
             t.eq(map.layers.length, 3, "[a, b, c] three layers on map");
             t.eq(map.layers[0].name, "b", "[b, c, a] first layer correct on map");
             t.eq(map.layers[1].name, "a", "[b, c, a] second layer correct on map");
@@ -268,9 +268,9 @@
             map.setLayerIndex(c, 0);
 
             t.eq(store.getCount(), 3, "[c, b, a] three layers in store");
-            t.eq(store.getAt(0).get("layer").name, "c", "[c, b, a] first layer correct in store");
-            t.eq(store.getAt(1).get("layer").name, "b", "[c, b, a] second layer correct in store");
-            t.eq(store.getAt(2).get("layer").name, "a", "[c, b, a] third layer correct in store");
+            t.eq(store.getAt(0).getLayer().name, "c", "[c, b, a] first layer correct in store");
+            t.eq(store.getAt(1).getLayer().name, "b", "[c, b, a] second layer correct in store");
+            t.eq(store.getAt(2).getLayer().name, "a", "[c, b, a] third layer correct in store");
             t.eq(map.layers.length, 3, "[c, b, a] three layers on map");
             t.eq(map.layers[0].name, "c", "[c, b, a] first layer correct on map");
             t.eq(map.layers[1].name, "b", "[c, b, a] second layer correct on map");
@@ -300,10 +300,10 @@
             store.insert(1, store.reader.readRecords([d]).records);
             
             t.eq(store.getCount(), 4, "[a, d, b, c] four layers in store");
-            t.eq(store.getAt(0).get("layer").name, "a", "[a, d, b, c] first layer correct in store");
-            t.eq(store.getAt(1).get("layer").name, "d", "[a, d, b, c] second layer correct in store");
-            t.eq(store.getAt(2).get("layer").name, "b", "[a, d, b, c] third layer correct in store");
-            t.eq(store.getAt(3).get("layer").name, "c", "[a, d, b, c] fourth layer correct in store");
+            t.eq(store.getAt(0).getLayer().name, "a", "[a, d, b, c] first layer correct in store");
+            t.eq(store.getAt(1).getLayer().name, "d", "[a, d, b, c] second layer correct in store");
+            t.eq(store.getAt(2).getLayer().name, "b", "[a, d, b, c] third layer correct in store");
+            t.eq(store.getAt(3).getLayer().name, "c", "[a, d, b, c] fourth layer correct in store");
             t.eq(map.layers.length, 4, "[a, d, b, c] four layers on map");
             t.eq(map.layers[0].name, "a", "[a, d, b, c] first layer correct on map");
             t.eq(map.layers[1].name, "d", "[a, d, b, c] second layer correct on map");
@@ -347,7 +347,7 @@
             });
             
             var record = store.getByLayer(layers[1]);
-            t.ok(record.get("layer") === layers[1], "correct layer record returned");
+            t.ok(record.getLayer() === layers[1], "correct layer record returned");
             
             record = store.getByLayer(new OpenLayers.Layer("other layer"));
             t.eq(record, undefined, "getByLayer returns undefined if layer is not in store");
@@ -388,7 +388,7 @@
             t.eq(event.type, "add", "[" + batch + "] 'add' event");
             t.eq(event.args[1].length, 1, "[" + batch + "] correct number of records");
             record = event.args[1][0];
-            t.ok(record.get("layer") === d, "[" + batch + "] correct layer on record");
+            t.ok(record.getLayer() === d, "[" + batch + "] correct layer on record");
             
             // confirm that we get a "remove" on map.removeLayer
             events = [];
@@ -397,7 +397,7 @@
             t.eq(events.length, 1, "[" + batch + "] one event");
             event = events[0];
             t.eq(event.type, "remove", "[" + batch + "] 'remove' event");
-            t.ok(event.args[1].get("layer") === d, "[" + batch + "] correct layer on record");
+            t.ok(event.args[1].getLayer() === d, "[" + batch + "] correct layer on record");
 
             // confirm that we get an "add" and "remove" on map.setLayerIndex
             events = [];
@@ -406,12 +406,12 @@
             t.eq(events.length, 2, "[" + batch + "] two events");
             event = events[0];
             t.eq(event.type, "remove", "[" + batch + "] 'remove' event first");
-            t.ok(event.args[1].get("layer") === b, "[" + batch + "] correct layer on record");
+            t.ok(event.args[1].getLayer() === b, "[" + batch + "] correct layer on record");
             event = events[1];
             t.eq(event.type, "add", "[" + batch + "] 'add' event second");
             t.eq(event.args[1].length, 1, "[" + batch + "] correct number of records");
             record = event.args[1][0];
-            t.ok(record.get("layer") === b, "[" + batch + "] correct layer on record");
+            t.ok(record.getLayer() === b, "[" + batch + "] correct layer on record");
 
             // confirm that we get an "update" on layer.setName
             events = [];
@@ -420,7 +420,7 @@
             t.eq(events.length, 1, "[" + batch + "] one event");
             event = events[0];
             t.eq(event.type, "update", "[" + batch + "] 'update' event");
-            t.ok(event.args[1].get("layer") === c, "[" + batch + "] correct layer on record");
+            t.ok(event.args[1].getLayer() === c, "[" + batch + "] correct layer on record");
             t.eq(event.args[2], Ext.data.Record.EDIT, "[" + batch + "] correct operation");
             
             // confirm that we get an "update" on layer.setVisibility
@@ -430,7 +430,7 @@
             t.eq(events.length, 1, "[" + batch + "] one event");
             event = events[0];
             t.eq(event.type, "update", "[" + batch + "] 'update' event");
-            t.ok(event.args[1].get("layer") === a, "[" + batch + "] correct layer on record");
+            t.ok(event.args[1].getLayer() === a, "[" + batch + "] correct layer on record");
             t.eq(event.args[2], Ext.data.Record.EDIT, "[" + batch + "] correct operation");
 
 
