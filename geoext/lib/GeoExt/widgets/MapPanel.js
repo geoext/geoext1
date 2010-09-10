@@ -126,6 +126,9 @@ GeoExt.MapPanel = Ext.extend(Ext.Panel, {
                 map: this.map
             });
         }
+        if(!this.layers.map) {
+            this.layers.bind(this.map);
+        }
         
         if(typeof this.center == "string") {
             this.center = OpenLayers.LonLat.fromString(this.center);
