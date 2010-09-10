@@ -20,9 +20,11 @@ Ext.namespace("GeoExt.data");
 /** api: constructor
  *  .. class:: WMSCapabilitiesReader(meta, recordType)
  *  
- *      :param meta: ``Object`` Reader configuration from which 
+ *      :param meta: ``Object`` Reader configuration from which:
  *          ``layerOptions`` is an optional object passed as default options
  *          to the ``OpenLayers.Layer.WMS`` constructor.
+ *          ``layerParams`` is an optional set of parameters to pass into the
+ *          ``OpenLayers.Layer.WMS`` constructor.
  *      :param recordType: ``Array | Ext.data.Record`` An array of field
  *          configuration objects or a record object.  Default is
  *          :class:`GeoExt.data.LayerRecord` with the following fields:
@@ -174,7 +176,7 @@ Ext.extend(GeoExt.data.WMSCapabilitiesReader, Ext.data.DataReader, {
         
         if(url && layers) {
             var fields = this.recordType.prototype.fields; 
-            var layer, values, options, field, v;
+            var layer, values, options, params, field, v;
 
             for(var i=0, lenI=layers.length; i<lenI; i++){
                 layer = layers[i];
@@ -197,14 +199,18 @@ Ext.extend(GeoExt.data.WMSCapabilitiesReader, Ext.data.DataReader, {
                     if(this.meta.layerOptions) {
                         Ext.apply(options, this.meta.layerOptions);
                     }
-                    values.layer = new OpenLayers.Layer.WMS(
-                        layer.title || layer.name, url, {
+                    params = {
                             layers: layer.name,
                             exceptions: exceptions,
                             format: this.imageFormat(layer),
                             transparent: this.imageTransparent(layer),
                             version: version
-                        }, options
+                    };
+                    if (this.meta.layerParams) {
+                        Ext.apply(params, this.meta.layerParams);
+                    }
+                    values.layer = new OpenLayers.Layer.WMS(
+                        layer.title || layer.name, url, params, options
                     );
                     records.push(new this.recordType(values, values.layer.id));
                 }
