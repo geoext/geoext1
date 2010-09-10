@@ -80,7 +80,10 @@ GeoExt.LayerLegend = Ext.extend(Ext.Container, {
      *  :param operation: ``String`` The type of operation.
      */
     onStoreUpdate: function(store, record, operation) {
-        if(record === this.layerRecord) {
+        // if we don't have items, we are already awaiting garbage
+        // collection after being removed by LegendPanel::removeLegend, and
+        // updating will cause errors
+        if (record === this.layerRecord && this.items.getCount() > 0) {
             var layer = record.getLayer();
             this.setVisible(layer.getVisibility() &&
                 layer.calculateInRange() && layer.displayInLayerSwitcher &&
