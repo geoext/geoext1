@@ -3,7 +3,7 @@ Building GeoExt
 
 This directory contains configuration files necessary for building GeoExt
 (and Ext JS).  The build configuration is intended for use with the jsbuild
-utility included in JSTools (http://projects.opengeo.org/jstools).
+utility included in JSTools (http://github.com/whitmo/jstools).
 
 Brief instructions
 ------------------
@@ -23,7 +23,7 @@ python-setuptools package on debian-style linux systems.
     
 Now you can easily install JSTools.
 
-    $ easy_install http://svn.opengeo.org/jstools/trunk/
+    $ sudo easy_install jstools
 
 Change into the core/trunk/build directory (the one containing the readme.txt
 file you are reading right now), if you are not already here.
