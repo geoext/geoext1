@@ -50,10 +50,11 @@
             context.mapPanel.destroy();
         }
 
-        function popup(feature) {
+        function popup(feature, map) {
             return new GeoExt.Popup({
                 title: 'My Popup',
-                feature: feature,
+                location: feature,
+                map: map,
                 width: 200,
                 html: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
                 collapsible: true
@@ -179,6 +180,36 @@
 
             tearDown(context);
 
+        }
+        
+        function test_Popup_position(t) {
+            t.plan(5);
+            
+            var context = setupContext();
+            
+            var pos = context.feature.geometry.getBounds().getCenterLonLat()
+            var pop = popup(pos, context.map);
+            t.eq(pop.location.toString(), pos.toString(), "Popup with LonLat positioned correctly");
+            
+            var px = context.map.getViewPortPxFromLonLat(pos);
+            pop = popup(px, context.map);
+            t.eq(pop.location.toString(), context.map.getLonLatFromViewPortPx(px).toString(), "Popup with Pixel positioned correctly");
+            
+            // mock up a geometry without getCentroid method
+            context.feature.geometry.getCentroid = null;
+            pop = popup(context.feature);
+            t.eq(pop.location.toString(), pos.toString(), "Popup with Feature positioned correctly");
+            
+            var geom = new OpenLayers.Geometry.Point(1, 42);
+            pop = popup(geom, context.map);
+            t.eq(pop.location.toString(), geom.getCentroid().getBounds().getCenterLonLat().toString(), "Popup with Point positioned correctly");
+
+            var geom = OpenLayers.Geometry.fromWKT("POLYGON ((10 10, 10 20, 20 20, 20 15, 10 10))");
+            pop = popup(geom, context.map);
+            t.eq(pop.location.toString(), geom.getCentroid().getBounds().getCenterLonLat().toString(), "Popup with Polygon positioned correctly");
+
+
+            tearDown(context);
         }
 
         function test_Popup_destroy(t){
