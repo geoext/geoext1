@@ -570,6 +570,29 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
                     resolutions: layer.serverResolutions || layer.resolutions
                 });
             },
+            "KaMapCache": function(layer) {
+                var enc = this.encoders.layers.KaMap.call(this, layer);
+                return Ext.apply(enc, {
+                    type: 'KaMapCache',
+                    // group param is mandatory when using KaMapCache
+                    group: layer.params['g'],
+                    metaTileWidth: layer.params['metaTileSize']['w'],
+                    metaTileHeight: layer.params['metaTileSize']['h']
+                });
+            },
+            "KaMap": function(layer) {
+                var enc = this.encoders.layers.HTTPRequest.call(this, layer);
+                return Ext.apply(enc, {
+                    type: 'KaMap',
+                    map: layer.params['map'],
+                    extension: layer.params['i'],
+                    // group param is optional when using KaMap
+                    group: layer.params['g'] || "",
+                    maxExtent: layer.maxExtent.toArray(),
+                    tileSize: [layer.tileSize.w, layer.tileSize.h],
+                    resolutions: layer.serverResolutions || layer.resolutions
+                });
+            },
             "HTTPRequest": function(layer) {
                 return {
                     baseURL: this.getAbsoluteUrl(layer.url instanceof Array ?
