@@ -56,7 +56,7 @@ Ext.onReady(function() {
     var clone = wms.clone();
     var wms2 = new OpenLayers.Layer.WMS(
         "OpenLayers WMS",
-        "http://labs.metacarta.com/wms/vmap0",
+        "http://vmap0.tiles.osgeo.org/wms/vmap0",
         {layers: 'basic'}
     );
     panel2 = new GeoExt.MapPanel({
