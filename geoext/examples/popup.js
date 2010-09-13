@@ -32,7 +32,7 @@ Ext.onReady(function() {
     function createPopup(feature) {
         popup = new GeoExt.Popup({
             title: 'My Popup',
-            feature: feature,
+            location: feature,
             width:200,
             html: bogusMarkup,
             maximizable: true,

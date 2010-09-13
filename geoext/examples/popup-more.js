@@ -36,13 +36,6 @@ Ext.onReady(function() {
             });
         }
 
-        // This is awkward, but for now we need to create a feature to update
-        // the popup position.  TODO: fix this for 1.0
-        var feature = new OpenLayers.Feature.Vector(
-            new OpenLayers.Geometry.Point(loc.lon, loc.lat)
-        );  
-        
-        
         // add some content to the popup (this can be any Ext component)
         popup.add({
             xtype: "box",
@@ -52,7 +45,7 @@ Ext.onReady(function() {
         });
 
         // reset the popup's location
-        popup.feature = feature;
+        popup.location = loc;
         
         popup.doLayout();
 

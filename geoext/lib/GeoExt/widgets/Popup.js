@@ -24,7 +24,7 @@ Ext.namespace("GeoExt");
  *     
  *      var popup = new GeoExt.Popup({
  *          title: "My Popup",
- *          feature: feature,
+ *          location: feature,
  *          width: 200,
  *          html: "<div>Popup content</div>",
  *          collapsible: true
@@ -35,15 +35,15 @@ Ext.namespace("GeoExt");
  *  .. class:: Popup(config)
  *   
  *      Popups are a specialized Window that supports anchoring
- *      to a particular feature in a MapPanel.  When a popup
- *      is anchored to a feature, that means that the popup
- *      will visibly point to the feature on the map, and move
+ *      to a particular location in a MapPanel.  When a popup
+ *      is anchored to a location, that means that the popup
+ *      will visibly point to the location on the map, and move
  *      accordingly when the map is panned or zoomed.
  */
 GeoExt.Popup = Ext.extend(Ext.Window, {
 
     /** api: config[anchored]
-     *  ``Boolean``  The popup begins anchored to its feature.  Default is
+     *  ``Boolean``  The popup begins anchored to its location.  Default is
      *  ``true``.
      */
     anchored: true,
@@ -51,7 +51,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
     /** api: config[map]
      *  ``OpenLayers.Map`` or :class:`GeoExt.MapPanel`
      *  The map this popup will be anchored to (only required if ``anchored``
-     *  is set to true and the map cannot be derived from the ``feature``'s
+     *  is set to true and the map cannot be derived from the ``location``'s
      *  layer.
      */
     map: null,
@@ -64,21 +64,20 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
 
     /** api: config[unpinnable]
      *  ``Boolean`` The popup should have a "unpin" tool that unanchors it from
-     *  its feature.  Default is ``true``.
+     *  its location.  Default is ``true``.
      */
     unpinnable: true,
 
-    /** api: config[feature]
-     *  ``OpenLayers.Feature`` A location for this popup's anchor.  One of
-     *  ``feature`` or ``lonlat`` must be provided.
+    /** api: config[location]
+     *  ``OpenLayers.Feature.Vector`` or ``OpenLayers.LonLat`` or
+     *  ``OpenLayers.Pixel`` or ``OpenLayers.Geometry`` A location for this 
+     *  popup's anchor.
      */
-    feature: null,
-
-    /** api: config[lonlat]
-     *  ``OpenLayers.LonLat`` A location for this popup's anchor.  One of
-     *  ``feature`` or ``lonlat`` must be provided.
+    
+    /** private: property[location]
+     *  ``OpenLayers.LonLat``
      */
-    lonlat: null,
+    location: null,
 
     /**
      * Some Ext.Window defaults need to be overriden here
@@ -124,12 +123,22 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
         if(this.map instanceof GeoExt.MapPanel) {
             this.map = this.map.map;
         }
-        if(!this.map && this.feature && this.feature.layer) {
-            this.map = this.feature.layer.map;
+        if(!this.map && this.location instanceof OpenLayers.Feature.Vector &&
+                                                        this.location.layer) {
+            this.map = this.location.layer.map;
         }
-        if (!this.feature && this.lonlat) {
-            this.feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(this.lonlat.lon, this.lonlat.lat));
+        if (this.location instanceof OpenLayers.Feature.Vector) {
+            this.location = this.location.geometry;
         }
+        if (this.location instanceof OpenLayers.Geometry) {
+            if (typeof this.location.getCentroid == "function") {
+                this.location = this.location.getCentroid();
+            }
+            this.location = this.location.getBounds().getCenterLonLat();
+        } else if (this.location instanceof OpenLayers.Pixel) {
+            this.location = this.map.getLonLatFromViewPortPx(this.location);
+        }
+
         if(this.anchored) {
             this.addAnchorEvents();
         }
@@ -210,20 +219,18 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
     },
 
     /** private: method[position]
-     *  Positions the popup relative to its feature
+     *  Positions the popup relative to its location
      */
     position: function() {
-        var centerLonLat = this.feature.geometry.getBounds().getCenterLonLat();
-
         if(this._mapMove === true) {
-            var visible = this.map.getExtent().containsLonLat(centerLonLat);
+            var visible = this.map.getExtent().containsLonLat(this.location);
             if(visible !== this.isVisible()) {
                 this.setVisible(visible);
             }
         }
 
         if(this.isVisible()) {
-            var centerPx = this.map.getViewPortPxFromLonLat(centerLonLat);
+            var centerPx = this.map.getViewPortPxFromLonLat(this.location);
             var mapBox = Ext.fly(this.map.div).getBox(); 
     
             //This works for positioning with the anchor on the bottom.
@@ -239,7 +246,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
     },
 
     /** private: method[unanchorPopup]
-     *  Unanchors a popup from its feature.  This removes the popup from its
+     *  Unanchors a popup from its location.  This removes the popup from its
      *  MapPanel and adds it to the page body.
      */
     unanchorPopup: function() {
@@ -327,7 +334,7 @@ GeoExt.Popup = Ext.extend(Ext.Window, {
     /** private: method[removeAnchorEvents]
      */
     removeAnchorEvents: function() {
-        //stop position with feature
+        //stop position with location
         this.map.events.un({
             "move" : this.onMapMove,
             scope : this
