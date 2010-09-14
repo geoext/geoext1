@@ -148,6 +148,7 @@
             var layer = new OpenLayers.Layer("test");
 
             var mapPanel = new GeoExt.MapPanel({
+                renderTo: document.body,
                 layers: [layer],
                 allOverlays: true
             });
