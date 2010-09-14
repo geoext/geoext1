@@ -389,4 +389,4 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
 });
 
 /** api: ptype = gx_printextent */
-Ext.preg && Ext.preg("gx_printextent", GeoExt.plugins.PrintExtent);
+Ext.preg("gx_printextent", GeoExt.plugins.PrintExtent);

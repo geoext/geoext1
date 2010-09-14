@@ -190,4 +190,4 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
 });
 
 /** api: ptype = gx_printpagefield */
-Ext.preg && Ext.preg("gx_printpagefield", GeoExt.plugins.PrintPageField);
+Ext.preg("gx_printpagefield", GeoExt.plugins.PrintPageField);
