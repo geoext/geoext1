@@ -132,24 +132,6 @@ GeoExt.ZoomSlider = Ext.extend(Ext.Slider, {
      *  Called by a MapPanel if this component is one of the items in the panel.
      */
     addToMapPanel: function(panel) {
-        /**
-         * TODO: Remove this when we drop support for Ext 2.
-         * We need special treatment for Ext 2 because components don't have
-         * the "afterrender" event.  Here we wait until the render sequence
-         * finishes before binding the component to the map.
-         */
-        // START SPECIAL TREATMENT FOR EXT 2
-        if (!this.events.afterrender) {
-            this.on({
-                render: function() {
-                    window.setTimeout(
-                        this.bind.createDelegate(this, [panel.map]), 0
-                    );
-                },
-                scope: this
-            });
-        }
-        // END SPECIAL TREATMENT FOR EXT 2
         this.on({
             render: function() {
                 var el = this.getEl();
