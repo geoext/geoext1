@@ -79,14 +79,14 @@
         }
         
         function test_fit(t) {
-            t.plan(3);
+            t.plan(4);
             
             var center = new OpenLayers.LonLat(146.56, -41.56);
             var mapPanel = new GeoExt.MapPanel({
                 renderTo: "map",
-                width: 400,
-                height: 300,
-                layers: [new OpenLayers.Layer.WMS("wms", "http://demo.opengeo.org/geoserver/wms", {layers: "topp:tasmania_water_bodies"})],
+                width: 272,
+                height: 272,
+                layers: [new OpenLayers.Layer("empty", {isBaseLayer: true})],
                 center: center,
                 zoom: 7
             });
@@ -97,12 +97,15 @@
                 })
             });
 
-            printPage.fit(mapPanel);
+            printPage.fit(mapPanel, {mode: "printer"});
             t.eq(printPage.center.toString(), center.toString(), "Print page centered correctly.");
-            t.eq(printPage.scale.get("value"), 2000000, "Print scale set correctly.");
+            t.eq(printPage.scale.get("value"), 4000000, "Print scale set correctly.");
 
-            printPage.fit(mapPanel, true);
-            t.eq(printPage.scale.get("value"), 4000000, "Print scale for 'loose' option set correctly.");
+            printPage.fit(mapPanel, {mode: "closest"});
+            t.eq(printPage.scale.get("value"), 2000000, "Print scale for 'closest' mode set correctly.");
+
+            printPage.fit(mapPanel, {mode: "screen"});
+            t.eq(printPage.scale.get("value"), 1000000, "Print scale for 'screen' mode set correctly.");
             
             printPage.destroy();
             mapPanel.destroy();
