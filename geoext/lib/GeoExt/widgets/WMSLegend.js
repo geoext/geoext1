@@ -57,11 +57,6 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
      */
     useScaleParameter: true,
     
-    /** private: property[map]
-     *  ``OpenLayers.Map`` The map to register events to.
-     */
-    map: null,
-
     /** private: method[initComponent]
      *  Initializes the WMS legend. For group layers it will create multiple
      *  image box components.
@@ -69,11 +64,19 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
     initComponent: function() {
         GeoExt.WMSLegend.superclass.initComponent.call(this);
         var layer = this.layerRecord.getLayer();
-        this.map = layer.map;
         if (this.useScaleParameter === true) {
-            this.map.events.register("zoomend", this, this.update);
+            layer.events.register("moveend", this, this.onLayerMoveend);
         }
         this.update();
+    },
+    
+    /** private: method[onLayerMoveend]
+     *  :param e: ``Object``
+     */
+    onLayerMoveend: function(e) {
+        if (e.zoomChanged === true) {
+            this.update();
+        }
     },
 
     /** private: method[getLegendUrl]
@@ -126,7 +129,7 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
         // styles data field and it is actually a GetLegendGraphic request.
         if(this.useScaleParameter === true &&
                 url.toLowerCase().indexOf("request=getlegendgraphic") != -1) {
-            var scale = this.map.getScale();
+            var scale = layer.map.getScale();
             url = Ext.urlAppend(url, "SCALE=" + scale);
         }
         
@@ -191,10 +194,9 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
     beforeDestroy: function() {
         if (this.useScaleParameter === true) {
             var layer = this.layerRecord.getLayer()
-            this.map && this.map.events &&
-                this.map.events.unregister("zoomend", this, this.update);
+            layer && layer.events &&
+                layer.events.unregister("moveend", this, this.onLayerMoveend);
         }
-        delete this.map;
         GeoExt.WMSLegend.superclass.beforeDestroy.apply(this, arguments);
     }
 

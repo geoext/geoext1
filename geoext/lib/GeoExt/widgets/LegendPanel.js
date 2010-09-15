@@ -210,7 +210,8 @@ GeoExt.LegendPanel = Ext.extend(Ext.Panel, {
                     xtype: types[0],
                     id: this.getIdForLayer(layer),
                     layerRecord: record,
-                    hidden: !(layer.getVisibility() && layer.calculateInRange())
+                    hidden: !((!layer.map && layer.visibility) ||
+                        (layer.getVisibility() && layer.calculateInRange()))
                 });
             }
         }
