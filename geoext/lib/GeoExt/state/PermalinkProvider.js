@@ -133,6 +133,6 @@ Ext.extend(GeoExt.state.PermalinkProvider, Ext.state.Provider, {
             base = base.substring(0, qMark);
         }
 
-        return OpenLayers.Util.urlAppend(base, paramsStr);
+        return Ext.urlAppend(base, paramsStr);
     }
 });
