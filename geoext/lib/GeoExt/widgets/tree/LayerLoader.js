@@ -79,6 +79,12 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
         return record.getLayer().displayInLayerSwitcher == true;
     },
     
+    /** api: config[baseAttrs]
+     *  An object containing attributes to be added to all nodes created by
+     *  this loader.
+     */
+    baseAttrs: null,
+    
     /** api: config[uiProviders]
      *  ``Object``
      *  An optional object containing properties which specify custom
@@ -292,10 +298,13 @@ Ext.extend(GeoExt.tree.LayerLoader, Ext.util.Observable, {
         }
     },
 
-    /** private: method[createNode]
+    /** api: method[createNode]
      *  :param attr: ``Object`` attributes for the new node
+     *
+     *  Override this function for custom TreeNode node implementation, or to
+     *  modify the attributes at creation time.
      */
-    createNode: function(attr){
+    createNode: function(attr) {
         if(this.baseAttrs){
             Ext.apply(attr, this.baseAttrs);
         }
