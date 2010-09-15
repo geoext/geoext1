@@ -28,7 +28,7 @@
         } 
 
         function test_load_clear(t) {
-            t.plan(7);
+            t.plan(6);
             
             var layer = new OpenLayers.Layer.Vector("Foo layer");
             var store = new GeoExt.data.FeatureStore({
@@ -43,22 +43,12 @@
             t.eq(layer.features.length, 2, "loading two records in the store with 'loadData' adds two features to the layer");
             t.eq(store.getCount(), 2, 'loading two records in the store with "loadData" does not create duplicate records in store'); 
 
-            // loadData with addRecordFilter
-            store.addRecordFilter = function(record) { return false; };
-            store.loadData([
-                new OpenLayers.Feature.Vector(),
-                new OpenLayers.Feature.Vector()
-            ]);
-            t.eq(layer.features.length, 0,
-                 "loading two records in the store with 'loadData' adds no feature to the layer if addRecordFilter returns false");
-
             // removeAll
             store.removeAll();
             t.eq(store.getCount(), 0, '"removeAll" on store removes all records from the store'); 
             t.eq(layer.features.length, 0, '"removeAll" on store removes features from layer'); 
 
             // load no data
-            store.addRecordFilter = null;
             store.loadData([]);
             t.eq(store.getCount(), 0, '"loadData([]) does not add records to the store');
             t.eq(layer.features.length, 0, '"loadData([]) does not add features to the layer');
@@ -129,7 +119,7 @@
 
         function test_add_remove(t) {
             
-            t.plan(5);
+            t.plan(4);
             
             var layer = new OpenLayers.Layer.Vector("Foo layer");
             var store = new GeoExt.data.FeatureStore({
@@ -148,12 +138,6 @@
             store.remove(record);
             t.eq(store.getCount(), 0, 'remove on store with "remove" removes the record from the store'); 
             t.eq(layer.features.length, 0, 'remove on store with "remove" removes the corresponding feature from layer'); 
-
-            // add with addRecordFilter
-            store.addRecordFilter = function(record) { return false; };
-            store.add([record]);
-            t.eq(layer.features.length, 0,
-                 'Adding a record with "add" does not add feature to layer if addRecordFilter returns false');
         }
         
         function test_getRecordFromFeature(t) {
@@ -212,11 +196,13 @@
             t.eq(store.getCount(), 0, '"removeFeatures" on layer removes records from the store'); 
             t.eq(layer.features.length, 0, '"removeFeatures" on layer removes features from layer');
 
-            // test layer addFeatures with addFeatureFilter
-            store.addFeatureFilter = function(feature) { return false; };
+            // test layer addFeatures with featureFilter
+            store.featureFilter = new OpenLayers.Filter({
+                evaluate: function(feature) { return false; }
+            });
             layer.addFeatures(features);
             t.eq(store.getCount(), 0,
-                 'Adding features to layer with "addFeatures" does not insert records in the store if addFeatureFilter returns false');
+                 'Adding features to layer with "addFeatures" does not insert records in the store if featureFilter evaluates to false');
         }
 
         function test_featuremodified_update(t) {

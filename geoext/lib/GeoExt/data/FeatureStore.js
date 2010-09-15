@@ -77,19 +77,11 @@ GeoExt.data.FeatureStoreMixin = function() {
          */
         reader: null,
 
-        /** api: config[addFeatureFilter]
-         *  ``Function`` This function is called before a feature record is added to
-         *  the store, it receives the feature from which a feature record is to be
-         *  created, if it returns false then no record is added.
+        /** api: config[featureFilter]
+         *  ``OpenLayers.Filter`` This filter is evaluated before a feature
+         *  record is added to the store.
          */
-        addFeatureFilter: null,
-        
-        /** api: config[addRecordFilter]
-         *  ``Function`` This function is called before a feature is added to the
-         *  layer, it receives the feature record associated with the feature to be
-         *  added, if it returns false then no feature is added.
-         */
-        addRecordFilter: null,
+        featureFilter: null,
         
         /** api: config[initDir]
          *  ``Number``  Bitfields specifying the direction to use for the
@@ -219,12 +211,12 @@ GeoExt.data.FeatureStoreMixin = function() {
         onFeaturesAdded: function(evt) {
             if(!this._adding) {
                 var features = evt.features, toAdd = features;
-                if(typeof this.addFeatureFilter == "function") {
+                if(this.featureFilter) {
                     toAdd = [];
                     var i, len, feature;
                     for(var i=0, len=features.length; i<len; i++) {
                         feature = features[i];
-                        if(this.addFeatureFilter(feature) !== false) {
+                        if (this.featureFilter.evaluate(feature) !== false) {
                             toAdd.push(feature);
                         }
                     }
@@ -295,20 +287,10 @@ GeoExt.data.FeatureStoreMixin = function() {
          *  function is used by the onLoad and onAdd handlers.
          */
         addFeaturesToLayer: function(records) {
-            var i, len, features, record;
-            if(typeof this.addRecordFilter == "function") {
-                features = [];
-                for(i=0, len=records.length; i<len; i++) {
-                    record = records[i];
-                    if(this.addRecordFilter(record) !== false) {
-                        features.push(record.getFeature());
-                    }
-                }
-            } else {
-                features = new Array((len=records.length));
-                for(i=0; i<len; i++) {
-                    features[i] = records[i].getFeature();
-                }
+            var i, len, features;
+            features = new Array((len=records.length));
+            for(i=0; i<len; i++) {
+                features[i] = records[i].getFeature();
             }
             if(features.length > 0) {
                 this._adding = true;
