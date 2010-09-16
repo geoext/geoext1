@@ -22,7 +22,7 @@ function test_initialize(t) {
 }
 
 function test_drawFeature(t) {
-    t.plan(4);
+    t.plan(7);
     
 
     var renderer = new GeoExt.FeatureRenderer({
@@ -43,6 +43,23 @@ function test_drawFeature(t) {
     });
     t.eq(log.length, 2, "drawFeature called twice for two symbolizers");
     t.ok(log[0][0] !== log[1][0], "drawFeature called with unique features");
+    
+    // confirm we don't render text symbolizers
+    log = [];
+    var poly = new OpenLayers.Symbolizer.Polygon({
+        fillColor: "red"
+    });
+    renderer.update({
+        symbolizers: [
+            new OpenLayers.Symbolizer.Text({
+                fontFamily: "Times"
+            }),
+            poly
+        ]
+    });
+    t.eq(log.length, 1, "drawFeature called once given text and polygon symbolizers");
+    t.ok(log[0][1] instanceof OpenLayers.Symbolizer.Polygon, "drawFeature called with polygon symbolizer only");
+    t.ok(log[0][1] !== poly, "drawFeature called with clone of original symbolizer");
     
     renderer.destroy();
     
@@ -90,6 +107,6 @@ function test_update(t) {
     renderer.destroy();
     
 }
-    
+
 </script>
 </head><body></body></html>
