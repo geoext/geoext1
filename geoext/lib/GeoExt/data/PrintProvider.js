@@ -66,6 +66,12 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      */
     url: null,
     
+    /** api: config[autoLoad]
+     *  ``Boolean`` If set to true, the capabilities will be loaded upon
+     *  instance creation, and ``loadCapabilities`` does not need to be called
+     *  manually. Setting this when ``capabilities`` and no ``url`` is provided
+     *  has no effect. Default is false.
+    
     /** api: config[capabilities]
      *  ``Object`` Capabilities of the print service. Only required if ``url``
      *  is not provided. This is the object returned by the ``info.json``
@@ -298,7 +304,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
             if(this.url.split("/").pop()) {
                 this.url += "/";            
             }
-            this.loadCapabilities();
+            this.initialConfig.autoLoad && this.loadCapabilities();
         }
     },
     
@@ -446,9 +452,17 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
         }
     },
     
-    /** private: method[loadCapabilities]
+    /** api: method[loadCapabilities]
+     *
+     *  Loads the capabilities from the print service. If this instance is
+     *  configured with either ``capabilities`` or a ``url`` and ``autoLoad``
+     *  set to true, then this method does not need to be called from the
+     *  application.
      */
     loadCapabilities: function() {
+        if (!this.url) {
+            return;
+        }
         var url = this.url + "info.json";
         Ext.Ajax.request({
             url: url,
