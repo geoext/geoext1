@@ -78,6 +78,29 @@
             mapPanel.destroy();
         }
 
+        function test_ignoreLayerVisibility(t) {
+            t.plan(2);
+            var mapPanel = loadMapPanel();
+            mapPanel.map.layers[0].setVisibility(false);
+            var lp  = new GeoExt.LegendPanel({
+                defaults: {
+                    listeners: {
+                        beforehide: function() { return false; }
+                    }
+                },
+                renderTo: 'legendpanel'});
+            lp.render();
+            var id = lp.getIdForLayer(mapPanel.layers.getAt(0).getLayer());
+            t.eq(lp.getComponent(id).isVisible(), true, "Layer is visible because our beforehide listener returns false");
+
+            mapPanel.map.layers[0].setVisibility(true);
+            mapPanel.map.layers[0].setVisibility(false);
+            t.eq(lp.getComponent(id).isVisible(), true, "Layer has not been hidden in legend since our beforehide listener returns false");
+
+            lp.destroy();
+            mapPanel.destroy();
+        }
+
         function test_hide(t) {
             t.plan(1);
             var mapPanel = loadMapPanel();
