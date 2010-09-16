@@ -10,7 +10,7 @@
         var printCapabilities = {"scales":[{"name":"1:25,000","value":"25000"},{"name":"1:50,000","value":"50000"},{"name":"1:100,000","value":"100000"},{"name":"1:200,000","value":"200000"},{"name":"1:500,000","value":"500000"},{"name":"1:1,000,000","value":"1000000"},{"name":"1:2,000,000","value":"2000000"},{"name":"1:4,000,000","value":"4000000"}],"dpis":[{"name":"75","value":"75"},{"name":"150","value":"150"},{"name":"300","value":"300"}],"layouts":[{"name":"A4 portrait","map":{"width":440,"height":483},"rotation":true},{"name":"Legal","map":{"width":440,"height":483},"rotation":false}],"printURL":"http://demo.opengeo.org/geoserver/pdf/print.pdf","createURL":"http://demo.opengeo.org/geoserver/pdf/create.json"};
         
         function test_constructor(t) {
-            t.plan(7);
+            t.plan(9);
             var log = {};
             
             var origRequest = Ext.Ajax.request;
@@ -19,13 +19,13 @@
             }
             var printProvider = new GeoExt.data.PrintProvider({
                 url: "PrintProvider",
+                autoLoad: true,
                 listeners: {
                     "loadcapabilities": function() {
                         log.loadcapabilities = arguments;
                     }
                 }
             });
-            Ext.Ajax.request = origRequest;
             
             t.eq(printProvider.customParams, {}, "customParams initialized properly.");
             t.ok(log.loadcapabilities[0] == printProvider, "printProvider passed as 1st argument of the loadcapabilities listener.");
@@ -34,6 +34,21 @@
             t.ok(printProvider.layout == printProvider.layouts.getAt(0), "layout set to first available layout record.");
             t.ok(printProvider.dpi == printProvider.dpis.getAt(0), "dpi set to first available dpi record.");
             t.eq(printProvider.scales.getCount(), 8, "8 scales read in properly.");
+
+            log = {};
+            printProvider = new GeoExt.data.PrintProvider({
+                url: "PrintProvider",
+                listeners: {
+                    "loadcapabilities": function() {
+                        log.loadcapabilities = arguments;
+                    }
+                }
+            });
+            t.eq(log.loadcapabilities, undefined, "capabilities not loaded if autoLoad is not set");
+            printProvider.loadCapabilities();
+            t.ok(log.loadcapabilities, "capabilities loaded by calling loadCapabilities");
+
+            Ext.Ajax.request = origRequest;
         }
         
         function test_setLayout(t) {
