@@ -234,6 +234,14 @@ GeoExt.plugins.PrintExtent = Ext.extend(Ext.util.Observable, {
         this.map.addLayer(this.layer);
         this.map.addControl(this.control);
         this.control.activate();
+
+        // if we have a page and if the map has a center then update the
+        // transform box for that page, in case the transform control
+        // was deactivated when fitPage (and therefore onPageChange)
+        // was called.
+        if (this.page && this.map.getCenter()) {
+            this.updateBox();
+        }
     },
 
     /** api: method[hide]
