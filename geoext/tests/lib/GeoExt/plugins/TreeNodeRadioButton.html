@@ -1,9 +1,9 @@
 <html>
     <head>
-        <script src="../../../../../../openlayers/lib/OpenLayers.js"></script>
-        <script src="../../../../../../ext/adapter/ext/ext-base.js"></script>
-        <script src="../../../../../../ext/ext-all-debug.js"></script>
-        <script src="../../../../../lib/GeoExt.js"></script>
+        <script src="../../../../../openlayers/lib/OpenLayers.js"></script>
+        <script src="../../../../../ext/adapter/ext/ext-base.js"></script>
+        <script src="../../../../../ext/ext-all-debug.js"></script>
+        <script src="../../../../lib/GeoExt.js"></script>
     
         <script>
        
@@ -20,7 +20,7 @@
 
             var ui = Ext.extend(
                 GeoExt.tree.LayerNodeUI,
-                new GeoExt.tree.RadioButtonMixin()
+                new GeoExt.tree.TreeNodeUIEventMixin()
             );
             
             var node = new GeoExt.tree.LayerNode({
@@ -29,13 +29,16 @@
                 uiProvider: ui
             });
             
-            node.on("radiochange", function() {
-                t.ok(arguments[0] === node, "radiochange event triggered with the selected node as first argument");
-            });
-                        
             var panel = new Ext.tree.TreePanel({
                 renderTo: "tree",
-                root: node
+                root: node,
+                plugins: new GeoExt.plugins.TreeNodeRadioButton({
+                    listeners: {
+                        "radiochange": function() {
+                            t.ok(arguments[0] === node, "radiochange event triggered with the selected node as first argument");
+                        }
+                    }
+                })
             });
             
             mapPanel.on("render", function() {
