@@ -35,17 +35,20 @@
 
 {% block extrahead %}
     {% if pagename == "index" %}
-    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
     <script type="text/javascript" src="http://openlayers.org/api/2.10/OpenLayers.js"></script>
     <script src="{{ pathto('_static/GeoExt.js', 1) }}"></script>
     <script src="{{ pathto('_static/front-page.js', 1) }}"></script>
     {% endif %}
     {% if pagename == "examples" %}
-    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
     <script src="{{ pathto('_static/examples.js', 1) }}"></script>
     {% endif %}
     {% if pagename == "builder/v0.6" %}
-    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
     <script src="{{ pathto('_static/builder.js', 1) }}"></script>
     <script src="{{ pathto('_static/builder-v0.6.js', 1) }}"></script>
     <script>
@@ -55,7 +58,8 @@
     <script src="http://buildjs.opengeo.org/assets/geoext/0.6?callback=builder.setAssets"></script>
     {% endif %}
     {% if pagename == "builder/v0.7" %}
-    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-771.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
     <script src="{{ pathto('_static/builder.js', 1) }}"></script>
     <script src="{{ pathto('_static/builder-v0.7.js', 1) }}"></script>
     <script>

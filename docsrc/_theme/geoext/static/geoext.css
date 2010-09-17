@@ -1,6 +1,6 @@
-@import url("http://extjs.cachefly.net/ext-2.2.1/resources/css/ext-all.css");
+@import url(http://extjs.cachefly.net/ext-3.2.1/resources/css/ext-all.css);
 
-@import url("sphinxdoc.css");
+@import url(sphinxdoc.css);
 
 /* override some of ext-all.css */
 ul, ol {
@@ -206,7 +206,7 @@ ul.rss_items li.rss_item {
     overflow: auto;
 }
 .exampleblock h2 {
-    margin-top: 0px;
+    margin-top: 0;
     font-size: 1em;
 }
 a.examplelink {
