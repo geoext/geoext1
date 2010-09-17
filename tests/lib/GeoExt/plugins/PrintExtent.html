@@ -193,7 +193,7 @@
             t.plan(1);
 
             var page = {
-                feature: new OpenLayers.Feature(),
+                 feature: new OpenLayers.Feature(),
                  on: function() {},
                  un: function() {},
                  fit: function() {}
@@ -226,8 +226,54 @@
             mapPanel.destroy();
         }
 
+        function test_addPage_after_hide(t) {
+
+            //
+            // We want to test this sequence: hide, addPage, show.
+            // See http://trac.geoext.org/ticket/319
+            //
+
+            t.plan(1);
+
+            // set up
+
+            var map, printExtent, log;
+
+            map = new OpenLayers.Map({
+                div: "map",
+                layers: [
+                    new OpenLayers.Layer("layer", {isBaseLayer: true})
+                ],
+                center: new OpenLayers.LonLat(0, 0),
+                zoom: 5
+            });
+
+            printExtent = new GeoExt.plugins.PrintExtent({
+                printProvider: new GeoExt.data.PrintProvider({
+                    capabilities: printCapabilities
+                })
+            });
+
+            printExtent.init({map: map, on: function() {}});
+
+            // test
+
+            printExtent.hide();
+            printExtent.addPage();
+            printExtent.show();
+
+            var boxGeom = printExtent.control.box.geometry;
+            t.ok(!boxGeom.components[0].equals(new OpenLayers.Geometry.Point(-1, -1)),
+                 "TransformFeature box is ok after show");
+
+            // tear down
+
+            map.destroy();
+        }
+
     </script>
   <body>
     <div id="mappanel"></div>
+    <div id="map" style="width:600px;height:400px"></div>
   </body>
 </html>
