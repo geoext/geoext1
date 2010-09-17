@@ -106,7 +106,7 @@ Ext.onReady(function() {
             prefix = modules[base].prefix;
             checkbox = new Ext.form.Checkbox({
                 boxLabel: prefix ? (prefix + "." + name) : name,
-                name: "include",
+                name: "include[]",
                 inputValue: path,
                 ctCls: "component",
                 handler: function(box, checked) {
