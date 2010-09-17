@@ -12,7 +12,7 @@
  *  Create all kinds of tree nodes.
  */
 
-var mapPanel;
+var mapPanel, tree;
 Ext.onReady(function() {
     // create a map panel with some layers that we will show in our layer tree
     // below.
@@ -92,10 +92,8 @@ Ext.onReady(function() {
         ]
     });
 
-    // create our own layer node UI class, using the RadioButtonMixin
-    var LayerNodeUI = Ext.extend(
-        GeoExt.tree.LayerNodeUI, new GeoExt.tree.RadioButtonMixin()
-    );
+    // create our own layer node UI class, using the TreeNodeUIEventMixin
+    var LayerNodeUI = Ext.extend(GeoExt.tree.LayerNodeUI, new GeoExt.tree.TreeNodeUIEventMixin());
         
     // using OpenLayers.Format.JSON to create a nice formatted string of the
     // configuration for editing it in the UI
@@ -109,7 +107,8 @@ Ext.onReady(function() {
         loader: {
             baseAttrs: {
                 radioGroup: "foo",
-                uiProvider: "use_radio"
+                allowDelete: true,
+                uiProvider: "layernodeui"
             }
         }
     }, {
@@ -125,7 +124,7 @@ Ext.onReady(function() {
     }], true);
 
     // create the tree with the configuration from above
-    var tree = new Ext.tree.TreePanel({
+    tree = new Ext.tree.TreePanel({
         border: true,
         region: "west",
         title: "Layers",
@@ -134,12 +133,21 @@ Ext.onReady(function() {
         collapsible: true,
         collapseMode: "mini",
         autoScroll: true,
+        plugins: [
+            new GeoExt.plugins.TreeNodeRadioButton({
+                listeners: {
+                    "radiochange": function(node) {
+                        alert(node.text + " is now the active layer.");
+                    }
+                }
+            })
+        ],
         loader: new Ext.tree.TreeLoader({
             // applyLoader has to be set to false to not interfer with loaders
             // of nodes further down the tree hierarchy
             applyLoader: false,
             uiProviders: {
-                "use_radio": LayerNodeUI
+                "layernodeui": LayerNodeUI
             }
         }),
         root: {
