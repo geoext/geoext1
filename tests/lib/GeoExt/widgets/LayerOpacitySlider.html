@@ -324,6 +324,74 @@
             map.destroy();
             slider.destroy();
         }
+
+        function test_inverse(t) {
+            t.plan(2);
+            var map = new OpenLayers.Map();
+            var layer1 = new OpenLayers.Layer("1");
+            var layer2 = new OpenLayers.Layer("2");
+
+            map.addLayers([layer1, layer2]);
+
+            slider = new GeoExt.LayerOpacitySlider({
+                layer: layer1,
+                inverse: true,
+                renderTo: document.body
+            });
+            slider.setLayer(layer1);
+            layer1.setOpacity(0.9);
+            t.eq(slider.getValue(), 10, "value set correctly from changelayer event when inverse is true");
+            slider.setValue(40, undefined, true);
+            t.eq(layer1.opacity, 0.6, "opacity set correctly through slider move when inverse is true");
+
+            map.destroy();
+            slider.destroy();
+        }
+
+        function test_inverse_visibility(t) {
+
+            t.plan(4);
+
+            var layer1, layer2, slider;
+
+            var layer1 = new OpenLayers.Layer("1");
+            var layer2 = new OpenLayers.Layer("2");
+
+            slider = new GeoExt.LayerOpacitySlider({
+                renderTo: document.body,
+                layer: layer1,
+                complementaryLayer: layer2,
+                inverse: true,
+                changeVisibilityDelay: 0
+            });
+
+            slider.value = 99;
+            slider.setValue(slider.minValue);
+            t.eq(layer2.getVisibility(), false,
+                 "setting slider value to min value makes " +
+                 "complementary layer invisible");
+
+            slider.setValue(slider.maxValue - 1);
+            t.eq(layer2.getVisibility(), true,
+                 "setting slider value to some value different " +
+                 "than min value makes the complementary layer " +
+                 "visible again");
+
+            slider.setValue(slider.maxValue - 2);
+            t.eq(layer2.getVisibility(), true,
+                 "setting slider value to some other value different " +
+                 "than min value does not make the complementary layer " +
+                 "invisible");
+
+            slider.setValue(slider.maxValue);
+            t.eq(layer2.getVisibility(), true,
+                 "setting slider value to max value does not make " +
+                 "the complementary layer invisible");
+
+            slider.destroy();
+
+        }
+
     </script>
   <body>
   </body>
