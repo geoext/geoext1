@@ -159,6 +159,74 @@
         t.eq(pointRenderer.symbolType, "Point", "got point renderer");
 
     }
+    
+    function test_getRuleTitle(t) {
+        t.plan(9);
+        var legend;
+
+        var rules = [
+            new OpenLayers.Rule({
+                title: "Rule 0 Title",
+                name: "Rule 0 Name",
+                symbolizers: [
+                    new OpenLayers.Symbolizer.Point({
+                        pointRadius: 6,
+                        fillColor: "red"
+                    })
+                ]
+            }),
+            new OpenLayers.Rule({
+                name: "Rule 1 Name",
+                symbolizers: [
+                    new OpenLayers.Symbolizer.Point({
+                        pointRadius: 8,
+                        fillColor: "red"
+                    })
+                ]
+            }),
+            new OpenLayers.Rule({
+                symbolizers: [
+                    new OpenLayers.Symbolizer.Point({
+                        pointRadius: 10,
+                        fillColor: "red"
+                    })
+                ]
+            })
+        ];
+        
+        // [a] test legend with default config
+        legend = new GeoExt.VectorLegend({
+            renderTo: "legendpanel",
+            rules: rules
+        });
+        t.eq(legend.getRuleTitle(rules[0]), "Rule 0 Title", "[a] rule.title used when present");
+        t.eq(legend.getRuleTitle(rules[1]), "Rule 1 Name", "[a] rule.name used if rule.title not present");
+        t.eq(legend.getRuleTitle(rules[2]), "Untitled 3", "[a] Untitled X (where x is index + 1) used when no rule.title or rule.name");
+        legend.destroy();
+        
+        // [b] test legend with custom untitledPrefix
+        legend = new GeoExt.VectorLegend({
+            renderTo: "legendpanel",
+            rules: rules,
+            untitledPrefix: "foo "
+        });        
+        t.eq(legend.getRuleTitle(rules[0]), "Rule 0 Title", "[b] rule.title used when present");
+        t.eq(legend.getRuleTitle(rules[1]), "Rule 1 Name", "[b] rule.name used if rule.title not present");
+        t.eq(legend.getRuleTitle(rules[2]), "foo 3", "[b] foo X (where x is index + 1) used when no rule.title or rule.name");
+        legend.destroy();
+        
+        // [c] test legend with null untitledPrefix
+        legend = new GeoExt.VectorLegend({
+            renderTo: "legendpanel",
+            rules: rules,
+            untitledPrefix: null
+        });        
+        t.eq(legend.getRuleTitle(rules[0]), "Rule 0 Title", "[c] rule.title used when present");
+        t.eq(legend.getRuleTitle(rules[1]), "Rule 1 Name", "[c] rule.name used if rule.title not present");
+        t.eq(legend.getRuleTitle(rules[2]), "", "[c] empty string used when no rule.title or rule.name");
+        legend.destroy();
+        
+    }
 
     </script>
 </head><body>

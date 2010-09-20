@@ -69,7 +69,7 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  ``String``
      *  The prefix to use as a title for rules with no title or
      *  name.  Default is ``"Untitled "``.  Prefix will be appended with a
-     *  number.
+     *  number that corresponds to the index of the rule (1 for first rule).
      */
     untitledPrefix: "Untitled ",
     
@@ -132,12 +132,6 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  apply for the given scale will be rendered.
      */
     currentScaleDenominator: null,
-    
-    /** private: property[untitledCount]
-     *  ``Number``
-     *  Last number used for untitled rule.
-     */
-    untitledCount: 0,
     
     /** private: method[initComponent]
      *  Initializes the Vector legend.
@@ -631,7 +625,11 @@ GeoExt.VectorLegend = Ext.extend(GeoExt.LayerLegend, {
      *  Get a rule title given a rule.
      */
     getRuleTitle: function(rule) {
-        return rule.title || rule.name || (this.untitledPrefix + (++this.untitledCount));
+        var title = rule.title || rule.name || "";
+        if (!title && this.untitledPrefix) {
+            title = this.untitledPrefix + (this.rules.indexOf(rule) + 1);
+        }
+        return title;
     },
 
     /** private: method[beforeDestroy]
