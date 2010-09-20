@@ -40,7 +40,7 @@ Ext.onReady(function() {
             height: 120,
             x: 10,
             y: 10,
-            plugins: new GeoExt.LayerOpacitySliderTip()
+            plugins: new GeoExt.LayerOpacitySliderTip({template: '<div>Opacity: {opacity}%</div>'})
         }]
     });
     // create a separate slider bound to the map but displayed elsewhere
@@ -49,8 +49,10 @@ Ext.onReady(function() {
         aggressive: true, 
         width: 200,
         isFormField: true,
+        inverse: true,
         fieldLabel: "opacity",
-        renderTo: "slider"
+        renderTo: "slider",
+        plugins: new GeoExt.LayerOpacitySliderTip({template: '<div>Transparency: {opacity}%</div>'})
     });
         
     var clone = wms.clone();
