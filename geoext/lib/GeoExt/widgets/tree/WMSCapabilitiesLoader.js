@@ -17,7 +17,11 @@ Ext.namespace("GeoExt.tree");
 /** api: constructor
  *  .. class:: WMSCapabilitiesLoader
  *
- *      A loader that will load all layers of a Web Map Service (WMS).
+ *      A loader that will load create a tree of all layers of a Web Map
+ *      Service (WMS), maintaining its tree structure. Nodes created by this
+ *      loader are instances of ``Ext.tree.TreeNode``. If the WMS Capabilities
+ *      advertise a name for a layer, an OpenLayers.Layer.WMS instance will
+ *      be set on the node in its ``layer`` attribute.
  */
 GeoExt.tree.WMSCapabilitiesLoader = function(config) {
     Ext.apply(this, config);
