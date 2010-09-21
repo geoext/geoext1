@@ -408,14 +408,25 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
         }
 
         if(options.legend) {
+            var legend = options.legend;
+            var rendered = legend.rendered;
+            if (!rendered) {
+                legend = legend.cloneConfig({
+                    renderTo: document.body,
+                    hidden: true
+                });
+            }
             var encodedLegends = [];
-            options.legend.items.each(function(cmp) {
+            legend.items.each(function(cmp) {
                 if(!cmp.hidden) {
                     var encFn = this.encoders.legends[cmp.getXType()];
                     encodedLegends = encodedLegends.concat(
                         encFn.call(this, cmp));
                 }
             }, this);
+            if (!rendered) {
+                legend.destroy();
+            }
             jsonData.legends = encodedLegends;
         }
 
