@@ -107,7 +107,6 @@ Ext.onReady(function() {
         loader: {
             baseAttrs: {
                 radioGroup: "foo",
-                allowDelete: true,
                 uiProvider: "layernodeui"
             }
         }
