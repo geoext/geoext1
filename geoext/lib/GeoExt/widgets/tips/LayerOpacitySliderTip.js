@@ -69,9 +69,9 @@ GeoExt.LayerOpacitySliderTip = Ext.extend(GeoExt.SliderTip, {
     /** private: method[getText]
      *  :param slider: ``Ext.Slider`` The slider this tip is attached to.
      */
-    getText: function(slider) {
+    getText: function(thumb) {
         var data = {
-            opacity: slider.getValue()
+            opacity: thumb.value
         };
         return this.compiledTemplate.apply(data);
     }
