@@ -25,7 +25,7 @@ GeoExt for use on your own web pages is a multi-step process:
 #.  Place both unpacked libraries in a directory that is published by your web
     server. For this tutorial, I will assume that this is the root of your web
     server, so that GeoExt.js is at http://localhost/GeoExt/lib/GeoExt.js and
-    ext-all.js is at http://localhost/ext-2.2/ext-all.js
+    ext-all.js is at http://localhost/ext-3.2.1/ext-all.js
 
 #.  Now you're ready to use GeoExt in your application!
 
@@ -48,9 +48,9 @@ navigation.
 
     .. code-block:: html
     
-        <script src="ext-2.2/adapter/ext/ext-base.js" type="text/javascript"></script>
-        <script src="ext-2.2/ext-all.js"  type="text/javascript"></script>
-        <link rel="stylesheet" type="text/css" href="ext-2.2/resources/ext-all.css"></link>
+        <script src="ext-3.2.1/adapter/ext/ext-base.js" type="text/javascript"></script>
+        <script src="ext-3.2.1/ext-all.js"  type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="ext-3.2.1/resources/ext-all.css"></link>
         <script src="OpenLayers/OpenLayers.js" type="text/javascript"></script>
         <script src="GeoExt/lib/GeoExt.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="GeoExt/resources/geoext-all-debug.css"></link>
@@ -91,9 +91,9 @@ The entire source of your page should look something like:
     <head>
 
     <title> A Basic GeoExt Page </title>
-    <script src="ext-2.2/adapter/ext/ext-base.js" type="text/javascript"></script>
-    <script src="ext-2.2/ext-all.js"  type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="ext-2.2/resources/ext-all.css"></link>
+    <script src="ext-3.2.1/adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="ext-3.2.1/ext-all.js"  type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="ext-3.2.1/resources/ext-all.css"></link>
     <script src="OpenLayers/OpenLayers.js" type="text/javascript"></script>
     <script src="GeoExt/lib/GeoExt.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="GeoExt/resources/geoext-all-debug.css"></link>

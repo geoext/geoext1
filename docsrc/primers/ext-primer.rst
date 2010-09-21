@@ -29,9 +29,9 @@ that is published by your web server.
 
 .. code-block:: html
 
-    <script src="ext-2.2/adapter/ext/ext-base.js" type="text/javascript"></script>
-    <script src="ext-2.2/ext-all.js"  type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="ext-2.2/resources/css/ext-all.css"></link>
+    <script src="ext-3.2.1/adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="ext-3.2.1/ext-all.js"  type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="ext-3.2.1/resources/css/ext-all.css"></link>
 
 This will load the code and styles for Ext.  Change the paths
 according to where you have put the Ext files.
