@@ -71,6 +71,7 @@ GeoExt.data.PrintProvider = Ext.extend(Ext.util.Observable, {
      *  instance creation, and ``loadCapabilities`` does not need to be called
      *  manually. Setting this when ``capabilities`` and no ``url`` is provided
      *  has no effect. Default is false.
+     */
 
     /** api: config[capabilities]
      *  ``Object`` Capabilities of the print service. Only required if ``url``
