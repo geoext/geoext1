@@ -4,7 +4,7 @@
  Primer: Ext
 =============
 
-GeoExt extends `Ext JS <http://extjs.com/>`_, a rich library of web UI
+GeoExt extends `Ext JS <http://http://www.sencha.com/deploy/dev/docs//>`_, a rich library of web UI
 widgets and helper classes.  Using GeoExt requires a working knowledge
 of Ext's idioms.  This tutorial provides a quick overview of core Ext concepts.
 
@@ -14,13 +14,13 @@ Getting Started
 ===============
 
 To start using Ext, you will first have to `download
-<http://www.extjs.com/products/extjs/download.php>`_ it.
+<http://www.http://www.sencha.com/deploy/dev/docs//products/extjs/download.php>`_ it.
 For more complete instructions about how configure a web page to use
 Ext, you can check the :doc:`../tutorials/quickstart` tutorial.
 
 When you download Ext, you also get their excellent
-`Examples <http://www.extjs.com/deploy/dev/examples/>`_ and
-`API Documentation <http://www.extjs.com/deploy/dev/docs/>`_, which you can also
+`Examples <http://www.http://www.sencha.com/deploy/dev/docs//deploy/dev/examples/>`_ and
+`API Documentation <http://www.http://www.sencha.com/deploy/dev/docs//deploy/dev/docs/>`_, which you can also
 look at on-line for education and reference.
 
 In order to get Ext running on a page you will need to have something
@@ -129,6 +129,6 @@ This code introduces some new concepts:
 Ext provides a variety of other layouts, including a Tab layout and a
 Wizard layout.  The best way to explore these layouts is using the `Ext
 Layout Browser
-<http://extjs.com/deploy/dev/examples/layout-browser/layout-browser.html>`_
+<http://http://www.sencha.com/deploy/dev/docs//deploy/dev/examples/layout-browser/layout-browser.html>`_
 , which demonstrates each layout and provides sample code.
 

@@ -7,7 +7,7 @@ JavaScript Toolkit for Rich Web Mapping Applications
 
 GeoExt brings together the geospatial know how of
 `OpenLayers <http://openlayers.org>`_ with the user interface savvy of `Ext JS
-<http://extjs.com>`_ to help you build powerful desktop style GIS apps on
+<http://www.sencha.com/products/js/>`_ to help you build powerful desktop style GIS apps on
 the web with JavaScript.
 
 `Documentation <./docs.html>`_ | 

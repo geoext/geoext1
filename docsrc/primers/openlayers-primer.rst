@@ -381,5 +381,5 @@ More Information
 More information about both event types can be found at the links below:
 
 * `OpenLayers Events Class Documentation <http://dev.openlayers.org/docs/files/OpenLayers/Events-js.html>`_
-* `Ext.util.Observable Class Documentation <http://extjs.com/deploy/ext/docs/output/Ext.util.Observable.html>`_
+* `Ext.util.Observable Class Documentation <http://http://www.sencha.com/deploy/dev/docs//deploy/ext/docs/output/Ext.util.Observable.html>`_
 * `Ext.util.Observable SlideShare <http://www.slideshare.net/sdhjl2000/ext-j-s-observable>`_

@@ -14,7 +14,7 @@ GeoExt classes are typically configured with OpenLayers objects.  For detail on
 methods and properties provided by these objects, see the
 `OpenLayers API Documentation`_.
 
-.. _`Ext API Documentation`: http://extjs.com/deploy/dev/docs/
+.. _`Ext API Documentation`: http://www.sencha.com/deploy/dev/docs/
 .. _`OpenLayers API Documentation`: http://dev.openlayers.org/apidocs
 
 .. module:: GeoExt
