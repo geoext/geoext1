@@ -102,8 +102,10 @@ GeoExt.plugins.PrintPageField = Ext.extend(Ext.util.Observable, {
     init: function(target) {
         this.target = target;
         var onCfg = {scope: this};
-        onCfg[target instanceof Ext.form.ComboBox ? "select" : "valid"] =
-            this.onFieldChange;
+        var eventName = target instanceof Ext.form.ComboBox ?
+                            "select" : target instanceof Ext.form.Checkbox ?
+                                "check" : "valid";
+        onCfg[eventName] = this.onFieldChange;
         target.on(onCfg);
         this.printPage.on({
             "change": this.onPageChange,
