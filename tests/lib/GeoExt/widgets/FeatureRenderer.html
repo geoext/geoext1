@@ -15,14 +15,14 @@ function test_initialize(t) {
     
     var feature = renderer.feature;
     t.ok(feature, "renderer feature set by default");
-    t.ok(feature.geometry instanceof OpenLayers.Geometry.Point, "point feature by default");
+    t.ok(feature.geometry instanceof OpenLayers.Geometry.Polygon, "polygon feature by default");
     
     renderer.destroy();
     
 }
 
 function test_drawFeature(t) {
-    t.plan(7);
+    t.plan(10);
     
 
     var renderer = new GeoExt.FeatureRenderer({
@@ -49,17 +49,25 @@ function test_drawFeature(t) {
     var poly = new OpenLayers.Symbolizer.Polygon({
         fillColor: "red"
     });
+    var line = new OpenLayers.Symbolizer.Line({
+        strokeColor: "red"
+    });
     renderer.update({
         symbolizers: [
             new OpenLayers.Symbolizer.Text({
                 fontFamily: "Times"
             }),
-            poly
+            poly, line, {fillColor: "red"}
         ]
     });
-    t.eq(log.length, 1, "drawFeature called once given text and polygon symbolizers");
+    t.eq(log.length, 3, "drawFeature called three times given text, polygon, line and object symbolizers");
     t.ok(log[0][1] instanceof OpenLayers.Symbolizer.Polygon, "drawFeature called with polygon symbolizer only");
     t.ok(log[0][1] !== poly, "drawFeature called with clone of original symbolizer");
+    
+    // confirm that we use the correct features for rendering
+    t.ok(log[0][0].geometry instanceof OpenLayers.Geometry.Polygon, "polygon symbolizer applied to a polygon feature");
+    t.ok(log[1][0].geometry instanceof OpenLayers.Geometry.LineString, "line symbolizer applied to a line feature");
+    t.ok(log[2][0].geometry instanceof OpenLayers.Geometry.Polygon, "symbolizer object applied to a symbolType feature");
     
     renderer.destroy();
     
