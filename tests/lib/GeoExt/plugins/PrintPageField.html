@@ -170,6 +170,30 @@
             t.eq(log.setValue, undefined, "setValue not called while updating.");
         }
 
+        function test_Checkbox(t) {
+            t.plan(1);
+
+            var printPage = new GeoExt.data.PrintPage({
+                printProvider: new GeoExt.data.PrintProvider({
+                    capabilities: printCapabilities
+                })
+            });
+
+            var plugin = new GeoExt.plugins.PrintPageField({
+                printPage: printPage
+            });
+
+            var field = new Ext.form.Checkbox({
+                name: "foo",
+                checked: true,
+                plugins: [plugin]
+            });
+
+            field.setValue(false);
+            t.eq(printPage.customParams.foo, false,
+                 "setValue(false) called, custom param is false");
+        }
+
     </script>
   </head>  
   <body>
