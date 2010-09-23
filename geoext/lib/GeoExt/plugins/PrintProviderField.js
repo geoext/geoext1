@@ -101,7 +101,8 @@ GeoExt.plugins.PrintProviderField = Ext.extend(Ext.util.Observable, {
         this.target = target;
         var onCfg = {
             scope: this,
-            "render": this.onRender
+            "render": this.onRender,
+            "beforedestroy": this.onBeforeDestroy
         };
         onCfg[target instanceof Ext.form.ComboBox ? "select" : "valid"] =
             this.onFieldChange;
@@ -168,9 +169,10 @@ GeoExt.plugins.PrintProviderField = Ext.extend(Ext.util.Observable, {
         }
     },
     
-    /** private: method[destroy]
+    /** private: method[onBeforeDestroy]
      */
-    destroy: function() {
+    onBeforeDestroy: function() {
+        this.target.un("beforedestroy", this.onBeforeDestroy, this);
         this.target.un("render", this.onRender, this);
         this.target.un("select", this.onFieldChange, this);
         this.target.un("valid", this.onFieldChange, this);
