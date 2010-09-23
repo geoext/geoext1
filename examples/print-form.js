@@ -38,7 +38,7 @@ Ext.onReady(function() {
         map: {
             eventListeners: {
                 // recenter/resize page extent after pan/zoom
-                "moveend": function(){ printPage.fit(this); }
+                "moveend": function(){ printPage.fit(this, {mode: "screen"}); }
             }
         },
         layers: [
