@@ -193,6 +193,6 @@ param:
     handlers.
 
 .. seealso:: The ExtJS TreePanel `documentation
-    <http://http://www.sencha.com/deploy/dev/docs//deploy/dev/docs/?class=Ext.tree.TreePanel>`_ and `examples
-    <http://http://www.sencha.com/deploy/dev/docs//deploy/dev/examples/samples.html#sample-4>`_ for more
+    <http://dev.sencha.com/deploy/dev/docs/?class=Ext.tree.TreePanel>`_ and `examples
+    <http://dev.sencha.com/deploy/dev/examples/#sample-7>`_ for more
     information about customizing tree panels.

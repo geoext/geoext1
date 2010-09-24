@@ -98,7 +98,7 @@ In the HTML, you'll need to add a ``div`` for the grid panel to render itself in
 
 More information on the :class:`Ext.grid.GridPanel` is available from the `ExtJS
 API documentation
-<http://http://www.sencha.com/deploy/dev/docs//deploy/dev/docs/?class=Ext.grid.GridPanel>`_.
+<http://dev.sencha.com/deploy/dev/docs/?class=Ext.grid.GridPanel>`_.
 
 .. note:: 
   This code is only meant as an example to demonstrate the map panel's
