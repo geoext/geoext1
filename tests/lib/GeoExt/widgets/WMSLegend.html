@@ -60,10 +60,24 @@
         }
 
         function test_legendurl(t) {
-            t.plan(7);
+            t.plan(8);
 
             var l, url, expectedUrl;
             var mapPanel = loadMapPanel();
+
+            l = new GeoExt.WMSLegend({
+                renderTo: 'legendwms',
+                baseParams: {foo: 'bar bar'},
+                useScaleParameter: false,
+                layerRecord: mapPanel.layers.getAt(0)
+            });
+            l.render();
+
+            url = l.items.get(1).url;
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fgif&LAYER=a&foo=bar%20bar";
+            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
+            l.destroy()
+
             l = new GeoExt.WMSLegend({
                 renderTo: 'legendwms',
                 useScaleParameter: false,
