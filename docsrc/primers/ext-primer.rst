@@ -4,7 +4,7 @@
  Primer: Ext
 =============
 
-GeoExt extends `Ext JS <http://http://www.sencha.com/deploy/dev/docs//>`_, a rich library of web UI
+GeoExt extends `Ext JS <http://www.sencha.com/products/js/>`_, a rich library of web UI
 widgets and helper classes.  Using GeoExt requires a working knowledge
 of Ext's idioms.  This tutorial provides a quick overview of core Ext concepts.
 
@@ -19,7 +19,7 @@ For more complete instructions about how configure a web page to use
 Ext, you can check the :doc:`../tutorials/quickstart` tutorial.
 
 When you download Ext, you also get their excellent
-`Examples <http://www.sencha.com/deploy/dev/examples/>`_ and
+`Examples <http://dev.sencha.com/deploy/dev/examples/>`_ and
 `API Documentation <http://dev.sencha.com/deploy/dev/docs/>`_, which you can also
 look at on-line for education and reference.
 
