@@ -1,0 +1,147 @@
+GeoExt 1.0 Release Notes
+========================
+
+These notes summarize new features, bug fixes and API
+changes since the last release. GeoExt 1.0 closes a total of 64 tickets.
+
+Dependencies
+------------
+
+* Ext JS >= 3.2
+* OpenLayers >= 2.10
+
+GeoExt 1.0 was tested with Ext JS 3.2.1 and OpenLayers 2.10.
+
+Overview of new Features in GeoExt 1.0
+--------------------------------------
+
+* New KaMap encoder for GeoExt.data.PrintProvider
+* New GeoExt.tree.WMSCapabilitiesLoader to build a tree representing a WMS
+  GetCapabilities response
+* New GeoExt.plugins.TreeNodeComponent to render tree nodes with an additional
+  Ext.Component (e.g. a GeoExt.LayerLegend)
+
+See the enhancement page for the complete list of all 30 enhancements made in
+the 1.0 release.
+
+Bug Fixes
+---------
+
+See the defect page for the list of all 25 bugs fixed in the 1.0 release.
+
+API Changes since 0.7
+---------------------
+
+* Getter and setter methods for the layer in GeoExt.data.LayerRecord.
+  Applications have to be changed in the following way:
+
+  // old
+  var layer = layerRecord.get("layer");
+  // new
+  var layer = layerRecord.getLayer();
+
+  // old
+  layerRecord.set("layer", layer);
+  // new
+  layerRecord.setLayer(layer);
+
+* Getter and setter methods for the feature in GeoExt.data.FeatureRecord.
+  Applications have to be changed in the following way:
+  
+  // old
+  var feature = featureRecord.get("feature");
+  // new
+  var feature = featureRecord.getFeature();
+
+  // old
+  featureRecord.set("feature", feature);
+  // new
+  featureRecord.setFeature(feature);
+
+* 2nd argument for GeoExt.data.PrintPage::fit changed. Previously, the argument
+  was a boolean. When set to true, the closest matching print extent would have
+  been used. The new argument is an object, with a mode property. To keep
+  applications behave the same, the following changes have to be made:
+
+  // old
+  printPage.fit(map, true);
+  // new
+  printPage.fit(map, {mode: "closest"});
+  
+* TreeNodeUI mixins replaced with TreePanel plugins. To make tree nodes
+  extensible, a new TreeNodeUIEventMixin has been created. This allows easier
+  creation of custom ui elements for tree nodes. Applications have to be
+  changed the following way (example: GeoExt.tree.RadioButtonMixin):
+
+  // old
+  var LayerNodeUI = Ext.extend( 
+      GeoExt.tree.LayerNodeUI, new GeoExt.tree.RadioButtonMixin() 
+  ); 
+  var tree = new Ext.tree.TreePanel();
+
+  // new
+  var LayerNodeUI = Ext.extend(
+      GeoExt.tree.LayerNodeUI, new GeoExt.tree.TreeNodeUIEventMixin()
+  );
+  var tree = new Ext.tree.TreePanel({
+      plugins:  [new GeoExt.plugins.TreeNodeRadioButton()] 
+  });
+
+* Layers configured in the MapPanel's layers property won't be added to the map
+  before it is rendered. This is a behavioral change that may require changes
+  in code that relies on a layer's map property before the map is rendered.
+
+* Simplified API for GeoExt.Popup. The feature and lonlat config options no
+  longer exist and were replaced with a new location option which can take
+  OpenLayers.Feature.Vector, OpenLayers.Geometry, OpenLayers.LonLat or
+  OpenLayers.Pixel as arguments. In applications, the feature or lonlat config
+  key has to be changed to location.
+
+* GeoExt.SliderTip can now handle multiple thumbs. The API change is that the
+  getText method in the tip gets a thumb argument instead of slider (this is
+  consistent with Ext.slider.Tip).
+
+* Added a baseParams config option to GeoExt.WMSLegend. With this change, the
+  imageFormat config option was removed. Applications need to be changed:
+  
+  // old
+  var legend = new GeoExt.WMSLegend({
+      layerRecord: layerRec,
+      imageFormat: "image/png"
+  });
+
+  // new
+  var legend = new GeoExt.WMSLegend({
+      layerRecord: layerRec,
+      baseParams: {FORMAT: "image/png"}
+  });
+
+* The GeoExt.data.FeatureStore's addFeatureFilter and addRecordFilter were
+  removed. As a replacement for addFeatureFilter, the new featureFilter config
+  option was introduced, which is to be configured with an OpenLayers.Filter
+  instance. Instead of addRecordFilter, applications should use the layer's
+  beforefeatureadded event:
+  
+  // old
+  var featureStore = new GeoExt.data.FeatureStore({
+      addFeatureFilter: function(feature) {
+          return false;
+      }
+  });
+
+  // new
+  var featureStore = new GeoExt.data.FeatureStore({
+      featureFilter: new OpenLayers.Filter({
+          evaluate: function(feature) {
+              return false;
+          }
+      });
+  });
+
+* GeoExt.data.PrintProvider has a new autoLoad config option. Only if set to
+  true, the capabilities will immediately be loaded. Applications that use the
+  url config option have to configure autoLoad: true in addition to keep the
+  current behavior.
+  
+* Two methods were renamed in GeoExt.plugins.PrintExtent: setUp is now called
+  show, and tearDown is called hide.
