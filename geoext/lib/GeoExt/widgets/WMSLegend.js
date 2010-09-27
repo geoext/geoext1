@@ -79,9 +79,8 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
     initComponent: function() {
         GeoExt.WMSLegend.superclass.initComponent.call(this);
         var layer = this.layerRecord.getLayer();
-        if (this.useScaleParameter === true) {
-            layer.events.register("moveend", this, this.onLayerMoveend);
-        }
+        this._noMap = !layer.map;
+        layer.events.register("moveend", this, this.onLayerMoveend);
         this.update();
     },
     
@@ -89,7 +88,9 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
      *  :param e: ``Object``
      */
     onLayerMoveend: function(e) {
-        if (e.zoomChanged === true) {
+        if ((e.zoomChanged === true && this.useScaleParameter === true) ||
+                                                                this._noMap) {
+            delete this._noMap;
             this.update();
         }
     },
