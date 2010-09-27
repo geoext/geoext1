@@ -8,12 +8,13 @@
 
     <script type="text/javascript">
 
-        function loadMapPanel() {
+        function loadMapPanel(render) {
+            var renderTo = render === false ? null : "mappanel";
             var mapPanel = new GeoExt.MapPanel({
                 // panel options
                 id: "map-panel",
                 title: "GeoExt MapPanel",
-                renderTo: "mappanel",
+                renderTo: renderTo,
                 height: 400,
                 width: 600,
                 // map panel-specific options
@@ -60,10 +61,10 @@
         }
 
         function test_legendurl(t) {
-            t.plan(8);
+            t.plan(9);
 
             var l, url, expectedUrl;
-            var mapPanel = loadMapPanel();
+            var mapPanel = loadMapPanel(false);
 
             l = new GeoExt.WMSLegend({
                 renderTo: 'legendwms',
@@ -71,9 +72,10 @@
                 useScaleParameter: false,
                 layerRecord: mapPanel.layers.getAt(0)
             });
-            l.render();
+            mapPanel.render("mappanel");
 
-            url = l.items.get(1).url;
+            url = l.items.get(1) && l.items.get(1).url;
+            t.eq(!!url, true, "legend image loaded even when MapPanel is not rendered at legend instantiation.")
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&FORMAT=image%2Fpng&foo=bar%20bar";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
             l.destroy()
