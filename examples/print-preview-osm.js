@@ -6,7 +6,7 @@
  * of the license.
  */
 
-/** api: example[print-preview]
+/** api: example[print-preview-osm]
  *  Printing OpenStreetMap
  *  ----------------------------------------
  *  PrintMapPanel with an OSM map.
