@@ -42,7 +42,11 @@ examples:
 	    sed -i.bak "s/\.\.\/lib\/GeoExt\.js/\.\.\/script\/GeoExt\.js/g" $${file} ; \
 	    sed -i.bak "s/geoext-all-debug\.css/geoext-all\.css/g" $${file} ; \
 	    rm $${file}.bak ; \
-	done ; 	
+	done ;
+
+docs:
+	mkdir -p $(LIB_NAME)/docs
+	cp -Rf ../../../www/* $(LIB_NAME)/docs
 
 lib:
 	@echo "Building the library."
@@ -70,3 +74,5 @@ zip: lib
 	zip $(ZIP_NAME) -r $(LIB_NAME)
 
 dist: examples zip
+
+release: examples docs zip
