@@ -79,10 +79,11 @@ GeoExt.data.PrintPage = Ext.extend(Ext.util.Observable, {
         }
         
         this.addEvents(
-            /** api: events[change]
+            /** api: event[change]
              *  Triggered when any of the page properties have changed
              *  
              *  Listener arguments:
+             *
              *  * printPage - :class:`GeoExt.data.PrintPage` this printPage
              *  * modifications - ``Object`` Object with one or more of
              *      ``scale``, ``center`` and ``rotation``, notifying

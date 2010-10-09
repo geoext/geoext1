@@ -30,21 +30,23 @@ GeoExt.tree.LayerLoader = function(config) {
     Ext.apply(this, config);
     this.addEvents(
     
-        /** api: events[beforeload]
+        /** api: event[beforeload]
          *  Triggered before loading children. Return false to avoid
          *  loading children.
          *  
          *  Listener arguments:
+         *  
          *  * loader - :class:`GeoExt.tree.LayerLoader` this loader
          *  * node - ``Ex.tree.TreeNode`` the node that this loader is
          *      configured with
          */
         "beforeload",
         
-        /** api: events[load]
+        /** api: event[load]
          *  Triggered after children wer loaded.
          *  
          *  Listener arguments:
+         *  
          *  * loader - :class:`GeoExt.tree.LayerLoader` this loader
          *  * node - ``Ex.tree.TreeNode`` the node that this loader is
          *      configured with

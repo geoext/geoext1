@@ -38,10 +38,15 @@ ext:
 examples:
 	mkdir -p $(LIB_NAME)/examples 
 	rsync -au --exclude=.svn `pwd`/../examples `pwd`/$(LIB_NAME)
-	for file in `find $(LIB_NAME)/examples/ -name "*.html"`; do \
-	    sed -i "s/\.\.\/lib\/GeoExt\.js/\.\.\/script\/GeoExt\.js/g" $${file} ; \
-	    sed -i "s/geoext-all-debug\.css/geoext-all\.css/g" $${file} ; \
-	done ; 	
+	for file in `find $(LIB_NAME)/examples -name "*.html"`; do \
+	    sed -i.bak "s/\.\.\/lib\/GeoExt\.js/\.\.\/script\/GeoExt\.js/g" $${file} ; \
+	    sed -i.bak "s/geoext-all-debug\.css/geoext-all\.css/g" $${file} ; \
+	    rm $${file}.bak ; \
+	done ;
+
+docs:
+	mkdir -p $(LIB_NAME)/docs
+	cp -Rf ../../../www/* $(LIB_NAME)/docs
 
 lib:
 	@echo "Building the library."
@@ -69,3 +74,5 @@ zip: lib
 	zip $(ZIP_NAME) -r $(LIB_NAME)
 
 dist: examples zip
+
+release: examples docs zip

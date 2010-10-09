@@ -6,6 +6,7 @@
         * Header (full class name)
         * Base Link and Ineritance (optional link to ext super and parent classes)
         * Xtype (optional)
+        * Ptype (optional)
         * Constructor (class def)
         * Examples (optional)
         * Config Options (optional)
@@ -20,7 +21,7 @@
 :class:`{{ module }}.{{ class }}`
 ================================================================================
 
-{% if base_link is defined or xtype is defined or _parents is defined%}
+{% if base_link is defined or xtype is defined or ptype is defined or _parents is defined %}
 .. cssclass:: meta
 
 {% if base_link is defined or _parents is defined %}
@@ -32,6 +33,10 @@ Extends
 {% if xtype is defined %}
 xtype
     ``{{ xtype }}``
+{% endif %}
+{% if ptype is defined %}
+ptype
+    ``{{ ptype }}``
 {% endif %}
 {% endif %}
 

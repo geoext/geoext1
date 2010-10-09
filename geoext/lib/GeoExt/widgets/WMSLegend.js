@@ -43,18 +43,18 @@ GeoExt.WMSLegend = Ext.extend(GeoExt.LayerLegend, {
     defaultStyleIsFirst: true,
 
     /** api: config[useScaleParameter]
-     * ``Boolean``
-     * Should we use the optional SCALE parameter in the SLD WMS
-     * GetLegendGraphic request? Defaults to true.
+     *  ``Boolean``
+     *  Should we use the optional SCALE parameter in the SLD WMS
+     *  GetLegendGraphic request? Defaults to true.
      */
     useScaleParameter: true,
 
     /** api: config[baseParams]
      * ``Object``
-     * Optional parameters to add to the legend url, this can e.g. be used to
-     *     support vendor-specific parameters in a SLD WMS GetLegendGraphic
-     *     request. To override the default MIME type of image/gif use the
-     *     FORMAT parameter in baseParams.
+     *  Optional parameters to add to the legend url, this can e.g. be used to
+     *  support vendor-specific parameters in a SLD WMS GetLegendGraphic
+     *  request. To override the default MIME type of image/gif use the
+     *  FORMAT parameter in baseParams.
      *     
      *  .. code-block:: javascript
      *     
