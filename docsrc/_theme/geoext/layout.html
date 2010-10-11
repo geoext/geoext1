@@ -68,6 +68,17 @@
     </script>
     <script src="http://buildjs.opengeo.org/assets/geoext/0.7?callback=builder.setAssets"></script>
     {% endif %}
+    {% if pagename == "builder/v1.0" %}
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.1/ext-all.js"></script>
+    <script src="{{ pathto('_static/builder.js', 1) }}"></script>
+    <script src="{{ pathto('_static/builder-v1.0.js', 1) }}"></script>
+    <script>
+        Ext.BLANK_IMAGE_URL = "{{ pathto('_static/img/blank.gif', 1) }}";
+        builder.url = "http://buildjs.opengeo.org/builder/geoext/1.0";
+    </script>
+    <script src="http://buildjs.opengeo.org/assets/geoext/1.0?callback=builder.setAssets"></script>
+    {% endif %}
 {% endblock %}
 
 {% block header %}
