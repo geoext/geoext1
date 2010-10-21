@@ -142,6 +142,39 @@
               "logicalOp is OpenLayers.Filter.Logical.OR"].join(" "));
     }
 
+    // http://trac.geoext.org/ticket/366
+    function test_toFilter_one_filter(t) {
+        t.plan(2);
+
+        /*
+         * Set up
+         */
+
+        var form, filter, fields = [];
+
+        fields.push(new Ext.form.TextField({
+            name: "foo__like",
+            value: "bar"
+        }));
+
+        form = new Ext.form.FormPanel({
+            renderTo: "form",
+            items: fields
+        });
+
+        /*
+         * Test
+         */
+
+        filter = GeoExt.form.toFilter(form);
+        t.ok(filter instanceof OpenLayers.Filter.Comparison,
+             "comparison filter not wrapped in a logical filter");
+
+        filter = GeoExt.form.toFilter(form, OpenLayers.Filter.Logical.NOT);
+        t.ok(filter instanceof OpenLayers.Filter.Logical,
+             "comparison filter wrapped in logical not filter");
+    }
+
     function test_toFilter_Wildcard(t) {
         t.plan(4);
 
@@ -166,13 +199,14 @@
          */
 
         filter = GeoExt.form.toFilter(form, null, GeoExt.form.STARTS_WITH);
-        t.eq(filter.filters[0].value, "bar.*", "GeoExt.form.STARTS_WITH appends a wildcard");
+        filter = GeoExt.form.toFilter(form, null, GeoExt.form.STARTS_WITH);
+        t.eq(filter.value, "bar.*", "GeoExt.form.STARTS_WITH appends a wildcard");
         filter = GeoExt.form.toFilter(form, null, GeoExt.form.ENDS_WITH);
-        t.eq(filter.filters[0].value, ".*bar", "GeoExt.form.ENDS_WITH prepends a wildcard");
+        t.eq(filter.value, ".*bar", "GeoExt.form.ENDS_WITH prepends a wildcard");
         filter = GeoExt.form.toFilter(form, null, GeoExt.form.CONTAINS);
-        t.eq(filter.filters[0].value, ".*bar.*", "GeoExt.form.CONTAINS appends *and* prepends a wildcard");
+        t.eq(filter.value, ".*bar.*", "GeoExt.form.CONTAINS appends *and* prepends a wildcard");
         filter = GeoExt.form.toFilter(form);
-        t.eq(filter.filters[0].value, "bar", "Default behaviour is to not add any wildcards");
+        t.eq(filter.value, "bar", "Default behaviour is to not add any wildcards");
     }
 
     function test_recordToField(t) {
