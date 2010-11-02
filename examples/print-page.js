@@ -18,16 +18,16 @@ Ext.onReady(function() {
     // The printProvider that connects us to the print service
     var printProvider = new GeoExt.data.PrintProvider({
         method: "GET", // "POST" recommended for production use
-        capabilities: printCapabilities // from the info.json script in the html
-    });
-    // Our print page. Tells the PrintProvider about the scale and center of
-    // our page.
-    printPage = new GeoExt.data.PrintPage({
-        printProvider: printProvider,
+        capabilities: printCapabilities, // from the info.json script in the html
         customParams: {
             mapTitle: "Printing Demo",
             comment: "This is a simple map printed from GeoExt."
         }
+    });
+    // Our print page. Tells the PrintProvider about the scale and center of
+    // our page.
+    printPage = new GeoExt.data.PrintPage({
+        printProvider: printProvider
     });
 
     // The map we want to print
