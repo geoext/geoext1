@@ -392,7 +392,41 @@
 
         }
 
+        function test_setValue_called_once(t) {
+
+            t.plan(1);
+
+            var map, layer, slider, log;
+
+            map = new OpenLayers.Map("div");
+
+            layer = new OpenLayers.Layer("");
+            map.addLayer(layer);
+
+            slider = new GeoExt.LayerOpacitySlider({
+                renderTo: document.body,
+                layer: layer,
+                aggressive: true,
+                delay: undefined
+            });
+
+            slider.setValue = function(v) {
+                log.cnt++;
+                log.v = v;
+                GeoExt.LayerOpacitySlider.prototype.setValue.apply(
+                    this, arguments);
+            };
+
+            log = {cnt: 0};
+            slider.setValue(50);
+            t.eq(log.cnt, 1,
+                 "setValue called exactly once");
+
+            slider.destroy();
+            map.destroy();
+        }
     </script>
   <body>
+    <div id="map"></div>
   </body>
 </html>
