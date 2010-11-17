@@ -445,7 +445,7 @@
         }
 
         function test_getState_called(t) {
-            t.plan(2);
+            t.plan(4);
 
             // set up
 
@@ -474,6 +474,25 @@
             mapPanel.map.setCenter(new OpenLayers.LonLat(5, 45), 5);
             t.delay_call(1, function() {
                 t.eq(log, true, "getState called when map is moved");
+            });
+
+            // test that getState gets called when the a layer is
+            // added to the map
+            // 1 test
+            log = false;
+            var l = new OpenLayers.Layer("foo");
+            mapPanel.map.addLayers([l]);
+            t.delay_call(1, function() {
+                t.eq(log, true, "getState called when a layer is added to the map");
+            });
+
+            // test that getState gets called when the a layer is
+            // removed from the map
+            // 1 test
+            log = false;
+            mapPanel.map.removeLayer(l);
+            t.delay_call(1, function() {
+                t.eq(log, true, "getState called when a layer is removed from the map");
             });
 
             // test that getState gets called when layer visibility
