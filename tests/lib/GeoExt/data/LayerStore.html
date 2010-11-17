@@ -132,7 +132,7 @@
         }
         
         function test_bind_unbind(t) {
-            t.plan(28);
+            t.plan(29);
             
             var map = new OpenLayers.Map("mappanel");
             var store = new GeoExt.data.LayerStore();
@@ -166,6 +166,10 @@
             
             // test store to map synchronization
             reinit_test_data();
+            store.on("bind", function(s, m) {
+                // test if the bind event works
+                t.eq(m.id, map.id, "bind event triggered with the correct map.");
+            }, null, {single: true});
             store.bind(map, {initDir: GeoExt.data.LayerStore.STORE_TO_MAP});
             t.eq(map.layers.length, 4, "initial records are synchronized to map");
             t.eq(store.getCount(), 2, "initial layers are not synchronized to store");
