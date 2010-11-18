@@ -50,8 +50,8 @@
 
         protocol = new OpenLayers.Protocol({
             read: function(options) {
-                t.ok(options.filter instanceof OpenLayers.Filter.Logical,
-                     "run calls protocol.read with a logical filter");
+                t.ok(options.filter instanceof OpenLayers.Filter.Comparison,
+                     "run calls protocol.read with a comparison filter");
             }
         });
 
