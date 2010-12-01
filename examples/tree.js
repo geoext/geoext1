@@ -121,9 +121,9 @@ Ext.onReady(function() {
             param: "LAYERS"
         }
     }];
-    // the line below is only needed for this example, because we want to allow
-    // interactive modifications of the tree configuration. Don't use this line
-    // in your code.
+    // The line below is only needed for this example, because we want to allow
+    // interactive modifications of the tree configuration using the
+    // "Show/Edit Tree Config" button. Don't use this line in your code.
     treeConfig = new OpenLayers.Format.JSON().write(treeConfig, true);
 
     // create the tree with the configuration from above
