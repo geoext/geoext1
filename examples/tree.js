@@ -97,7 +97,7 @@ Ext.onReady(function() {
         
     // using OpenLayers.Format.JSON to create a nice formatted string of the
     // configuration for editing it in the UI
-    var treeConfig = new OpenLayers.Format.JSON().write([{
+    var treeConfig = [{
         nodeType: "gx_baselayercontainer"
     }, {
         nodeType: "gx_overlaylayercontainer",
@@ -120,7 +120,11 @@ Ext.onReady(function() {
         loader: {
             param: "LAYERS"
         }
-    }], true);
+    }];
+    // the line below is only needed for this example, because we want to allow
+    // interactive modifications of the tree configuration. Don't use this line
+    // in your code.
+    treeConfig = new OpenLayers.Format.JSON().write(treeConfig, true);
 
     // create the tree with the configuration from above
     tree = new Ext.tree.TreePanel({
@@ -155,6 +159,9 @@ Ext.onReady(function() {
             // provide an initial set of layer nodes. We use the treeConfig
             // from above, that we created with OpenLayers.Format.JSON.write.
             children: Ext.decode(treeConfig)
+            // Don't use the line above in your application. Instead, use
+            //children: treeConfig
+            
         },
         listeners: {
             "radiochange": function(node){
