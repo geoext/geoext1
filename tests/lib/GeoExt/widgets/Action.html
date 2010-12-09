@@ -8,7 +8,7 @@
 
     <script type="text/javascript">
         function test_constructor(t) {
-            t.plan(12)
+            t.plan(12);
 
             var ctrl, scope, handler, toggleHandler, checkHandler, cfg, action;
 
@@ -432,6 +432,31 @@
             
             map.destroy();
             
+        }
+        
+        function test_deactivateOnDisable(t) {
+            t.plan(7);
+
+            var act1 = new GeoExt.Action({
+                control: new OpenLayers.Control(),
+                map: new OpenLayers.Map()
+            });
+            t.eq(act1.deactivateOnDisable, false, "false by default");            
+
+            var act2 = new GeoExt.Action({
+                control: new OpenLayers.Control({active: true}),
+                map: new OpenLayers.Map(),
+                deactivateOnDisable: true
+            });
+            t.eq(act2.deactivateOnDisable, true, "set to true");
+            t.eq(act2.control.active, true, "control active");
+            t.ok(!act2.isDisabled(), "action not yet disabled");
+            
+            act2.disable();
+            t.ok(act2.isDisabled(), "action disabled");
+            t.eq(act2.control.active, false, "control deactivated on disable");
+            act2.enable();
+            t.eq(act2.control.active, false, "enabling action does not activate control");
         }
         
     </script>
