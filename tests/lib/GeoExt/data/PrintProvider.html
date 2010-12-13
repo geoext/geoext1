@@ -115,7 +115,8 @@
                                 map_resolution: 150
                             }, encodedLayer.customParams);
                         }
-                    }
+                    },
+                    "beforedownload": OpenLayers.Function.False
                 }
             });
             var printPage = new GeoExt.data.PrintPage({
@@ -195,11 +196,17 @@
             var origRequest = Ext.Ajax.request;
             Ext.Ajax.request = function(req) {
                 log.request = req;
+                var _isIE = Ext.isIE;
                 var _open = window.open;
-                window.open = Ext.emptyFn;
+                // fake Ext.isIE so we will get window.open in all browsers
+                Ext.isIE = true;
+                window.open = function() {
+                    t.fail("window open should not be called since beforedownload returns false");
+                }
                 req.success.call(req.scope, {
                     responseText: '{"getURL":"foo"}'
                 });
+                Ext.isIE = _isIE;
                 window.open = _open;
             }
             printProvider.print(map, [printPage], {overview: overview, legend: legend});
