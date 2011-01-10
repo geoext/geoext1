@@ -213,6 +213,34 @@
 
             // teardown
         }
+
+        function test_destroy(t) {
+            t.plan(2);
+            var component, node, tree;
+
+            component = new Ext.Panel({
+                id: "foo-id",
+                cls: "foo-cls",
+                ctCls: "foo-ct-cls"
+            });
+            node = new GeoExt.tree.LayerNode({
+                uiProvider: UI,
+                layer: new OpenLayers.Layer(),
+                component: component
+            });
+            tree = new Ext.tree.TreePanel({
+                renderTo: "tree",
+                root: node,
+                plugins: [new GeoExt.plugins.TreeNodeComponent()]
+            });
+
+            t.ok(tree.hasListener("rendernode"), 
+                 "plugin listen the 'rendernode' event from the tree");
+            tree.destroy();
+            t.ok(!tree.hasListener("rendernode"), 
+                 "destroy unbinds plugin from tree");
+        }
+
          </script>
     </head>
     <body>
