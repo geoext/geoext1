@@ -9,8 +9,8 @@
     <script type="text/javascript">
         var printCapabilities = {"scales":[{"name":"1:25,000","value":"25000"},{"name":"1:50,000","value":"50000"},{"name":"1:100,000","value":"100000"},{"name":"1:200,000","value":"200000"},{"name":"1:500,000","value":"500000"},{"name":"1:1,000,000","value":"1000000"},{"name":"1:2,000,000","value":"2000000"},{"name":"1:4,000,000","value":"4000000"}],"dpis":[{"name":"75","value":"75"},{"name":"150","value":"150"},{"name":"300","value":"300"}],"layouts":[{"name":"A4 portrait","map":{"width":440,"height":483},"rotation":true},{"name":"Legal","map":{"width":440,"height":483},"rotation":false}],"printURL":"http://demo.opengeo.org/geoserver/pdf/print.pdf","createURL":"http://demo.opengeo.org/geoserver/pdf/create.json"};
         
-        function test_init_destroy(t){
-            t.plan(4);
+        function test_init(t){
+            t.plan(2);
             
             var log = {};
             var printProvider = new GeoExt.data.PrintProvider({
@@ -32,14 +32,30 @@
             
             t.ok(log.on["valid"] === plugin.onFieldChange, "onFieldChange handler set correctly.");
             t.ok(log.on["render"] === plugin.onRender, "onRender handler set correctly.");
+        }
+
+        function test_destroy(t){
+            t.plan(2);
             
-            field = new Ext.form.Field({
+            var log = {};
+            var printProvider = new GeoExt.data.PrintProvider({
+                capabilities: printCapabilities
+            });
+            var plugin = new GeoExt.plugins.PrintProviderField({
+                printProvider: printProvider,
+                onProviderChange: function(arg) {
+                    log.onProviderChange = arg;
+                }
+            });
+            var field = new Ext.form.Field({
                 store: printProvider.layouts,
                 plugins: plugin,
                 renderTo: document.body
             });
+
             printProvider.fireEvent("layoutchange", "foo");
             t.eq(log.onProviderChange, "foo", "onProviderChange called on layoutchange.");
+
             delete log.onProviderChange;
             field.destroy();
             printProvider.fireEvent("layoutchange", "bar");
