@@ -54,14 +54,50 @@
             });
 
             printProvider.fireEvent("layoutchange", "foo");
-            t.eq(log.onProviderChange, "foo", "onProviderChange called on layoutchange.");
+            t.eq(log.onProviderChange, "foo",
+                 "[destroy] onProviderChange called on layoutchange.");
 
             delete log.onProviderChange;
             field.destroy();
             printProvider.fireEvent("layoutchange", "bar");
-            t.eq(log.onProviderChange, undefined, "onProviderChange not called after field is destroyed.");
+            t.eq(log.onProviderChange, undefined,
+                 "[destroy] onProviderChange not called after field is destroyed.");
         }
+
+        function test_destroy2(t){
+            t.plan(2);
             
+            var log = {};
+
+            var printProvider = new GeoExt.data.PrintProvider({
+                capabilities: printCapabilities
+            });
+            var plugin = new GeoExt.plugins.PrintProviderField({
+                onProviderChange: function(arg) {
+                    log.onProviderChange = arg;
+                }
+            });
+            var field = new Ext.form.Field({
+                store: printProvider.layouts,
+                plugins: plugin,
+                renderTo: document.body,
+                // add a fake ownerCt to the field
+                ownerCt: {printProvider: printProvider}
+            });
+
+            plugin.init(field);
+
+            printProvider.fireEvent("layoutchange", "foo");
+            t.eq(log.onProviderChange, "foo",
+                 "[destroy2] onProviderChange called on layoutchange.");
+
+            delete log.onProviderChange;
+            field.destroy();
+            printProvider.fireEvent("layoutchange", "bar");
+            t.eq(log.onProviderChange, undefined,
+                 "[destroy2] onProviderChange not called after field is destroyed.");
+        }
+
         function test_render(t) {
             t.plan(2);
 
