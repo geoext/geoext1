@@ -210,7 +210,7 @@
     }
 
     function test_recordToField(t) {
-        t.plan(13);
+        t.plan(17);
 
         // set up
 
@@ -253,8 +253,22 @@
 
         field = GeoExt.form.recordToField(store.getAt(3));
         field = Ext.ComponentMgr.create(field);
+        t.ok(field instanceof Ext.form.DateField, "[datetime] field is a checkbox");
+        t.eq(field.name, "DATETIME", "[datetime] field name is correct");
+        field.setValue("2001-10-26T21:32:52+02:00");
+        t.ok(field.getValue() instanceof Date, "[datetime] getValue returns a Date");
+
+        field = GeoExt.form.recordToField(store.getAt(4));
+        field = Ext.ComponentMgr.create(field);
         t.ok(field instanceof Ext.form.DateField, "[date] field is a checkbox");
         t.eq(field.name, "DATE", "[date] field name is correct");
+        field.setValue("2001-10-26");
+        t.ok(field.getValue() instanceof Date, "[date] getValue returns a Date");
+        // the following test fails because Ext's Date.dateParse function does not
+        // handle timezone offsets for date only representations
+        // (see <http://trac.geoext.org/ticket/379#comment:2>)
+        //field.setValue("2001-10-26+02:00");
+        //t.ok(field.getValue() instanceof Date, "[date] getValue returns a Date");
 
         // tear down
     }

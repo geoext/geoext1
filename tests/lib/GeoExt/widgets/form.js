@@ -24,7 +24,8 @@ var doc = (new OpenLayers.Format.XML).read(
             '</xsd:simpleType>' +
           '</xsd:element>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="BOOLEAN" nillable="true" type="xsd:boolean"/>' +
-          '<xsd:element maxOccurs="1" minOccurs="0" name="DATE" nillable="true" type="xsd:dateTime"/>' +
+          '<xsd:element maxOccurs="1" minOccurs="0" name="DATETIME" nillable="true" type="xsd:dateTime"/>' +
+          '<xsd:element maxOccurs="1" minOccurs="0" name="DATE" nillable="true" type="xsd:date"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_FIPS" nillable="true" type="xsd:string"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="SUB_REGION" nillable="true" type="xsd:string"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_ABBR" nillable="true" type="xsd:string"/>' +
