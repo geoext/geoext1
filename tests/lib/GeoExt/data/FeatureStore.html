@@ -206,7 +206,7 @@
         }
 
         function test_featuremodified_update(t) {
-            t.plan(10);
+            t.plan(14);
 
             /*
              * Set up
@@ -296,6 +296,19 @@
             
             t.eq(record.get("foo"), false, "false correctly set");
             t.eq(record.get("bar"), 0, "0 correctly set");
+            
+            
+            // confirm that updates work from the record
+            delete feature.state;
+            record.set("foo", "set from record");
+            t.eq(feature.attributes.foo, "set from record");
+            t.eq(feature.state, OpenLayers.State.UPDATE, "state properly set");
+            
+            // confirm that newly inserted features don't get update state
+            feature.state = OpenLayers.State.INSERT;
+            record.set("foo", "still insert");
+            t.eq(feature.attributes.foo, "still insert", "attribute set");
+            t.eq(feature.state, OpenLayers.State.INSERT, "insert state remains");
 
         }
     </script> 
