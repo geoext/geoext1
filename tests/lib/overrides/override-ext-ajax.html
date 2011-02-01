@@ -25,7 +25,7 @@
         }
 
         function test_request(t) {
-            t.plan(7);
+            t.plan(9);
 
             /*
              * Setup
@@ -44,10 +44,10 @@
 
             var successObj, failureObj;
             var success = function(o) {
-                successObj = {scope: this, arg: o.argument};
+                successObj = {scope: this, arg: o.argument, status: o.status};
             };
             var failure = function(o) {
-                failureObj = {scope: this, arg: o.argument};
+                failureObj = {scope: this, arg: o.argument, status: o.status};
             };
 
             /*
@@ -82,6 +82,8 @@
                  "success cb called with proper scope");
             t.eq(successObj.arg, argument,
                  "success cb called with proper argument");
+            t.eq(successObj.status, 200,
+                "success cb called with proper status");
             proto.setRequestHeader = _srh;
 
             // test "failure" callback
@@ -107,6 +109,8 @@
                  "failure cb called with proper scope");
             t.eq(failureObj.arg, argument,
                  "failure cb called with proper argument");
+            t.eq(failureObj.status, 400,
+                 "failure cb called with proper status");
 
             // test xmlData
             // 1 test
