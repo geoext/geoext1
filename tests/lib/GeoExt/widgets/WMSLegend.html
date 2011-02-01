@@ -164,7 +164,7 @@
         }
 
         function test_update(t) {
-            t.plan(8);
+            t.plan(9);
 
             // set up
 
@@ -238,6 +238,19 @@
             t.eq(l.getComponent("c").url, expectedUrl,
                  "update does not use the legend href from the " +
                  "styles field if SLD is set in the layer params");
+
+            // #6
+            layerRecord.getLayer().mergeNewParams({
+                sld: null
+            });
+            // take url from record for next update
+            layerRecord.set("styles", [{legend: {href: "foo?wms"}}]);
+            l.update();
+            var oldUrl = l.getComponent("c").url
+            layerRecord.getLayer().redraw(true);
+            t.eq(l.getComponent("c").url, oldUrl + "&_OLSALT=" + layerRecord.getLayer().params._OLSALT,
+                 "update adds random parameter to disable caching after forced redraw");
+            layerRecord.set("styles", null);
 
             // tear down
 
