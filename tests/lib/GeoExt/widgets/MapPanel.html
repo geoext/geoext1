@@ -445,7 +445,7 @@
         }
 
         function test_getState_called(t) {
-            t.plan(4);
+            t.plan(6);
 
             // set up
 
@@ -459,7 +459,8 @@
             mapPanel = new GeoExt.MapPanel({
                 renderTo: "mappanel",
                 layers: [
-                    new OpenLayers.Layer("foo")
+                    new OpenLayers.Layer("foo"),
+                    new OpenLayers.Layer("bar")
                 ],
                 stateId: "map",
                 height: 400,
@@ -493,6 +494,24 @@
             mapPanel.map.removeLayer(l);
             t.delay_call(1, function() {
                 t.eq(log, true, "getState called when a layer is removed from the map");
+            });
+
+            // test that getState gets called when the a layer is
+            // renamed
+            // 1 test
+            log = false;
+            mapPanel.map.layers[0].setName('foo1');
+            t.delay_call(1, function() {
+                t.eq(log, true, "getState called when a layer is renamed");
+            });
+
+            // test that getState gets called when the the layer order is
+            // changed
+            // 1 test
+            log = false;
+            mapPanel.map.raiseLayer(mapPanel.map.layers[1],1);
+            t.delay_call(1, function() {
+                t.eq(log, true, "getState called when a layer is raised");
             });
 
             // test that getState gets called when layer visibility
