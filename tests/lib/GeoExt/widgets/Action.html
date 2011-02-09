@@ -135,7 +135,7 @@
             // test that menu item is disabled
             ctrl.deactivate();
             t.eq(btn.disabled, true, "deactivating control disables button");
-            t.eq(btn.disabled, true, "deactivating control disables menu item");
+            t.eq(item.disabled, true, "deactivating control disables menu item");
         }
 
         function test_toggle(t) {
