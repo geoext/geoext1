@@ -8,7 +8,7 @@
 
 Ext.onReady(function(){
 
-    new Ext.Slider({
+    new Ext.slider.SingleSlider({
         renderTo: "tip-slider",
         width: 214,
         minValue: 0,
@@ -16,7 +16,7 @@ Ext.onReady(function(){
         plugins: new GeoExt.SliderTip()
     });
 
-    new Ext.Slider({
+    new Ext.slider.SingleSlider({
         renderTo: "custom-tip-slider",
         width: 214,
         increment: 10,
@@ -29,7 +29,7 @@ Ext.onReady(function(){
         })
     });
 
-    new Ext.Slider({
+    new Ext.slider.SingleSlider({
         renderTo: "no-hover-tip",
         width: 214,
         increment: 10,
@@ -38,7 +38,7 @@ Ext.onReady(function(){
         plugins: new GeoExt.SliderTip({hover: false})
     });
     
-    new Ext.Slider({
+    new Ext.slider.MultiSlider({
         renderTo: "multi-slider-horizontal",
         width   : 214,
         minValue: 0,
@@ -47,7 +47,7 @@ Ext.onReady(function(){
         plugins : new GeoExt.SliderTip()
     });
     
-    new Ext.Slider({
+    new Ext.slider.MultiSlider({
         renderTo : "multi-slider-vertical",
         vertical : true,
         height   : 214,
