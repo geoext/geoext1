@@ -140,7 +140,7 @@
             t.eq(layer.features.length, 0, 'remove on store with "remove" removes the corresponding feature from layer'); 
         }
         
-        function test_getRecordFromFeature(t) {
+        function test_getByFeature(t) {
             t.plan(2);
 
             var layer = new OpenLayers.Layer.Vector();
@@ -157,12 +157,12 @@
             var record;
             
             // confirm that we can get a phantom record
-            record = store.getRecordFromFeature(features[0]);
+            record = store.getByFeature(features[0]);
             t.ok((record && record.getFeature()) === features[0],
                  "phantom record retrieved");
             
             // confirm that we can get a normal record
-            record = store.getRecordFromFeature(features[1]);
+            record = store.getByFeature(features[1]);
             t.ok((record && record.getFeature()) === features[1],
                  "normal record retrieved");
 
@@ -203,10 +203,11 @@
             layer.addFeatures(features);
             t.eq(store.getCount(), 0,
                  'Adding features to layer with "addFeatures" does not insert records in the store if featureFilter evaluates to false');
+
         }
 
         function test_featuremodified_update(t) {
-            t.plan(14);
+            t.plan(15);
 
             /*
              * Set up
@@ -242,7 +243,7 @@
                 fields: recordType,
                 data: [feature]
             });
-            record = store.getRecordFromFeature(feature);
+            record = store.getByFeature(feature);
 
             t.eq(record.get("foo"), "foo",
                  "record gets correct initial value for property \"foo\"");
@@ -309,6 +310,24 @@
             record.set("foo", "still insert");
             t.eq(feature.attributes.foo, "still insert", "attribute set");
             t.eq(feature.state, OpenLayers.State.INSERT, "insert state remains");
+            
+            // confirm that update doesn't cause errors for features that were
+            // filtered out
+            var filteredFeature = new OpenLayers.Feature.Vector();
+            filteredFeature.state = OpenLayers.State.INSERT;
+            store.featureFilter = new OpenLayers.Filter({
+                evaluate: function(feature) {
+                    return feature !== filteredFeature;
+                }
+            });
+            layer.addFeatures([filteredFeature]);
+            var ok = true;
+            try {
+                layer.events.triggerEvent("featuremodified", {feature: filteredFeature});
+            } catch(e) {
+                ok = false;
+            }
+            t.ok(ok, "modifying filtered out features does not cause errors");
 
         }
     </script> 
