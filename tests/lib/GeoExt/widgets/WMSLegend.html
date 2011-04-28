@@ -44,7 +44,7 @@
             t.eq(l.items.length, 5, "We expect 5 items");
             url = l.items.get(1).url;
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&SCALE=27683990.15625&FORMAT=image%2Fgif";
-            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
+            t.ok(OpenLayers.Util.isEquivalentUrl(url, expectedUrl), "GetLegendGraphic url is generated correctly");
             l.destroy();
 
             l = new GeoExt.WMSLegend({
@@ -56,7 +56,7 @@
             t.eq(l.items.length, 3, "We expect 3 items");
             url = l.items.get(1).url;
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=x&SCALE=27683990.15625&FORMAT=image%2Fgif";
-            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
+            t.ok(OpenLayers.Util.isEquivalentUrl(url, expectedUrl), "GetLegendGraphic url is generated correctly");
             l.destroy();
         }
 
@@ -77,7 +77,7 @@
             url = l.items.get(1) && l.items.get(1).url;
             t.eq(!!url, true, "legend image loaded even when MapPanel is not rendered at legend instantiation.")
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&FORMAT=image%2Fpng&foo=bar%20bar";
-            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
+            t.ok(OpenLayers.Util.isEquivalentUrl(url, expectedUrl), "GetLegendGraphic url is generated correctly");
             l.destroy()
 
             l = new GeoExt.WMSLegend({
@@ -89,7 +89,7 @@
 
             url = l.items.get(1).url;
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&FORMAT=image%2Fgif";
-            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
+            t.ok(OpenLayers.Util.isEquivalentUrl(url, expectedUrl), "GetLegendGraphic url is generated correctly");
             l.destroy()
 
             l = new GeoExt.WMSLegend({
@@ -100,7 +100,7 @@
 
             url = l.items.get(1).url;
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&SCALE=27683990.15625&FORMAT=image%2Fgif";
-            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
+            t.ok(OpenLayers.Util.isEquivalentUrl(url, expectedUrl), "GetLegendGraphic url is generated correctly");
             l.destroy();
             
             mapPanel.map.layers[0].params.STYLES = "bar";
@@ -137,7 +137,7 @@
             l.render();
             url = l.items.get(1).url;
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&SLD=sld&LAYER=a&SCALE=27683990.15625&FORMAT=image%2Fgif";
-            t.eq(url, expectedUrl, "GetLegendGraphic url is generated when layer has SLD set");
+            t.ok(OpenLayers.Util.isEquivalentUrl(url, expectedUrl), "GetLegendGraphic url is generated when layer has SLD set");
             l.destroy();
             delete mapPanel.map.layers[0].params.SLD;
 
@@ -150,12 +150,12 @@
             l.render();
             url = l.items.get(1).url;
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&SLD_BODY=sld_body&LAYER=a&SCALE=27683990.15625&FORMAT=image%2Fgif";
-            t.eq(url, expectedUrl, "GetLegendGraphic url is generated when layer has SLD_BODY set");
+            t.ok(OpenLayers.Util.isEquivalentUrl(url, expectedUrl), "GetLegendGraphic url is generated when layer has SLD_BODY set");
 
             mapPanel.map.zoomIn();
             url = l.items.get(1).url;
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&SLD_BODY=sld_body&LAYER=a&SCALE=13841995.078125&FORMAT=image%2Fgif";
-            t.eq(url, expectedUrl, "GetLegendGraphic url changes when map scale changes");
+            t.ok(OpenLayers.Util.isEquivalentUrl(url, expectedUrl), "GetLegendGraphic url changes when map scale changes");
 
             l.destroy();
             delete mapPanel.map.layers[0].params.SLD_BODY;
