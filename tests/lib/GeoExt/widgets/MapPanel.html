@@ -7,6 +7,9 @@
     <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
 
     <script type="text/javascript">
+    
+        // the hidden span element that contains the test iframe
+        var hiddenSpan = window.parent.Test.AnotherWay._g_test_iframe.frameElement.parentNode;
        
         function createMap() {
             var map = new OpenLayers.Map();
@@ -101,7 +104,7 @@
 
         function test_extent(t) {
             
-            t.plan(3);
+            t.plan(6);
             var map, panel, log = {};
             
             map = createMap();
@@ -151,8 +154,40 @@
             t.eq(log.extent.toArray(), [1, 2, 3, 4], "map extent set with Bounds");
             // since we created the map, we destroy it
             map.destroy();
-            panel.destroy();            
+            panel.destroy();
             
+            map = createMap();
+            var container = new Ext.Panel({
+                renderTo: document.body,
+                layout: "fit",
+                width: 0,
+                height: 0,
+                items: [new GeoExt.MapPanel({
+                    map: map,
+                    extent: new OpenLayers.Bounds(1, 2, 3, 4)
+                })]
+            });
+            t.eq(map.getExtent(), null, "no map extent set for a zero dimension map");
+            // make the hidden span element visible, because setSize does not
+            // work in iframes that are inside a hidden container in FF and IE.
+            // The span will be hidden again in test_layout.
+            hiddenSpan.style.display = "";
+            container.setSize(100, 100);
+            container.doLayout();
+            t.ok(map.getExtent(), "map extent set when layout is finished");
+            // since we created the map, we destroy it
+            map.destroy();
+            panel.destroy();
+            
+            panel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                forceInitialExtent: true,
+                height: 400,
+                width: 600,
+                extent: new OpenLayers.Bounds(1, 2, 3, 4)
+            });
+            panel.map.addLayer(new OpenLayers.Layer());
+            t.ok(panel.map.getExtent(), "map has an extent after layer is added");
         }
         
         function test_center(t) {
@@ -261,6 +296,8 @@
                     t.ok(layout, 1,
                          "the OpenLayers map is rendered once the container " +
                          "has its final dimensions");
+                    // hide the span again, which we made visible in test_extent
+                    hiddenSpan.style.display = "none";
                 },
                 allOverlays: true
             });
