@@ -181,13 +181,13 @@
             
             panel = new GeoExt.MapPanel({
                 renderTo: "mappanel",
-                forceInitialExtent: true,
                 height: 400,
                 width: 600,
                 extent: new OpenLayers.Bounds(1, 2, 3, 4)
             });
             panel.map.addLayer(new OpenLayers.Layer());
             t.ok(panel.map.getExtent(), "map has an extent after layer is added");
+            panel.destroy();
         }
         
         function test_center(t) {
