@@ -61,7 +61,48 @@
             t.eq(layer.protocol.url, "http://someserver.com:8080/geoserver/wfs?", "[0] protocol has correct URL");
             t.eq(layer.protocol.featureNS, "http://www.openplans.org/spearfish", "[0] protocol has correct featureNS");
         }
-        
+
+        function test_read_layerOptions(t) {
+            t.plan(6);
+            var reader = new GeoExt.data.WFSCapabilitiesReader({
+                // test layerOptions object
+                layerOptions: {
+                    visibility: false,
+                    displayInLayerSwitcher: false
+                }
+            });
+            var records = reader.read({responseXML : doc});
+            var record = records.records[0];
+
+            //3 tests -- testing the first record layer properties and objects
+            var layer = record.getLayer();
+            t.eq(layer.displayInLayerSwitcher, false, "(object) layer displayInLayerSwitcher correctly set to false");
+            t.eq(layer.visibility, false, "(object) layer visibility property correctly set to false");
+
+            reader = new GeoExt.data.WFSCapabilitiesReader({
+                // test layerOptions function
+                layerOptions: function() {
+                    return {
+                        visibility: false,
+                        displayInLayerSwitcher: false,
+                        strategies: [new OpenLayers.Strategy.BBOX({ratio: 1})]
+                    };
+                }
+            });
+            records = reader.read({responseXML : doc});
+            record = records.records[0];
+
+            //3 tests -- testing the first record layer properties and objects
+            var layer = record.getLayer();
+            t.eq(layer.displayInLayerSwitcher, false, "(function) layer displayInLayerSwitcher correctly set to false");
+            t.eq(layer.visibility, false, "(function) layer visibility property correctly set to false");
+            t.eq(layer.strategies[0].CLASS_NAME, "OpenLayers.Strategy.BBOX", "(function) layer first strategy is type OpenLayers.Strategy.BBOX");
+
+            //1 test -- testing the first two records layer strategies.  Make
+            //          sure they are not the same object instance.
+            var log = layer.strategies[0] !== records.records[1].getLayer().strategies[0];
+            t.ok(log, "Record layer strategies are unique OpenLayers.Strategy.BBOX object instances")
+        }
     </script>
   <body>
     <div id="map"></div>
