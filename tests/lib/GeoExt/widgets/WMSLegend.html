@@ -199,10 +199,10 @@
             t.ok(l.getComponent("b"),
                  "update does not remove components to be updated");
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FOO=bar&LAYER=b&SCALE=27683990.15625&FORMAT=image%2Fgif";
-            t.eq(l.getComponent("b").url, expectedUrl,
+            t.ok(OpenLayers.Util.isEquivalentUrl(l.getComponent("b").url, expectedUrl),
                  "update updates component URL");
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FOO=bar&LAYER=c&SCALE=27683990.15625&FORMAT=image%2Fgif";
-            t.eq(l.getComponent("c").url, expectedUrl,
+            t.ok(OpenLayers.Util.isEquivalentUrl(l.getComponent("c").url, expectedUrl),
                  "update sets correct URL in new component");
 
             // #3
@@ -212,7 +212,7 @@
             });
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FOO=bar&LAYER=c&STYLE=style1&SCALE=27683990.15625&FORMAT=image%2Fgif";
             l.update();
-            t.eq(l.getComponent("c").url, expectedUrl,
+            t.ok(OpenLayers.Util.isEquivalentUrl(l.getComponent("c").url, expectedUrl),
                  "update sets correct STYLE params in URL");
 
             // #4
@@ -224,7 +224,7 @@
             }]);
             l.update();
             expectedUrl = "http://url-to-legend.org/";
-            t.eq(l.getComponent("c").url, expectedUrl,
+            t.ok(OpenLayers.Util.isEquivalentUrl(l.getComponent("c").url, expectedUrl),
                  "update uses the legend href from the styles field");
 
             // #5
@@ -235,7 +235,7 @@
             });
             l.update();
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FOO=bar&SLD=http%3A%2F%2Furl-to-sld.org%2F&LAYER=c&SCALE=27683990.15625&FORMAT=image%2Fgif";
-            t.eq(l.getComponent("c").url, expectedUrl,
+            t.ok(OpenLayers.Util.isEquivalentUrl(l.getComponent("c").url, expectedUrl),
                  "update does not use the legend href from the " +
                  "styles field if SLD is set in the layer params");
 
@@ -248,7 +248,7 @@
             l.update();
             var oldUrl = l.getComponent("c").url
             layerRecord.getLayer().redraw(true);
-            t.eq(l.getComponent("c").url, oldUrl + "&_OLSALT=" + layerRecord.getLayer().params._OLSALT,
+            t.ok(OpenLayers.Util.isEquivalentUrl(l.getComponent("c").url, oldUrl + "&_OLSALT=" + layerRecord.getLayer().params._OLSALT),
                  "update adds random parameter to disable caching after forced redraw");
             layerRecord.set("styles", null);
 
