@@ -68,7 +68,7 @@
             var mapPanel = loadMapPanel();
             var map = mapPanel.map;
 
-            var layer = new OpenLayers.Layer.Vector("Foo Layer");
+            var layer = new OpenLayers.Layer.Vector("Foo Layer", {isBaseLayer: true});
 
             map.addLayer(layer);
             t.eq(map.layers.length, 1, "Adding layer to map does not create duplicate layers on map");
