@@ -1,3 +1,10 @@
+var exception = [];
+exception.push('<?xml version="1.0" encoding="UTF-8" standalone="no" ?>',
+'<!DOCTYPE ServiceExceptionReport SYSTEM "http://schemas.opengis.net/wms/1.1.1/WMS_exception_1_1_1.dtd">', 
+'<ServiceExceptionReport version="1.1.1"><ServiceException> Plain text message about an error. </ServiceException>', 
+'</ServiceExceptionReport>');
+var exceptionsDoc = (new OpenLayers.Format.XML()).read(exception.join(" "));
+
 var wmscaps = [];
 wmscaps.push('<?xml version="1.0" encoding="UTF-8"?>' ,
     '<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://schemas.opengis.net/wms/1.1.1/WMS_MS_Capabilities.dtd">' ,
@@ -4782,4 +4789,4 @@ wmscaps.push('<?xml version="1.0" encoding="UTF-8"?>' ,
       '</Capability>' ,
     '</WMT_MS_Capabilities>'
 );
-var doc = (new OpenLayers.Format.XML).read(wmscaps.join(" "));
+var doc = (new OpenLayers.Format.XML()).read(wmscaps.join(" "));

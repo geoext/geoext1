@@ -31,6 +31,17 @@
                  fields.items[3].name == 'bar',
                  'field values set from configuration are correct');
         }
+
+        function test_read_exception(t) {
+            t.plan(1);
+            var reader = new GeoExt.data.WMSCapabilitiesReader({}, []);
+            try {
+                var records = reader.read({responseXML: exceptionsDoc});
+            } catch(e) {
+                t.ok(true, "Exception thrown when getting a service exception");
+            }
+        }
+
         function test_read(t) {
             t.plan(40);
 
