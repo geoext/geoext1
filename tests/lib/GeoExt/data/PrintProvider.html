@@ -189,7 +189,7 @@
 
             // give the vector layer a feature
             var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(1,2));
-            feature.id = "f1";
+            feature.fid = "f1";
             map.getLayersBy("name", "vector")[0].addFeatures([feature]);
             
             map.setCenter(new OpenLayers.LonLat(1, 2), 3);
