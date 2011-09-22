@@ -50,14 +50,15 @@
             context.mapPanel.destroy();
         }
 
-        function popup(feature, map) {
+        function popup(feature, map, hide) {
             return new GeoExt.Popup({
                 title: 'My Popup',
                 location: feature,
                 map: map,
                 width: 200,
                 html: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
-                collapsible: true
+                collapsible: true,
+                closeAction: (hide) ? "hide" : "close"     // Default action is "close"
             });
         }
 
@@ -121,7 +122,6 @@
 
             tearDown(context);
         }
-
 
         function test_unanchorPopup(t) {
             t.plan(4);
@@ -232,6 +232,46 @@
             
             t.ok(!called, "pop is not moved after it is destroyed");
             
+            tearDown(context);
+        }
+
+        function test_hidePopup(t){
+            t.plan(5);
+
+            var context = setupContext();
+            
+            // Reusable popup (closeAction = hide)
+            var pop = popup(context.feature,null,true);
+            
+            pop.show();
+
+            // Center map to popup's location
+            context.map.setCenter(new OpenLayers.LonLat(5, 45));           
+            t.ok(pop.insideViewport && !pop.hidden, "Reusable popup is visible when open and inside the viewport");
+
+            // Pan map outside popup's location
+            context.map.panTo(new OpenLayers.LonLat(170, 80));
+            t.ok(!pop.insideViewport && pop.hidden, "Reusable popup is hidden when open and outside the viewport");
+
+            // Recenter map to popup's location, hide popup and pan map
+            context.map.panTo(new OpenLayers.LonLat(5, 45));
+            pop.hide();
+            context.map.panTo(new OpenLayers.LonLat(6, 45));
+            t.ok(pop.insideViewport && pop.hidden, "Reusable popup is hidden when closed and inside the viewport");          
+
+
+            // Regular popup (destroyed when closed)
+            var pop2 = popup(context.feature);
+            pop2.show();
+
+            // Center map to popup's location
+            context.map.setCenter(new OpenLayers.LonLat(5, 45));           
+            t.ok(pop2.insideViewport && !pop2.hidden, "Regular popup is visible when open and inside the viewport");
+
+            // Pan map outside popup's location
+            context.map.panTo(new OpenLayers.LonLat(170, 80));
+            t.ok(!pop2.insideViewport && pop2.hidden, "Regular popup is hidden when open and outside the viewport");
+
             tearDown(context);
         }
 
