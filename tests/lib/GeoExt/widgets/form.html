@@ -210,7 +210,7 @@
     }
 
     function test_recordToField(t) {
-        t.plan(17);
+        t.plan(19);
 
         // set up
 
@@ -246,10 +246,16 @@
         t.eq(field.maxValue, 10, "[num] field maxValue is correct");
         t.eq(field.minValue, 5, "[num] field minValue is correct");
 
-        field = GeoExt.form.recordToField(store.getAt(2));
+        field = GeoExt.form.recordToField(store.getAt(2), {checkboxLabelProperty: 'fieldLabel'});
         field = Ext.ComponentMgr.create(field);
         t.ok(field instanceof Ext.form.Checkbox, "[bool] field is a checkbox");
         t.eq(field.name, "BOOLEAN", "[bool] field name is correct");
+        t.eq(field.fieldLabel, "BOOLEAN", "[bool] field has correct fieldLabel");
+
+        field = GeoExt.form.recordToField(store.getAt(2));
+        field = Ext.ComponentMgr.create(field);
+        t.ok(field.boxLabel === "BOOLEAN" && field.fieldLabel === undefined,
+            "[bool] field with no option has correct boxLabel and no fieldLabel");
 
         field = GeoExt.form.recordToField(store.getAt(3));
         field = Ext.ComponentMgr.create(field);
