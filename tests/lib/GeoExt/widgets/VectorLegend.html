@@ -228,6 +228,80 @@
         
     }
 
+    function test_setRules(t) {
+        t.plan(2);
+        var legend;
+        var map = new OpenLayers.Map();
+        var store = new GeoExt.data.LayerStore({map: map});
+
+        // First test with a style without a rule but with a title. The
+        // style title should be shown in the legend
+        var options1 = {
+            styleMap: new OpenLayers.StyleMap({
+                "default": new OpenLayers.Style(
+                    {"strokeColor": "red"}, 
+                    {title: "Style Title"}
+                )
+            })
+        };
+
+        var layer1 = new OpenLayers.Layer.Vector("test1", options1);
+        map.addLayer(layer1);
+
+        layer1.addFeatures([
+            new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(1,1))
+        ]);
+
+        var legend1 = new GeoExt.VectorLegend({
+            layerRecord: store.getAt(0)
+        });
+
+        t.eq(
+            legend1.getRuleTitle(legend1.rules[0]), 
+            layer1.styleMap.styles["default"].title, 
+            "style title is used when no rules are present in style"
+        );
+
+        // Second, a test with a style with a title that also contains 
+        // a rule with a title. Rule title should have precedence over
+        // style title
+        var options2 = {
+            styleMap: new OpenLayers.StyleMap({
+                "default": new OpenLayers.Style({}, {
+                    title: "Style Title", 
+                    rules: [new OpenLayers.Rule({
+                        title: "Rule Title",
+                        symbolizer: {
+                            "strokeColor": "red"
+                        }
+                    })]
+                })
+            })
+        }
+
+        var layer2 = new OpenLayers.Layer.Vector("test2", options2);
+        map.addLayer(layer2);
+
+        layer2.addFeatures([
+            new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(2,2))
+        ]);
+        
+        var legend2 = new GeoExt.VectorLegend({
+            layerRecord: store.getAt(1)
+        });
+
+        t.eq(
+            legend2.getRuleTitle(legend2.rules[0]), 
+            layer2.styleMap.styles["default"].rules[0].title, 
+            "when rules are present in style, any style title should be ignored and the rule title should be used"
+        );
+
+        legend1.destroy();
+        legend2.destroy();
+        map.destroy();
+        
+    }
+
     </script>
 </head><body>
     <div id="legendpanel"></div>
