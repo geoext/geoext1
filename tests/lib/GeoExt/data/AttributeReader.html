@@ -11,12 +11,13 @@
     <script type="text/javascript">
 
     function test_read(t) {
-        t.plan(4);
+        t.plan(5);
 
         var reader = new GeoExt.data.AttributeReader({}, [
             "name",
             "type",
-            "restriction"
+            "restriction",
+            {name: "nillable", type: "boolean"}
         ]);
 
         var records = reader.read({responseXML : doc});
@@ -26,10 +27,11 @@
 
         var record = records.records[2];
 
-        //2 tests -- testing the fields of a record
+        //4 tests -- testing the fields of a record
         t.eq(record.get("name"), "STATE_FIPS", "[1] correct attribute name");
-        t.eq(record.get("type"), "xsd:string", "[2] correct attribute type name");
-        t.eq(record.get("restriction").maxLength, "2", "[3] correct attribute restriction");
+        t.eq(record.get("nillable"), false, "[2] correct attribute nillable");
+        t.eq(record.get("type"), "xsd:string", "[3] correct attribute type name");
+        t.eq(record.get("restriction").maxLength, "2", "[4] correct attribute restriction");
     }
 
     function test_read_feature(t) {
