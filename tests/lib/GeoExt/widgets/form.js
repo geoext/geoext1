@@ -7,7 +7,7 @@ var doc = (new OpenLayers.Format.XML).read(
       '<xsd:extension base="gml:AbstractFeatureType">' +
         '<xsd:sequence>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="the_geom" nillable="true" type="gml:MultiSurfacePropertyType"/>' +
-          '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_NAME" nillable="true">' +
+          '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_NAME" nillable="false">' +
             '<xsd:simpleType>' +
               '<xsd:restriction base="xsd:string">' +
                 '<xsd:maxLength value="10"/>' +

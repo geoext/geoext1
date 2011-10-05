@@ -210,7 +210,7 @@
     }
 
     function test_recordToField(t) {
-        t.plan(19);
+        t.plan(26);
 
         // set up
 
@@ -220,7 +220,7 @@
            fields: [
                {name: "name"},
                {name: "type"},
-               {name: "nillable"},
+               {name: "nillable", type: "boolean"},
                {name: "restriction"}
            ],
            ignore: {
@@ -229,8 +229,48 @@
         });
         store.loadData(doc);
 
-        // test
+        // tests
+        
+        // labelStyle
+        field = GeoExt.form.recordToField(store.getAt(1));
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, '', "[label] nillable field default labelStyle is correct");
 
+        field = GeoExt.form.recordToField(store.getAt(1), {
+            mandatoryFieldLabelStyle: 'font-style:italic;'
+        });
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, '', "[label] nillable field labelStyle is not overriden by the mandatoryFieldLabelStyle option");
+
+        field = GeoExt.form.recordToField(store.getAt(0));
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, 'font-weight:bold;', "[label] non nillable field default labelStyle is correct");
+
+        field = GeoExt.form.recordToField(store.getAt(0), {
+            mandatoryFieldLabelStyle: null
+        });
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, 'font-weight:bold;', "[label] non nillable field, mandatoryFieldLabelStyle set to null");
+
+        field = GeoExt.form.recordToField(store.getAt(0), {
+            mandatoryFieldLabelStyle: undefined
+        });
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, 'font-weight:bold;', "[label] non nillable field, mandatoryFieldLabelStyle set to undefined");
+
+        field = GeoExt.form.recordToField(store.getAt(0), {
+            mandatoryFieldLabelStyle: ''
+        });
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, '', "[label] non nillable field labelStyle is correctly overridden");
+
+        field = GeoExt.form.recordToField(store.getAt(0), {
+            mandatoryFieldLabelStyle: 'font-style:italic;'
+        });
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, 'font-style:italic;', "[label] non nillable field custom labelStyle is correct");
+        
+        // txt
         field = GeoExt.form.recordToField(store.getAt(0));
         field = Ext.ComponentMgr.create(field);
         t.ok(field instanceof Ext.form.TextField, "[txt] field is a text field");
@@ -238,14 +278,16 @@
         t.eq(field.allowBlank, true, "[txt] field allowBlank is correct");
         t.eq(field.maxLength, 10, "[txt] field maxLength is correct");
         t.eq(field.minLength, 5, "[txt] field minLength is correct");
-
+        
+        // num
         field = GeoExt.form.recordToField(store.getAt(1));
         field = Ext.ComponentMgr.create(field);
         t.ok(field instanceof Ext.form.NumberField, "[num] field is a number field");
         t.eq(field.name, "SAMP_POP", "[num] field name is correct");
         t.eq(field.maxValue, 10, "[num] field maxValue is correct");
         t.eq(field.minValue, 5, "[num] field minValue is correct");
-
+        
+        // boolean
         field = GeoExt.form.recordToField(store.getAt(2), {checkboxLabelProperty: 'fieldLabel'});
         field = Ext.ComponentMgr.create(field);
         t.ok(field instanceof Ext.form.Checkbox, "[bool] field is a checkbox");
@@ -257,6 +299,7 @@
         t.ok(field.boxLabel === "BOOLEAN" && field.fieldLabel === undefined,
             "[bool] field with no option has correct boxLabel and no fieldLabel");
 
+        // datetime
         field = GeoExt.form.recordToField(store.getAt(3));
         field = Ext.ComponentMgr.create(field);
         t.ok(field instanceof Ext.form.DateField, "[datetime] field is a checkbox");
@@ -264,6 +307,7 @@
         field.setValue("2001-10-26T21:32:52+02:00");
         t.ok(field.getValue() instanceof Date, "[datetime] getValue returns a Date");
 
+        // date
         field = GeoExt.form.recordToField(store.getAt(4));
         field = Ext.ComponentMgr.create(field);
         t.ok(field instanceof Ext.form.DateField, "[date] field is a checkbox");
