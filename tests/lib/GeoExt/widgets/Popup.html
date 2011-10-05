@@ -9,13 +9,13 @@
 
     <script type="text/javascript">
 
-        function setupContext() {        
+        function setupContext(options) {        
 
             var map = new OpenLayers.Map({panMethod: null}); // avoid tween panning for tests
             var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
             map.addLayer(layer);
 
-            var mapPanel = new GeoExt.MapPanel({
+            var mapPanel = new GeoExt.MapPanel(Ext.apply({
                 // panel options
                 id: "map-panel",
                 title: "GeoExt MapPanel",
@@ -26,7 +26,7 @@
                 map: map,
                 center: new OpenLayers.LonLat(5, 45),
                 zoom: 4
-            });
+            }, options));
 
             var feature = new OpenLayers.Feature.Vector(
                 new OpenLayers.Geometry.Point(5,45),
@@ -50,16 +50,38 @@
             context.mapPanel.destroy();
         }
 
-        function popup(feature, map, hide) {
-            return new GeoExt.Popup({
+        function popup(feature, map, options) {
+            return new GeoExt.Popup(Ext.apply({
                 title: 'My Popup',
                 location: feature,
                 map: map,
                 width: 200,
                 html: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
                 collapsible: true,
-                closeAction: (hide) ? "hide" : "close"     // Default action is "close"
+                closeAction: "close"     // Default action is "close"
+            }, options));
+        }
+
+        function test_beforemaprendered(t) {
+            t.plan(1);
+
+            var pop;
+            var context = setupContext({
+                listeners: {
+                    beforerender: function() {
+                        pop = popup(new OpenLayers.LonLat(5, 45), this.map, {
+                            manager: Ext.WindowMgr
+                        });
+                        return true;
+                    }
+                }
             });
+
+            pop.show();
+
+            t.ok(Ext.getBody().child("div." + pop.popupCls),"viewport contains popup");
+
+            tearDown(context);
         }
 
         function test_addtomappanel(t) {
@@ -241,7 +263,9 @@
             var context = setupContext();
             
             // Reusable popup (closeAction = hide)
-            var pop = popup(context.feature,null,true);
+            var pop = popup(context.feature, null, {
+                closeAction: 'hide'
+            });
             
             pop.show();
 
