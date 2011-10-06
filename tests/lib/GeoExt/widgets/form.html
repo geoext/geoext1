@@ -71,74 +71,74 @@
         filter = GeoExt.form.toFilter(form);
 
         t.ok(filter instanceof OpenLayers.Filter.Logical,
-             "GeoExt.form.filterFormForm returns a logical filter");
+             "GeoExt.form.tofilter returns a logical filter");
 
         t.eq(filter.type, OpenLayers.Filter.Logical.AND,
-             ["GeoExt.form.filterFormForm returns a logical AND filter if",
+             ["GeoExt.form.tofilter returns a logical AND filter if",
               "logicalOp is undefined"].join(" "));
 
         t.eq(filter.filters[0].type, OpenLayers.Filter.Comparison.EQUAL_TO,
-             "GeoExt.form.filterFormForm creates correct filter type");
+             "GeoExt.form.tofilter creates correct filter type");
         t.eq(filter.filters[0].property, "foo0",
-             "GeoExt.form.filterFormForm creates correct filter prop");
+             "GeoExt.form.tofilter creates correct filter prop");
         t.eq(filter.filters[0].value, "bar0",
-             "GeoExt.form.filterFormForm creates correct filter value");
+             "GeoExt.form.tofilter creates correct filter value");
 
         t.eq(filter.filters[1].type, OpenLayers.Filter.Comparison.EQUAL_TO,
-             "GeoExt.form.filterFormForm creates correct filter type (__eq)");
+             "GeoExt.form.tofilter creates correct filter type (__eq)");
         t.eq(filter.filters[1].property, "foo1",
-             "GeoExt.form.filterFormForm creates correct filter prop (__eq)");
+             "GeoExt.form.tofilter creates correct filter prop (__eq)");
         t.eq(filter.filters[1].value, "bar1",
-             "GeoExt.form.filterFormForm creates correct filter value (__eq)");
+             "GeoExt.form.tofilter creates correct filter value (__eq)");
 
         t.eq(filter.filters[2].type, OpenLayers.Filter.Comparison.NOT_EQUAL_TO,
-             "GeoExt.form.filterFormForm creates correct filter type (__ne)");
+             "GeoExt.form.tofilter creates correct filter type (__ne)");
         t.eq(filter.filters[2].property, "foo2",
-             "GeoExt.form.filterFormForm creates correct filter prop (__ne)");
+             "GeoExt.form.tofilter creates correct filter prop (__ne)");
         t.eq(filter.filters[2].value, "bar2",
-             "GeoExt.form.filterFormForm creates correct filter value (__ne)");
+             "GeoExt.form.tofilter creates correct filter value (__ne)");
 
         t.eq(filter.filters[3].type, OpenLayers.Filter.Comparison.LESS_THAN,
-             "GeoExt.form.filterFormForm creates correct filter type (__lt)");
+             "GeoExt.form.tofilter creates correct filter type (__lt)");
         t.eq(filter.filters[3].property, "foo3",
-             "GeoExt.form.filterFormForm creates correct filter prop (__lt)");
+             "GeoExt.form.tofilter creates correct filter prop (__lt)");
         t.eq(filter.filters[3].value, "bar3",
-             "GeoExt.form.filterFormForm creates correct filter value (__lt)");
+             "GeoExt.form.tofilter creates correct filter value (__lt)");
 
         t.eq(filter.filters[4].type, OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO,
-             "GeoExt.form.filterFormForm creates correct filter type (__le)");
+             "GeoExt.form.tofilter creates correct filter type (__le)");
         t.eq(filter.filters[4].property, "foo4",
-             "GeoExt.form.filterFormForm creates correct filter prop (__le)");
+             "GeoExt.form.tofilter creates correct filter prop (__le)");
         t.eq(filter.filters[4].value, "bar4",
-             "GeoExt.form.filterFormForm creates correct filter value (__le)");
+             "GeoExt.form.tofilter creates correct filter value (__le)");
 
         t.eq(filter.filters[5].type, OpenLayers.Filter.Comparison.GREATER_THAN,
-             "GeoExt.form.filterFormForm creates correct filter type (__gt)");
+             "GeoExt.form.tofilter creates correct filter type (__gt)");
         t.eq(filter.filters[5].property, "foo5",
-             "GeoExt.form.filterFormForm creates correct filter prop (__gt)");
+             "GeoExt.form.tofilter creates correct filter prop (__gt)");
         t.eq(filter.filters[5].value, "bar5",
-             "GeoExt.form.filterFormForm creates correct filter value (__gt)");
+             "GeoExt.form.tofilter creates correct filter value (__gt)");
 
         t.eq(filter.filters[6].type, OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO,
-             "GeoExt.form.filterFormForm creates correct filter type (__ge)");
+             "GeoExt.form.tofilter creates correct filter type (__ge)");
         t.eq(filter.filters[6].property, "foo6",
-             "GeoExt.form.filterFormForm creates correct filter prop (__ge)");
+             "GeoExt.form.tofilter creates correct filter prop (__ge)");
         t.eq(filter.filters[6].value, "bar6",
-             "GeoExt.form.filterFormForm creates correct filter value (__ge)");
+             "GeoExt.form.tofilter creates correct filter value (__ge)");
 
         t.eq(filter.filters[7].type, OpenLayers.Filter.Comparison.LIKE,
-             "GeoExt.form.filterFormForm creates correct filter type (__like)");
+             "GeoExt.form.tofilter creates correct filter type (__like)");
         t.eq(filter.filters[7].property, "foo7",
-             "GeoExt.form.filterFormForm creates correct filter prop (__like)");
+             "GeoExt.form.tofilter creates correct filter prop (__like)");
         t.eq(filter.filters[7].value, "bar7",
-             "GeoExt.form.filterFormForm creates correct filter value (__like)");
+             "GeoExt.form.tofilter creates correct filter value (__like)");
 
         // 1 test
         filter = GeoExt.form.toFilter(form,
                                       OpenLayers.Filter.Logical.OR);
 
         t.eq(filter.type, OpenLayers.Filter.Logical.OR,
-             ["GeoExt.form.filterFormForm returns a logical OR filter if",
+             ["GeoExt.form.tofilter returns a logical OR filter if",
               "logicalOp is OpenLayers.Filter.Logical.OR"].join(" "));
     }
 
