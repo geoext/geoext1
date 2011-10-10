@@ -17,7 +17,7 @@
             var fields = reader.recordType.prototype.fields;
 
             // 1 test
-            t.eq(fields.items.length, 24, 'number of default items is correct');
+            t.eq(fields.items.length, 25, 'number of default items is correct');
 
             var reader = new GeoExt.data.WMSCapabilitiesReader({},[
                 {name: "foo"},
@@ -43,7 +43,7 @@
         }
 
         function test_read(t) {
-            t.plan(40);
+            t.plan(41);
 
             // test a reader with the only two default LayerRecord fields
             var reader = new GeoExt.data.WMSCapabilitiesReader({}, []);
@@ -108,7 +108,14 @@
             t.eq(record.get("fixedHeight"), 200, "[2] correct fixedHeight attribute");
             t.eq(record.get("formats")[0], "image/png", "[2] correct image/png formats attribute");
             t.eq(record.get("formats")[14], "image/geotiff", "[2] correct image/geotiff formats attribute");
-            t.eq(record.get("formats")[27], "rss", "[2] correct rss formats attribute");            
+            t.eq(record.get("formats")[27], "rss", "[2] correct rss formats attribute");
+            if (!record.get("infoFormats")) {
+                // for OpenLayers versions that don't parse infoFormats
+                t.ok("infoFormats" in record.data, "infoFormats field created");
+            } else {
+                // for OpenLayers versions that do parse infoFormats
+                t.eq(record.get("infoFormats")[0], "text/plain", "[2] first infoFormat is correct");
+            }
             var srs = record.get("srs");
             var count = 0;
             for (var key in srs) {
