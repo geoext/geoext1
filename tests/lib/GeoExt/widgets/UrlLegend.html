@@ -76,12 +76,12 @@
                 layer: new OpenLayers.Layer(),
                 legendURL: "foo"
             });
-            t.eq(GeoExt.UrlLegend.supports(rec), true, "layer record with a legendURL property is supported.");
+            t.ok(GeoExt.UrlLegend.supports(rec) > 0, "layer record with a legendURL property is supported.");
 
             var rec = new Rec({
                 layer: new OpenLayers.Layer()
             });
-            t.eq(GeoExt.UrlLegend.supports(rec), false, "layer record without a legendURL property is not supported.");
+            t.eq(GeoExt.UrlLegend.supports(rec), 0, "layer record without a legendURL property is not supported.");
         }
 
     </script>

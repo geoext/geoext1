@@ -101,7 +101,7 @@
                 layer: new OpenLayers.Layer.WMS(),
                 legendURL: "foo"
             });
-            t.eq(GeoExt.LayerLegend.getTypes(rec), ["gx_urllegend","gx_wmslegend"], "a layer record with WMS layer and legendURL is supported by gx_urllegend and gx_wmslegend.");
+            t.eq(GeoExt.LayerLegend.getTypes(rec), ["gx_urllegend","gx_wmslegend"], "a layer record with WMS layer and legendURL is supported by gx_urllegend and gx_wmslegend, with a higher priority of gx_urllegend.");
             t.eq(GeoExt.LayerLegend.getTypes(rec, ["gx_wmslegend"]), ["gx_wmslegend","gx_urllegend"], "a layer record with WMS layer and legendURL and gx_wmslegend as preferred type lists  gx_wmslegend first, then gx_urllegend.");
             rec = new Rec({
                 layer: new OpenLayers.Layer.WMS()
