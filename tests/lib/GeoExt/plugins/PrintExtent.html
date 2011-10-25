@@ -119,6 +119,7 @@
             t.plan(2);
  
             var printExtent = new GeoExt.plugins.PrintExtent({
+                layer: new OpenLayers.Layer.Vector("hello world"),
                 printProvider: new GeoExt.data.PrintProvider({
                     capabilities: printCapabilities
                 })
