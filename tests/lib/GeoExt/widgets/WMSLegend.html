@@ -192,7 +192,7 @@
         }
 
         function test_update(t) {
-            t.plan(9);
+            t.plan(10);
 
             // set up
 
@@ -279,6 +279,18 @@
             t.ok(OpenLayers.Util.isEquivalentUrl(l.getComponent("c").url, oldUrl + "&_OLSALT=" + layerRecord.getLayer().params._OLSALT),
                  "update adds random parameter to disable caching after forced redraw");
             layerRecord.set("styles", null);
+
+            // #7
+            // time parameter should be ignored
+            layerRecord.getLayer().mergeNewParams({
+                layers: "c",
+                _OLSALT: null,
+                time: "2004-10-12T13:55:20Z"
+            });
+            l.update();
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&FOO=bar&LAYER=c&SCALE=27683990.15625&FORMAT=image%2Fgif";
+            t.ok(OpenLayers.Util.isEquivalentUrl(l.getComponent("c").url, expectedUrl),
+                 "update updates component URL but ignored TIME parameter");
 
             // tear down
 
