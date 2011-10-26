@@ -210,7 +210,7 @@
     }
 
     function test_recordToField(t) {
-        t.plan(26);
+        t.plan(28);
 
         // set up
 
@@ -269,6 +269,23 @@
         });
         field = Ext.ComponentMgr.create(field);
         t.eq(field.labelStyle, 'font-style:italic;', "[label] non nillable field custom labelStyle is correct");
+        
+        // label tip
+        field = GeoExt.form.recordToField(store.getAt(0), {
+            labelTpl: new Ext.XTemplate('{name}{[this.getStar(values)]}', {
+                getStar: function(v) {
+                    return (v.nillable ? '':' *');
+                }
+            })
+        });
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.fieldLabel, 'STATE_NAME *', "[label template] template is applied successfully");
+        
+        field = GeoExt.form.recordToField(store.getAt(0), {
+            labelTpl: '{name} foo'
+        });
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.fieldLabel, 'STATE_NAME foo', "[label template] labelTpl accepts strings too");
         
         // txt
         field = GeoExt.form.recordToField(store.getAt(0));

@@ -35,7 +35,18 @@ Ext.onReady(function() {
         },
         plugins: [
             new GeoExt.plugins.AttributeForm({
-                attributeStore: attributeStore
+                attributeStore: attributeStore,
+                recordToFieldOptions: {
+                    labelTpl: new Ext.XTemplate(
+                        '{name}{[this.getStar(values)]}', {
+                            compiled: true,
+                            disableFormats: true,
+                            getStar: function(v) {
+                                return v.nillable ? '' : ' *';
+                            }
+                        }
+                    )
+                }
             })
         ]
     });
