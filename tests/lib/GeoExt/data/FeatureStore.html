@@ -330,6 +330,18 @@
             t.ok(ok, "modifying filtered out features does not cause errors");
 
         }
+
+        function test_destroy(t) {
+            t.plan(1);
+
+            var layer = new OpenLayers.Layer.Vector("Foo layer");
+            var store = new GeoExt.data.FeatureStore({
+                layer: layer
+            });
+
+            store.destroy();
+            t.eq(store.layer, null, "Destroy calls unbind");
+        }
     </script> 
  
   <body> 
