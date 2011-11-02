@@ -119,6 +119,43 @@
         map.destroy();
     }
     
+    function test_saferemove(t) {
+
+        t.plan(3);
+
+        var map = new OpenLayers.Map();
+        map.addLayer(new OpenLayers.Layer(null, {isBaseLayer: true}));
+        var layer = new OpenLayers.Layer.Vector("old");
+        map.addLayer(layer);
+        map.zoomToMaxExtent();
+
+        var store = new GeoExt.data.LayerStore({map: map});
+
+        var legend = new GeoExt.VectorLegend({
+            layerRecord: store.getAt(1),
+            renderTo: "legendpanel",
+            symbolType: "Point"
+        });
+
+        // remove vector layer from map
+        map.removeLayer(layer);
+
+        try {
+            map.zoomIn();
+            t.ok(true, "removing a vector layer does not cause problems");
+        } catch(err) {
+            t.fail("removing a vector layer causes problems: " + err);
+        }
+
+        t.ok(legend.currentScaleDenominator !== map.getScale(), "zoomend handler disconnected");
+
+        map.addLayer(layer);
+        map.zoomIn();
+        t.ok(legend.currentScaleDenominator === map.getScale(), "zoomend handler connected again");
+
+        legend.destroy();
+        map.destroy();
+    }
 
     function test_createRuleRenderer(t) {
         
