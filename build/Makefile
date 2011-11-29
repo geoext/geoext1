@@ -5,7 +5,7 @@ LIB_NAME = GeoExt
 ZIP_NAME = $(LIB_NAME)-$(VERSION).zip
 
 CSS_DIR = $(LIB_NAME)/resources/css
-CSS_IMPORTS = $(shell cat ../resources/css/geoext-all-debug.css | grep '@import' | sed 's/^@import "\(.*\)";/\1/')
+CSS_IMPORTS = $(shell cat ../resources/css/geoext-all.css | grep '@import' | sed 's/^@import "\(.*\)";/\1/')
 ALL_CSS = $(CSS_DIR)/geoext-all.css
 
 .PHONEY: help clean ext examples lib zip dist
@@ -40,7 +40,6 @@ examples:
 	rsync -au --exclude=.svn `pwd`/../examples `pwd`/$(LIB_NAME)
 	for file in `find $(LIB_NAME)/examples -name "*.html"`; do \
 	    sed -i.bak "s/\.\.\/lib\/GeoExt\.js/\.\.\/script\/GeoExt\.js/g" $${file} ; \
-	    sed -i.bak "s/geoext-all-debug\.css/geoext-all\.css/g" $${file} ; \
 	    rm $${file}.bak ; \
 	done ;
 
