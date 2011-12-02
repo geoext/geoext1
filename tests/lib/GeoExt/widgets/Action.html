@@ -102,7 +102,7 @@
             // create button from action and it to toolbar
             btn = new Ext.Button(action);
             tb.add(btn);
-
+            
             // simulate click on button
             // 2 tests
             // test that the control's trigger is called exactly once
@@ -139,7 +139,7 @@
         }
 
         function test_toggle(t) {
-            t.plan(12);
+            t.plan(13);
 
             var menu, menuBtn, tb, ctrl;
             var activateCnt, deactivateCnt, toggleHandlerCnt, checkHandlerCnt;
@@ -190,6 +190,8 @@
             // create button from action and it to toolbar
             btn = new Ext.Button(action);
             tb.add(btn);
+            
+            t.eq(btn.pressed, true, "Button initially pressed for active control");
 
             // simulate click on button
             // 2 tests
@@ -199,8 +201,8 @@
             deactivateCnt = 0;
             toggleHandlerCnt = 0;
             btn.onClick(evt);
-            t.eq(activateCnt, 1, "click on button activates control once");
-            t.eq(deactivateCnt, 0, "click on button does not deactivate control");
+            t.eq(deactivateCnt, 1, "click on button deactivates control once");
+            t.eq(activateCnt, 0, "click on button does not activate control");
             t.eq(toggleHandlerCnt, 1, "click on button calls toggle handler once");
 
             // simulate click on button
@@ -211,8 +213,8 @@
             deactivateCnt = 0;
             toggleHandlerCnt = 0;
             btn.onClick(evt);
-            t.eq(activateCnt, 0, "click again on button does not activate control");
-            t.eq(deactivateCnt, 1, "click again on button deactivates control once");
+            t.eq(deactivateCnt, 0, "click again on button does not deactivate control");
+            t.eq(activateCnt, 1, "click again on button activates control once");
             t.eq(toggleHandlerCnt, 1, "click again on button calls toggle handler once");
 
             // create menu item from action and it to menu
@@ -229,8 +231,8 @@
             menuBtn.showMenu();
             item.onClick(evt);
             menuBtn.hideMenu();
-            t.eq(activateCnt, 1, "click on menu item activates control once");
-            t.eq(deactivateCnt, 0, "click on menu item does not deactivate control");
+            t.eq(deactivateCnt, 1, "click on menu item deactivates control once");
+            t.eq(activateCnt, 0, "click on menu item does not activate control");
             t.eq(checkHandlerCnt, 1, "click on menu item calls check handler once");
 
             // simulate click on menu item
@@ -243,13 +245,13 @@
             menuBtn.showMenu();
             item.onClick(evt);
             menuBtn.hideMenu();
-            t.eq(activateCnt, 0, "click again on menu item does not activate control");
-            t.eq(deactivateCnt, 1, "click again on menu item deactivates control once");
+            t.eq(deactivateCnt, 0, "click again on menu item does not deactivate control");
+            t.eq(activateCnt, 1, "click again on menu item activates control once");
             t.eq(checkHandlerCnt, 1, "click again on menu item calls check handler once");
         }
 
         function test_toggle_group(t) {
-            t.plan(8);
+            t.plan(12);
 
             var menu, menuBtn, tb, ctrl1, ctrl2;
 
@@ -287,7 +289,7 @@
                     return OpenLayers.Control.prototype.deactivate.call(this, arguments);
                 }
             });
-            ctrl1.deactivate();
+            ctrl1.activate();
             ctrl2 = new OpenLayers.Control({
                 activate: function() {
                     activateCtrl2Cnt++;
@@ -315,9 +317,19 @@
             // create buttons from actions and add them to toolbar
             btn1 = new Ext.Button(action1);
             tb.add(btn1);
+            
+            t.eq(btn1.pressed, true, "btn1 is pressed because ctrl1 is active");
+            
             btn2 = new Ext.Button(action2);
             tb.add(btn2);
             tb.doLayout();
+            // Ext.ButtonToggleMgr is registered too late, so we need to fire
+            // the toggle event to enforce only one button active.
+            btn2.fireEvent("toggle", btn2, btn2.pressed);
+            
+            t.eq(btn2.pressed, true, "btn2 is pressed because ctrl2 is active");
+            t.eq(btn1.pressed, false, "btn1 no longer pressed because only one cannot be active per group");
+            t.eq(ctrl1.active, false, "ctrl1 no longer active because depressing btn1 deactivated it");
 
             // simulate click on btn1
             // 2 tests
