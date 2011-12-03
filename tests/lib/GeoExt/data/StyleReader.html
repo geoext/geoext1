@@ -35,7 +35,7 @@
     }
     
     function test_storeToData(t) {
-        t.plan(4);
+        t.plan(5);
         
         var store;
         
@@ -55,10 +55,11 @@
             data: rasterStyle.rules[0].symbolizers[0]
         });
         
-        store.getAt(1).set("filter", 50000);
+        store.getAt(1).set("filter", "50000");
         store.commitChanges();
         t.eq(store.getAt(3).get("filter"), 50000, "ColorMap entries sorted in ascending order");
         t.eq(store.reader.raw.colorMap[3].quantity, 50000, "quantity updated");
+        t.eq(typeof store.getAt(3).get("filter"), "number", "quantity stored as number");
     }
     </script>
   <body>
