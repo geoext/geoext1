@@ -22,7 +22,7 @@
                 renderTo: "legend"
             });
             t.ok(legend instanceof GeoExt.LayerLegend, "Instance created correctly");
-            t.eq(legend.items.get(0).text, "foo", "Layer text set correctly");
+            t.eq(legend.getText(), "foo", "Layer text set correctly");
             legend.destroy();
             store.remove(rec);
             
@@ -35,7 +35,7 @@
                 layerRecord: rec,
                 renderTo: "legend"
             });
-            t.eq(legend.items.get(0).text, "", "Layer text for records with hideTitle set to true is empty.");
+            t.eq(legend.getText(), "", "Layer text for records with hideTitle set to true is empty.");
             legend.destroy();
         }
         
@@ -54,8 +54,8 @@
                 layerRecord: rec,
                 renderTo: "legend"
             });
-            rec.set("title", "bar");
-            t.eq(legend.items.get(0).text, "bar", "Layer text updated correctly");
+            rec.set("title", "foo <i>bar</i>");
+            t.eq(legend.getText().toLowerCase(), "foo <i>bar</i>", "Layer text updated correctly");
             legend.destroy();
             store.remove(rec);
 
@@ -69,7 +69,7 @@
                 renderTo: "legend"
             });
             rec.set("title", "bar");
-            t.eq(legend.items.get(0).text, "", "Layer text for record with hideTitle set to true still empty after update.")
+            t.eq(legend.getText(), "", "Layer text for record with hideTitle set to true still empty after update.")
             legend.destroy();
             store.remove(rec);
 
@@ -82,7 +82,7 @@
                 legendTitle: "bar",
                 renderTo: "legend"
             });
-            t.eq(legend.items.get(0).text, "bar", "legendTitle can be used to override layer name")
+            t.eq(legend.getText(), "bar", "legendTitle can be used to override layer name")
             legend.destroy();
 
         }
