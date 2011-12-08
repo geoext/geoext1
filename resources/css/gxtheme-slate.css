@@ -1,9 +1,18 @@
 .gx-popup-anc {
     background: transparent url(../images/slate/anchor.png) no-repeat 0 0;
-    position: relative;
-    top: -1px;
+    position: absolute;
     left: 5px;
     z-index: 2;
     height: 16px;
     width: 31px;
+}
+
+.gx-popup-anc.top {
+    background: transparent url(../images/slate/anchor-top.png) no-repeat 0 0;
+    top: -16px; /* height(gx-popup-anc) / 2 */
+}
+
+.gx-popup-anc.right {
+    left: auto;
+    right: 5px;
 }
