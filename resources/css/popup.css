@@ -9,7 +9,7 @@
 
 .gx-popup-anc.top {
     background: transparent url(../images/default/anchor-top.png) no-repeat 0 0;
-    top: -16px; /* height(gx-popup-anc) / 2 */
+    top: -16px; /* height(gx-popup-anc) */
 }
 
 .gx-popup-anc.right {
