@@ -43,6 +43,59 @@
                 mapPanel: mapPanel
             };      
         }
+
+        function setupMultiFeatureContext() {
+            var map = new OpenLayers.Map({panMethod: null}); // avoid tween panning for tests
+            var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
+            map.addLayer(layer);
+
+            var features = [
+                new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(-250, 130), {
+                    expectedAutoPosition: "top-left",
+                    map: map,
+                    removeFeatures: function() {}
+                }), new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(+250, 130), {
+                    expectedAutoPosition: "top-right",
+                    map: map,
+                    removeFeatures: function() {}
+                }), new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(+250, -130), {
+                    expectedAutoPosition: "bottom-right",
+                    map: map,
+                    removeFeatures: function() {}
+                }), new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(-250, -130), {
+                    expectedAutoPosition: "bottom-left",
+                    map: map,
+                    removeFeatures: function() {}
+                })
+            ];
+
+            var mapPanel = new GeoExt.MapPanel({
+                // panel options
+                id: "map-panel2",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                // map panel-specific options
+                map: map,
+                center: new OpenLayers.LonLat(5, 45),
+                zoom: 4
+            });
+
+            return {
+                features: features,
+                mapPanel: mapPanel,
+                map: mapPanel.map
+            };
+        }
+
+        function tearDownMultiFeature(context) {
+            Ext.each(context.features, function(feat) {
+                feat.destroy();
+            });
+            context.map.destroy();
+            context.mapPanel.destroy();
+        }
         
         function tearDown(context) {
             context.feature.destroy();
@@ -298,6 +351,43 @@
 
             tearDown(context);
         }
+
+        function test_Popup_autoPosition(t) {
+            t.plan(8);
+
+            var context = setupMultiFeatureContext();
+            var pop;
+
+            Ext.each(context.features, function(feat) {
+                pop = popup(feat, context.mapPanel, {anchorPosition: "auto"});
+                pop.show();
+
+                // test if the popups have the correct anchor position
+                t.eq(pop.anchorPosition, feat.attributes.expectedAutoPosition, "auto position calculated correctly for " + feat.attributes.expectedAutoPosition);
+                // test if the popups with anchor on top have the extra CSS class needed
+                if (/^top-/.test(feat.attributes.expectedAutoPosition)) {
+                    t.ok(pop.el.child("div.top"), "features with anchor on top have the corresponding CSS class");
+                } else {
+                    t.ok(!pop.el.child("div.top"),"features with anchor at the bottom do not have an extra CSS class");
+                }
+                pop.destroy();
+            });
+            tearDownMultiFeature(context);
+        }
+
+        function test_Popup_fixedPosition(t) {
+	    t.plan(8);
+	    var context = setupMultiFeatureContext();
+
+	    Ext.each(context.features, function(feat) {
+		var pop = popup(feat, context.mapPanel, {anchorPosition: "bottom-left"});
+		pop.show();
+		t.eq(pop.anchorPosition, "bottom-left", "fixed position set correctly");
+		t.ok(!pop.el.child("div.top"), "feature with fixed position 'bottom-left' do not have an extra CSS class");
+		pop.destroy();
+	    });
+	    tearDownMultiFeature(context);
+	}
 
     </script>
   <body>
