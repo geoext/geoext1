@@ -222,11 +222,11 @@
 
             var layer = mapPanel.map.layers[0];
             var cmp = lp.getComponent(lp.getIdForLayer(layer));
-            t.eq(cmp.items.get(0).text, 'test', "Layer name is test before change");
+            t.eq(cmp.getLabel(), 'test', "Layer name is test before change");
 
             layer.setName("My new name");
 
-            t.eq(cmp.items.get(0).text, "My new name", "Layer name was changed correctly to 'My new name'");
+            t.eq(cmp.getLabel(), "My new name", "Layer name was changed correctly to 'My new name'");
 
             lp.destroy();
 
@@ -239,7 +239,7 @@
 
             layer.setName("My new new name");
             var cmp = lp.getComponent(lp.getIdForLayer(layer));
-            t.eq(cmp.items.get(0).text, "", "When showTitle is false, there is no label for a layer and it is not changed");
+            t.eq(cmp.getLabel(), "", "When showTitle is false, there is no label for a layer and it is not changed");
 
             lp.destroy();
 
