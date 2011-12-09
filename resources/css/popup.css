@@ -5,6 +5,7 @@
     z-index: 2;
     height: 16px;
     width: 31px;
+    pointer-events: none;
 }
 
 .gx-popup-anc.top {
