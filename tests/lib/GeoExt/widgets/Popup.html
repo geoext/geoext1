@@ -361,15 +361,21 @@
             Ext.each(context.features, function(feat) {
                 pop = popup(feat, context.mapPanel, {anchorPosition: "auto"});
                 pop.show();
-
-                // test if the popups have the correct anchor position
-                t.eq(pop.anchorPosition, feat.attributes.expectedAutoPosition, "auto position calculated correctly for " + feat.attributes.expectedAutoPosition);
-                // test if the popups with anchor on top have the extra CSS class needed
-                if (/^top-/.test(feat.attributes.expectedAutoPosition)) {
-                    t.ok(pop.el.child("div.top"), "features with anchor on top have the corresponding CSS class");
+                
+                var ancPos = feat.attributes.expectedAutoPosition.split("-");
+                
+                // the following 4 assertions are called twice each
+                if (ancPos[0] === "top") {
+                    t.ok(pop.el.child("div.top"), "popups with anchor at the top have the corresponding CSS class");
                 } else {
-                    t.ok(!pop.el.child("div.top"),"features with anchor at the bottom do not have an extra CSS class");
+                    t.ok(!pop.el.child("div.top"), "popups with anchor at the bottom do not have an extra CSS class");
                 }
+                if (ancPos[1] == "right") {
+                    t.ok(pop.el.child("div.right"), "popups with anchor on the right have the corresponding CSS class");
+                } else {
+                    t.ok(!pop.el.child("div.right"), "popups with anchor on the left do not have an extra CSS class");
+                }
+                
                 pop.destroy();
             });
             tearDownMultiFeature(context);
@@ -380,11 +386,11 @@
 	    var context = setupMultiFeatureContext();
 
 	    Ext.each(context.features, function(feat) {
-		var pop = popup(feat, context.mapPanel, {anchorPosition: "bottom-left"});
-		pop.show();
-		t.eq(pop.anchorPosition, "bottom-left", "fixed position set correctly");
-		t.ok(!pop.el.child("div.top"), "feature with fixed position 'bottom-left' do not have an extra CSS class");
-		pop.destroy();
+    		var pop = popup(feat, context.mapPanel, {anchorPosition: "bottom-left"});
+    		pop.show();
+    		t.eq(pop.anchorPosition, "bottom-left", "fixed position set correctly");
+    		t.ok(!pop.el.child("div.top"), "popups with fixed position 'bottom-left' do not have an extra CSS class");
+    		pop.destroy();
 	    });
 	    tearDownMultiFeature(context);
 	}
