@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html debug="true">
   <head>
-    <script type="text/javascript" src="../../../../../../openlayers/lib/OpenLayers.js"></script>
+   <!-- <script type="text/javascript" src="../../../../../../openlayers/lib/OpenLayers.js"></script>
     <script type="text/javascript" src="../../../../../../ext/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="../../../../../../ext/ext-all-debug.js"></script>
-    <script type="text/javascript" src="../../../../../lib/GeoExt.js"></script>
+    <script type="text/javascript" src="../../../../../lib/GeoExt.js"></script> -->
+	
+	    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.4.0/ext-all.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.4.0/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.4.0/examples/shared/examples.css" />
+        <script src="http://www.openlayers.org/api/2.11/OpenLayers.js"></script>
+        <script type="text/javascript" src="../../../../../lib/GeoExt.js"></script>
 
     <script type="text/javascript">
     
@@ -366,6 +373,93 @@
              * Tear down
              */
             grid.destroy();
+        }
+		
+        function test_autopan_map_on_selection(t) {
+            t.plan(4);
+
+            /*
+             * Set up
+             */
+
+			var map, layer, features, store, sm, grid, e;
+
+            map = new OpenLayers.Map('map', {allOverlays: true, numZoomLevels: 20});
+
+            layer = new OpenLayers.Layer.Vector("vector");
+            map.addLayer(layer);
+			
+				
+				features = [
+                new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(10, 10),
+                    {foo: "foo1", bar: "bar1"}
+                ),
+                new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(2, 2),
+                    {foo: "foo2", bar: "bar2"}
+                )
+            ];
+            
+            store = new GeoExt.data.FeatureStore({
+                layer: layer,
+                data: features
+            });
+
+            sm = new GeoExt.grid.FeatureSelectionModel({autoPanMapOnSelection: true});
+
+            grid = new Ext.grid.GridPanel({
+                renderTo: "grid",
+				width: 100,
+                store: store,
+                columns: [{
+                    dataIndex: "foo"
+                }, {
+                    dataIndex: "bar"
+                }],
+                sm: sm,
+                deferRowRender: false
+            });
+
+            /*
+             * Test
+             */
+
+            // simulate a mousedown on the first row
+            // test that the first feature is selected and the map recenters
+            e = {
+                button: 0,
+                shiftKey: false,
+                ctrlKey: false
+            };
+            grid.fireEvent("rowmousedown", grid, 0, e);
+            
+            t.eq(map.getCenter().toString(), "lon=10,lat=10", "Map recentered to lon=10,lat=10 on selection of one feature");
+			t.eq(map.getZoom(), 0, "Map' s zoom has not changed because feature is visible on this zoom level");
+			 
+			// zoom deep into the map order to
+			// test the auto zoom to make multiple
+			// features visible
+			map.zoomTo(16);
+			
+			// simulate another mousedown on the second row
+			// to get multiple selection
+            // test that the map is recentered so that all features are visible
+            e = {
+                button: 0,
+                shiftKey: false,
+                ctrlKey: true
+            };
+            grid.fireEvent("rowmousedown", grid, 1, e);
+            
+            t.eq(map.getCenter().toString(), "lon=6,lat=6", "Map recentered to lon=6,lat=6 to make multiple selected features visible");
+			t.eq(map.getZoom(), 4, "Map' s zoom has changed in order to make multiple selected features visible");
+			
+			sm.clearSelections();
+			
+            /*
+             * Tear down
+             */
+            grid.destroy();
+            
         }
     </script>
 
