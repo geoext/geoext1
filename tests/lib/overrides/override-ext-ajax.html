@@ -8,13 +8,17 @@
     <script type="text/javascript" src="../../../lib/GeoExt.js"></script>
 
     <script type="text/javascript">
+        var log;
+        
         function setup() {
             window._xhr = OpenLayers.Request.XMLHttpRequest;
             var anon = new Function();
             OpenLayers.Request.XMLHttpRequest = function() {};
             OpenLayers.Request.XMLHttpRequest.prototype = {
                 open: anon,
-                setRequestHeader: anon,
+                setRequestHeader: function(k, v) {
+                    log[k] = v;
+                },
                 send: anon
             };
             OpenLayers.Request.XMLHttpRequest.DONE = 4;
@@ -32,9 +36,6 @@
              */
 
             setup();
-
-            var _srh;
-            var proto = OpenLayers.Request.XMLHttpRequest.prototype;
 
             var request, data;
 
@@ -55,14 +56,9 @@
              */
 
             // test "success" callback
-            // 3 tests
             data = "some data";
             successObj = failureObj = null;
-            _srh = proto.setRequestHeader; 
-            proto.setRequestHeader = function(k, v) {
-                t.ok(k == "some" && v == "headers",
-                     "headers properly set");
-            };
+            log = {}; 
             request = Ext.lib.Ajax.request("GET", "http://foo",
                 {
                     success: success,
@@ -75,6 +71,7 @@
                     headers: headers
                 }
             );
+            t.eq(log["some"], "headers", "headers properly set");
             request.readyState = OpenLayers.Request.XMLHttpRequest.DONE;
             request.status = 200;
             request.onreadystatechange();
@@ -84,7 +81,6 @@
                  "success cb called with proper argument");
             t.eq(successObj.status, 200,
                 "success cb called with proper status");
-            proto.setRequestHeader = _srh;
 
             // test "failure" callback
             // 2 tests
@@ -97,10 +93,7 @@
                     argument: argument,
                     scope: scope
                 },
-                data,
-                {
-                    headers: headers
-                }
+                data
             );
             request.readyState = OpenLayers.Request.XMLHttpRequest.DONE;
             request.status = 400;
@@ -115,11 +108,7 @@
             // test xmlData
             // 1 test
             data = "some data";
-            _srh = proto.setRequestHeader; 
-            proto.setRequestHeader = function(k, v) {
-                t.ok(k == "Content-Type" && v == "text/xml",
-                     "Content-Type header properly set");
-            };
+            log = {};
             request = Ext.lib.Ajax.request("GET", "http://foo",
                 {
                 },
@@ -128,16 +117,12 @@
                     xmlData: data
                 }
             );
-            proto.setRequestHeader = _srh;
+            t.eq(log["Content-Type"], "text/xml", "Content-Type header properly set");
 
             // test jsonData
             // 1 test
             data = "some data";
-            _srh = proto.setRequestHeader; 
-            proto.setRequestHeader = function(k, v) {
-                t.ok(k == "Content-Type" && v == "application/json",
-                     "Content-Type header properly set");
-            };
+            log = {}; 
             request = Ext.lib.Ajax.request("GET", "http://foo",
                 {
                 },
@@ -146,7 +131,7 @@
                     jsonData: data
                 }
             );
-            proto.setRequestHeader = _srh;
+            t.eq(log["Content-Type"], "application/json", "Content-Type header properly set");
 
             /*
              * Teardown
@@ -165,11 +150,9 @@
 
         function test_formPost(t) {
             t.plan(2);
-            var proto = OpenLayers.Request.XMLHttpRequest.prototype;
-            proto.setRequestHeader = function(k, v) {
-                t.ok(k == "Content-Type" && v == "application/x-www-form-urlencoded",
-                     "Content-Type header properly set for form POST");
-            };
+            
+            setup();
+            log = {};
             Ext.Ajax.request({
                 failure: function(response) { },
                 method: 'POST',
@@ -177,34 +160,31 @@
                 params: { username: 'bart', password: 'xx'},
                 url: 'foo.php'
             });
+            t.eq(log["Content-Type"], "application/x-www-form-urlencoded",
+                 "Content-Type header properly set for direct form POST");
 
+            log = {};
             var form = new Ext.form.FormPanel();
             form.add(new Ext.form.Hidden({name: 'foo', value: 'bar'}));
             form.render('basicform');
             form.getForm().submit({method: 'POST', url: 'foo.php'});
 
             t.delay_call(1, function() {
-                proto.setRequestHeader = function(k, v) {
-                    t.ok(k == "Content-Type" && v == "application/x-www-form-urlencoded",
-                        "Content-Type header properly set for form POST");
-                };
+                t.eq(log["Content-Type"], "application/x-www-form-urlencoded",
+                    "Content-Type header properly set for form POST from Ext.form.FormPanel");
+                teardown();
             });
 
         }
 
         function test_paramsGet(t) {
-            t.plan(0);
+            t.plan(1);
             /*
              * Setup
              */
             setup();
 
-            var proto = OpenLayers.Request.XMLHttpRequest.prototype;
-            var _srh = proto.setRequestHeader; 
-            proto.setRequestHeader = function(k, v) {
-                t.eq(k == "Content-Type" && v != "application/x-www-form-urlencoded",
-                     "Content-Type header should not be set for GET request");
-            };
+            log = {};
             Ext.Ajax.request({
                 failure: function(response) { },
                 method: 'GET',
@@ -212,7 +192,8 @@
                 params: { xx: 'xx', yy: 'yy'},
                 url: 'foo.php'
             });
-            proto.setRequestHeader = _srh;
+            t.ok(!("Content-Type" in log),
+                 "Content-Type header should not be set for GET request");
 
             /*
              * Teardown
