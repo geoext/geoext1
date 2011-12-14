@@ -7,6 +7,7 @@ ZIP_NAME = $(LIB_NAME)-$(VERSION).zip
 CSS_DIR = $(LIB_NAME)/resources/css
 CSS_IMPORTS = $(shell cat ../resources/css/geoext-all.css | grep '@import' | sed 's/^@import "\(.*\)";/\1/')
 ALL_CSS = $(CSS_DIR)/geoext-all.css
+DEBUG_CSS = geoext-all-debug.css
 
 .PHONEY: help clean ext examples lib zip dist
 
@@ -57,6 +58,7 @@ lib:
 	rsync -au --exclude=.svn `pwd`/../resources `pwd`/$(LIB_NAME)
 	rsync -au --exclude=.svn `pwd`/../lib `pwd`/$(LIB_NAME)
 	
+	cp $(ALL_CSS) $(DEBUG_CSS)
 	for file in `find $(CSS_DIR) -name "*.css"`; do \
 	    csstidy $${file} --template=highest $${file} ; \
 	done ;
@@ -64,6 +66,7 @@ lib:
 	for filename in $(CSS_IMPORTS); do \
 	    cat $(CSS_DIR)/$${filename} >> $(ALL_CSS) ; \
 	done ;
+	mv $(DEBUG_CSS) $(CSS_DIR)/
 
 	cp ../license.txt $(LIB_NAME)
 
