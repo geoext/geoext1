@@ -46,6 +46,15 @@ var doc = (new OpenLayers.Format.XML).read(
           '<xsd:element maxOccurs="1" minOccurs="0" name="MANUAL" nillable="true" type="xsd:double"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="P_MALE" nillable="true" type="xsd:double"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="P_FEMALE" nillable="true" type="xsd:double"/>' +
+          '<xsd:element name="DRINK_NAME" minOccurs="0" nillable="true">' +
+            '<xsd:simpleType>' +
+              '<xsd:restriction base="xs:string">' +
+                '<xsd:enumeration value="pop"/>' +
+                '<xsd:enumeration value="soda"/>' +
+                '<xsd:enumeration value="other"/>' +
+              '</xsd:restriction>' +
+            '</xsd:simpleType>' +
+          '</xsd:element>' +
         '</xsd:sequence>' +
       '</xsd:extension>' +
     '</xsd:complexContent>' +
