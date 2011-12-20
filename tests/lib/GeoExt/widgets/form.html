@@ -210,7 +210,7 @@
     }
 
     function test_recordToField(t) {
-        t.plan(28);
+        t.plan(31);
 
         // set up
 
@@ -336,6 +336,13 @@
         // (see <http://trac.geoext.org/ticket/379#comment:2>)
         //field.setValue("2001-10-26+02:00");
         //t.ok(field.getValue() instanceof Date, "[date] getValue returns a Date");
+        
+        // enumeration
+        field = GeoExt.form.recordToField(store.getAt(store.find("name", "DRINK_NAME")));
+        field = Ext.ComponentMgr.create(field);
+        t.ok(field instanceof Ext.form.ComboBox, "[enumeration] field is a combo box");
+        t.eq(field.name, "DRINK_NAME", "[enumeration] field name is correct");
+        t.eq(field.store.getAt(1).json[0], "soda", "[enumeration] store has the correct data");
 
         // tear down
     }
