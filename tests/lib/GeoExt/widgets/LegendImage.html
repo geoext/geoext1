@@ -26,7 +26,7 @@
         }
         
         function test_onImageLoadError(t) {
-            t.plan(2);
+            t.plan(3);
             
             var legend, calls = 0;
 
@@ -44,9 +44,31 @@
                 t.eq(calls, 1, "onImageLoadError called once for bogus image src");
                 var el = legend.getEl();
                 t.eq(el && el.dom.src.split("/").pop(), "also-bogus", "defaultImgSrc set as image src");
+                t.ok(el.dom.className.indexOf(legend.noImgCls) !== -1, "noImgCls set");
                 legend.destroy();
             });            
             
+        }
+        
+        function test_onImageLoad(t) {
+            t.plan(2);
+            
+            var calls = 0;
+            var legend = new GeoExt.LegendImage({
+                url: Ext.BLANK_IMAGE_URL,
+                defaultImgSrc: "bogus",
+                renderTo: "legend",
+                onImageLoad: function() {
+                    ++calls;
+                    GeoExt.LegendImage.prototype.onImageLoad.apply(this, arguments);
+                }
+            });
+            t.delay_call(1, function() {
+                t.eq(calls, 1, "onImageLoad called once for valid image src");
+                var el = legend.getEl();
+                t.ok(el.dom.className.indexOf(legend.noImgCls) === -1, "noImgCls not set");
+                legend.destroy();
+            });            
         }
 
 
