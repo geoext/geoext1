@@ -15,8 +15,8 @@ Ext.onReady(function() {
         title: "CSW Records",
         store: store,
         columns: [
-            {id: 'title', header: "Title", dataIndex: "title", sortable: true},
-            {header: "Subject", dataIndex: "subject", sortable: true, width: 300}
+            {id: 'title', xtype: "templatecolumn", tpl: new Ext.XTemplate('<tpl for="title">{value}<br/></tpl>'), header: "Title", dataIndex: "title", sortable: true},
+            {header: "Subject", xtype: "templatecolumn", tpl: new Ext.XTemplate('<tpl for="subject">{value}<br/></tpl>'), dataIndex: "subject", sortable: true, width: 300}
         ],
         autoExpandColumn: 'title',
         renderTo: "cswgrid",
