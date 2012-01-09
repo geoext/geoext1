@@ -1,4 +1,3 @@
-
 Ext.onReady(function() {
 
     // create store
