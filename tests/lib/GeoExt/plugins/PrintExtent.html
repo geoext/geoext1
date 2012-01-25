@@ -52,6 +52,38 @@
             mapPanel.destroy();
          }
 
+         function test_transformFeatureOptions(t) {
+             t.plan(2);
+
+             var printExtent = new GeoExt.plugins.PrintExtent({
+                 transformFeatureOptions: {
+                     rotate: false,
+                     renderIntent: "foobar"
+                 },
+                 printProvider: new GeoExt.data.PrintProvider({
+                     capabilities: printCapabilities
+                 })
+             });
+
+             var mapPanel = new GeoExt.MapPanel({
+                 renderTo: "mappanel",
+                 width: 256,
+                 height: 256,
+                 map: {controls: []},
+                 layers: [new OpenLayers.Layer("layer", {isBaseLayer: true})],
+                 center: [146.56, -41.56],
+                 zoom: 7,
+                 plugins: [printExtent]
+             });
+
+             t.ok(printExtent.control.rotate === false,
+                  "transformFeatureOptions.rotate option passed to the control");
+             t.ok(printExtent.control.renderIntent === "foobar",
+                  "transformFeatureOptions.renderIntent option passed to the control");
+
+             mapPanel.destroy();
+        }
+
         function test_destroy(t) {
             t.plan(3);
 
