@@ -84,8 +84,14 @@ Ext.onReady(function() {
         }
     });
         
-    // using OpenLayers.Format.JSON to create a nice formatted string of the
-    // configuration for editing it in the UI
+    // don't hide the focus for any tree node
+    var renderElements = Ext.tree.TreeNodeUI.prototype.renderElements;
+    Ext.tree.TreeNodeUI.prototype.renderElements = function(n, a, targetNode, bulkRender){
+        renderElements.call(this, n, a, targetNode, bulkRender);
+        this.anchor.removeAttribute('tabIndex');
+        this.anchor.removeAttribute('hideFocus');
+    };
+
     var treeConfig = [{
         nodeType: "gx_baselayercontainer"
     }, {
@@ -99,7 +105,8 @@ Ext.onReady(function() {
         region: "west",
         title: "Layers",
         width: 250,
-        autoScroll: true,
+        animate: false,
+        selModel: new KeyboardSelectionModel(),
         loader: new Ext.tree.TreeLoader({
             // applyLoader has to be set to false to not interfer with loaders
             // of nodes further down the tree hierarchy
@@ -145,3 +152,26 @@ Ext.onReady(function() {
     });
 });
 
+/**
+ * @class KeyboardSelectionModel
+ * @extends Ext.tree.DefaultSelectionModel
+ * Adds key processing to check/clear checkboxes.
+ */
+KeyboardSelectionModel = Ext.extend(Ext.tree.DefaultSelectionModel, {
+    onKeyDown: Ext.tree.DefaultSelectionModel.prototype.onKeyDown.createInterceptor(function(e) {
+        var key = e.getKey(),
+            selected = this.getSelectedNode();
+
+        if ((key === e.SPACE || key === e.ENTER) &&
+            e.getTarget() == selected.getUI().anchor) {
+            if (selected) {
+                selected.getUI().toggleCheck();
+            }
+        } else if (key === e.I) {
+            if (selected) {
+                geoadmin.LayerInfo.openDetails(selected.attributes.layerId);
+            }
+        }
+        return true;
+    })
+});
