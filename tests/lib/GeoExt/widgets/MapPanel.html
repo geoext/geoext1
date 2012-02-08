@@ -648,6 +648,19 @@
                  "state.opacity_barid correctly set");
             mapPanel.destroy();
         }
+        
+        function test_add(t) {
+            t.plan(1);
+            var mapPanel = new GeoExt.MapPanel({
+                renderTo: "mappanel",
+                items: {
+                    xtype: "gx_zoomslider",
+                    ref: "zoomSlider"
+                }
+            });
+            t.ok(mapPanel.zoomSlider.getEl().dom.parentNode === Ext.query(".olMapViewport", mapPanel.map.div)[0], "MapPanel item has the map's viewport div as parent.");
+            mapPanel.destroy();
+        }
     </script>
   </head>
   <body>
