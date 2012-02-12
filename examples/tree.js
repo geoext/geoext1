@@ -26,7 +26,8 @@ Ext.onReady(function() {
         layers: [
             new OpenLayers.Layer.WMS("Global Imagery",
                 "http://maps.opengeo.org/geowebcache/service/wms", {
-                    layers: "bluemarble"
+                    layers: "bluemarble",
+                    format: "image/png8"
                 }, {
                     buffer: 0,
                     visibility: false
@@ -66,7 +67,8 @@ Ext.onReady(function() {
                     format: "image/gif"
                 }, {
                     isBaseLayer: false,
-                    buffer: 0
+                    buffer: 0,
+                    maxResolution: 0.010986328125
                 }
             ),
             // create a group layer (with several layers in the "layers" param)
