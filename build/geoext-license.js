@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2008-2011, The Open Source Geospatial Foundation
+Copyright (c) 2008-2012, The Open Source Geospatial Foundation
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
