@@ -46,13 +46,20 @@ Ext.onReady(function() {
                         return [latLng.lng(), latLng.lat()];
                     }},
                     {name: "bounds", convert: function(v, rec) {
-                        var ne = rec.geometry.viewport.getNorthEast();
+                        var ne = rec.geometry.viewport.getNorthEast(),
                             sw = rec.geometry.viewport.getSouthWest();
                         return [sw.lng(), sw.lat(), ne.lng(), ne.lat()];
                     }}
                 ],
                 proxy: new (Ext.extend(Ext.data.DataProxy, {
                     doRequest: function(action, rs, params, reader, callback, scope, options) {
+                        // To restrict the search to a bounding box, change the
+                        // 1st argument of the geocoder.geocode call below to
+                        // something like
+                        // {address: params.q, bounds: new google.maps.LatLngBounds(
+                        //     new google.maps.LatLng(47, 15),
+                        //     new google.maps.LatLng(49, 17)
+                        // )}
                         geocoder.geocode({address: params.q}, function(results, status) {
                             var readerResult = reader.readRecords(results);
                             callback.call(scope, readerResult, options, !!readerResult);                        
