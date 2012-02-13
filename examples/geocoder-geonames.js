@@ -23,11 +23,14 @@ Ext.onReady(function() {
         zoom: 1,
         tbar: [{
             xtype: "gx_geocodercombo",
+            emptyText: "Search GeoNames",
+            width: 300,
+            tpl: '<tpl for="."><div class="x-combo-list-item">[{countryName}] {name}</div></tpl>',
             valueField: "lonlat",
             store: new Ext.data.JsonStore({
                 root: "geonames",
                 fields: [
-                    "name",
+                    "name", "countryName",
                     {name: "lonlat", convert: function(v, rec) {
                         return [rec.lng, rec.lat];
                     }}
