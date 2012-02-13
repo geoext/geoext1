@@ -35,8 +35,8 @@ Ext.onReady(function() {
         zoom: 1,
         tbar: [{
             xtype: "gx_geocodercombo",
+            width: 250,
             layer: locationLayer,
-            minListWidth: 200,
             displayField: "formatted_address",
             store: new Ext.data.JsonStore({
                 root: null,
