@@ -20,7 +20,7 @@ Ext.onReady(function() {
             externalGraphic: "http://openlayers.org/api/img/marker.png",
             graphicYOffset: -25,
             graphicHeight: 25,
-            graphicTitle: "${display_name}"
+            graphicTitle: "${name}"
         })
     });
     mapPanel = new GeoExt.MapPanel({
