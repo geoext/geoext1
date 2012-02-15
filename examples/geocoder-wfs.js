@@ -27,6 +27,7 @@ Ext.onReady(function() {
         tbar: [{
             xtype: "gx_geocodercombo",
             srs: "EPSG:900913",
+            emptyText: 'Search for a US state',
             queryParam: "CQL_FILTER",
             store: new Ext.data.Store({
                 reader: new GeoExt.data.FeatureReader({}, [
