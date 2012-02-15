@@ -24,17 +24,17 @@ Ext.onReady(function() {
         layers: [
             new OpenLayers.Layer.OSM()
         ],
-        zoom: 1,
+        center: [-10764594.758211, 4523072.3184791],
+        zoom: 3,
         tbar: [{
             xtype: "gx_geocodercombo",
             srs: "EPSG:900913",
             width: 250,
-            zoom: 15,
             store: new Ext.data.Store({
                 reader: new GeoExt.data.FeatureReader({}, [
-                    {name: 'name', mapping: 'ADDRESS'},
+                    {name: 'name', mapping: 'STATE_NAME'},
                     {name: 'bounds', convert: function(v, feature) {
-                        return [feature.geometry.x, feature.geometry.y];
+                        return feature.bounds.toArray();
                     }}
                 ]),
                 proxy: new (Ext.extend(GeoExt.data.ProtocolProxy, {
@@ -44,7 +44,7 @@ Ext.onReady(function() {
                                 type: OpenLayers.Filter.Comparison.LIKE,
                                 matchCase: false,
                                 property: this.protocol.propertyNames[0],
-                                 value: '*' + params.q + '*'
+                                value: '*' + params.q + '*'
                             });
                             delete params.q;
                         }
@@ -53,11 +53,11 @@ Ext.onReady(function() {
                 }))({
                     protocol: new OpenLayers.Protocol.WFS({
                         version: "1.1.0",
-                        url: "http://sfmta.demo.opengeo.org/geoserver/wfs",
-                        featureType: "SFADDRESSPOINTS",
-                        featurePrefix: "asbuilt",
+                        url: "http://demo.opengeo.org/geoserver/wfs",
+                        featureType: "states",
+                        featurePrefix: "topp",
                         srsName: "EPSG:900913",
-                        propertyNames: ['ADDRESS', 'GEOM'],
+                        propertyNames: ['STATE_NAME', 'the_geom'],
                         maxFeatures: 20
                     }),
                     setParamsAsOptions: true
