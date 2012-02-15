@@ -27,7 +27,7 @@ Ext.onReady(function() {
         tbar: [{
             xtype: "gx_geocodercombo",
             srs: "EPSG:900913",
-            width: 250,
+            queryParam: "CQL_FILTER",
             store: new Ext.data.Store({
                 reader: new GeoExt.data.FeatureReader({}, [
                     {name: 'name', mapping: 'STATE_NAME'},
@@ -35,15 +35,7 @@ Ext.onReady(function() {
                         return feature.geometry.getBounds().toArray();
                     }}
                 ]),
-                proxy: new (Ext.extend(GeoExt.data.ProtocolProxy, {
-                    doRequest: function(action, records, params, reader, callback, scope, arg) {
-                        if (params.q) {
-                            params['cql_filter'] = "STATE_NAME LIKE '%" + params.q + "%'";
-                            delete params.q;
-                        }
-                        GeoExt.data.ProtocolProxy.prototype.doRequest.apply(this, arguments);
-                    }
-                }))({
+                proxy: new GeoExt.data.ProtocolProxy({
                     protocol: new OpenLayers.Protocol.Script({
                         url: "http://demo.opengeo.org/geoserver/wfs",
                         callbackKey: "format_options",
@@ -58,7 +50,12 @@ Ext.onReady(function() {
                         }
                     })
                 })
-            })
+            }),
+            listeners: {
+                beforequery: function(qe) {
+                    qe.query = "STATE_NAME like '%" + qe.query + "%'";
+                }
+            }
         }]
     });
 });
