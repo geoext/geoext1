@@ -38,12 +38,7 @@ Ext.onReady(function() {
                 proxy: new (Ext.extend(GeoExt.data.ProtocolProxy, {
                     doRequest: function(action, records, params, reader, callback, scope, arg) {
                         if (params.q) {
-                            params.filter = new OpenLayers.Filter.Comparison({
-                                type: OpenLayers.Filter.Comparison.LIKE,
-                                matchCase: false,
-                                property: 'STATE_NAME',
-                                value: '%' + params.q + '%'
-                            });
+                            params['cql_filter'] = "STATE_NAME LIKE '%" + params.q + "%'";
                             delete params.q;
                         }
                         GeoExt.data.ProtocolProxy.prototype.doRequest.apply(this, arguments);
@@ -60,13 +55,8 @@ Ext.onReady(function() {
                             request: "GetFeature",
                             typeName: "topp:states",
                             outputFormat: "json"
-                        },
-                        filterToParams: function(filter, params) {
-                            params['cql_filter'] = new OpenLayers.Format.CQL().write(filter);
-                            return params;
                         }
-                    }),
-                    setParamsAsOptions: true
+                    })
                 })
             })
         }]
