@@ -14,8 +14,6 @@
 
 var mapPanel;
 
-OpenLayers.ProxyHost = '/cgi-bin/proxy.cgi?url=';
-
 Ext.onReady(function() {
     mapPanel = new GeoExt.MapPanel({
         renderTo: "mappanel",
@@ -34,7 +32,7 @@ Ext.onReady(function() {
                 reader: new GeoExt.data.FeatureReader({}, [
                     {name: 'name', mapping: 'STATE_NAME'},
                     {name: 'bounds', convert: function(v, feature) {
-                        return feature.bounds.toArray();
+                        return feature.geometry.getBounds().toArray();
                     }}
                 ]),
                 proxy: new (Ext.extend(GeoExt.data.ProtocolProxy, {
@@ -43,7 +41,69 @@ Ext.onReady(function() {
                             params.filter = new OpenLayers.Filter.Comparison({
                                 type: OpenLayers.Filter.Comparison.LIKE,
                                 matchCase: false,
-                                property: this.protocol.propertyNames[0],
+                                property: 'STATE_NAME',
+                                value: '%' + params.q + '%'
+                            });
+                            delete params.q;
+                        }
+                        GeoExt.data.ProtocolProxy.prototype.doRequest.apply(this, arguments);
+                    }
+                }))({
+                    protocol: new OpenLayers.Protocol.Script({
+                        url: "http://demo.opengeo.org/geoserver/wfs",
+                        callbackKey: "format_options",
+                        callbackPrefix: "callback:",
+                        params: {
+                            service: "WFS",
+                            version: "1.1.0",
+                            srsName: "EPSG:900913",
+                            request: "GetFeature",
+                            typeName: "topp:states",
+                            outputFormat: "json"
+                        },
+                        filterToParams: function(filter, params) {
+                            params['cql_filter'] = new OpenLayers.Format.CQL().write(filter);
+                            return params;
+                        }
+                    }),
+                    setParamsAsOptions: true
+                })
+            })
+        }]
+    });
+});
+
+/**
+ * The commented example below uses plain WFS but needs a proxy
+ */
+/*Ext.onReady(function() {
+    mapPanel = new GeoExt.MapPanel({
+        renderTo: "mappanel",
+        height: 400,
+        width: 500,
+        layers: [
+            new OpenLayers.Layer.OSM()
+        ],
+        center: [-10764594.758211, 4523072.3184791],
+        zoom: 3,
+        tbar: [{
+            xtype: "gx_geocodercombo",
+            srs: "EPSG:900913",
+            width: 250,
+            store: new Ext.data.Store({
+                reader: new GeoExt.data.FeatureReader({}, [
+                    {name: 'name', mapping: 'STATE_NAME'},
+                    {name: 'bounds', convert: function(v, feature) {
+                        return feature.geometry.getBounds().toArray();
+                    }}
+                ]),
+                proxy: new (Ext.extend(GeoExt.data.ProtocolProxy, {
+                    doRequest: function(action, records, params, reader, callback, scope, arg) {
+                        if (params.q) {
+                            params.filter = new OpenLayers.Filter.Comparison({
+                                type: OpenLayers.Filter.Comparison.LIKE,
+                                matchCase: false,
+                                property: 'STATE_NAME',
                                 value: '*' + params.q + '*'
                             });
                             delete params.q;
@@ -66,3 +126,4 @@ Ext.onReady(function() {
         }]
     });
 });
+*/
