@@ -62,7 +62,7 @@ function test_drawFeature(t) {
     });
     t.eq(log.length, 4, "drawFeature called four times given text, polygon, line and object symbolizers");
     t.ok(log[0][1] instanceof OpenLayers.Symbolizer.Text, "drawFeature called with text symbolizer");
-    t.ok(log[0][1].fillOpacity === 0 && log[0][1].strokeOpacity === 0, "Point geometry not rendered for label");
+    t.ok(log[0][1].fill === false && log[0][1].stroke === false, "Point geometry not rendered for label");
     t.ok(log[1][1] instanceof OpenLayers.Symbolizer.Polygon, "drawFeature called with polygon symbolizer only");
     t.ok(log[1][1] !== poly, "drawFeature called with clone of original symbolizer");
     
