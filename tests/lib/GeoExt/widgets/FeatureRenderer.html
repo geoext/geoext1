@@ -22,7 +22,7 @@ function test_initialize(t) {
 }
 
 function test_drawFeature(t) {
-    t.plan(10);
+    t.plan(13);
     
 
     var renderer = new GeoExt.FeatureRenderer({
@@ -60,14 +60,17 @@ function test_drawFeature(t) {
             poly, line, {fillColor: "red"}
         ]
     });
-    t.eq(log.length, 3, "drawFeature called three times given text, polygon, line and object symbolizers");
-    t.ok(log[0][1] instanceof OpenLayers.Symbolizer.Polygon, "drawFeature called with polygon symbolizer only");
-    t.ok(log[0][1] !== poly, "drawFeature called with clone of original symbolizer");
+    t.eq(log.length, 4, "drawFeature called four times given text, polygon, line and object symbolizers");
+    t.ok(log[0][1] instanceof OpenLayers.Symbolizer.Text, "drawFeature called with text symbolizer");
+    t.ok(log[0][1].fillOpacity === 0 && log[0][1].strokeOpacity === 0, "Point geometry not rendered for label");
+    t.ok(log[1][1] instanceof OpenLayers.Symbolizer.Polygon, "drawFeature called with polygon symbolizer only");
+    t.ok(log[1][1] !== poly, "drawFeature called with clone of original symbolizer");
     
     // confirm that we use the correct features for rendering
-    t.ok(log[0][0].geometry instanceof OpenLayers.Geometry.Polygon, "polygon symbolizer applied to a polygon feature");
-    t.ok(log[1][0].geometry instanceof OpenLayers.Geometry.LineString, "line symbolizer applied to a line feature");
-    t.ok(log[2][0].geometry instanceof OpenLayers.Geometry.Polygon, "symbolizer object applied to a symbolType feature");
+    t.ok(log[0][0].geometry instanceof OpenLayers.Geometry.Point, "text symbolizer applied to a point feature");
+    t.ok(log[1][0].geometry instanceof OpenLayers.Geometry.Polygon, "polygon symbolizer applied to a polygon feature");
+    t.ok(log[2][0].geometry instanceof OpenLayers.Geometry.LineString, "line symbolizer applied to a line feature");
+    t.ok(log[3][0].geometry instanceof OpenLayers.Geometry.Polygon, "symbolizer object applied to a symbolType feature");
     
     renderer.destroy();
     
