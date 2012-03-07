@@ -160,15 +160,9 @@ Ext.onReady(function() {
             // the children property of an Ext.tree.AsyncTreeNode is used to
             // provide an initial set of layer nodes. We use the treeConfig
             // from above, that we created with OpenLayers.Format.JSON.write.
-            children: Ext.decode(treeConfig)
-            // Don't use the line above in your application. Instead, use
-            //children: treeConfig
-            
-        },
-        listeners: {
-            "radiochange": function(node){
-                alert(node.layer.name + " is now the the active layer.");
-            }
+            // In your application, only use Ext.decode if your tree
+            // configuration is a JSON string. 
+            children: Ext.decode(treeConfig)            
         },
         rootVisible: false,
         lines: false,
