@@ -287,6 +287,22 @@
             tearDown(context);
         }
 
+        function test_Popup_noGeometry(t) {
+            t.plan(1);
+            var context = setupContext();
+            context.feature.geometry = null;
+            var pop = popup(context.feature);
+            var log = [];
+            try {
+                pop.show();
+            } catch(e) {
+                log.push(e);
+            }
+            t.eq(log.length, 0, "No errors when showing a popup for a feature with no geometry");
+            pop.destroy();
+            tearDown(context);
+        }
+
         function test_Popup_destroy(t){
 
             t.plan(1);
