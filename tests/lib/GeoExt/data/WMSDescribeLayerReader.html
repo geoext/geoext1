@@ -49,6 +49,17 @@
             t.eq(record.get("owsURL"), "http://demo.opengeo.org/geoserver/wfs/WfsDispatcher?", "[0] correct owsURL");
             t.eq(record.get("typeName"),"topp:states", "[0] correct typeName");
         }
+
+        function test_read_exception(t) {
+            t.plan(1);
+            var reader = new GeoExt.data.WMSDescribeLayerReader({}, []);
+            try {
+                var records = reader.read({responseXML: doc2});
+            } catch(e) {
+                t.ok(true, "Exception thrown when getting a service exception");
+            }
+        }
+
     </script>
   <body>
     <div id="map"></div>
