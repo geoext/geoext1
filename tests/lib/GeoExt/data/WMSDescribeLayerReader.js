@@ -9,3 +9,11 @@ var doc = (new OpenLayers.Format.XML).read(
         '</LayerDescription>'+
     '</WMS_DescribeLayerResponse>'
 );
+
+var doc2 = (new OpenLayers.Format.XML).read(
+    '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
+    '<!DOCTYPE ServiceExceptionReport SYSTEM "http://mapstory.dev.opengeo.org:80/geoserver/schemas/wms/1.1.1/WMS_exception_1_1_1.dtd">' +
+    ' <ServiceExceptionReport version="1.1.1" >   <ServiceException code="LayerNotDefined" locator="MapLayerInfoKvpParser">' +
+    '  geonode:_map_107_annotations: no such layer on this server' +
+    '</ServiceException></ServiceExceptionReport>'
+);
