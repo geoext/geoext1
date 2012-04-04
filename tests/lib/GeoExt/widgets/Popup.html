@@ -151,6 +151,18 @@
             tearDown(context);
         }
 
+        function test_unanchored(t) {
+            t.plan(3);
+            var context = setupContext();
+
+            var pop = popup(context.feature, context.map, {anchored: false});
+            // show the popup and move the map to ensure popup is actually visible
+            pop.show();
+            t.ok(!pop.anc, "Popup has no anchor element");
+            t.ok(pop.draggable, "Popup is draggable when unanchored");
+            t.ok(!pop.tools["unpin"], "No unpinnable tool when popup is unanchored");
+        }
+
         function test_anchorPopup(t) {
             t.plan(5);
 
