@@ -31,6 +31,7 @@ Ext.onReady(function() {
         zoom: 1,
         tbar: [{
             xtype: "gx_geocodercombo",
+            hideTrigger: true,
             layer: locationLayer,
             // To restrict the search to a bounding box, uncomment the following
             // line and change the viewboxlbrt parameter to a left,bottom,right,top
