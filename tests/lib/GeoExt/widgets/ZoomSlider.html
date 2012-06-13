@@ -84,6 +84,34 @@
             slider1.destroy();
             slider2.destroy();
         }
+        
+        function test_zoomslider_update(t) {
+            t.plan(4);
+            
+            var map = new OpenLayers.Map({
+                div: "map",
+                allOverlays: true
+            });
+            map.addLayer(new OpenLayers.Layer("", {wrapDateLine: true}));
+            map.zoomToMaxExtent();
+            
+            var slider = new GeoExt.ZoomSlider({
+                map: map,
+                renderTo: document.body
+            });
+            
+            t.eq(slider.minValue, 1, "slider min is 1 (restricted zoom range)");
+            t.eq(slider.maxValue, 15, "slider can go to 15");
+            
+            map.div.style.width = "1024px";
+            map.updateSize();
+
+            t.eq(slider.minValue, 2, "slider min is 2 (restricted zoom range)");
+            t.eq(slider.maxValue, 15, "slider can go to 15");
+
+            map.div.style.width = "512px";
+            map.destroy();
+        }
 
     </script>
   </head>
