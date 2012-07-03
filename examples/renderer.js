@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -38,6 +38,10 @@ var custom = {
         strokeColor: "#666666",
         strokeWidth: 2,
         strokeDashstyle: "dot"
+    },
+    text: {
+        fontColor: "#FF0000",
+        label: "Ab"
     }
 };
 
@@ -68,7 +72,29 @@ var stacked = {
         fillOpacity: 0,
         strokeColor: "red",
         strokeDashstyle: "dot"
+    }],
+    text: [{
+        fontColor: "#FF0000",
+        label: "Ab",
+        fontSize: 18
+    }, {
+        fontColor: "#00FF00",
+        label: "Ab",
+        fontSize: 12
     }]
+};
+
+var graphicText = {
+    text: new OpenLayers.Symbolizer.Text({
+        label: "Ab",
+        labelAlign: "cm",
+        fontColor: "#FF0000"
+    }),
+    graphic: {
+        graphicName: "square",
+        pointRadius: 10,
+        fillColor: "yellow"
+    }
 };
 
 var configs = [{
@@ -105,6 +131,10 @@ var configs = [{
     symbolizers: [custom.poly],
     renderTo: "poly_custom"
 }, {
+    symbolType: "Text",
+    symbolizers: [custom.text],
+    renderTo: "text_custom"
+}, {
     symbolType: "Point",
     symbolizers: stacked.point,
     renderTo: "point_stacked"
@@ -116,9 +146,25 @@ var configs = [{
     symbolType: "Polygon",
     symbolizers: stacked.poly,
     renderTo: "poly_stacked"
+}, {
+    symbolType: "Text",
+    symbolizers: stacked.text,
+    renderTo: "text_stacked"
+}, {
+    symbolType: "Text",
+    renderTo: "text-only",
+    symbolizers: [graphicText.text]
+}, {
+    symbolType: "Text",
+    renderTo: "graphic-only",
+    symbolizers: [graphicText.graphic]
+}, {
+    renderTo: "text-graphic",
+    symbolizers: [graphicText.text, graphicText.graphic],
+    symbolType: "Text"
 }];
 
-Ext.onReady(function() {        
+Ext.onReady(function() {
     for(var i=0; i<configs.length; ++i) {
         new GeoExt.FeatureRenderer(configs[i]);
     }
@@ -131,7 +177,7 @@ function render() {
     var wkt = $("wkt").value;
     var feature;
     try {
-        feature = format.read(wkt)
+        feature = format.read(wkt);
     } catch(err) {
         $("wkt").value = "Bad WKT: " + err;
     }

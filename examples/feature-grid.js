@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -24,7 +24,32 @@ Ext.onReady(function() {
     );
 
     // create vector layer
-    var vecLayer = new OpenLayers.Layer.Vector("vector");
+    var context = {
+        getColor: function(feature) {
+            if (feature.attributes.elevation < 2000) {
+                return 'green';
+            }
+            if (feature.attributes.elevation < 2300) {
+                return 'orange';
+            }
+            return 'red';
+        }
+    };
+    var template = {
+        fillOpacity: 0.5,
+        fillColor: "${getColor}",
+        pointRadius: 5,
+        strokeWidth: 1,
+        strokeOpacity: 1,
+        strokeColor: "${getColor}",
+        graphicName: "triangle"
+    };
+    var style = new OpenLayers.Style(template, {context: context});
+    var vecLayer = new OpenLayers.Layer.Vector("vector", {
+        styleMap: new OpenLayers.StyleMap({
+            'default': style
+        })
+    });
     map.addLayers([wmsLayer, vecLayer]);
 
     // create map panel
@@ -54,6 +79,40 @@ Ext.onReady(function() {
         autoLoad: true
     });
 
+    function getSymbolTypeFromFeature(feature){
+        var type;
+        switch (feature.geometry.CLASS_NAME) {
+            case "OpenLayers.Geometry.MultiLineString":
+            case "OpenLayers.Geometry.LineString":
+                type = 'Line';
+                break;
+            case "OpenLayers.Geometry.Point":
+                type = 'Point';
+                break;
+            case "OpenLayers.Geometry.Polygon":
+                type = 'Polygon';
+                break;
+        }
+        return type;
+    }
+
+    function renderFeature(value, p, r) {
+        var id = Ext.id(),
+            feature = r.get('feature');
+
+        (function() {
+            var symbolizer = r.store.layer.styleMap.createSymbolizer(feature, 'default');
+            var renderer = new GeoExt.FeatureRenderer({
+                renderTo: id,
+                width: 12,
+                height: 12,
+                symbolType: getSymbolTypeFromFeature(feature),
+                symbolizers: [symbolizer]
+            });
+        }).defer(25);
+        return (String.format('<div id="{0}"></div>', id));
+    }
+
     // create grid panel configured with feature store
     gridPanel = new Ext.grid.GridPanel({
         title: "Feature Grid",
@@ -61,6 +120,11 @@ Ext.onReady(function() {
         store: store,
         width: 320,
         columns: [{
+            header: "",
+            width: 30,
+            renderer: renderFeature,
+            dataIndex: 'fid'
+        },{
             header: "Name",
             width: 200,
             dataIndex: "name"

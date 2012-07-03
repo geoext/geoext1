@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008-2011 The Open Source Geospatial Foundation
+ * Copyright (c) 2008-2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
@@ -26,7 +26,8 @@ Ext.onReady(function() {
         layers: [
             new OpenLayers.Layer.WMS("Global Imagery",
                 "http://maps.opengeo.org/geowebcache/service/wms", {
-                    layers: "bluemarble"
+                    layers: "bluemarble",
+                    format: "image/png8"
                 }, {
                     buffer: 0,
                     visibility: false
@@ -66,7 +67,8 @@ Ext.onReady(function() {
                     format: "image/gif"
                 }, {
                     isBaseLayer: false,
-                    buffer: 0
+                    buffer: 0,
+                    maxResolution: 0.010986328125
                 }
             ),
             // create a group layer (with several layers in the "layers" param)
@@ -158,15 +160,9 @@ Ext.onReady(function() {
             // the children property of an Ext.tree.AsyncTreeNode is used to
             // provide an initial set of layer nodes. We use the treeConfig
             // from above, that we created with OpenLayers.Format.JSON.write.
-            children: Ext.decode(treeConfig)
-            // Don't use the line above in your application. Instead, use
-            //children: treeConfig
-            
-        },
-        listeners: {
-            "radiochange": function(node){
-                alert(node.layer.name + " is now the the active layer.");
-            }
+            // In your application, only use Ext.decode if your tree
+            // configuration is a JSON string. 
+            children: Ext.decode(treeConfig)            
         },
         rootVisible: false,
         lines: false,

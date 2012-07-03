@@ -49,31 +49,40 @@
     render a default feature based on geometry type alone.</p>
     <table id="swatches">
         <tbody>
-            <tr><td>&nbsp;</td><td>point</td><td>line</td><td>polygon</td></tr>
+            <tr><td>&nbsp;</td><td>point</td><td>line</td><td>polygon</td><td>text</td></tr>
             <tr>
                 <td>default</td>
                 <td id="point_default"></td>
                 <td id="line_default"></td>
                 <td id="poly_default"></td>
+                <td id="text_default">n/a</td>
             </tr><tr>
                 <td>blue</td>
                 <td id="point_blue"></td>
                 <td id="line_blue"></td>
                 <td id="poly_blue"></td>
+                <td id="text_blue">n/a</td>
             </tr><tr>
                 <td>custom</td>
                 <td id="point_custom"></td>
                 <td id="line_custom"></td>
                 <td id="poly_custom"></td>
+                <td id="text_custom"></td>
             </tr>
             </tr><tr>
                 <td>stacked</td>
                 <td id="point_stacked"></td>
                 <td id="line_stacked"></td>
                 <td id="poly_stacked"></td>
+                <td id="text_stacked"></td>
             </tr>
         </tbody>
     </table>
+
+    <h2>Text-graphic</h2>
+    Text and graphic combined<div id="text-graphic" style="width:30px;height:30px"></div>
+    Text only<div id="text-only" style="width:30px;height:30px"></div>
+    Graphic only<div id="graphic-only" style="width:30px;height:30px"></div>
     
     <h2>Custom Feature Rendering</h2>
     <p>You can render any OpenLayers.Feature.Vector object with a FeatureRenderer.
