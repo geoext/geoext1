@@ -303,6 +303,17 @@
             tearDown(context);
         }
 
+        function test_Popup_position_LonLat(t) {
+            t.plan(1);
+            var map = new OpenLayers.Map();
+            var popup = new GeoExt.Popup({
+                location: new OpenLayers.LonLat(0, 0),
+                map: map
+            });
+            t.eq(popup.anchored, true, 'popup is anchored');
+            map.destroy();
+        }
+
         function test_Popup_destroy(t){
 
             t.plan(1);
