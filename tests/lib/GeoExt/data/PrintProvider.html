@@ -8,11 +8,11 @@
 
     <script type="text/javascript">
         var printCapabilities = {"scales":[{"name":"1:25,000","value":"25000"},{"name":"1:50,000","value":"50000"},{"name":"1:100,000","value":"100000"},{"name":"1:200,000","value":"200000"},{"name":"1:500,000","value":"500000"},{"name":"1:1,000,000","value":"1000000"},{"name":"1:2,000,000","value":"2000000"},{"name":"1:4,000,000","value":"4000000"}],"dpis":[{"name":"75","value":"75"},{"name":"150","value":"150"},{"name":"300","value":"300"}],"layouts":[{"name":"A4 portrait","map":{"width":440,"height":483},"rotation":true},{"name":"Legal","map":{"width":440,"height":483},"rotation":false}],"printURL":"http://demo.opengeo.org/geoserver/pdf/print.pdf","createURL":"http://demo.opengeo.org/geoserver/pdf/create.json"};
-        
+
         function test_constructor(t) {
             t.plan(9);
             var log = {};
-            
+
             var origRequest = Ext.Ajax.request;
             Ext.Ajax.request = function(req) {
                 req.success.call(req.scope, {responseText: Ext.encode(printCapabilities)});
@@ -26,7 +26,7 @@
                     }
                 }
             });
-            
+
             t.eq(printProvider.customParams, {}, "customParams initialized properly.");
             t.ok(log.loadcapabilities[0] == printProvider, "printProvider passed as 1st argument of the loadcapabilities listener.");
             t.ok(log.loadcapabilities[1] == printProvider.capabilities, "capabilities passed as 2nd argument of the loadcapabilities listener.");
@@ -50,7 +50,7 @@
 
             Ext.Ajax.request = origRequest;
         }
-        
+
         function test_setLayout(t) {
             t.plan(3);
             var log = {};
@@ -86,16 +86,16 @@
             t.ok(log.dpichange[0] == printProvider, "printProvider passed as 1st argment of the dpichange listener.");
             t.ok(log.dpichange[1] == dpi, "dpi passed as 2nd argment of the dpichange listener.");
         }
-        
+
         function test_getAbsoluteUrl(t) {
             t.plan(2);
-            
+
             var getAbsoluteUrl = GeoExt.data.PrintProvider.prototype.getAbsoluteUrl;
             var baseUrl = parent.location.href.substr(0, parent.location.href.indexOf("/tests/run-tests.html"));
             t.eq(getAbsoluteUrl("/foo/bar.html"), location.protocol + "//" + location.host + (location.port && ":" + location.port) + "/foo/bar.html", "Relative url converted to absolute url correctly.");
             t.eq(getAbsoluteUrl("../../../../bar.html"), baseUrl + "/bar.html", "Relative url with relative path converted to absolute url correctly.");
         }
-        
+
         function test_print(t) {
             t.plan(2);
             var log = {};
@@ -139,10 +139,10 @@
                      "http://c4.labs.metacarta.com/wms-c/cache/"],
                     "basic",
                     {
-                        serverResolutions: [0.703125, 0.3515625, 0.17578125, 0.087890625, 
-                                            0.0439453125, 0.02197265625, 0.010986328125, 
-                                            0.0054931640625, 0.00274658203125, 0.001373291015625, 
-                                            0.0006866455078125, 0.00034332275390625, 0.000171661376953125, 
+                        serverResolutions: [0.703125, 0.3515625, 0.17578125, 0.087890625,
+                                            0.0439453125, 0.02197265625, 0.010986328125,
+                                            0.0054931640625, 0.00274658203125, 0.001373291015625,
+                                            0.0006866455078125, 0.00034332275390625, 0.000171661376953125,
                                             0.0000858306884765625, 0.00004291534423828125, 0.000021457672119140625],
                         isBaseLayer: false
                     }
@@ -166,6 +166,69 @@
                         displayInLayerSwitcher: false,
                         isBaseLayer: false
                     }),
+                new OpenLayers.Layer.WMTS({
+                    layer: "pixelkarte",
+                    name: "Pixelkarte - WMTS",
+                    url: [
+                        'http://wmts0.geo.admin.ch/1.0.0/pixelkarte/default/{date}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png',
+                        'http://wmts1.geo.admin.ch/1.0.0/pixelkarte/default/{date}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png',
+                    ],
+                    units: 'm',
+                    matrixIds: [{
+                        identifier: 'A12',
+                        matrixWidth: 1,
+                        matrixHeight: 1,
+                        tileWidth: 512,
+                        tileHeight: 256,
+                        scaleDenominator: 3571437.64288,
+                        topLeftCorner: new OpenLayers.LonLat(420000, 350000)
+                    }, {
+                        identifier: 'A20',
+                        matrixWidth: 10,
+                        matrixHeight: 20,
+                        tileWidth: 256,
+                        tileHeight: 512,
+                        scaleDenominator: 35714.3764288,
+                        topLeftCorner: new OpenLayers.LonLat(420000, 350000)
+                    }],
+                    matrixSet: "swissgrid",
+                    format: "image/png",
+                    isBaseLayer: false,
+                    requestEncoding: "REST",
+                    style: "default" ,
+                    dimensions: ['date'],
+                    params: {'date': '2012'}
+                }),
+                new OpenLayers.Layer.WMTS({
+                    layer: "pixelkarte",
+                    name: "Pixelkarte - WMTS - KVP",
+                    url: ['http://wmts0.geo.admin.ch/','http://wmts1.geo.admin.ch/'],
+                    units: 'm',
+                    matrixIds: [{
+                        identifier: 'A12',
+                        matrixWidth: 1,
+                        matrixHeight: 1,
+                        tileWidth: 512,
+                        tileHeight: 256,
+                        scaleDenominator: 3571437.64288,
+                        topLeftCorner: new OpenLayers.LonLat(420000, 350000)
+                    }, {
+                        identifier: 'A20',
+                        matrixWidth: 10,
+                        matrixHeight: 20,
+                        tileWidth: 256,
+                        tileHeight: 512,
+                        scaleDenominator: 35714.3764288,
+                        topLeftCorner: new OpenLayers.LonLat(420000, 350000)
+                    }],
+                    matrixSet: "swissgrid",
+                    format: "image/png",
+                    isBaseLayer: false,
+                    requestEncoding: "KVP",
+                    style: "default" ,
+                    dimensions: ['date'],
+                    params: {'date': '2012'}
+                }),
                 new OpenLayers.Layer.WMTS({
                     layer: "ch.swisstopo.pixelkarte-farbe",
                     name: "Pixelkarte - WMTS",
@@ -191,22 +254,22 @@
             var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(1,2));
             feature.fid = "f1";
             map.getLayersBy("name", "vector")[0].addFeatures([feature]);
-            
+
             // give the marker layer a marker
             var size = new OpenLayers.Size(10,17);
             var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
             var icon = new OpenLayers.Icon('http://myhost/foo.png',size,offset);
             map.getLayersBy("name", "markers")[0].addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(25,50),icon));
-            
+
             map.setCenter(new OpenLayers.LonLat(1, 2), 3);
             printPage.fit(map);
-            
+
             // create a layer store for the legend
             var layerStore = new GeoExt.data.LayerStore({
                 layers: [layers[0], layers[2]]
             });
             layerStore.getAt(1).set("legendURL", "http://trac.geoext.org/chrome/site/img/GeoExt.png");
-            
+
             // a legend panel to test all legend encoders
             var legend = new GeoExt.LegendPanel({
                 renderTo: "legend",
@@ -217,7 +280,7 @@
             var overview = new OpenLayers.Control.OverviewMap({layers: [
                 new OpenLayers.Layer.WMS("foo", "http://foo", {layers: 'mylayer'})]});
             map.addControl(overview);
-            
+
             var origRequest = Ext.Ajax.request;
             Ext.Ajax.request = function(req) {
                 log.request = req;
@@ -236,7 +299,138 @@
             };
             printProvider.print(map, [printPage], {overview: overview, legend: legend});
             
-            var expect = {"units":"degrees","srs":"EPSG:4326","layout":"A4 portrait","dpi":75,"layers":[{"baseURL":"http://demo.opengeo.org/geoserver/wms","opacity":1,"singleTile":false,"type":"WMS","layers":["topp:tasmania_state_boundaries","topp:tasmania_water_bodies"],"format":"image/gif","styles":[""],"customParams":{"VENDORFOO":"bar", "map_resolution": 150}},{"baseURL":"http://a.tile.openstreetmap.org/","type":"OSM","opacity":1,"singleTile":false,"maxExtent":map.layers[1].maxExtent.toArray(),"tileSize":[256,256],"resolutions":map.layers[1].resolutions,"extension":"png",layer:undefined},{"baseURL":"http://c0.labs.metacarta.com/wms-c/cache/","opacity":1,"singleTile":false,"type":"TileCache","layer":"basic","maxExtent":[-180,-90,180,90],"tileSize":[256,256],"extension":"png","resolutions":[0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125,0.000021457672119140625]},{"baseURL":"http://labs.metacarta.com/wms-c/Basic.py/","type":"TMS","opacity":1,"singleTile":false,"extension":undefined,layer:"basic","maxExtent":[-180,-90,180,90],"tileSize":[256,256],"resolutions":[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],format:"png"},{"type":"Image","baseURL":"http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif","opacity":1,"extent":[-180,-88.759,180,88.759],"pixelSize":[580,288],"name":"image"},{"type":"Vector","minScaleDenominator":50000,"maxScaleDenominator":1000000,"styles":{"1":{"fontColor": "#000000", "labelAlign": "cm", "labelOutlineColor": "white", "labelOutlineWidth": 3, "fillColor":"#ee9900","fillOpacity":0.4,"hoverFillColor":"white","hoverFillOpacity":0.8,"strokeColor":"#ee9900","strokeOpacity":1,"strokeWidth":1,"strokeLinecap":"round","strokeDashstyle":"solid","hoverStrokeColor":"red","hoverStrokeOpacity":1,"hoverStrokeWidth":0.2,"pointRadius":6,"hoverPointRadius":1,"hoverPointUnit":"%","pointerEvents":"visiblePainted","cursor":"inherit"}},"styleProperty":"_gx_style","geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","id":"f1","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[1,2]}}]},"name":"vector","opacity":1},{"type":"Vector","styles":{"1":{"externalGraphic":"http://myhost/foo.png","graphicWidth":10,"graphicHeight":17,"graphicXOffset":-5,"graphicYOffset":-17}},"styleProperty":"_gx_style","geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[25,50]}}]},"name":"markers","opacity":1},{baseURL:"http://wmts0.geo.admin.ch/", opacity:1, singleTile:false, type:"WMTS", layer:"ch.swisstopo.pixelkarte-farbe", version:"1.0.0", requestEncoding:"REST", tileOrigin:[420000, 350000], tileSize:[256, 256], style:"default", formatSuffix:"jpeg", dimensions:["TIME"], params:{TIME:"20110314"}, maxExtent:[420000, 30000, 900000, 350000], matrixSet:"21781", zoomOffset:14, resolutions:[4000, 3750, 3500, 3250, 3000, 2750, 2500, 2250, 2000, 1750, 1500, 1250, 1000, 750, 650, 500, 250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5]}],"pages":[{"mapTitle":"foo","comment":"bar","center":[1,2],"scale":4000000,"rotation":0}],"customParam":"foo","legends":[{"name":"tilecache","classes":[{"name":"","icon":"http://trac.geoext.org/chrome/site/img/GeoExt.png"}]},{"name":"wms","classes":[{"name":"","icons":["http://demo.opengeo.org/geoserver/wms?VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries&FORMAT=image%2Fgif&SCALE=4000000","http://demo.opengeo.org/geoserver/wms?VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_water_bodies&FORMAT=image%2Fgif&SCALE=4000000"]}]}],"overviewLayers":[{"baseURL":"http://foo/","format":"image/jpeg",layers:["mylayer"],"opacity":1,"singleTile":false,styles:[""],type:"WMS", "customParams": {"map_resolution": 150}}]};
+            var expect = {
+                "units":"degrees",
+                "srs":"EPSG:4326",
+                "layout":"A4 portrait",
+                "dpi":75,
+                "layers":[{
+                    "baseURL":"http://demo.opengeo.org/geoserver/wms",
+                    "opacity":1,
+                    "singleTile":false,
+                    "type":"WMS",
+                    "layers":["topp:tasmania_state_boundaries","topp:tasmania_water_bodies"],
+                    "format":"image/gif",
+                    "styles":[""],
+                    "customParams":{"VENDORFOO":"bar", "map_resolution": 150}
+                },{
+                    "baseURL":"http://a.tile.openstreetmap.org/",
+                    "type":"OSM",
+                    "opacity":1,
+                    "maxExtent":map.layers[1].maxExtent.toArray(),
+                    "tileSize":[256,256],
+                    "resolutions":map.layers[1].resolutions,
+                    "extension":"png",
+                    layer:undefined
+                },{
+                    "baseURL":"http://c0.labs.metacarta.com/wms-c/cache/",
+                    "opacity":1,
+                    "type":"TileCache",
+                    "layer":"basic",
+                    "maxExtent":[-180,-90,180,90],
+                    "tileSize":[256,256],
+                    "extension":"png",
+                    "resolutions":[0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125,0.000021457672119140625]
+                },{
+                    "baseURL":"http://labs.metacarta.com/wms-c/Basic.py/",
+                    "type":"TMS",
+                    "opacity":1,
+                    "extension":undefined,
+                    layer:"basic",
+                    "maxExtent":[-180,-90,180,90],
+                    "tileSize":[256,256],
+                    "resolutions":[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],format:"png"
+                },{
+                    "type":"Image",
+                    "baseURL":"http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",
+                    "opacity":1,
+                    "extent":[-180,-88.759,180,88.759],
+                    "pixelSize":[580,288],
+                    "name":"image"
+                },{
+                    "type":"Vector",
+                    "minScaleDenominator":50000,
+                    "maxScaleDenominator":1000000,
+                    "styles":{"1":{"fontColor": "#000000", "labelAlign": "cm", "labelOutlineColor": "white", "labelOutlineWidth": 3, "fillColor":"#ee9900","fillOpacity":0.4,"hoverFillColor":"white","hoverFillOpacity":0.8,"strokeColor":"#ee9900","strokeOpacity":1,"strokeWidth":1,"strokeLinecap":"round","strokeDashstyle":"solid","hoverStrokeColor":"red","hoverStrokeOpacity":1,"hoverStrokeWidth":0.2,"pointRadius":6,"hoverPointRadius":1,"hoverPointUnit":"%","pointerEvents":"visiblePainted","cursor":"inherit"}},
+                    "styleProperty":"_gx_style",
+                    "geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","id":"f1","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[1,2]}}]},
+                    "name":"vector",
+                    "opacity":1
+                },{
+                    "type":"Vector",
+                    "styles":{"1":{"externalGraphic":"http://myhost/foo.png","graphicWidth":10,"graphicHeight":17,"graphicXOffset":-5,"graphicYOffset":-17}},
+                    "styleProperty":"_gx_style",
+                    "geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[25,50]}}]},
+                    "name":"markers",
+                    "opacity":1
+                },{
+                    baseURL:"http://wmts0.geo.admin.ch/1.0.0/pixelkarte/default/%7Bdate%7D/%7BTileMatrixSet%7D/%7BTileMatrix%7D/%7BTileRow%7D/%7BTileCol%7D.png",
+                    opacity:1, 
+                    type:"WMTS", 
+                    layer:"pixelkarte", 
+                    version:"1.0.0", 
+                    requestEncoding:"REST", 
+                    style:"default", 
+                    dimensions:["date"],
+                    params:{DATE:"2012"},
+                    matrixSet:"swissgrid",
+                    matrixIds: [{
+                        identifier: 'A12',
+                        matrixSize: [1, 1],
+                        tileSize: [512, 256],
+                        resolution: 1000.0000000013199,
+                        topLeftCorner: [420000, 350000]
+                    }, {
+                        identifier: 'A20',
+                        matrixSize: [10, 20],
+                        tileSize: [256, 512],
+                        resolution: 10.0000000000132,
+                        topLeftCorner: [420000, 350000]
+                    }]
+                },{
+                    baseURL:"http://wmts0.geo.admin.ch/",
+                    opacity:1,
+                    type:"WMTS", 
+                    layer:"pixelkarte", 
+                    version:"1.0.0", 
+                    requestEncoding:"KVP", 
+                    style:"default", 
+                    dimensions:["date"], 
+                    params:{DATE:"2012"}, 
+                    matrixSet:"swissgrid", 
+                    format: "image/png",
+                    matrixIds: [{
+                        identifier: 'A12',
+                        matrixSize: [1, 1],
+                        tileSize: [512, 256],
+                        resolution: 1000.0000000013199,
+                        topLeftCorner: [420000, 350000]
+                    }, {
+                        identifier: 'A20',
+                        matrixSize: [10, 20],
+                        tileSize: [256, 512],
+                        resolution: 10.0000000000132,
+                        topLeftCorner: [420000, 350000]
+                    }]
+                },{
+                    baseURL:"http://wmts0.geo.admin.ch/", 
+                    opacity:1, 
+                    type:"WMTS", 
+                    layer:"ch.swisstopo.pixelkarte-farbe", 
+                    version:"1.0.0", 
+                    requestEncoding:"REST", 
+                    tileOrigin:[420000, 350000], 
+                    tileSize:[256, 256], 
+                    style:"default", 
+                    formatSuffix:"jpeg", 
+                    dimensions:["TIME"], 
+                    params:{TIME:"20110314"}, 
+                    maxExtent:[420000, 30000, 900000, 350000], 
+                    matrixSet:"21781", 
+                    zoomOffset:14, 
+                    resolutions:[4000, 3750, 3500, 3250, 3000, 2750, 2500, 2250, 2000, 1750, 1500, 1250, 1000, 750, 650, 500, 250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5]
+                }],
+                "pages":[{"mapTitle":"foo","comment":"bar","center":[1,2],"scale":4000000,"rotation":0}],"customParam":"foo","legends":[{"name":"tilecache","classes":[{"name":"","icon":"http://trac.geoext.org/chrome/site/img/GeoExt.png"}]},{"name":"wms","classes":[{"name":"","icons":["http://demo.opengeo.org/geoserver/wms?VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries&FORMAT=image%2Fgif&SCALE=4000000","http://demo.opengeo.org/geoserver/wms?VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_water_bodies&FORMAT=image%2Fgif&SCALE=4000000"]}]}],"overviewLayers":[{"baseURL":"http://foo/","format":"image/jpeg",layers:["mylayer"],"opacity":1,"singleTile":false,styles:[""],type:"WMS", "customParams": {"map_resolution": 150}}]};
 
             t.eq(log.request.jsonData, expect, "Request with encoded layers and legend is correct.");
 
@@ -247,7 +441,7 @@
             t.eq(log.request.jsonData.legends, undefined, "legend not encoded if beforeencodelegend listener returns false");
 
             Ext.Ajax.request = origRequest;
-            
+
             layerStore.destroy();
             printPage.destroy();
             map.destroy();
@@ -282,14 +476,14 @@
 
             map.setCenter(new OpenLayers.LonLat(1, 2), 3);
             printPage.fit(map);
-            
+
             var origRequest = Ext.Ajax.request;
             Ext.Ajax.request = function(req) {
                 log.request = req;
             };
             printProvider.print(map, [printPage]);
             Ext.Ajax.request = origRequest;
-            
+
             var expect = {
                 "units": "degrees",
                 "srs": "EPSG:4326",
@@ -320,12 +514,12 @@
             };
 
             t.eq(log.request.jsonData, expect, "Request with encoded layers and legend is correct.");
-            
+
             printPage.destroy();
             map.destroy();
         }
     </script>
-  </head>  
+  </head>
   <body>
     <div id="map" style="width:400px; height:300px"></div>
     <div id="legend" style="width:200px; height:300px"></div>

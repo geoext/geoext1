@@ -23,7 +23,8 @@ Ext.onReady(function() {
         height: 300,
         width: 400,
         map: {
-            controls: [new OpenLayers.Control.Navigation()]
+            controls: [new OpenLayers.Control.Navigation()],
+            maxResolution: 0.703125
         },
         layers: [new OpenLayers.Layer.WMS(
             "Global Imagery",
