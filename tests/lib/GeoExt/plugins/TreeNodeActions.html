@@ -7,7 +7,7 @@
     
         <script>
         function test_ui_node_action(t) {
-            t.plan(6);
+            t.plan(5);
 
             // setup
 
@@ -52,28 +52,27 @@
 
             // simulate click
             var log = [];
-            var e = {
-                getTarget: function(selector) {
-                    if (selector == "." + "gx-tree-layer-action") {
-                        return {
-                            className: "gx-tree-layer-action" + " foo-action"
-                        };
-                    }
-                }
-            };
             
-            ui.onClick(e);
+            function eventFire(el, etype){
+                if (el.fireEvent) {
+                    (el.fireEvent('on' + etype));
+                } else {
+                    var evObj = document.createEvent('Events');
+                    evObj.initEvent(etype, true, false);
+                    el.dispatchEvent(evObj);
+                }
+            }
+
+            var actionNode = elNode.first().first();
+            eventFire(actionNode.dom, 'click');
             t.eq(log.length, 1,
                  "click on action img triggers \"action\" event");
             t.ok(log[0].n == node,
                  "\"action\" listener given expected node");
             t.eq(log[0].a, "foo-action",
                  "\"action\" listener given expected action");
-            t.ok(log[0].e == e,
-                 "\"action\" listener given expected event");
 
             // teardown
-
             tree.destroy();
         }
         </script>
