@@ -8,9 +8,11 @@
 
 
     <script type="text/javascript">
+    
+        var origSetTimeout = window.setTimeout;
 
-        function setupContext(options) {        
-
+        function setupContext(options) {            
+            window.setTimeout = function(fn) { fn.call(this); }
             var map = new OpenLayers.Map({panMethod: null}); // avoid tween panning for tests
             var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
             map.addLayer(layer);
@@ -45,6 +47,7 @@
         }
 
         function setupMultiFeatureContext() {
+            window.setTimeout = function(fn) { fn.call(this); }
             var map = new OpenLayers.Map({panMethod: null}); // avoid tween panning for tests
             var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
             map.addLayer(layer);
@@ -95,12 +98,14 @@
             });
             context.map.destroy();
             context.mapPanel.destroy();
+            window.setTimeout = origSetTimeout;
         }
         
         function tearDown(context) {
             context.feature.destroy();
             context.map.destroy();
             context.mapPanel.destroy();
+            window.setTimeout = origSetTimeout;
         }
 
         function popup(feature, map, options) {
@@ -326,7 +331,7 @@
             t.eq(popup.anchored, true, 'popup is anchored');
             map.destroy();
         }
-
+        
         function test_Popup_destroy(t){
 
             t.plan(1);
