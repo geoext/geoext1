@@ -26,6 +26,7 @@ Ext.onReady(function() {
         zoom: 3,
         tbar: [{
             xtype: "gx_geocodercombo",
+            hideTrigger: true,
             srs: "EPSG:900913",
             emptyText: 'Search for a US state',
             queryParam: "CQL_FILTER",
