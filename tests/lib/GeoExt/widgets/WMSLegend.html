@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html debug="true">
   <head>
-    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
-    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="../../../../../ext/ext-all.js"></script>
-    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+    <script src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script src="../../../../../ext/ext-all.js"></script>
+    <script src="../../../../lib/GeoExt.js"></script>
 
     <script type="text/javascript">
 
@@ -29,12 +29,13 @@
         }
 
         function test_legendurl_layers_array(t) {
-            t.plan(4);
+            t.plan(7);
             var l, url, expectedUrl;
             var mapPanel = loadMapPanel();
             var layer1 = new OpenLayers.Layer.WMS("test", '/ows', {layers: ['a,b', 'c,d']});
             var layer2 = new OpenLayers.Layer.WMS("test", '/ows', {layers: ['x', 'y']});
-            mapPanel.map.addLayers([layer1, layer2]);
+            var layer3 = new OpenLayers.Layer.WMS("test", '/ows', {layers: ['3,0', '1']});
+            mapPanel.map.addLayers([layer1, layer2, layer3]);
             l = new GeoExt.WMSLegend({
                 renderTo: 'legendwms',
                 layerRecord: mapPanel.layers.getAt(1)
@@ -56,6 +57,21 @@
             t.eq(l.items.length, 3, "We expect 3 items");
             url = l.items.get(1).url;
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=x&FORMAT=image%2Fgif&SCALE=27683990.15625";
+            t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
+            l.destroy();
+
+            // test numericly named layers
+            l = new GeoExt.WMSLegend({
+                renderTo: 'legendwms',
+                layerRecord: mapPanel.layers.getAt(3)
+            });
+            l.render();
+
+            t.eq(l.items.length, 4, "We expect 4 items");
+            url = l.items.get(1).url;
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=3&FORMAT=image%2Fgif&SCALE=27683990.15625";
+            t.ok(url != expectedUrl, "Using items.get with numeric layers gives the layer item, NOT the item at that index, if a layer with that name exists");
+            url = l.items.itemAt(1).url;
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
             l.destroy();
         }
@@ -102,7 +118,7 @@
             expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&FORMAT=image%2Fgif&SCALE=27683990.15625";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
             l.destroy();
-            
+
             mapPanel.map.layers[0].params.STYLES = "bar";
 
             mapPanel.layers.getAt(0).set("styles", [{
@@ -145,7 +161,7 @@
             l.destroy();
 
             mapPanel.map.layers[0].params.STYLES = "";
-            
+
             l = new GeoExt.WMSLegend({
                 renderTo: 'legendwms',
                 layerRecord: mapPanel.layers.getAt(0),
