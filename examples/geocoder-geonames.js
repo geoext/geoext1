@@ -23,6 +23,7 @@ Ext.onReady(function() {
         zoom: 1,
         tbar: [{
             xtype: "gx_geocodercombo",
+            hideTrigger: true,
             emptyText: "Search GeoNames",
             width: 300,
             tpl: '<tpl for="."><div class="x-combo-list-item">[{countryName}] {name}</div></tpl>',
