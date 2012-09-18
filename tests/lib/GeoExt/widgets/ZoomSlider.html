@@ -85,6 +85,74 @@
             slider2.destroy();
         }
 
+        function test_more_aggressive(t) {
+            t.plan(2);
+
+            var panel = new GeoExt.MapPanel({
+                title: "Map",
+                renderTo: "map",
+                height: 256,
+                width: 512,
+                map: {
+                    controls: [new OpenLayers.Control.Navigation()],
+                    maxResolution: 0.703125
+                },
+                layers: [new OpenLayers.Layer.WMS(
+                    "Global Imagery",
+                    "http://maps.opengeo.org/geowebcache/service/wms",
+                    {layers: "bluemarble"}
+                )],
+                extent: [-5, 35, 15, 55]
+            });
+
+            // create a separate slider bound to the map but displayed elsewhere
+            var slider = new GeoExt.ZoomSlider({
+                map: panel.map,
+                aggressive: true,                                                                                                                                                   
+                width: 200,
+                plugins: new GeoExt.ZoomSliderTip({
+                    template: "<div>Zoom Level: {zoom}</div>"
+                }),
+                renderTo: document.body
+            });
+
+            t.eq(panel.map.getZoom(), 3, "map zoom");
+            t.eq(slider.getValue(), 3, "slider value");
+            
+            slider.destroy();
+            panel.destroy();
+
+        }
+        
+        
+        function test_zoomslider_update(t) {
+            t.plan(4);
+            
+            var map = new OpenLayers.Map({
+                div: "map",
+                allOverlays: true
+            });
+            map.addLayer(new OpenLayers.Layer("", {wrapDateLine: true}));
+            map.zoomToMaxExtent();
+            
+            var slider = new GeoExt.ZoomSlider({
+                map: map,
+                renderTo: document.body
+            });
+            
+            t.eq(slider.minValue, 1, "slider min is 1 (restricted zoom range)");
+            t.eq(slider.maxValue, 15, "slider can go to 15");
+            
+            map.div.style.width = "1024px";
+            map.updateSize();
+
+            t.eq(slider.minValue, 2, "slider min is 2 (restricted zoom range)");
+            t.eq(slider.maxValue, 15, "slider can go to 15");
+
+            map.div.style.width = "512px";
+            map.destroy();
+        }
+
     </script>
   </head>
   <body>

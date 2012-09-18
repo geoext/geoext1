@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>GeoExt Acessibility Example</title>
+        
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.4.0/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.4.0/ext-all-debug.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.4.0/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.4.0/examples/shared/examples.css" />
+        <script src="http://www.openlayers.org/api/2.12/OpenLayers.js"></script>
+        <script type="text/javascript" src="../lib/GeoExt.js"></script>
+
+        <script type="text/javascript" src="accessibility.js"></script>
+
+        <style type="text/css">
+        .gx-tree-layer-actions {
+            float: right;
+        }
+        .gx-tree-layer-action {
+            background-position: center center;
+            background-repeat: no-repeat;
+            border: 0 none;
+            height: 16px;
+            margin: 0;
+            padding: 0;
+            vertical-align: top;
+            width: 16px;
+        }
+        .gx-tree-layer-actions .delete {
+            background: transparent url(../resources/images/default/delete.png);
+        }
+        .gx-tree-layer-actions .up {
+            background: transparent url(../resources/images/default/bullet_arrow_up.png);
+        }
+        .gx-tree-layer-actions .down {
+            background: transparent url(../resources/images/default/bullet_arrow_down.png);
+        }
+        .gx-tree-layer-actions .disabled {
+            opacity: 0.2;
+        }
+        .x-tree-node-el {
+            border-bottom: 1px solid #ddd;
+        }
+        .x-tree-no-lines .x-tree-elbow,
+        .x-tree-no-lines .x-tree-elbow-end,
+        .x-tree-node-collapsed .x-tree-node-icon,
+        .x-tree-node-expanded .x-tree-node-icon,
+        .x-tree-node-leaf .gx-tree-layer-icon {
+           width: 0px; !important;
+        }
+
+        .x-tree-node a:focus {
+            outline-width: thin;
+            outline-style: dashed;
+        }
+        .ext-webkit *:focus{
+            outline: thin dashed !important;
+        }
+    </style>
+
+    </head>
+    <body>
+        <div id="desc">
+            <h1>GeoExt Accessibility</h1>
+
+            <p>This example shows how to add keyboard navigation to enhance
+            accessibility.</p> 
+            <ul id="access_key_links">Here are some direct links and their corresponding access keys:
+                <li><a id="tree_direct_link" href="" accesskey="1" onclick="return false;">Jump to tree</a> (1)</li>
+                <li><a id="map_direct_link" href="" accesskey="2" onclick="return false;">Jump_to_map</a> (2)</li>
+            </ul>
+            <p><em>In order to know how use accesskeys in your browser, check ou this <a target="_blank" href="http://en.wikipedia.org/wiki/Access_key">article</a></em>.</p>
+
+            <p>The js is not minified so it is readable. See
+            <a href="accessibility.js">accessibility.js</a>.</p>
+        </div>
+    </body>
+</html>
