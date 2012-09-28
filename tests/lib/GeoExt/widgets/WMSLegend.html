@@ -66,6 +66,7 @@
                 layerRecord: mapPanel.layers.getAt(3)
             });
             l.render();
+            l.update();
 
             t.eq(l.items.length, 4, "We expect 4 items");
             url = l.items.get(1).url;
