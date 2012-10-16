@@ -19,14 +19,14 @@ Ext.onReady(function() {
     var map = new OpenLayers.Map({allOverlays: true});
     map.addLayers([
         new OpenLayers.Layer.WMS(
-            "Tasmania",
+            "Blue Marble",
             "http://demo.opengeo.org/geoserver/wms?",
-            {layers: 'topp:tasmania_state_boundaries', format: 'image/png', transparent: true},
+            {layers: 'topp:bluemarble', format: 'image/jpeg'},
             {singleTile: true}),
         new OpenLayers.Layer.WMS(
-            "Cities and Roads",
+            "Vegetation and Natural Landmarks",
             "http://demo.opengeo.org/geoserver/wms?",
-            {layers: 'topp:tasmania_cities,topp:tasmania_roads', format: 'image/png', transparent: true},
+            {layers: 'za_vegetation,za_natural', format: 'image/png', transparent: true},
             {singleTile: true}),
         new OpenLayers.Layer.Vector('Polygons', {styleMap: new OpenLayers.StyleMap({
                 "default": new OpenLayers.Style({
@@ -38,7 +38,7 @@ Ext.onReady(function() {
     ]);
     map.layers[2].addFeatures([
         new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(
-            "POLYGON(146.1 -41, 146.2 -41, 146.2 -41.1, 146.1 -41.1)"))
+            "POLYGON(29 -30, 29.5 -30, 29.5 -31, 28.5 -31.5, 29 -30)"))
     ]);
     map.addControl(new OpenLayers.Control.LayerSwitcher());
 
@@ -77,14 +77,14 @@ Ext.onReady(function() {
         height: 400,
         width: 600,
         map: map,
-        center: new OpenLayers.LonLat(146.4, -41.6),
-        zoom: 7
+        center: new OpenLayers.LonLat(23, -30),
+        zoom: 5
     });
     
     // give the record of the 1st layer a legendURL, which will cause
     // UrlLegend instead of WMSLegend to be used
     var layerRec0 = mapPanel.layers.getAt(0);
-    layerRec0.set("legendURL", "http://demo.opengeo.org/geoserver/wms?FORMAT=image%2Fgif&TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries");
+    layerRec0.set("legendURL", "http://demo.opengeo.org/geoserver/wms?request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=bluemarble");
 
     // store the layer that we will modify in toggleVis()
     var layerRec1 = mapPanel.layers.getAt(1);
@@ -93,9 +93,9 @@ Ext.onReady(function() {
     var otherUrl = "http://www.geoext.org/trac/geoext/chrome/site/img/GeoExt.png";
 
     // create another layer for the add/remove button action
-    var water = new OpenLayers.Layer.WMS("Bodies of Water",
+    var water = new OpenLayers.Layer.WMS("Roads",
         "http://demo.opengeo.org/geoserver/wms?",
-        {layers: 'topp:tasmania_water_bodies', format: 'image/png', transparent: true},
+        {layers: 'za_roads', format: 'image/png', transparent: true},
         {singleTile: true});
 
     legendPanel = new GeoExt.LegendPanel({
