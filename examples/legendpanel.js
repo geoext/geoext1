@@ -77,8 +77,8 @@ Ext.onReady(function() {
         height: 400,
         width: 600,
         map: map,
-        center: new OpenLayers.LonLat(23, -30),
-        zoom: 5
+        center: new OpenLayers.LonLat(29, -30),
+        zoom: 7
     });
 
     // give the record of the 1st layer a legendURL, which will cause
