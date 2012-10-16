@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2008-2012 The Open Source Geospatial Foundation
- * 
+ *
  * Published under the BSD license.
  * See http://svn.geoext.org/core/trunk/geoext/license.txt for the full text
  * of the license.
@@ -80,7 +80,7 @@ Ext.onReady(function() {
         center: new OpenLayers.LonLat(23, -30),
         zoom: 5
     });
-    
+
     // give the record of the 1st layer a legendURL, which will cause
     // UrlLegend instead of WMSLegend to be used
     var layerRec0 = mapPanel.layers.getAt(0);
