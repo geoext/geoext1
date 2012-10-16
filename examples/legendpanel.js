@@ -98,6 +98,7 @@ Ext.onReady(function() {
         {layers: 'za_roads', format: 'image/png', transparent: true},
         {singleTile: true});
 
+    GeoExt.WMSLegend.prototype.itemsXType = 'custom_legendimage';
     legendPanel = new GeoExt.LegendPanel({
         defaults: {
             labelCls: 'mylabel',
@@ -128,3 +129,44 @@ Ext.onReady(function() {
         items: [legendPanel, mapPanel]
     });
 });
+
+CustomLegendImage = Ext.extend(GeoExt.LegendImage, {
+    /** private: method[initComponent]
+     *  Initializes the legend image component. 
+     */
+    initComponent: function() {
+        GeoExt.LegendImage.superclass.initComponent.call(this);
+        if(this.defaultImgSrc === null) {
+            this.defaultImgSrc = Ext.BLANK_IMAGE_URL;
+        }
+        this.autoEl = {
+            tag: "div",
+            children: [{
+                tag: 'label',
+                html: this.itemId
+            },{
+                tag: "img",
+                "class": (this.imgCls ? this.imgCls + " " + this.noImgCls : this.noImgCls),
+                src: this.defaultImgSrc
+            }]
+        };
+    },
+
+    /** api: method[setUrl]
+     *  :param url: ``String`` The new URL.
+     *  
+     *  Sets the url of the legend image.
+     */
+    setUrl: function(url) {
+        this.url = url;
+        var el = Ext.select('img', false, this.getEl().dom).first();
+        if (el) {
+            el.un("load", this.onImageLoad, this);
+            el.on("load", this.onImageLoad, this, {single: true});
+            el.un("error", this.onImageLoadError, this);
+            el.on("error", this.onImageLoadError, this, {single: true});
+            el.dom.src = url;
+        }
+    }
+});
+Ext.reg('custom_legendimage', CustomLegendImage);
