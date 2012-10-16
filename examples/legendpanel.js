@@ -111,6 +111,7 @@ Ext.onReady(function() {
 
     new Ext.Panel({
         title: "GeoExt LegendPanel Demo",
+        cls: "legendpanel",
         layout: 'border',
         renderTo: 'view',
         height: 400,
