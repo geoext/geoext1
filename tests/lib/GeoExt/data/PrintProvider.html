@@ -162,7 +162,7 @@
                 new OpenLayers.Layer.Vector("vector", {minScale: 1000000, maxScale: 50000}),
                 new OpenLayers.Layer.Markers("markers"),
                 new OpenLayers.Layer.WMS("don't print me", "http://demo.opengeo.org/geoserver/wms",
-                    {layers: "tasmania", transparent: true}, {
+                    {layers: "tasmania", transparent: true, cql_filter: null}, {
                         displayInLayerSwitcher: false,
                         isBaseLayer: false
                     }),
