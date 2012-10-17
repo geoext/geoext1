@@ -35,6 +35,7 @@ Ext.onReady(function() {
         zoom: 1,
         tbar: [{
             xtype: "gx_geocodercombo",
+            hideTrigger: true,
             width: 250,
             layer: locationLayer,
             displayField: "formatted_address",
