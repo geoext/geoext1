@@ -143,7 +143,7 @@ CustomLegendImage = Ext.extend(GeoExt.LegendImage, {
             tag: "div",
             children: [{
                 tag: 'label',
-                html: this.itemId
+                html: OpenLayers.i18n(this.itemId)
             },{
                 tag: "img",
                 "class": (this.imgCls ? this.imgCls + " " + this.noImgCls : this.noImgCls),
@@ -170,3 +170,10 @@ CustomLegendImage = Ext.extend(GeoExt.LegendImage, {
     }
 });
 Ext.reg('custom_legendimage', CustomLegendImage);
+
+OpenLayers.Lang.en = {
+    'za_vegetation': 'Vegetation',
+    'za_natural': 'Natural Landmarks',
+    'za_roads': 'Roads'
+};
+OpenLayers.Lang.setCode('en');
