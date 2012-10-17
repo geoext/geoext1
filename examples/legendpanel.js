@@ -104,6 +104,7 @@ Ext.onReady(function() {
             style: 'padding:5px',
             itemXType: 'custom_legendimage'
         },
+        cls: "legendpanel",
         bodyStyle: 'padding:5px',
         width: 350,
         autoScroll: true,
@@ -112,7 +113,6 @@ Ext.onReady(function() {
 
     new Ext.Panel({
         title: "GeoExt LegendPanel Demo",
-        cls: "legendpanel",
         layout: 'border',
         renderTo: 'view',
         height: 400,
