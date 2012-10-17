@@ -98,11 +98,11 @@ Ext.onReady(function() {
         {layers: 'za_roads', format: 'image/png', transparent: true},
         {singleTile: true});
 
-    GeoExt.WMSLegend.prototype.itemsXType = 'custom_legendimage';
     legendPanel = new GeoExt.LegendPanel({
         defaults: {
             labelCls: 'mylabel',
-            style: 'padding:5px'
+            style: 'padding:5px',
+            itemsXType: 'custom_legendimage'
         },
         bodyStyle: 'padding:5px',
         width: 350,
