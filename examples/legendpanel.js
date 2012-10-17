@@ -102,7 +102,7 @@ Ext.onReady(function() {
         defaults: {
             labelCls: 'mylabel',
             style: 'padding:5px',
-            itemsXType: 'custom_legendimage'
+            itemXType: 'custom_legendimage'
         },
         bodyStyle: 'padding:5px',
         width: 350,
