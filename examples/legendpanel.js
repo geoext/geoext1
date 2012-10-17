@@ -133,14 +133,8 @@ Ext.onReady(function() {
 // here we create a customized LegendImage component. Our goal is to add a label
 // for each layer.PARAMS.LAYERS' item.
 CustomLegendImage = Ext.extend(GeoExt.LegendImage, {
-    /** private: method[initComponent]
-     *  Initializes the legend image component. 
-     */
     initComponent: function() {
-        GeoExt.LegendImage.superclass.initComponent.call(this);
-        if(this.defaultImgSrc === null) {
-            this.defaultImgSrc = Ext.BLANK_IMAGE_URL;
-        }
+        CustomLegendImage.superclass.initComponent.call(this);
         this.autoEl = {
             tag: "div",
             children: [{
@@ -154,21 +148,8 @@ CustomLegendImage = Ext.extend(GeoExt.LegendImage, {
         };
     },
 
-    /** api: method[setUrl]
-     *  :param url: ``String`` The new URL.
-     *  
-     *  Sets the url of the legend image.
-     */
-    setUrl: function(url) {
-        this.url = url;
-        var el = Ext.select('img', false, this.getEl().dom).first();
-        if (el) {
-            el.un("load", this.onImageLoad, this);
-            el.on("load", this.onImageLoad, this, {single: true});
-            el.un("error", this.onImageLoadError, this);
-            el.on("error", this.onImageLoadError, this, {single: true});
-            el.dom.src = url;
-        }
+    getImgEl: function() {
+        return Ext.select('img', false, this.getEl().dom).first();
     }
 });
 Ext.reg('custom_legendimage', CustomLegendImage);
