@@ -130,6 +130,8 @@ Ext.onReady(function() {
     });
 });
 
+// here we create a customized LegendImage component. Our goal is to add a label
+// for each layer.PARAMS.LAYERS' item.
 CustomLegendImage = Ext.extend(GeoExt.LegendImage, {
     /** private: method[initComponent]
      *  Initializes the legend image component. 
