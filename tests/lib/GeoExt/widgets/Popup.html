@@ -192,7 +192,8 @@
 
             // move the map and confirm that popup moves
             context.map.setCenter(new OpenLayers.LonLat(6, 45));
-            t.eq(moves, 1, "anchored popup moves once on map.setCenter");
+            // two moves because we have one direct move and one delayed
+            t.eq(moves, 2, "anchored popup moves once on map.setCenter");
             moves = 0;
 
             // anchored popup needs to reposition on collapse, resize and
@@ -200,17 +201,17 @@
 
             // collapse popup and and confirm that it moves
             pop.collapse();
-            t.eq(moves, 1, "anchored popup moves once on collapse");
+            t.eq(moves, 2, "anchored popup moves once on collapse");
             moves = 0;
 
             // expand popup and confirm that it moves
             pop.expand();
-            t.eq(moves, 1, "anchored popup moves once on expand");
+            t.eq(moves, 2, "anchored popup moves once on expand");
             moves = 0;
             
             // resize popup and confirm that it moves
             pop.setSize(100, 100);
-            t.eq(moves, 1, "anchored popup moves once on resize");
+            t.eq(moves, 2, "anchored popup moves once on resize");
             moves = 0;
 
             tearDown(context);
