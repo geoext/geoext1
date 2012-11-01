@@ -5,6 +5,7 @@
     <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
     <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+    <script type="text/javascript" src="CSWRecordsReader.js"></script>
 
     <script type="text/javascript">
     function test_constructor(t) {
@@ -53,6 +54,15 @@
         t.eq(data.records[0].get("extra"), 'foo',
              "readRecords returns records with expected \"extra\" field");
     }
+
+    function test_flatten(t) {
+        t.plan(2);
+        var reader = new GeoExt.data.CSWRecordsReader({fields: ['title', 'subject', 'URI', 'bounds', 'projection']});
+        var data = reader.readRecords(xml);
+        t.eq(data.records[0].get("title")[0], "Wetlands Study regions", "Title flattened");
+        t.eq(data.records[0].get("URI")[0].protocol, "WWW:LINK-1.0-http--link", "Only simple objects with a single property called value should be flattened");
+    }
+
     </script>
   <body>
   </body>
