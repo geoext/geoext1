@@ -215,6 +215,51 @@
             t.eq(map.getLayerIndex(container2.childNodes[0].layer), 0, "[a,d,c,b] b moved to the bottom");
             
         }
+
+        function test__move_iconCls(t) {
+            t.plan(2);
+
+            var map = new OpenLayers.Map({
+                div: "map",
+                allOverlays: true
+            });
+
+            map.addLayers([
+                new OpenLayers.Layer("a"),
+                new OpenLayers.Layer("b")
+            ]);
+
+            var store = new GeoExt.data.LayerStore({
+                map: map
+            });
+
+            var root = new Ext.tree.TreeNode({
+                expanded: true
+            });
+
+            var panel = new Ext.tree.TreePanel({
+                renderTo: document.body,
+                root: root
+            });
+
+            var onBeforeInsert = function(tree, container, node) {
+                node.attributes.iconCls = node.layer.name;
+            };
+            panel.on("beforeinsert", onBeforeInsert, this);
+            var container = new GeoExt.tree.LayerContainer({
+                loader: {
+                    store: store
+                },
+                expanded: true
+            });
+            root.appendChild(container);
+            panel.un("beforeinsert", onBeforeInsert, this);
+            root.childNodes[0].childNodes[0].fireEvent("move", panel, root.childNodes[0].childNodes[0], root.childNodes[0], root.childNodes[0], 1);
+            t.eq(root.childNodes[0].childNodes[0].attributes.iconCls, "b", "iconCls is set to b before move");
+            t.delay_call(0.1, function() {
+                t.eq(root.childNodes[0].childNodes[1].attributes.iconCls, "b", "iconCls is still set to b after move");
+            });
+        }
         
         </script>
     </head>
