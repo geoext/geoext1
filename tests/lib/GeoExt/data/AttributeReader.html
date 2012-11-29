@@ -34,6 +34,23 @@
         t.eq(record.get("restriction").maxLength, "2", "[4] correct attribute restriction");
     }
 
+    function test_read_annotation(t) {
+        var reader = new GeoExt.data.AttributeReader({}, [
+            "annotation"
+        ]);
+        var records = reader.read({responseXML : doc});
+        record = records.records[7];
+        var annotation = record.get('annotation');
+        // depends on https://github.com/openlayers/openlayers/pull/762 which is now in master
+        if (annotation) {
+            t.plan(2);
+            t.eq(annotation.appinfo[0], '{"title":{"en":"Population"}}', "annotation appinfo read correctly");
+            t.eq(annotation.documentation[0].textContent, 'Number of persons living in the state', "annotation documentation read correctly");
+        } else {
+            t.plan(0);
+        }
+    }
+
     function test_read_feature(t) {
         t.plan(3);
 

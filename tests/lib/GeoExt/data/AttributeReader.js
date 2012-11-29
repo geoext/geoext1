@@ -19,7 +19,14 @@ var doc = (new OpenLayers.Format.XML).read(
           '<xsd:element maxOccurs="1" minOccurs="0" name="STATE_ABBR" nillable="true" type="xsd:string"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="LAND_KM" nillable="true" type="xsd:double"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="WATER_KM" nillable="true" type="xsd:double"/>' +
-          '<xsd:element maxOccurs="1" minOccurs="0" name="PERSONS" nillable="true" type="xsd:double"/>' +
+          '<xsd:element maxOccurs="1" minOccurs="0" name="PERSONS" nillable="true" type="xsd:double">' +
+            '<xsd:annotation>' +
+                '<xsd:appinfo>{"title":{"en":"Population"}}</xsd:appinfo>' +
+                '<xsd:documentation xml:lang="en">' +
+                  'Number of persons living in the state' +
+                '</xsd:documentation>' +
+            '</xsd:annotation>' +
+          '</xsd:element>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="FAMILIES" nillable="true" type="xsd:double"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="HOUSHOLD" nillable="true" type="xsd:double"/>' +
           '<xsd:element maxOccurs="1" minOccurs="0" name="MALE" nillable="true" type="xsd:double"/>' +
