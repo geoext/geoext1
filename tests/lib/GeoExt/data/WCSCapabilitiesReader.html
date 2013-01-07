@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <!-- Define the doc variable we will be testing below... it's defined here: -->
+    <script type="text/javascript" src="WCSCapabilitiesReader.js"></script>  
+
+    <script type="text/javascript">
+      
+        function test_constructor(t) {
+            t.plan(2);
+
+            var reader = new GeoExt.data.WCSCapabilitiesReader();
+
+            var fields = reader.recordType.prototype.fields;
+            // 1 test
+            // Test the default items enumerated in GeoExt.data.WCSCapabilitiesReader constructor 
+            t.eq(fields.items.length, 4, 'number of default items is correct');
+
+            var reader = new GeoExt.data.WCSCapabilitiesReader({},[
+                {name: 'foo'},
+                {name: 'bar'}
+            ]);
+
+
+            var fields = reader.recordType.prototype.fields;
+
+            //1 test
+            t.ok(fields.items[0].name == 'foo' &&
+                 fields.items[1].name == 'bar',
+                 'field values set from configuration are correct');
+        }
+        
+        function test_read(t) {
+            t.plan(4);
+
+            var reader = new GeoExt.data.WCSCapabilitiesReader();
+
+            var records = reader.read({responseXML : doc});
+            //1 test -- total number of records
+            t.eq(records.totalRecords, 4, 'readRecords returns correct number of records');
+            
+
+            //3 tests -- testing the fields of a record
+            var record = records.records[0];
+            t.eq(record.get("identifier"), "ro_dsm", "correct layer identifier");
+            t.eq(record.get("title"), "Rotterdam DSM", "correct layer title");
+            t.eq(record.get("abstract"),
+                "Digital Surface Model (DSM) raster data set of inner city Rotterdam",
+                "correct layer abstract"
+            );
+        }
+    </script>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>
