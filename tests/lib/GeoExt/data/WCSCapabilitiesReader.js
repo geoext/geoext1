@@ -1,4 +1,129 @@
-var doc = (new OpenLayers.Format.XML).read(
+var doc100 = (new OpenLayers.Format.XML).read(
+'<?xml version="1.0" encoding="UTF-8"?>' +
+'<WCS_Capabilities xmlns="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0" updateSequence="0" xsi:schemaLocation="http://www.opengis.net/wcs http://schemas.opengis.net/wcs/1.0.0/wcsCapabilities.xsd">' +
+   '<Service>' +
+      '<name>MapServer WCS</name>' +
+      '<label>WCS Sample Data Server 1.0.0</label>' +
+      '<keywords>' +
+         '<keyword>Geospatial WebServices</keyword>' +
+         '<keyword>Luxembourg!</keyword>' +
+      '</keywords>' +
+      '<responsibleParty>' +
+         '<individualName>Franko Lemmer</individualName>' +
+         '<organisationName>CRP Henri Tudor</organisationName>' +
+         '<positionName>R+D engineer</positionName>' +
+         '<contactInfo>' +
+            '<phone>' +
+               '<voice>6463320</voice>' +
+               '<facsimile>6465955</facsimile>' +
+            '</phone>' +
+            '<address>' +
+               '<deliveryPoint>66, rue de Luxembourg</deliveryPoint>' +
+               '<city>Esch-sur-Alzette</city>' +
+               '<administrativeArea />' +
+               '<postalCode>97202</postalCode>' +
+               '<country>Luxembourg</country>' +
+               '<electronicMailAddress>franko.lemmer@flensburger.de</electronicMailAddress>' +
+            '</address>' +
+            '<onlineResource xlink:type="simple" xlink:href="http://services.magnificent.lu/cgi-bin/mapserv?map=/var/www/MapFiles/wcs_test.map&amp;" />' +
+         '</contactInfo>' +
+      '</responsibleParty>' +
+      '<fees>mucho dinero</fees>' +
+      '<accessConstraints>Open to the public</accessConstraints>' +
+   '</Service>' +
+   '<Capability>' +
+      '<Request>' +
+         '<GetCapabilities>' +
+            '<DCPType>' +
+               '<HTTP>' +
+                  '<Get>' +
+                     '<OnlineResource xlink:type="simple" xlink:href="http://services.magnificent.get.lu/cgi-bin/mapserv?map=/var/www/MapFiles/wcs_test.map&amp;" />' +
+                  '</Get>' +
+               '</HTTP>' +
+            '</DCPType>' +
+            '<DCPType>' +
+               '<HTTP>' +
+                  '<Post>' +
+                     '<OnlineResource xlink:type="simple" xlink:href="http://services.magnificent.post.lu/cgi-bin/mapserv?map=/var/www/MapFiles/wcs_test.map&amp;" />' +
+                  '</Post>' +
+               '</HTTP>' +
+            '</DCPType>' +
+         '</GetCapabilities>' +
+         '<DescribeCoverage>' +
+            '<DCPType>' +
+               '<HTTP>' +
+                  '<Get>' +
+                     '<OnlineResource xlink:type="simple" xlink:href="http://services.magnificent.lu/cgi-bin/mapserv?map=/var/www/MapFiles/wcs_test.map&amp;" />' +
+                  '</Get>' +
+               '</HTTP>' +
+            '</DCPType>' +
+            '<DCPType>' +
+               '<HTTP>' +
+                  '<Post>' +
+                     '<OnlineResource xlink:type="simple" xlink:href="http://services.magnificent.lu/cgi-bin/mapserv?map=/var/www/MapFiles/wcs_test.map&amp;" />' +
+                  '</Post>' +
+               '</HTTP>' +
+            '</DCPType>' +
+         '</DescribeCoverage>' +
+         '<GetCoverage>' +
+            '<DCPType>' +
+               '<HTTP>' +
+                  '<Get>' +
+                     '<OnlineResource xlink:type="simple" xlink:href="http://services.magnificent.lu/cgi-bin/mapserv?map=/var/www/MapFiles/wcs_test.map&amp;" />' +
+                  '</Get>' +
+               '</HTTP>' +
+            '</DCPType>' +
+            '<DCPType>' +
+               '<HTTP>' +
+                  '<Post>' +
+                     '<OnlineResource xlink:type="simple" xlink:href="http://services.magnificent.lu/cgi-bin/mapserv?map=/var/www/MapFiles/wcs_test.map&amp;" />' +
+                  '</Post>' +
+               '</HTTP>' +
+            '</DCPType>' +
+         '</GetCoverage>' +
+      '</Request>' +
+      '<Exception>' +
+         '<Format>application/vnd.ogc.se_xml</Format>' +
+      '</Exception>' +
+   '</Capability>' +
+   '<ContentMetadata>' +
+      '<CoverageOfferingBrief>' +
+         '<name>ro_dsm</name>' +
+         '<label>Rotterdam DSM</label>' +
+         '<lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">' +
+            '<gml:pos>4.44444 51.515151</gml:pos>' +
+            '<gml:pos>5.55555 52.525252</gml:pos>' +
+         '</lonLatEnvelope>' +
+      '</CoverageOfferingBrief>' +
+      '<CoverageOfferingBrief>' +
+         '<name>ro_dsm_mini</name>' +
+         '<label>ro_dsm_mini</label>' +
+         '<lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">' +
+            '<gml:pos>4.47489346945755 51.9159453786927</gml:pos>' +
+            '<gml:pos>4.47687824892444 51.9170706688033</gml:pos>' +
+         '</lonLatEnvelope>' +
+      '</CoverageOfferingBrief>' +
+      '<CoverageOfferingBrief>' +
+         '<name>ro_irra</name>' +
+         '<label>ro_irra</label>' +
+         '<lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">' +
+            '<gml:pos>4.471333734139 51.912813427383</gml:pos>' +
+            '<gml:pos>4.4808508475645 51.9248713705576</gml:pos>' +
+         '</lonLatEnvelope>' +
+      '</CoverageOfferingBrief>' +
+      '<CoverageOfferingBrief>' +
+         '<name>ro_irra_ext</name>' +
+         '<label>ro_irra_ext</label>' +
+         '<lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">' +
+            '<gml:pos>4.10024171314823 51.9359764992844</gml:pos>' +
+            '<gml:pos>4.21909054278063 52.001415228243</gml:pos>' +
+         '</lonLatEnvelope>' +
+      '</CoverageOfferingBrief>' +
+   '</ContentMetadata>' +
+'</WCS_Capabilities>' );
+
+
+var doc110 = (new OpenLayers.Format.XML).read(
 '<?xml version="1.0" encoding="UTF-8"?>' +
 '<Capabilities xmlns="http://www.opengis.net/wcs/1.1" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ogc="http://www.opengis.net/ogc" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wcs/1.1 http://schemas.opengis.net/wcs/1.1/wcsGetCapabilities.xsd http://www.opengis.net/ows/1.1 http://schemas.opengis.net/ows/1.1.0/owsAll.xsd">' +
   '<ows:ServiceIdentification>' +
