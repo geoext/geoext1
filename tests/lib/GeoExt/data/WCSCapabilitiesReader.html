@@ -47,7 +47,8 @@
             
             //2 tests -- testing the fields of a record
             var record = records.records[0];
-            t.eq(record.get("identifier"), "ro_dsm", "correct layer identifier");
+
+            t.eq(record.get("name"), "ro_dsm", "correct layer name");
             t.eq(record.get("title"), "Rotterdam DSM", "correct layer title");
         }
         
@@ -62,7 +63,7 @@
             
             //3 tests -- testing the fields of a record
             var record = records.records[0];
-            t.eq(record.get("identifier"), "ro_dsm", "correct layer identifier");
+            t.eq(record.get("name"), "ro_dsm", "correct layer name");
             t.eq(record.get("title"), "Rotterdam DSM", "correct layer title");
             t.eq(record.get("abstract"),
                 "Digital Surface Model (DSM) raster data set of inner city Rotterdam",
