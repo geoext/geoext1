@@ -19,7 +19,7 @@
             var fields = reader.recordType.prototype.fields;
             // 1 test
             // Test the default items enumerated in GeoExt.data.WCSDescribeCoverageReader constructor 
-            t.eq(fields.items.length, 6, 'number of default items is correct');
+            t.eq(fields.items.length, 7, 'number of default items is correct');
 
             var reader = new GeoExt.data.WCSDescribeCoverageReader({},[
                 {name: 'foo'},
@@ -35,7 +35,7 @@
         }
 
         function test_read_1_0_0(t) {
-            t.plan(10);
+            t.plan(11);
 
             var reader = new GeoExt.data.WCSDescribeCoverageReader();
 
@@ -56,10 +56,11 @@
             t.eq(record.data.supportedCRSs[1], 'EPSG:900913', 'correct supportedCRS value');
             t.eq(record.data.supportedFormats.length, 1, 'correct number of supportedFormats');
             t.eq(record.data.supportedFormats[0], 'GTiff', 'correct supportedFormat value');
+            t.eq(record.data.gridOffsets, undefined, 'correct gridOffsets');       // Not supported in 1.0.0
         }
         
         function test_read_1_1_0(t) {
-            t.plan(10);
+            t.plan(12);
 
             var reader = new GeoExt.data.WCSDescribeCoverageReader();
 
@@ -80,6 +81,8 @@
             t.eq(record.data.supportedCRSs[1], 'urn:ogc:def:crs:EPSG::900913', 'correct supportedCRS value');
             t.eq(record.data.supportedFormats.length, 1, 'correct number of supportedFormats');
             t.eq(record.data.supportedFormats[0], 'image/tiff', 'correct supportedFormat value');
+            t.eq(record.data.gridOffsets.x,  0.5, 'correct gridOffsets.x'); 
+            t.eq(record.data.gridOffsets.y, -0.5, 'correct gridOffsets.y'); 
         }
     </script>
   <body>
