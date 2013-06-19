@@ -78,7 +78,7 @@
         }
 
         function test_legendurl(t) {
-            t.plan(11);
+            t.plan(12);
 
             var l, url, expectedUrl;
             var mapPanel = loadMapPanel(false);
@@ -163,6 +163,25 @@
 
             mapPanel.map.layers[0].params.STYLES = "";
 
+            mapPanel.layers.getAt(0).set("styles", [{
+                layerName: "a",
+                legend: {href: "dude"}
+            }]);
+
+            l = new GeoExt.WMSLegend({
+                renderTo: 'legendwms',
+                layerRecord: mapPanel.layers.getAt(0),
+                defaultStyleIsFirst: false
+            });
+            l.render();
+            url = l.items.get(1).url;
+            t.eq(url, "dude", "legend url from styles field of layer record used correctly when layer has no STYLES param and styles has one item with a layerName corresponding to the layer.");
+            l.destroy();
+
+            mapPanel.layers.getAt(0).set("styles", [{
+                name: "bar",
+                legend: {href: "foo"}
+            }]);
             l = new GeoExt.WMSLegend({
                 renderTo: 'legendwms',
                 layerRecord: mapPanel.layers.getAt(0),
