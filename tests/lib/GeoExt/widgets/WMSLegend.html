@@ -164,7 +164,7 @@
             mapPanel.map.layers[0].params.STYLES = "";
 
             mapPanel.layers.getAt(0).set("styles", [{
-                name: "a",
+                layerName: "a",
                 legend: {href: "dude"}
             }]);
 
@@ -175,7 +175,7 @@
             });
             l.render();
             url = l.items.get(1).url;
-            t.eq(url, "dude", "legend url from styles field of layer record used correctly when layer has no STYLES param.");
+            t.eq(url, "dude", "legend url from styles field of layer record used correctly when layer has no STYLES param and styles has one item with a layerName corresponding to the layer.");
             l.destroy();
 
             mapPanel.layers.getAt(0).set("styles", [{
