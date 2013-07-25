@@ -62,6 +62,18 @@
             t.eq(layer.protocol.featureNS, "http://www.openplans.org/spearfish", "[0] protocol has correct featureNS");
         }
 
+        function test_readWFS11(t) {
+            t.plan(1);
+
+            var reader = new GeoExt.data.WFSCapabilitiesReader();
+
+            var records = reader.read({responseXML : doc11});
+
+            var record = records.records[0];
+            var layer = record.getLayer();
+            t.eq(layer.protocol.url, "http://www2.dmsolutions.ca/cgi-bin/mswfs_gmap?", "[0] protocol has correct URL");
+        }
+
         function test_read_layerOptions(t) {
             t.plan(6);
             var reader = new GeoExt.data.WFSCapabilitiesReader({
