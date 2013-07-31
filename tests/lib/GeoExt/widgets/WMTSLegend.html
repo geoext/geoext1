@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script src="../../../../../ext/ext-all.js"></script>
+    <script src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+
+        function loadMapPanel() {
+            
+            var recordType = GeoExt.data.LayerRecord.create([
+                    {name: "name", type: "string"},
+                    {name: "title", type: "string"},
+                    {name: "styles"}
+                ]
+            );
+
+            var mapPanel = new GeoExt.MapPanel({
+                id: "map-panel",
+                title: "GeoExt MapPanel",
+                renderTo: "mappanel",
+                height: 400,
+                width: 600,
+                map: {
+                    scales: [100, 300, 500, 700], // = zoom level 3, 2, 1, 0
+                    projection: "EPSG:3857",
+                    units: 'm',
+                    maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+                    controls:[]
+                },
+                layers: [],
+                center: new OpenLayers.LonLat(0, 0),
+                zoom: 0
+            });
+            
+            mapPanel.layers.add([
+                new recordType({
+                    name: "test",
+                    title: "test title",
+                    styles: [{
+                        identifier: 'normal',
+                        isDefault: true,
+                        title: 'normal',
+                        legends: [{
+                            format: "image/png",
+                            height: 10,
+                            width: 10,
+                            href: "http://server.org/LEGEND1.PNG",
+                            maxScaleDenominator: 400,
+                            minScaleDenominator: 200
+                        }, {
+                            format: "image/png",
+                            height: 10,
+                            width: 10,
+                            href: "http://server.org/LEGEND2.PNG",
+                            maxScaleDenominator: 600,
+                            minScaleDenominator: 401
+                        }]
+                    },{
+                        identifier: 'funky',
+                        title: 'funky',
+                    }],
+                    layer: new OpenLayers.Layer.WMTS({
+                        isBaseLayer: true,
+                        name: 'test',
+                        url: '/ows',
+                        layer: 'layer_identifier',
+                        style: 'normal',
+                        matrixSet: 'matrixset_identifier'
+                    })
+                })
+            ]);
+
+            return mapPanel;
+        }
+
+        function test_legendurl(t) {
+            t.plan(4);
+
+            var l, url;
+            var mapPanel = loadMapPanel();
+
+            l = new GeoExt.WMTSLegend({
+                renderTo: 'legendwmts',
+                layerRecord: mapPanel.layers.getAt(0)
+            });
+
+            mapPanel.map.zoomTo(0);
+            t.eq(l.items.get(1), undefined, "No legend outside legend visibility range");
+            
+            mapPanel.map.zoomTo(1);//l.update(); FIXME: l.update() should not be necessary !
+            url = l.items.get(1) && l.items.get(1).url;
+            t.eq(url, "http://server.org/LEGEND1.PNG", "Legend displayed correctly inside visibility range");
+            
+            mapPanel.map.zoomTo(2);l.update();
+            url = l.items.get(1) && l.items.get(1).url;
+            t.eq(url, "http://server.org/LEGEND2.PNG", "Legend updated correctly when map scale changes");
+
+            mapPanel.map.zoomTo(3);l.update();
+            t.eq(l.items.get(1), undefined, "Legend removed outside visibility range");
+            
+            l.destroy();
+            
+        }
+        
+    </script>
+  <body>
+    <div id="legendwmts"></div>
+    <div id="mappanel"></div>
+  </body>
+</html>
