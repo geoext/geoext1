@@ -56,8 +56,8 @@
             mapPanel.destroy();
         }
         
-        function test_allOverlays(t) {
-            t.plan(3);
+        function test_allOverlaysAndFallthrough(t) {
+            t.plan(5);
             var map, panel;
             
             map = new OpenLayers.Map();
@@ -72,6 +72,7 @@
             panel = new GeoExt.MapPanel({
             });
             t.eq(panel.map.allOverlays, true, "allOverlays set to true if no map is provided to panel");
+            t.eq(panel.map.fallThrough, true, "fallThrough is set to true if no map is provided to panel");
             panel.destroy();
             
             panel = new GeoExt.MapPanel({
@@ -80,6 +81,7 @@
                 }
             });
             t.eq(panel.map.allOverlays, true, "allOverlays set to true if map config is provided to panel");
+            t.eq(panel.map.fallThrough, true, "fallThrough is set to true if no map is provided to panel");
             panel.destroy();
             
         }
