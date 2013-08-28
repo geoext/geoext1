@@ -63,7 +63,7 @@
         }
 
         function test_readWFS11(t) {
-            t.plan(1);
+            t.plan(3);
 
             var reader = new GeoExt.data.WFSCapabilitiesReader();
 
@@ -72,10 +72,13 @@
             var record = records.records[0];
             var layer = record.getLayer();
             t.eq(layer.protocol.url, "http://www2.dmsolutions.ca/cgi-bin/mswfs_gmap?", "[0] protocol has correct URL");
+            t.eq(layer.protocol.version, "1.1.0", "[0] protocol has correct version");
+            t.eq(layer.protocol.CLASS_NAME, "OpenLayers.Protocol.WFS.v1_1_0", "[0] protocol is of type OpenLayers.Protocol.WFS.v1_1_0");
+
         }
         
         function test_readWFS20(t) {
-            t.plan(2);
+            t.plan(3);
 
             var reader = new GeoExt.data.WFSCapabilitiesReader();
 
@@ -85,6 +88,7 @@
             var layer = record.getLayer();
             t.eq(layer.protocol.url, "http://localhost:8080/geoserver/wfs", "[0] protocol has correct URL");
             t.eq(layer.protocol.version, "2.0.0", "[0] protocol has correct version");
+            t.eq(layer.protocol.CLASS_NAME, "OpenLayers.Protocol.WFS.v2_0_0", "[0] protocol is of type OpenLayers.Protocol.WFS.v2_0_0");
         }
 
 
