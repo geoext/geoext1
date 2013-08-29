@@ -131,6 +131,20 @@
         t.eq(records.totalRecords, 17, 'right number of records are ignored (ignores RegExp)');
     }
 
+    function test_read_exception(t) {
+        var reader = new GeoExt.data.AttributeReader({}, []);
+        try {
+            var records = reader.read({responseXML: doc2});
+        } catch(e) {
+            if (e instanceof Ext.data.DataReader.Error) {
+                t.plan(1);
+                t.ok(true, "Correct exception thrown when getting a service exception");
+            } else {
+                t.plan(0);
+            }
+        }
+    }
+
     </script>
   <body>
     <div id="map"></div>
