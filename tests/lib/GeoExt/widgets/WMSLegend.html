@@ -128,13 +128,11 @@
             }]);
             l = new GeoExt.WMSLegend({
                 renderTo: 'legendwms',
-                baseParams: {format: 'image/png'},
                 layerRecord: mapPanel.layers.getAt(0)
             });
             l.render();
             url = l.items.get(1).url;
-            // url should not be getting a duplicate FORMAT parameter, baseParams will override
-            t.eq(url, "foo?request=getlegendgraphic&format=image%2Fpng&SCALE=" + mapPanel.map.getScale(), "legend url from styles field of layer record used correctly.");
+            t.eq(url, "foo?request=getlegendgraphic&format=image/jpeg&SCALE=" + mapPanel.map.getScale(), "legend url from styles field of layer record used correctly.");
             l.destroy();
 
             mapPanel.layers.getAt(0).set("styles", [{
