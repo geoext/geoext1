@@ -93,7 +93,7 @@
 
             url = l.items.get(1) && l.items.get(1).url;
             t.eq(!!url, true, "legend image loaded even when MapPanel is not rendered at legend instantiation.")
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&FORMAT=image%2Fpng&FOO=bar%20bar";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&FORMAT=image%2Fpng&foo=bar%20bar";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
             l.destroy()
 
@@ -128,13 +128,13 @@
             }]);
             l = new GeoExt.WMSLegend({
                 renderTo: 'legendwms',
-                baseParams: {FORMAT: 'image/png'},
+                baseParams: {format: 'image/png'},
                 layerRecord: mapPanel.layers.getAt(0)
             });
             l.render();
             url = l.items.get(1).url;
-            // url should not be getting a duplicate FORMAT parameter
-            t.eq(url, "foo?request=getlegendgraphic&format=image/jpeg&SCALE=" + mapPanel.map.getScale(), "legend url from styles field of layer record used correctly.");
+            // url should not be getting a duplicate FORMAT parameter, baseParams will override
+            t.eq(url, "foo?request=getlegendgraphic&format=image%2Fpng&SCALE=" + mapPanel.map.getScale(), "legend url from styles field of layer record used correctly.");
             l.destroy();
 
             mapPanel.layers.getAt(0).set("styles", [{
