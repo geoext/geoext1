@@ -15,7 +15,7 @@ var doc = (new OpenLayers.Format.XML).read(
               '</xsd:restriction>' +
             '</xsd:simpleType>' +
           '</xsd:element>' +
-          '<xsd:element maxOccurs="1" minOccurs="0" name="SAMP_POP" nillable="true">' +
+          '<xsd:element maxOccurs="1" minOccurs="0" name="SAMP_POP" nillable="false">' +
             '<xsd:simpleType>' +
               '<xsd:restriction base="xsd:double">' +
                 '<xsd:maxInclusive value="10"/>' +
@@ -52,6 +52,14 @@ var doc = (new OpenLayers.Format.XML).read(
                 '<xsd:enumeration value="pop"/>' +
                 '<xsd:enumeration value="soda"/>' +
                 '<xsd:enumeration value="other"/>' +
+              '</xsd:restriction>' +
+            '</xsd:simpleType>' +
+          '</xsd:element>' +
+          '<xsd:element maxOccurs="1" minOccurs="0" name="SAMP_NIL" nillable="true">' +
+            '<xsd:simpleType>' +
+              '<xsd:restriction base="xsd:double">' +
+                '<xsd:maxInclusive value="10"/>' +
+                '<xsd:minInclusive value="5"/>' +
               '</xsd:restriction>' +
             '</xsd:simpleType>' +
           '</xsd:element>' +

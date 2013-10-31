@@ -210,7 +210,7 @@
     }
 
     function test_recordToField(t) {
-        t.plan(31);
+        t.plan(38);
 
         // set up
 
@@ -234,9 +234,19 @@
         // labelStyle
         field = GeoExt.form.recordToField(store.getAt(1));
         field = Ext.ComponentMgr.create(field);
-        t.eq(field.labelStyle, '', "[label] nillable field default labelStyle is correct");
+        t.eq(field.labelStyle, 'font-weight:bold;', "[label] non nillable field default labelStyle is correct");
 
         field = GeoExt.form.recordToField(store.getAt(1), {
+            mandatoryFieldLabelStyle: 'font-style:italic;'
+        });
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, 'font-style:italic;', "[label] non nillable field labelStyle is not overriden by the mandatoryFieldLabelStyle option");
+
+        field = GeoExt.form.recordToField(store.getAt(26));
+        field = Ext.ComponentMgr.create(field);
+        t.eq(field.labelStyle, '', "[label] nillable field default labelStyle is correct");
+
+        field = GeoExt.form.recordToField(store.getAt(26), {
             mandatoryFieldLabelStyle: 'font-style:italic;'
         });
         field = Ext.ComponentMgr.create(field);
@@ -303,6 +313,18 @@
         t.eq(field.name, "SAMP_POP", "[num] field name is correct");
         t.eq(field.maxValue, 10, "[num] field maxValue is correct");
         t.eq(field.minValue, 5, "[num] field minValue is correct");
+
+        t.ok(!(field instanceof GeoExt.form.NumberOrNullField), "[num] field is not a number or null field");
+        field.setValue('')
+        t.eq(field.getValue(), '', "[num] empty value is an empty string")
+
+        //num or null
+        field = GeoExt.form.recordToField(store.getAt(26));
+        field = Ext.ComponentMgr.create(field);
+        t.ok(field instanceof GeoExt.form.NumberOrNullField, "[numornull] field is not a number or null field");
+        t.eq(field.name, "SAMP_NIL", "[numornull] field name is correct");
+        field.setValue('')
+        t.eq(field.getValue(), null, "[numornull] empty value is null")
         
         // boolean
         field = GeoExt.form.recordToField(store.getAt(2), {checkboxLabelProperty: 'fieldLabel'});
