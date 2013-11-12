@@ -313,8 +313,8 @@
         t.eq(field.name, "SAMP_POP", "[num] field name is correct");
         t.eq(field.maxValue, 10, "[num] field maxValue is correct");
         t.eq(field.minValue, 5, "[num] field minValue is correct");
-        t.eq(field.initialConfig.allowDecimals, true, "[num] field allowDecimals is correct");
-        t.eq(field.initialConfig.allowNegative, true, "[num] field allowNegative is correct");
+        t.eq(field.allowDecimals, true, "[num] field allowDecimals is correct");
+        t.eq(field.allowNegative, true, "[num] field allowNegative is correct");
 
         t.ok(!(field instanceof GeoExt.form.NumberOrNullField), "[num] field is not a number or null field");
         field.setValue('')
