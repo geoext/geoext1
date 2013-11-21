@@ -168,6 +168,26 @@
             t.eq(transparent, true,
                 "TRANSPARENT param is true if no opacity set");
         }
+
+        function test_attribution(t) {
+            t.plan(1);
+
+            var reader = new GeoExt.data.WMSCapabilitiesReader({rawAttribution: true}, []);
+            var records = reader.read({responseXML: doc});
+
+            // 1 test -- attribution markup
+            var record = records.records[2];
+            t.eq(record.getLayer().attribution, {
+                title: "Foo Authority",
+                href: "http://foo/about/",
+                logo: {
+                    format: "image/png",
+                    width: "24",
+                    height: "24",
+                    href: "http://foo/logo.png"
+                }
+            }, "attribution object is correct when rawAttribution is set to true");
+        }
     </script>
   <body>
     <div id="map"></div>
