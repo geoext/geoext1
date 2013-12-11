@@ -123,7 +123,7 @@
 
         t.plan(3);
 
-        var map = new OpenLayers.Map();
+        var map = new OpenLayers.Map(null, {zoomMethod: null});
         map.addLayer(new OpenLayers.Layer(null, {isBaseLayer: true}));
         var layer = new OpenLayers.Layer.Vector("old");
         map.addLayer(layer);
