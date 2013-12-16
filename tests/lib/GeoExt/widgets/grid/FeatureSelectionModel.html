@@ -377,7 +377,7 @@
 
             var map, layer, features, store, sm, grid, e;
 
-            map = new OpenLayers.Map('map', {allOverlays: true, numZoomLevels: 20});
+            map = new OpenLayers.Map('map', {zoomMethod: null, allOverlays: true, numZoomLevels: 20});
 
             layer = new OpenLayers.Layer.Vector("vector");
             map.addLayer(layer);
