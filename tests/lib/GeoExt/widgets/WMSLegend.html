@@ -21,6 +21,9 @@
                 layers: [
                     new OpenLayers.Layer.WMS("test", '/ows', {layers: 'a'})
                 ],
+                map: {
+                    zoomMethod: null
+                },
                 center: new OpenLayers.LonLat(5, 45),
                 zoom: 4
             });
@@ -29,7 +32,7 @@
         }
 
         function test_legendurl_layers_array(t) {
-            t.plan(7);
+            t.plan(6);
             var l, url, expectedUrl;
             var mapPanel = loadMapPanel();
             var layer1 = new OpenLayers.Layer.WMS("test", '/ows', {layers: ['a,b', 'c,d']});
@@ -44,7 +47,7 @@
 
             t.eq(l.items.length, 5, "We expect 5 items");
             url = l.items.get(1).url;
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=a&FORMAT=image%2Fgif&SCALE=27683990.15625";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=d&FORMAT=image%2Fgif&SCALE=27683990.15625";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
             l.destroy();
 
@@ -56,7 +59,7 @@
 
             t.eq(l.items.length, 3, "We expect 3 items");
             url = l.items.get(1).url;
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=x&FORMAT=image%2Fgif&SCALE=27683990.15625";
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=y&FORMAT=image%2Fgif&SCALE=27683990.15625";
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
             l.destroy();
 
@@ -70,8 +73,7 @@
 
             t.eq(l.items.length, 4, "We expect 4 items");
             url = l.items.get(1).url;
-            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=3&FORMAT=image%2Fgif&SCALE=27683990.15625";
-            t.ok(url != expectedUrl, "Using items.get with numeric layers gives the layer item, NOT the item at that index, if a layer with that name exists");
+            expectedUrl = "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=1&FORMAT=image%2Fgif&SCALE=27683990.15625";
             url = l.items.itemAt(1).url;
             t.eq(url, expectedUrl, "GetLegendGraphic url is generated correctly");
             l.destroy();

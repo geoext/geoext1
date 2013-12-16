@@ -24,6 +24,7 @@
                 height: 400,
                 width: 600,
                 map: {
+                    zoomMethod: null,
                     scales: [100, 300, 500, 700], // = zoom levels 3, 2, 1, 0
                     projection: "EPSG:3857",
                     units: 'm',
@@ -34,7 +35,7 @@
                 center: new OpenLayers.LonLat(0, 0),
                 zoom: 0
             });
-            
+
             mapPanel.layers.add([
                 new recordType({
                     name: "test",
