@@ -199,7 +199,7 @@
             var mapPanel = new GeoExt.MapPanel({
                 renderTo: document.body,
                 allOverlays: true,
-                map:{maxResolution:1.40625,numZoomLevels:10,layers: [layer2,layer1,layer3]}
+                map:{zoomMethod: null, maxResolution:1.40625,numZoomLevels:10,layers: [layer2,layer1,layer3]}
             });
 
             //should be intially disabled & autoDisable should default to true
@@ -234,7 +234,7 @@
             t.eq(node4.disabled,false,"Node4 with autoDisabled==false should never be disabled");
             
             //move map to new resolution
-            mapPanel.map.zoomTo(mapPanel.map.getZoomForResolution(0.075))
+            mapPanel.map.zoomTo(mapPanel.map.getZoomForResolution(0.075));
             
             t.eq(node1.disabled,false,"Node1 layer with maxResolution of 0.1 should be enabled below resolution 0.1");
             t.eq(node2.disabled,false,"Node2 layer with alwaysInRange should never be disabled");
