@@ -259,7 +259,7 @@
             var size = new OpenLayers.Size(10,17);
             var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
             var icon = new OpenLayers.Icon('http://myhost/foo.png',size,offset);
-            map.getLayersBy("name", "markers")[0].addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(25,50),icon));
+            map.getLayersBy("name", "markers")[0].addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(2.5,5),icon));
 
             map.setCenter(new OpenLayers.LonLat(1, 2), 3);
             printPage.fit(map);
@@ -298,12 +298,13 @@
                 window.open = _open;
             };
             printProvider.print(map, [printPage], {overview: overview, legend: legend});
-            
+
             var expect = {
                 "units":"degrees",
                 "srs":"EPSG:4326",
                 "layout":"A4 portrait",
                 "dpi":75,
+                "outputFormat": "pdf",
                 "layers":[{
                     "baseURL":"http://demo.opengeo.org/geoserver/wms",
                     "opacity":1,
@@ -313,7 +314,7 @@
                     "format":"image/gif",
                     "styles":[""],
                     "customParams":{"VENDORFOO":"bar", "map_resolution": 150}
-                },{
+                }, {
                     "baseURL":"http://a.tile.openstreetmap.org/",
                     "type":"OSM",
                     "opacity":1,
@@ -322,7 +323,7 @@
                     "resolutions":map.layers[1].resolutions,
                     "extension":"png",
                     layer:undefined
-                },{
+                }, {
                     "baseURL":"http://c0.labs.metacarta.com/wms-c/cache/",
                     "opacity":1,
                     "type":"TileCache",
@@ -331,7 +332,7 @@
                     "tileSize":[256,256],
                     "extension":"png",
                     "resolutions":[0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125,0.000021457672119140625]
-                },{
+                }, {
                     "baseURL":"http://labs.metacarta.com/wms-c/Basic.py/",
                     "type":"TMS",
                     "opacity":1,
@@ -340,14 +341,14 @@
                     "maxExtent":[-180,-90,180,90],
                     "tileSize":[256,256],
                     "resolutions":[1.40625,0.703125,0.3515625,0.17578125,0.087890625,0.0439453125,0.02197265625,0.010986328125,0.0054931640625,0.00274658203125,0.001373291015625,0.0006866455078125,0.00034332275390625,0.000171661376953125,0.0000858306884765625,0.00004291534423828125],format:"png"
-                },{
+                }, {
                     "type":"Image",
                     "baseURL":"http://earthtrends.wri.org/images/maps/4_m_citylights_lg.gif",
                     "opacity":1,
                     "extent":[-180,-88.759,180,88.759],
                     "pixelSize":[580,288],
                     "name":"image"
-                },{
+                }, {
                     "type":"Vector",
                     "minScaleDenominator":50000,
                     "maxScaleDenominator":1000000,
@@ -356,21 +357,21 @@
                     "geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","id":"f1","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[1,2]}}]},
                     "name":"vector",
                     "opacity":1
-                },{
+                }, {
                     "type":"Vector",
                     "styles":{"1":{"externalGraphic":"http://myhost/foo.png","graphicWidth":10,"graphicHeight":17,"graphicXOffset":-5,"graphicYOffset":-17}},
                     "styleProperty":"_gx_style",
-                    "geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[25,50]}}]},
+                    "geoJson":{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"_gx_style":1},"geometry":{"type":"Point","coordinates":[2.5,5]}}]},
                     "name":"markers",
                     "opacity":1
-                },{
+                }, {
                     baseURL:"http://wmts0.geo.admin.ch/1.0.0/pixelkarte/default/%7Bdate%7D/%7BTileMatrixSet%7D/%7BTileMatrix%7D/%7BTileRow%7D/%7BTileCol%7D.png",
-                    opacity:1, 
-                    type:"WMTS", 
-                    layer:"pixelkarte", 
-                    version:"1.0.0", 
-                    requestEncoding:"REST", 
-                    style:"default", 
+                    opacity:1,
+                    type:"WMTS",
+                    layer:"pixelkarte",
+                    version:"1.0.0",
+                    requestEncoding:"REST",
+                    style:"default",
                     dimensions:["date"],
                     params:{DATE:"2012"},
                     matrixSet:"swissgrid",
@@ -387,17 +388,17 @@
                         resolution: 10.000025400064,
                         topLeftCorner: [420000, 350000]
                     }]
-                },{
+                }, {
                     baseURL:"http://wmts0.geo.admin.ch/",
                     opacity:1,
-                    type:"WMTS", 
-                    layer:"pixelkarte", 
-                    version:"1.0.0", 
-                    requestEncoding:"KVP", 
-                    style:"default", 
-                    dimensions:["date"], 
-                    params:{DATE:"2012"}, 
-                    matrixSet:"swissgrid", 
+                    type:"WMTS",
+                    layer:"pixelkarte",
+                    version:"1.0.0",
+                    requestEncoding:"KVP",
+                    style:"default",
+                    dimensions:["date"],
+                    params:{DATE:"2012"},
+                    matrixSet:"swissgrid",
                     format: "image/png",
                     matrixIds: [{
                         identifier: 'A12',
@@ -412,25 +413,56 @@
                         resolution: 10.000025400064,
                         topLeftCorner: [420000, 350000]
                     }]
-                },{
-                    baseURL:"http://wmts0.geo.admin.ch/", 
-                    opacity:1, 
-                    type:"WMTS", 
-                    layer:"ch.swisstopo.pixelkarte-farbe", 
-                    version:"1.0.0", 
-                    requestEncoding:"REST", 
-                    tileOrigin:[420000, 350000], 
-                    tileSize:[256, 256], 
-                    style:"default", 
-                    formatSuffix:"jpeg", 
-                    dimensions:["TIME"], 
-                    params:{TIME:"20110314"}, 
-                    maxExtent:[420000, 30000, 900000, 350000], 
-                    matrixSet:"21781", 
-                    zoomOffset:14, 
+                }, {
+                    baseURL:"http://wmts0.geo.admin.ch/",
+                    opacity:1,
+                    type:"WMTS",
+                    layer:"ch.swisstopo.pixelkarte-farbe",
+                    version:"1.0.0",
+                    requestEncoding:"REST",
+                    tileOrigin:[420000, 350000],
+                    tileSize:[256, 256],
+                    style:"default",
+                    formatSuffix:"jpeg",
+                    dimensions:["TIME"],
+                    params:{TIME:"20110314"},
+                    maxExtent:[420000, 30000, 900000, 350000],
+                    matrixSet:"21781",
+                    zoomOffset:14,
                     resolutions:[4000, 3750, 3500, 3250, 3000, 2750, 2500, 2250, 2000, 1750, 1500, 1250, 1000, 750, 650, 500, 250, 100, 50, 20, 10, 5, 2.5, 2, 1.5, 1, 0.5]
                 }],
-                "pages":[{"mapTitle":"foo","comment":"bar","center":[1,2],"scale":4000000,"rotation":0}],"customParam":"foo","legends":[{"name":"tilecache","classes":[{"name":"","icon":"http://trac.geoext.org/chrome/site/img/GeoExt.png"}]},{"name": "wms", "classes":[{"name":"","icons":["http://demo.opengeo.org/geoserver/wms?VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_water_bodies&FORMAT=image%2Fgif&SCALE=4000000", "http://demo.opengeo.org/geoserver/wms?VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries&FORMAT=image%2Fgif&SCALE=4000000"]}]}],"overviewLayers":[{"baseURL":"http://foo/","format":"image/jpeg",layers:["mylayer"],"opacity":1,"singleTile":false,styles:[""],type:"WMS", "customParams": {"map_resolution": 150}}]};
+                "pages": [{
+                    "mapTitle": "foo",
+                    "comment": "bar",
+                    "center": [1,2],
+                    "scale": 4000000,
+                    "rotation": 0
+                }],
+                "customParam": "foo",
+                "legends": [{
+                    "name": "tilecache",
+                    "classes": [{
+                        "name": "",
+                        "icon": "http://trac.geoext.org/chrome/site/img/GeoExt.png"
+                    }]
+                }, {
+                    "name": "wms",
+                    "classes": [{
+                        "name": "",
+                        "icons": ["http://demo.opengeo.org/geoserver/wms?VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_water_bodies&FORMAT=image%2Fgif&SCALE=4000000", "http://demo.opengeo.org/geoserver/wms?VENDORFOO=bar&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&EXCEPTIONS=application%2Fvnd.ogc.se_xml&LAYER=topp%3Atasmania_state_boundaries&FORMAT=image%2Fgif&SCALE=4000000"]
+                    }]
+                }],
+                "overviewLayers": [{
+                    "baseURL": "http://foo/",
+                    "format": "image/jpeg",
+                    layers: ["mylayer"],
+                    "opacity": 1,
+                    "singleTile": false,
+                    styles: [""],
+                    type: "WMS",
+                    "customParams": {"map_resolution": 150}
+                }]
+            };
 
             t.eq(log.request.jsonData, expect, "Request with encoded layers and legend is correct.");
 
@@ -489,6 +521,7 @@
                 "srs": "EPSG:4326",
                 "layout": "A4 portrait",
                 "dpi": 75,
+                "outputFormat": "pdf",
                 "layers": [{
                     "baseURL": "http://demo.opengeo.org/geoserver/wms",
                     "opacity": 1,
