@@ -43,7 +43,7 @@
         }
 
         function test_read(t) {
-            t.plan(41);
+            t.plan(39);
 
             // test a reader with the only two default LayerRecord fields
             var reader = new GeoExt.data.WMSCapabilitiesReader({}, []);
@@ -147,13 +147,12 @@
             t.eq(layer.singleTile, true, "[2] layer field has correct singleTile attribute (from WMSCapabilitiesReader constructor)");
             t.eq(layer.params.FOO, "TRUE", "[2] layer field has correct custom parameter");
             
-            // 3 tests -- attribution markup
+            // 1 test -- attribution markup
             record = records.records[2];
             layer = record.getLayer();
             var attribution = layer.attribution;
-            t.ok(attribution.indexOf("http://foo/logo.png") !== -1, "attribution markup has a logo");
-            t.ok(attribution.indexOf("Foo Authority") !== -1, "attribution markup has a title");
-            t.ok(attribution.indexOf("http://foo/about/") !== -1, "attribution has a link");
+            var expect = "<a class='gx-attribution-link' href=http://foo/about/><img class='gx-attribution-image' width='24' height='24' src='http://foo/logo.png' /></a> <a class='gx-attribution-link' href=http://foo/about/><span class='gx-attribution-title'>Foo Authority</span></a>";
+            t.eq(attribution, expect, "Attribution HTML is correct");
             
             // 2 tests - transparent param
             var transparent;
