@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+    <script type="text/javascript" src="../../../../../openlayers/lib/OpenLayers.js"></script>
+    <script type="text/javascript" src="../../../../../ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../../../../../ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../../../lib/GeoExt.js"></script>
+
+    <script type="text/javascript">
+
+        function test_encodeLayer_wmts_rest_url(t) {
+            t.plan(2);
+            var printProvider = new GeoExt.data.MapFishPrintv3Provider({
+                url: '/print/'
+            });
+
+            var map = new OpenLayers.Map("map");
+            var layer = new OpenLayers.Layer.WMTS({
+                requestEncoding: 'REST',
+                url: 'http://domain.tld/proxy/wmts/3_swissimage/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png',
+                name: 'swissimage',
+                layer: '3_swissimage',
+                formatSuffix: 'png',
+                visibility: false,
+                style: 'default',
+                matrixSet: 'epsg',
+                matrixIds: null,
+                maxExtent: new OpenLayers.Bounds(2544650.0, 1073801.0, 2691212.0, 1171318.0),
+                projection: new OpenLayers.Projection('EPSG:2056'),
+                units: 'm',
+                formatSuffix: 'png',
+                serverResolutions: [4000, 3750, 3500, 3250]
+            });
+            map.addLayer(layer);
+
+            var encoded = printProvider.encodeLayer(layer, undefined);
+            var expect = 'http://domain.tld/proxy/wmts/3_swissimage/{TileMatrixSet}/{TileMatrix}/{TileCol}/{TileRow}.png';
+            t.eq(encoded.baseURL, expect, 'url is not changed');
+
+            layer.url = 'http://domain.tld/proxy/wmts/';
+            encoded = printProvider.encodeLayer(layer, undefined);
+            expect = 'http://domain.tld/proxy/wmts/1.0.0/3_swissimage/default/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png';
+            t.eq(encoded.baseURL, expect, 'url is completed');
+        }
+
+    </script>
+  </head>
+  <body>
+    <div id="map" style="width:400px; height:300px"></div>
+    <div id="legend" style="width:200px; height:300px"></div>
+  </body>
+</html>
