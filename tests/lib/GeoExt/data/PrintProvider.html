@@ -88,12 +88,13 @@
         }
 
         function test_getAbsoluteUrl(t) {
-            t.plan(2);
+            t.plan(3);
 
             var getAbsoluteUrl = GeoExt.data.PrintProvider.prototype.getAbsoluteUrl;
             var baseUrl = parent.location.href.substr(0, parent.location.href.indexOf("/tests/run-tests.html"));
-            t.eq(getAbsoluteUrl("/foo/bar.html"), location.protocol + "//" + location.host + (location.port && ":" + location.port) + "/foo/bar.html", "Relative url converted to absolute url correctly.");
+            t.eq(getAbsoluteUrl("/foo/bar.html"), location.protocol + "//" + location.host + "/foo/bar.html", "Relative url converted to absolute url correctly.");
             t.eq(getAbsoluteUrl("../../../../bar.html"), baseUrl + "/bar.html", "Relative url with relative path converted to absolute url correctly.");
+            t.eq(getAbsoluteUrl("/a?b=c&d=e"), location.protocol + "//" + location.host + "/a?b=c&d=e", "Relative url converted to absolute url correctly.");
         }
 
         function test_print(t) {
@@ -365,7 +366,7 @@
                     "name":"markers",
                     "opacity":1
                 }, {
-                    baseURL:"http://wmts0.geo.admin.ch/1.0.0/pixelkarte/default/%7Bdate%7D/%7BTileMatrixSet%7D/%7BTileMatrix%7D/%7BTileRow%7D/%7BTileCol%7D.png",
+                    baseURL:"http://wmts0.geo.admin.ch/1.0.0/pixelkarte/default/{date}/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.png",
                     opacity:1,
                     type:"WMTS",
                     layer:"pixelkarte",
