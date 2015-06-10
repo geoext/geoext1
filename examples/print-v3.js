@@ -18,7 +18,7 @@ Ext.onReady(function() {
     // The printProvider that connects us to the print service
     printProvider = new GeoExt.data.MapFishPrintv3Provider({
         method: "POST",
-        url: "http://geomapfish.demo-camptocamp.com/sbrunner/wsgi/printproxy/",
+        url: "http://geomapfish-demo.camptocamp.net/1.6/wsgi/printproxy/",
         customParams: {
             title: "Printing Demo",
             comments: "This is a map printed from GeoExt.",
@@ -35,7 +35,7 @@ Ext.onReady(function() {
         renderTo: "content",
         width: 450,
         height: 320,
-        layers: [new OpenLayers.Layer.WMS("OSM", "http://geomapfish.demo-camptocamp.com/sbrunner/wsgi/mapserv_proxy",
+        layers: [new OpenLayers.Layer.WMS("OSM", "http://geomapfish-demo.camptocamp.net/1.6/wsgi/mapserv_proxy",
             {layers: "osm"}, {singleTile: true})],
         center: [537635, 152640],
         map: {
